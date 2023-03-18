@@ -1,0 +1,22 @@
+<table>
+  <caption style="padding: 0px;"></caption>
+  <tr class="td-calendar">
+    <th scope="col"></th>
+    <td class="td-arrow pointer" (click)="previousMonth($event)">
+      <em class="material-icons">keyboard_arrow_left</em>
+    </td>
+    <td class="td-date"><span>{{this.date.value | date:'MM / yyyy'}}</span></td>
+    <td class="td-calendar pointer" (click)="picker.open()">
+      <em class="material-icons">date_range</em>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" [formControl]="date" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+          (monthSelected)="chosenMonthHandler($event, picker)" panelClass="example-month-picker"></mat-datepicker>
+      </mat-form-field>
+    </td>
+    <td class="td-arrow pointer" (click)="nextMonth($event)">
+      <em class="material-icons">keyboard_arrow_right</em>
+    </td>
+  </tr>
+</table>

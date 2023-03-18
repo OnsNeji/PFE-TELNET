@@ -1,0 +1,132 @@
+// mat-form-field{
+//     width: 80%;
+//     align-items: center;
+// }
+
+// .container {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//   }
+  
+//   .container > * {
+//     width: 100%;
+//     align-items: center;
+//   }
+//   .modal_body{
+//     height: 320px;
+//     padding: 15px;
+//     margin-top: 10px;
+//     margin-bottom: 8px;
+//     overflow-y: auto;
+// }
+// .mat-dialog-content{
+//   border-radius: 5px !important;
+// margin-left: 0%;
+//   overflow: hidden;
+//   width: 100%;
+// }
+
+// .modal_header{
+//   height: 50px;
+//   background-color: #3f629d;
+//   padding: 18px 15px;
+
+//   .modal_title{
+//     color: #ffffff;
+//     line-height: 1;
+//   }
+
+//   .modal-close{
+//     float: right; 
+//     cursor: pointer;
+//     &:hover{
+//       color: red;
+//     }
+//   }
+
+//   .modal-close-disabled{
+//     cursor: not-allowed;
+//     color: gainsboro;
+//     &:hover{
+//       color: gainsboro;
+//     }
+//   }
+// }
+
+// .modal_footer{
+//   padding: 10px; 
+//   margin-bottom: 20px;
+// }
+
+.col-sm-2 {
+  width: auto;
+}
+
+.icon-pointer {
+  cursor: pointer;
+}
+
+.th-firstCell-style {
+  font-weight: bolder;
+}
+
+.th-table-style {
+  text-align: center;
+  font-weight: bolder;
+}
+
+.td-table-style {
+  text-align: center;
+}
+
+.td-title-style {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.mat-dialog-container {
+  border-radius: 5px !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.modal_body {
+  overflow: hidden;
+}
+
+.modal_header {
+  height: 50px;
+  background-color: #3f629d;
+  padding: 18px 15px;
+
+  .modal_title {
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  .modal-close {
+    float: right;
+    cursor: pointer;
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  .modal-close-disabled {
+    cursor: not-allowed;
+    color: gainsboro;
+
+    &:hover {
+      color: gainsboro;
+    }
+  }
+  }
+  
+  .checkbox-halfday {
+    padding-top: 15px !important;
+  }

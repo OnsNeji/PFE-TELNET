@@ -1,0 +1,68 @@
+.mat-table {
+  overflow: auto;
+  border-radius: 4px;
+  max-height: calc(100vh - 392px);
+}
+
+.table {
+  width: 100%;
+}
+
+.material-icons {
+  font-size: 15px;
+}
+
+.mat-header-cell {
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.span-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.mat-column-referenceCode {
+  flex: 0 0 20% !important;
+  width: 20% !important;
+}
+
+.mat-column-title {
+  flex: 0 0 26% !important;
+  width: 26% !important;
+}
+
+.mat-column-edition {
+  flex: 0 0 5% !important;
+  width: 5% !important;
+  justify-content: center;
+}
+
+.mat-column-creationDate {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  justify-content: center;
+}
+
+.mat-column-state {
+  flex: 0 0 8% !important;
+  width: 8% !important;
+  justify-content: center;
+}
+
+.mat-column-type {
+  flex: 0 0 25% !important;
+  width: 25% !important;
+}
+
+.mat-column-buttons {
+  flex: 4 0 5% !important;
+  width: 5% !important;
+  justify-content: center;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color: white;
+}

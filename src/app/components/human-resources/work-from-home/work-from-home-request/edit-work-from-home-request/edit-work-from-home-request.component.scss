@@ -1,0 +1,71 @@
+.col-sm-2 {
+  width: auto;
+}
+
+.icon-pointer {
+  cursor: pointer;
+}
+
+.th-firstCell-style {
+  font-weight: bolder;
+}
+
+.th-table-style {
+  text-align: center;
+  font-weight: bolder;
+}
+
+.td-table-style {
+  text-align: center;
+}
+
+.td-title-style {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.mat-dialog-container {
+  border-radius: 5px !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.modal_body {
+  overflow: hidden;
+}
+
+.modal_header {
+  height: 50px;
+  background-color: #3f629d;
+  padding: 18px 15px;
+
+  .modal_title {
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  .modal-close {
+    float: right;
+    cursor: pointer;
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  .modal-close-disabled {
+    cursor: not-allowed;
+    color: gainsboro;
+
+    &:hover {
+      color: gainsboro;
+    }
+  }
+  }
+  
+  .checkbox-halfday {
+    padding-top: 15px !important;
+  }

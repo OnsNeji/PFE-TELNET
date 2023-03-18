@@ -1,0 +1,51 @@
+table {
+    width: 100%;
+    td {
+        border: 1px solid gainsboro;
+    }
+    td i {
+        position: relative;
+        font-size: 25px;
+        cursor: pointer;
+    }
+    .td-arrow {
+        text-align: center;
+        width: 35px;
+        i {
+            top: 4px;
+        }
+    }
+    .pointer {
+        cursor: pointer;
+    }
+    .td-select-user {
+        i {
+            top: 1px;
+            left: 3px;
+        }
+        .mat-form-field {
+            height: 36px;
+        }
+    }
+}
+
+.select-user {
+    width: 100%;
+    padding-left: 5px;
+}
+
+.content-wrapper {
+    ::ng-deep mat-form-field {
+        &.mat-form-field-appearance-legacy {
+            .mat-form-field-underline {
+                display: none;
+            }
+            .mat-form-field-wrapper {
+                padding-bottom: 0em;
+            }
+            .mat-form-field-infix {
+                border-top: 0.24375em solid transparent;
+            }
+        }
+    }
+}

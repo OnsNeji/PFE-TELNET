@@ -1,0 +1,135 @@
+<div class="modal_header">
+  <div class="modal_title">
+      <span>
+          Utilisateur
+      </span>
+      <span>
+          <em class="material-icons modal-close" (click)="close()">close</em>
+      </span>
+  </div>
+</div>
+<div class="modal_body">
+  <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
+    <form [formGroup]="userForm">
+      
+      <div class="row m-b-6">
+        <mat-form-field class="col-sm-3">
+            <mat-label>Nom</mat-label>
+            <input formControlName="nom" matInput class="login-input-style">
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-3">
+            <mat-label>Prénom</mat-label>
+            <input formControlName="prenom" matInput class="login-input-style">
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-3">
+            <mat-label>Telephone</mat-label>
+            <input type="tel" matInput formControlName="tel" class="login-input-style">
+          </mat-form-field>
+
+          <mat-form-field class="date-field col-sm-3">
+            <input matInput [matDatepicker]="picker2200" formControlName="dateNaissance" class="login-input-style" placeholder="Date de Naissance">
+            <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
+            <mat-datepicker #picker2200></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4">
+            <mat-label>Matricule</mat-label>
+            <input formControlName="matricule" matInput class="login-input-style">
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4">
+            <mat-label>Role</mat-label>
+            <input formControlName="role" matInput class="login-input-style">
+          </mat-form-field>
+          <mat-form-field class="col-sm-4" floatLabel="always">
+            <mat-label>Salaire</mat-label>
+            <input matInput formControlName="salaire" type="number" class="login-input-style">
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-6">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput formControlName="email" class="login-input-style">
+            <mat-error *ngIf="userForm.hasError('email') && !userForm.hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="userForm.hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-6">
+            <mat-label>Mot de passe</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="motDePasse" class="login-input-style">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          
+          <mat-form-field class="date-field col-sm-4">
+            <input matInput [matDatepicker]="picker1100" formControlName="dateEmbauche" placeholder="Date d'embauche">
+            <mat-datepicker-toggle matSuffix [for]="picker1100"></mat-datepicker-toggle>
+            <mat-datepicker #picker1100></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4">
+            <mat-label>Poste</mat-label>
+            <mat-select formControlName="posteId" class="login-input-style">
+              <mat-option *ngFor="let poste of postes" [value]="poste.id">{{poste['numéro']}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4">
+            <mat-label>Département</mat-label>
+            <mat-select formControlName="departementId" class="login-input-style">
+              <mat-option *ngFor="let departement of departements" [value]="departement.id">{{ departement.nom }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!--<div class="col-sm-12">
+            <input type="file" (change)="onFileSelected($event)"
+            name="image" required [value]="selectedFileName" class="login-input-style" >
+         </div>-->
+
+         <mat-form-field class="col-sm-6" hidden>
+          <mat-label>UserModif</mat-label>
+          <input matInput formControlName="userModif" class="login-input-style" disabled hidden>
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-6" hidden>
+          <mat-label>UserAjout</mat-label>
+          <input matInput formControlName="userAjout" class="login-input-style" disabled hidden>
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-6" hidden>
+          <mat-label>DateModif</mat-label>
+          <input matInput formControlName="DateModif" class="login-input-style" disabled hidden>
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-6" hidden>
+          <mat-label>DateAjout</mat-label>
+          <input matInput formControlName="DateAjout" class="login-input-style" disabled hidden>
+        </mat-form-field>
+
+         
+        </div>
+
+        <div class="row m-t-20">
+          <div class="col-lg-12">
+              <div class="row f-right">
+                  <div class="col-lg-12">
+                      <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+                      &nbsp; &nbsp;
+                      <button type="submit" class="btn btn-primary ripple light btn-md" (click)="AjouterUser()">
+                          Save
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+    </form>
+  </div>
+</div>

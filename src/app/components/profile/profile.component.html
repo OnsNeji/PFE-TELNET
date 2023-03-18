@@ -1,0 +1,124 @@
+<app-admin></app-admin>
+<main id="main" class="main">
+
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column">
+
+                        <img src="{{user.image}}" alt="Profile" class="rounded-circle">
+                        <h2>{{user.nom}} {{user.prenom}}</h2>
+                        <h3>{{user.role}}</h3>
+                        <br>
+                        <div class="social-links mt-2">
+                            <a href="#" class="twitter"><i class="icon-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="icon-facebook"></i> </a>
+                            <a href="#" class="instagram"><i class="icon-instagram"></i></a>
+                            <a href="#" class="linkedin"><i class="icon-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Détails</button>
+                              </li>
+
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit-profile">Modifier mon profil</button>
+                              </li>
+                            
+
+                        </ul>
+                        <div class="tab-content pt-2" style="height: 5px;">
+
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                                <h5 class="card-title">Détails du profil</h5>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 data">Nom et Prénom:</div>
+                                    <div class="col-lg-9 col-md-8 data1">{{user.nom}} {{user.prenom}}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 data">Matricule:</div>
+                                    <div class="col-lg-9 col-md-8 data1">{{user.matricule}}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 data">Rôle:</div>
+                                    <div class="col-lg-9 col-md-8 data1">{{user.role}}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 data">Email:</div>
+                                    <div class="col-lg-9 col-md-8 data1">{{user.email}}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 data">Téléphone:</div>
+                                    <div class="col-lg-9 col-md-8 data1">{{user.tel}}</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- editProfile component -->
+                        <div *ngIf="user" class="tab-pane fade edit-profile pt-3" id="edit-profile">
+                            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                                <div class="form-group">
+                                    <label for="nom">Nom</label>
+                                    <input type="text" class="form-control" id="nom" formControlName="nom"
+                                        [(ngModel)]="user.nom">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prenom">Prénom</label>
+                                    <input type="text" class="form-control" id="prenom" formControlName="prenom"
+                                        [(ngModel)]="user.prenom">
+                                </div>
+                                <div class="form-group">
+                                    <label for="matricule">Matricule</label>
+                                    <input type="text" class="form-control" id="matricule" formControlName="matricule"
+                                        [(ngModel)]="user.matricule">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" formControlName="email"
+                                        [(ngModel)]="user.email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tel">Téléphone</label>
+                                    <input type="tel" class="form-control" id="tel" formControlName="tel"
+                                        [(ngModel)]="user.tel">
+                                </div>
+                                <div class="form-group">
+                                    <label for="motDePasse">Mot de passe</label>
+                                    <input type="password" class="form-control" id="motDePasse"
+                                        formControlName="motDePasse">
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Enregistrer
+                                </button>
+                            </form>
+                        </div>
+
+                    </div><!-- End Bordered Tabs -->
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main><!-- End #main -->

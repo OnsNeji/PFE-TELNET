@@ -1,0 +1,107 @@
+<div class="card">
+  <div class="card-body">
+    <form #referenceForm="ngForm" id="referenceForm">
+      <!--row 1-->
+      <div class="row m-b-15">
+        <mat-form-field class="col-sm-6">
+          <mat-select [disabled]="disableGenerator" placeholder="Document Type" name="documentType"
+            [(ngModel)]="reference.typeId" required>
+            <mat-option>
+              <ngx-mat-select-search [formControl]="documentTypeFilterCtrl" [placeholderLabel]="'Search'"
+                [noEntriesFoundLabel]="'No options found'">
+                <mat-icon ngxMatSelectSearchClear>close</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let documentType of filteredDocumentTypes | async" [value]="documentType.id">
+              {{ documentType.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-sm-4">
+          <mat-select [disabled]="disableGenerator" placeholder="Activity" name="activity"
+            [(ngModel)]="reference.activityId" (selectionChange)="onActivtyChange($event.value)" required>
+            <mat-option *ngFor="let activity of activitiesIdentifiers" [value]="activity.id">
+              {{ activity.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-sm-2">
+          <mat-select [disabled]="disableGenerator" placeholder="Confidentiality" name="confidentiality"
+            [(ngModel)]="confidentialityCode" required>
+            <mat-option *ngFor="let documentConfidentiality of documentConfidentialitiesIdentifiers"
+              [value]="documentConfidentiality.code">
+              {{documentConfidentiality.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-sm-2">
+          <mat-select [disabled]="disableGenerator" placeholder="Project Abreviation" name="projectAbreviation"
+            [(ngModel)]='projectAbrreviation'>
+            <mat-option>
+              <ngx-mat-select-search [formControl]="abbrivationFilterCtrl" [placeholderLabel]="'Search'"
+                [noEntriesFoundLabel]="'No options found'">
+                <mat-icon ngxMatSelectSearchClear>close</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let projectAbrreviation of filteredAbbreviations | async"
+              [value]="projectAbrreviation.value">
+              {{ projectAbrreviation.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-sm-2">
+          <input [disabled]="disableGenerator" matInput placeholder="Project Abreviation" name="projectAbreviationInput"
+            [(ngModel)]='projectAbrreviation' required>
+        </mat-form-field>
+        <mat-form-field class="col-sm-2">
+          <input [disabled]="disableGenerator" matInput [matDatepicker]="PickerCreationDate" placeholder="Creation Date"
+            name="creationDate" [(ngModel)]="reference.creationDate" required />
+          <mat-datepicker-toggle matSuffix [for]="PickerCreationDate">
+          </mat-datepicker-toggle>
+          <mat-datepicker #PickerCreationDate [startView]="'month'">
+          </mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col-sm-6">
+          <input matInput disabled laceholder="Reference Value" name="referenceCode"
+            [(ngModel)]="reference.referenceCode" />
+        </mat-form-field>
+      </div>
+
+      <div class="row m-b-15">
+        <mat-form-field class="col-sm-8">
+          <input matInput placeholder="Title" name="title" [(ngModel)]="reference.title" />
+        </mat-form-field>
+        <mat-form-field class="col-sm-2">
+          <input matInput appNumberValidator [inputValue]="reference.edition" placeholder="Edition" name="edition"
+            [(ngModel)]="reference.edition" required />
+        </mat-form-field>
+        <mat-form-field class="col-sm-2">
+          <mat-select placeholder="Status" name="state" [(ngModel)]="reference.stateId" required>
+            <mat-option *ngFor="let documentstate of documentStatesIdentifiers" [value]="documentstate.id">
+              {{documentstate.description}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="row m-b-15">
+        <mat-form-field class="col-sm-12">
+          <input matInput placeholder="Remarks" name="Remarks" [(ngModel)]="reference.note" />
+        </mat-form-field>
+      </div>
+
+      <div class="row m-b-15">
+        <mat-form-field class="col-sm-12">
+          <input matInput placeholder="Archiving" name="Archiving" [(ngModel)]="reference.archiving" />
+        </mat-form-field>
+      </div>
+
+      <!--buttons-->
+      <div class="text-center">
+        <button [disabled]='!isSameActivity' type="submit" class="btn btn-md btn-primary ripple light m-r-20"
+          (click)="saveReference()">{{getLabelSubmit()}}</button>
+        <button type="reset" class="btn btn-md btn-default ripple" (click)="close()">Close</button>
+      </div>
+    </form>
+  </div>
+</div>

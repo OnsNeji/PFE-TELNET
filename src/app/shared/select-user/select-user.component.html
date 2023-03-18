@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-sm-9 content-wrapper">
+    <table>
+      <caption style="padding:0px"></caption>
+      <tr>
+        <th scope="col"></th>
+        <td class="td-arrow pointer" (click)="getPreviousUser()">
+          <em class="material-icons">keyboard_arrow_left</em>
+        </td>
+        <td class="td-select-user pointer">
+          <mat-form-field class="select-user" floatLabel=never>
+            <mat-select placeholder="Select user" #userSelect [(ngModel)]="selectedUserIdentifier"
+              (selectionChange)="onUserSelectEvent()">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="userFilterCtrl" [placeholderLabel]="'Search'"
+                  [noEntriesFoundLabel]="'No options found'">
+                  <mat-icon ngxMatSelectSearchClear>close</mat-icon>
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let userIdentifier of filteredUsersIdentifiers | async" [value]="userIdentifier">
+                {{userIdentifier.description}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td class="td-arrow pointer" (click)="getNextUser()">
+          <em class="material-icons">keyboard_arrow_right</em>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-sm-3">
+    <button class="btn btn-primary" (click)="getUsers()" *ngIf="isCurrentUser()">Mine</button>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="example-container mat-elevation-z8" *ngIf="listView" matSort (matSortChange)="onSortData($event)"
+  matSortDirection="asc" matSortDisableClear>
+
+  <mat-table #table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="referenceCode">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Reference</mat-header-cell>
+      <mat-cell *matCellDef="let reference" matTooltip="{{reference.referenceCode}}"><span
+          class="span-ellipsis">{{reference.referenceCode}}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+      <mat-cell *matCellDef="let reference" matTooltip="{{reference.title}}"><span class="span-ellipsis">
+          {{reference.title}} </span></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="edition">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Edition</mat-header-cell>
+      <mat-cell *matCellDef="let reference"> {{reference.edition}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="creationDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+      <mat-cell *matCellDef="let reference"> {{reference.creationDate |shortDate}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Status</mat-header-cell>
+      <mat-cell *matCellDef="let reference"> {{reference.state}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Type</mat-header-cell>
+      <mat-cell *matCellDef="let reference" matTooltip="{{reference.type}}"><span class="span-ellipsis">
+          {{reference.type}} </span></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="buttons">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let reference">
+        <button class="btn btn-mini btn-primary ripple light" type="button" (click)='navigateToEdit(reference)'
+        [disabled]='!isEditable(reference)' matTooltip="Edit reference">
+          <em class="material-icons">edit</em>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class=" table-primary table-*"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

@@ -1,0 +1,76 @@
+<div class="modal_header">
+    <div class="modal_title">
+        <span>
+            {{ modelTitel }}
+        </span>
+        <span>
+            <em class="material-icons modal-close" (click)="close()">close</em>
+        </span>
+    </div>
+</div>
+<div class="modal_body">
+    <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
+        <form #workFromHomeRequestForm="ngForm" id="workFromHomeRequestForm">
+            <div class="row m-b-6">
+                <mat-form-field class="col-sm-12">
+                    <mat-select placeholder="Resource" name="resource" [(ngModel)]="workFromHomeRequest.userId"
+                         [disabled]="isEdit || forbiddenResources" required>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="resourceFilterCtrl" [placeholderLabel]="'Search'"
+                                [noEntriesFoundLabel]="'No options found'">
+                                <mat-icon ngxMatSelectSearchClear>close</mat-icon>
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let resource of filteredResources | async" [value]="resource.id">
+                            {{ resource.description }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row m-b-6">
+                <div class="col-sm-6">
+                    <mat-checkbox name="halfDayCheckBox" class="checkbox-halfday" [(ngModel)]="isHalfDayChecked"
+                        (change)="OnChangeHalfDay()">
+                        Half Day
+                    </mat-checkbox>
+                </div>
+                <mat-form-field class="col-sm-6">
+                    <mat-select placeholder="Day Time..." name="DayTime" [disabled]="!isHalfDayChecked"
+                        [(ngModel)]="workFromHomeRequest.halfDay">
+                        <mat-option *ngFor="let item of halefDayItems" [value]="item">
+                            {{ item }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row m-b-6">
+                <mat-form-field class="date-field col-sm-6">
+                    <input name="startDate" matInput [matDatepicker]="picker11" placeholder="From"
+                        (keypress)="dateOnly($event)" [(ngModel)]="workFromHomeRequest.startDate" (ngModelChange)="onChangingDate()"
+                        required>
+                    <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+                    <mat-datepicker #picker11></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="date-field col-sm-6">
+                    <input name="EndDate" matInput [matDatepicker]="picker22" placeholder="To"
+                        (keypress)="dateOnly($event)" [disabled]="isHalfDayChecked" [(ngModel)]="workFromHomeRequest.endDate" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker22"></mat-datepicker-toggle>
+                    <mat-datepicker #picker22></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="row m-t-20">
+                <div class="col-lg-12">
+                    <div class="row f-right">
+                        <div class="col-lg-12">
+                            <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+                            &nbsp; &nbsp;
+                            <button type="submit" class="btn btn-primary ripple light btn-md" (click)="save()">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

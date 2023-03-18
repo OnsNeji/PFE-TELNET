@@ -1,0 +1,115 @@
+.mat-table {
+  overflow: auto;
+  border-radius: 4px;
+  max-height: calc(100vh - 392px);
+}
+
+.mat-header-cell {
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.material-icons {
+  font-size: 15px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-Ressource {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 17% !important;
+  width: 17% !important;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-clientName {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-missionStartDate {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 9% !important;
+  width: 9% !important;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-missionEndDate {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 9% !important;
+  width: 9% !important;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-invoicing {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 9% !important;
+  width: 9% !important;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-etatMission {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 11% !important;
+  width: 11% !important;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-buttons {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 12% !important;
+  width: 12% !important;
+  overflow-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color: white;
+}

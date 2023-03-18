@@ -1,0 +1,4 @@
+node_modules/
+\e2e\tsconfig.e2e.json
+\dist
+\packages\Microsoft.Net.Compilers.2.1.0

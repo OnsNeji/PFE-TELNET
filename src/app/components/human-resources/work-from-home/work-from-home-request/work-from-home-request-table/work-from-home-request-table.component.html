@@ -1,0 +1,79 @@
+<div class="example-container mat-elevation-z8" *ngIf="listView">
+
+  <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
+    matSortDisableClear>
+
+    <ng-container matColumnDef="userNumber" class=" table-hover table-striped table-styling">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Matricule</mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest" matTooltip="{{workFromHomeRequest.userNumber}}">
+        {{workFromHomeRequest.userNumber}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="userFullName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Resource</mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest"> {{workFromHomeRequest.userFullName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="activityName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Activity</mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest" matTooltip="{{workFromHomeRequest.userActivity}}">
+        {{workFromHomeRequest.activityName}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="startDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest"> {{workFromHomeRequest.startDate |date:'E dd/MM/y'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="endDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>End Date</mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest"> {{workFromHomeRequest.endDate |date:'E dd/MM/y'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dayNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Day(s)</mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest"> {{workFromHomeRequest.dayNumber}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="halfDay">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Day Time</mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest"> {{workFromHomeRequest.halfDay}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest"><label class="label" [ngClass]="{'label-default': isInProgress(workFromHomeRequest),
+        'label-success': isApproved(workFromHomeRequest), 'label-danger': isRejected(workFromHomeRequest)}">
+          {{getworkFromHomeLabel(workFromHomeRequest.state)}}</label>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="buttons">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let workFromHomeRequest">
+        <button class="btn btn-mini btn-primary m-r-5 ripple light f-right" type="button" matTooltip="Approve"
+          (click)="approveWorkFromHomeRequest(workFromHomeRequest)" [disabled]="forbiddenRejecteValidate || isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest) 
+          || isMyWorkFromHomeRequestInProgress(workFromHomeRequest) || isApproved(workFromHomeRequest) || isRejected(workFromHomeRequest)">
+          <em class="material-icons">done</em></button>
+        <button class="btn btn-mini btn-danger m-r-5 ripple light" type="button" matTooltip="Reject"
+          (click)="rejectWorkFromHomeRequest(workFromHomeRequest)"
+          [disabled]="forbiddenRejectValidate || isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest) || isMyWorkFromHomeRequestInProgress(workFromHomeRequest) || isRejected(workFromHomeRequest)">
+          <em class="material-icons">cancel</em></button>
+        <button class="btn btn-mini btn-primary m-r-5 ripple light" type="button"
+          (click)="openEditRequestDialog(workFromHomeRequest)" matTooltip="Edit"
+          [disabled]="isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest) || isApproved(workFromHomeRequest) || isRejected(workFromHomeRequest)">
+          <em class="material-icons">edit</em>
+        </button>
+        <button class="btn btn-mini btn-danger ripple light" type="button" matTooltip="Delete"
+          (click)="deleteWorkFromHomeRequest(workFromHomeRequest)"
+          [disabled]="isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest)">
+          <em class="material-icons">delete</em></button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class=" table-primary table-*"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

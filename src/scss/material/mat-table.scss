@@ -1,0 +1,35 @@
+.table-width {
+    min-width: 100%;
+    width: auto !important;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+}
+tr.mat-row {
+    height: 10px !important;
+    width: auto !important;
+}
+td.mat-cell {
+    height: 10px !important;
+    width: auto !important;
+}
+tr.mat-header-row {
+    height: 36px !important;
+    width: auto !important;
+}
+.cell {
+    border-bottom-style: none !important;
+}
+
+.mat-row {
+    max-height: 15px !important;
+    min-height: 30px !important;
+}
+.mat-cell {
+    font-size: 12px !important;
+}
+.mat-header-row {
+    min-height: 36px !important;
+}
+.mat-header-cell {
+    font-size: 13px !important;
+}

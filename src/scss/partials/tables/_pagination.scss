@@ -1,0 +1,90 @@
+.pagination{
+    > li > a,
+    > li > span{
+        border: 0;
+        border-radius: 30px !important;
+        transition: all .3s;
+        padding: 0px 11px;
+        margin: 0 3px;
+        min-width: 30px;
+        height: 30px;
+        line-height: 30px;
+        color: $gray-color;
+        text-transform: uppercase;
+        background: transparent;
+
+        &:hover,
+        &:focus{
+            color: $gray-color;
+        }
+    }
+
+    > .active > a,
+    > .active > span{
+        color: $gray-color;
+        text-align: center;
+
+        &,
+        &:focus,
+        &:hover{
+            background-color: $primary-color;
+            border-color: $primary-color;
+            color: $white-txt;
+            //@include shadow-4dp-color($primary-color);
+        }
+
+    }
+
+    // Colors
+    &.pagination-info{
+        > .active > a,
+        > .active > span{
+            &,
+            &:focus,
+            &:hover{
+                background-color: $info-color;
+                border-color: $info-color;
+                //@include shadow-4dp-color($info-color);
+            }
+        }
+    }
+
+    &.pagination-success{
+        > .active > a,
+        > .active > span{
+            &,
+            &:focus,
+            &:hover{
+                background-color: $success-color;
+                border-color: $success-color;
+                //@include shadow-4dp-color($success-color);
+            }
+        }
+    }
+
+    &.pagination-warning{
+        > .active > a,
+        > .active > span{
+            &,
+            &:focus,
+            &:hover{
+                background-color: $warning-color;
+                border-color: $warning-color;
+                //@include shadow-4dp-color($warning-color);
+            }
+        }
+    }
+
+    &.pagination-danger{
+        > .active > a,
+        > .active > span{
+            &,
+            &:focus,
+            &:hover{
+                background-color: $danger-color;
+                border-color: $danger-color;
+                //@include shadow-4dp-color($danger-color);
+            }
+        }
+    }
+}

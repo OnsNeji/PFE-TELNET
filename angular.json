@@ -1,0 +1,216 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "35365e93-6a52-4064-81bf-b5167910d540"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "TelnetTeam": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "polyfills": "src/polyfills.ts",
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/web.config"
+            ],
+            "styles": [
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/font-awesome-scss/scss/font-awesome.scss",
+              "src/scss/style.scss",
+              "node_modules/material-design-icons/iconfont/material-icons.css",
+              "src/assets/icon/icofont/css/icofont.scss",
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "node_modules/ion-rangeslider/css/ion.rangeSlider.css",
+              "node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css",
+	            "node_modules/angular-calendar/css/angular-calendar.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables/media/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.js",
+              "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js"
+            ],
+            "aot": true,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": true,
+            "sourceMap": true,
+            "optimization": {
+              "scripts": true,
+              "styles": {
+                "minify": true,
+                "inlineCritical": false
+              },
+              "fonts": true
+            },
+            "namedChunks": true
+          },
+          "configurations": {
+            "production": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "test": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ]
+            },
+            "development": {}
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4200
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "TelnetTeam:build:production"
+            },
+            "test": {
+              "browserTarget": "TelnetTeam:build:test"
+            },
+            "development": {
+              "browserTarget": "TelnetTeam:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "TelnetTeam:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables/media/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.js",
+              "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js"
+            ],
+            "styles": [
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/font-awesome-scss/scss/font-awesome.scss",
+              "src/scss/style.scss",
+              "node_modules/material-design-icons/iconfont/material-icons.css",
+              "src/assets/icon/icofont/css/icofont.scss",
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "node_modules/ion-rangeslider/css/ion.rangeSlider.css",
+              "node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css",
+              "node_modules/angular-calendar/css/angular-calendar.css"
+            ],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/web.config"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "TelnetTeam-e2e": {
+      "root": "e2e",
+      "sourceRoot": "e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "TelnetTeam:serve"
+          },
+          "configurations": {}
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "TelnetTeam",
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "app",
+      "style": "scss"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "app"
+    }
+  }
+}

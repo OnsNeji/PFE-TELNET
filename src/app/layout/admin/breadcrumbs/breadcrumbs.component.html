@@ -1,0 +1,18 @@
+<div class="" *ngFor="let breadcrumb of breadcrumbs; let last = last">
+  <div class="page-header" *ngIf="breadcrumb.status && last">
+    <div class="page-block" *ngIf="last">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <div class="page-header-title">
+            <span *ngFor="let breadcrumb of breadcrumbs; let last = last">
+              <h5 *ngIf="last" class="m-b-10">{{ breadcrumb.label }}</h5>
+            </span>
+            <p class="m-b-0" *ngIf="breadcrumb.caption">{{ breadcrumb.caption }}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

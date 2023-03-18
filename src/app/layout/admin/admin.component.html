@@ -1,0 +1,203 @@
+<div id="pcoded" class="pcoded" [attr.nav-type]="navType" [attr.theme-layout]="themeLayout"
+  [attr.vertical-placement]="verticalPlacement" [attr.vertical-layout]="verticalLayout"
+  [attr.pcoded-device-type]="pcodedDeviceType" [attr.vertical-nav-type]="verticalNavType"
+  [attr.vertical-effect]="verticalEffect" [attr.vnavigation-view]="vnavigationView" [attr.fream-type]="freamType"
+  [attr.sidebar-img]="sidebarImg" [attr.sidebar-img-type]="sidebarImgType" [attr.layout-type]="layoutType"
+  (window:resize)="onResize($event)">
+  <div class="pcoded-overlay-box"></div>
+  <div class="pcoded-container navbar-wrapper">
+    <nav aria-label="a1" class="navbar header-navbar pcoded-header" [attr.header-theme]="headerTheme"
+      [attr.pcoded-header-position]="pcodedHeaderPosition">
+      <div class="navbar-wrapper nav-bar-height">
+        <div class="navbar-logo">
+          <a class="mobile-menu ripple light" id="mobile-collapse" href="javascript:" (click)="toggleOpened()"
+            [exclude]="'#main_navbar'" (clickOutside)="onClickedOutsideSidebar($event)">
+            <em class="icon-menu"></em>
+          </a>
+          <img class="img-fluid" src="assets/images/logo.png" alt="Mega Able" />
+          <a href="javascript:" class="mobile-options ripple light" (click)="toggleHeaderNavRight()">
+            <em class="icon-more"></em>
+          </a>
+        </div>
+        <div class="navbar-container container-fluid">
+          <ul class="nav-left">
+            <li class="ripple light">
+              <div class="sidebar_toggle"><a href="javascript:"><em class="icon-menu"></em></a></div>
+            </li>
+          </ul>
+          <ul [@mobileHeaderNavRight]="navRight" [ngClass]="navRight" class="nav-right">
+            <li>
+              <button (click)="downloadUserGuide()" class="manual-f-s btn btn-sm btn-primary ripple light"
+                matTooltip="User Guide">
+                <em class="icofont icofont-book"></em>
+              </button>
+            </li>
+            <li (clickOutside)="notificationOutsideClick('profile')"
+              class="user-profile header-notification ripple light" [ngClass]="profileNotificationClass"
+              (click)="toggleProfileNotification()">
+              <a href="javascript:">
+                <img class="img-radius" [src]="imgUrl" alt="">
+                <span>{{currentUser.prenom}} </span>
+                <em class="icon-angle-down"></em>
+              </a>
+
+              <ul [@notificationBottom]="profileNotification" class="show-notification profile-notification">
+                <li>
+                  <a (click)="editProfile()" target="_blank" class="pointer">
+                    <i class="icon-user"></i> Profile
+                  </a>
+                </li>
+                <li>
+                  <a (click)="changePassword()" target="_blank" class="pointer">
+                    <em class="icon-key"></em> Change Password
+                  </a>
+                </li>
+                <li>
+                  <a (click)="lockScreen()" class="pointer">
+                    <em class="icon-lock"></em> Lock Screen
+                  </a>
+                </li>
+                <li>
+                  <a (click)='logout()' class="pointer">
+                    <em class="icon-layout-sidebar-left"></em> Logout
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="pcoded-main-container" [style.margin-top]="headerFixedMargin">
+      <div class="pcoded-wrapper">
+        <nav aria-label="a2" id="main_navbar" class="pcoded-navbar" (clickOutside)="onClickedOutsideSidebar($event)"
+          [exclude]="'#mobile-collapse'" [attr.pcoded-header-position]="pcodedHeaderPosition"
+          [attr.navbar-theme]="navBarTheme" [attr.active-item-theme]="activeItemTheme" sub-item-theme="theme2"
+          active-item-style="style0" [attr.pcoded-navbar-position]="pcodedSidebarPosition" [style.top]="headerFixedTop"
+          [style.height]="sidebarFixedNavHeight">
+          <div class="pcoded-inner-navbar main-menu" appAccordion (click)="dialogClose()">
+            <div class="">
+              <div class="main-menu-header ripple light">
+                <img class="img-80 img-radius" [src]="imgUrl" alt="">
+                <div class="user-details">
+                  <span>{{currentUser.prenom}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="p-15 p-b-0">
+              <br />
+            </div>
+            <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config">
+              <div *ngFor="let asideItems of menuItems.getAll()" class="d-color">
+                <ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder"
+                  [attr.item-border-style]="itemBorderStyle" [attr.subitem-border]="subItemBorder"
+                  *ngFor="let asideItem of asideItems.main">
+                  <li [routerLinkActive]="['active']"
+                    *ngIf="asideItem.type === 'link' && menuItems.isVisible(asideItem.function)">
+                    <a [routerLinkActive]="['active']" class="ripple"
+                      [routerLink]="['/', asideItem.main_state, asideItem.state]" appAccordionToggle
+                      *ngIf="asideItem.main_state; else mainContent">
+                      <span class="pcoded-micon"><em class="{{ asideItem.icon }}"></em><strong>{{ asideItem.short_label
+                          }}</strong></span>
+                      <span class="pcoded-mtext">{{ asideItem.name }}</span>
+                      <span *ngFor="let asideBadge of asideItem.badge"
+                        class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                    <ng-template #mainContent>
+                      <a [routerLinkActive]="['active']" class="ripple" [routerLink]="['/', asideItem.state]"
+                        appAccordionToggle>
+                        <span class="pcoded-micon"><em class="{{ asideItem.icon }}"></em><strong>{{
+                            asideItem.short_label }}</strong></span>
+                        <span class="pcoded-mtext">{{ asideItem.name }}</span>
+                        <span *ngFor="let asideBadge of asideItem.badge"
+                          class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
+                        <span class="pcoded-mcaret"></span>
+                      </a>
+                    </ng-template>
+                  </li>
+
+                  <li [routerLinkActive]="['active']" *ngIf="asideItem.type === 'sub'" class="pcoded-hasmenu"
+                    [attr.dropdown-icon]="dropDownIcon" [attr.subitem-icon]="subItemIcon" appAccordionLink
+                    group="{{asideItem.state}}">
+                    <a [routerLinkActive]="['active']" [routerLinkActive]="['active']" href="javascript:;"
+                      appAccordionToggle>
+                      <div class="ripple menu-ripple"></div>
+                      <span class="pcoded-micon"><em class="{{ asideItem.icon }}"></em><strong>{{ asideItem.short_label
+                          }}</strong></span>
+                      <span class="pcoded-mtext">{{ asideItem.name }}</span>
+                      <span *ngFor="let asideBadge of asideItem.badge"
+                        class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+
+                    <ul class="pcoded-submenu">
+                      <ng-template ngFor let-asideChildren [ngForOf]="asideItem.children">
+                        <li [routerLinkActive]="['active']"
+                          *ngIf="asideChildren.type !== 'sub' && menuItems.isVisible(asideChildren.function)">
+                          <a [routerLinkActive]="['active']" class="ripple"
+                            [routerLink]="['/', asideItem.state, asideChildren.state]">
+                            <span><em class="{{ asideChildren.icon }}"></em></span>
+                            <span class="pcoded-mtext">{{ asideChildren.name }} </span>
+                            <span *ngFor="let asideChildrenBadge of asideChildren.badge"
+                              class="pcoded-badge label label-{{ asideChildrenBadge.type }}">{{asideChildrenBadge.value}}</span>
+                            <span class="pcoded-mcaret"></span>
+                          </a>
+                        </li>
+
+                        <li [routerLinkActive]="['active']" class="pcoded-hasmenu" [attr.dropdown-icon]="dropDownIcon"
+                          [attr.subitem-icon]="subItemIcon"
+                          *ngIf="asideChildren.type === 'sub' && menuItems.isVisible(asideChildren.function)"
+                          appAccordionLink group="sub-toggled">
+                          <a [routerLinkActive]="['active']" href="javascript:;" appAccordionToggle>
+                            <div class="ripple menu-ripple"></div>
+                            <span class="pcoded-micon"><em class="{{ asideChildren.icon }}"></em></span>
+                            <span class="pcoded-mtext">{{ asideChildren.name }}</span>
+                            <span *ngFor="let asideChildrenBadge of asideChildren.badge"
+                              class="pcoded-badge label label-{{ asideChildrenBadge.type }}">{{asideChildrenBadge.value}}</span>
+                            <span class="pcoded-mcaret"></span>
+                          </a>
+                          <ul class="pcoded-submenu">
+                            <ng-template ngFor let-asideChildrenSub [ngForOf]="asideChildren.children">
+                              <li [routerLinkActive]="['active']"
+                                *ngIf="menuItems.isVisible(asideChildrenSub.function)">
+                                <a [routerLinkActive]="['active']" class="ripple"
+                                  [routerLink]="['/', asideItem.state, asideChildren.state, asideChildrenSub.state]">
+                                  <span class="pcoded-micon"><em class="icon-angle-right"></em></span>
+                                  <span class="pcoded-mtext">{{ asideChildrenSub.name }}</span>
+                                  <span *ngFor="let asideChildrenSubBadge of asideChildrenSub.badge"
+                                    class="pcoded-badge label label-{{ asideChildrenSubBadge.type }}">{{asideChildrenSubBadge.value}}</span>
+                                  <span class="pcoded-mcaret"></span>
+                                </a>
+                              </li>
+                            </ng-template>
+                          </ul>
+                        </li>
+                      </ng-template>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </perfect-scrollbar>
+          </div>
+        </nav>
+        <div class="pcoded-content">
+          <app-breadcrumbs></app-breadcrumbs>
+          <div class="pcoded-inner-content">
+         
+            <!-- Main-body start -->
+            <div class="main-body">
+              <div class="page-wrapper">
+                <router-outlet>
+                  <app-title></app-title>
+                  <app-spinner></app-spinner>
+                 
+                </router-outlet>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

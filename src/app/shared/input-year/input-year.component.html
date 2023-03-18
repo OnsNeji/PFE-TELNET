@@ -1,0 +1,9 @@
+<mat-form-field [formGroup]="form" class="display">
+  <input *ngIf="!displayPlaceHolder" matInput [matDatepicker]="yearPicker" [formControl]="inputtedDate"
+    (blur)="onChange()" (keypress)="dateOnly($event)">
+  <input *ngIf="displayPlaceHolder" placeholder="Year" matInput [matDatepicker]="yearPicker"
+    [formControl]="inputtedDate" (blur)="onChange()" (keypress)="dateOnly($event)" required>
+  <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+  <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="chosenYearHandler($event,yearPicker)">
+  </mat-datepicker>
+</mat-form-field>

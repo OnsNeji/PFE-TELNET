@@ -43,6 +43,7 @@ export class DialogDepartementComponent implements OnInit {
       Nom : ['', Validators.required],
       ChefD : ['', Validators.required],
       SiteId : ['', Validators.required],
+      userAjout: [''],
     });
     this.getSites();
 
@@ -54,6 +55,7 @@ export class DialogDepartementComponent implements OnInit {
         Nom: this.editData.nom,
         ChefD: this.editData.chefD,
         SiteId: this.editData.siteId,
+        userAjout : this.editData.userAjout
       });
     }
 
@@ -66,10 +68,11 @@ export class DialogDepartementComponent implements OnInit {
 
   AjouterDep(){
     if(!this.editData){
-      this.departementForm.value.dateAjout = this.ajoutDate;
+      this.departementForm.value.dateAjout =new Date();
       if(this.departementForm.valid){
         this.departementForm.value.userAjout = this.matricule;
-        this.service.AddDepartement(this.departementForm.value).subscribe(()=>{
+        const userAjout = this.departementForm.value.userAjout;
+        this.service.AddDepartement({ ...this.departementForm.value, userAjout }).subscribe(()=>{
           this.departementForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Department added successfully !');
@@ -86,7 +89,8 @@ export class DialogDepartementComponent implements OnInit {
   updateDepartement(){
     this.departementForm.value.dateModif = this.modifDate;
     this.departementForm.value.userModif = this.matricule;
-    this.service.UpdateDepartement(this.editData.id, this.departementForm.value).subscribe(()=>{
+    const userModif = this.departementForm.value.userModif;
+    this.service.UpdateDepartement(this.editData.id, { ...this.departementForm.value, userModif }).subscribe(()=>{
       this.departementForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('Department modified successfully !');

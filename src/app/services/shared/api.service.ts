@@ -23,14 +23,13 @@ export class ApiService {
     return this.http.get<Departement>(`${this.baseUrl}Département/${id}`);
   }
   AddDepartement(dep:Departement): Observable<Departement> {
-    return this.http.post<Departement>(`${this.baseUrl}Département`, dep);
+    const url = `${this.baseUrl}Département`;
+    const depData = { ...dep, userAjout: dep.userAjout };
+    return this.http.post<Departement>(url, depData);
   }
-  // UpdateDepartement(dep:Departement): Observable<void> {
-  //   return this.http.put<void>(`${this.baseUrl}Département/${dep.id}`, dep);
-  // }
   UpdateDepartement(id: number, dep:Departement): Observable<any> {
     const url = `${this.baseUrl}Département/${id}`;
-    const depData = { ...dep, id: id }; // inclure l'ID dans le corps de la requête
+    const depData = { ...dep, id: id, userModif: dep.userModif }; // inclure l'ID dans le corps de la requête
     return this.http.put<any>(url, depData);
   }
   DeleteDepartement(id: number): Observable<void>{
@@ -44,15 +43,15 @@ export class ApiService {
   GetSite(id: number):Observable<Site>{
     return this.http.get<Site>(`${this.baseUrl}Site/${id}`);
   }
+
   AddSite(site:Site): Observable<Site> {
-    return this.http.post<Site>(`${this.baseUrl}Site`, site);
+    const url = `${this.baseUrl}Site`;
+    const siteData = { ...site, userAjout: site.userAjout };
+    return this.http.post<Site>(url, siteData);
   }
-  // UpdateSite(site:Site): Observable<Site> {
-  //   return this.http.put<Site>(`${this.baseUrl}Site/${site.id}`, site);
-  // }
   UpdateSite(id: number, site:Site): Observable<any> {
     const url = `${this.baseUrl}Site/${id}`;
-    const siteData = { ...site, id: id }; // inclure l'ID dans le corps de la requête
+    const siteData = { ...site, id: id, userModif: site.userModif }; // inclure l'ID dans le corps de la requête
     return this.http.put<any>(url, siteData);
   }
   DeleteSite(id: number): Observable<void>{
@@ -67,14 +66,14 @@ export class ApiService {
     return this.http.get<Poste>(`${this.baseUrl}Poste/${id}`);
   }
   AddPoste(poste:Poste): Observable<Poste> {
-    return this.http.post<Poste>(`${this.baseUrl}Poste`, poste);
+    const url = `${this.baseUrl}Poste`;
+    const dateAjout = new Date(); 
+    const postData = { ...poste, userAjout: poste.userAjout, dateAjout };
+    return this.http.post<Poste>(url, postData);
   }
-  // UpdatePoste(id: number, poste: Poste): Observable<any> {
-  //   return this.http.put<any>(`${this.baseUrl}Poste/${id}`, poste);
-  // }
   UpdatePoste(id: number, poste:Poste): Observable<any> {
     const url = `${this.baseUrl}Poste/${id}`;
-    const postData = { ...poste, id: id }; // inclure l'ID dans le corps de la requête
+    const postData = { ...poste, id: id, userModif: poste.userModif, dateModif: new Date()  }; // inclure l'ID dans le corps de la requête
     return this.http.put<any>(url, postData);
   }
 
@@ -89,15 +88,13 @@ export class ApiService {
     return this.http.get<Utilisateur>(`${this.baseUrl}Utilisateur/${id}`);
   }
   AddUtilisateur(utilisateur:Utilisateur): Observable<Utilisateur> {
-    return this.http.post<Utilisateur>(`${this.baseUrl}Utilisateur`, utilisateur);
+    const url = `${this.baseUrl}Utilisateur`;
+    const userData = { ...utilisateur, userAjout: utilisateur.userAjout };
+    return this.http.post<Utilisateur>(url, userData);
   }
-  // UpdateUtilisateur(utilisateur:Utilisateur): Observable<Utilisateur> {
-  //   return this.http.put<Utilisateur>(`${this.baseUrl}Utilisateur/${utilisateur.id}`,utilisateur);
-  // }
-
   UpdateUtilisateur(id: number, utilisateur:Utilisateur): Observable<any> {
     const url = `${this.baseUrl}Utilisateur/${id}`;
-    const userData = { ...utilisateur, id: id }; // inclure l'ID dans le corps de la requête
+    const userData = { ...utilisateur, id: id, userModif: utilisateur.userModif }; // inclure l'ID dans le corps de la requête
     return this.http.put<any>(url, userData);
 }
   DeleteUtilisateur(id: number): Observable<void>{

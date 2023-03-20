@@ -47,6 +47,7 @@ export class DialogSiteComponent implements OnInit {
       adresse : ['', Validators.required],
       tel : ['', Validators.required],
       fax : ['', Validators.required],
+      userAjout: [''],
     })
 
     if (this.editData) {
@@ -65,7 +66,8 @@ export class DialogSiteComponent implements OnInit {
       this.siteForm.value.dateAjout = this.ajoutDate;
       if(this.siteForm.valid){
         this.siteForm.value.userAjout = this.matricule;
-        this.service.AddSite(this.siteForm.value).subscribe(()=>{
+        const userAjout = this.siteForm.value.userAjout;
+        this.service.AddSite({ ...this.siteForm.value, userAjout }).subscribe(()=>{
           this.siteForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Site added successfully !');
@@ -91,7 +93,8 @@ export class DialogSiteComponent implements OnInit {
     console.log(this.siteForm.value);
     this.siteForm.value.dateModif = this.modifDate;
     this.siteForm.value.userModif = this.matricule;
-    this.service.UpdateSite(this.editData.id, this.siteForm.value).subscribe(site=>{
+    const userModif = this.siteForm.value.userModif;
+    this.service.UpdateSite(this.editData.id, { ...this.siteForm.value, userModif }).subscribe(site=>{
       this.siteForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('Site modified successfully !');

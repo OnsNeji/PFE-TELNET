@@ -24,12 +24,11 @@ export class DialogPosteComponent implements OnInit {
   ActionBtn: string = "Ajouter";
   private jwtHelper = new JwtHelperService();
   public matricule: string = '';
-  isEdit = false;
-  dateAjout = new Date();
-  dateModif = new Date();
-  datePipe = new DatePipe('en-US');
-  ajoutDate = this.datePipe.transform(this.dateAjout, 'yyyy-MM-ddTHH:mm:ss');
-  modifDate = this.datePipe.transform(this.dateModif, 'yyyy-MM-ddTHH:mm:ss');
+  // dateAjout = new Date();
+  // dateModif = new Date();
+  // datePipe = new DatePipe('en-US');
+  // ajoutDate = this.datePipe.transform(this.dateAjout, 'yyyy-MM-ddTHH:mm:ss');
+  // modifDate = this.datePipe.transform(this.dateModif, 'yyyy-MM-ddTHH:mm:ss');
   
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
@@ -45,6 +44,7 @@ export class DialogPosteComponent implements OnInit {
       // id : ['', [Validators.required, Validators.pattern(/^-?[0-9]\d*(\d+)?$/)]],
       numéro : ['', Validators.required],
       utilisateurId : ['', Validators.required],
+      userAjout: [''],
     });
     this.getUtilisateurs();
     
@@ -64,14 +64,14 @@ export class DialogPosteComponent implements OnInit {
   AjouterPoste(){
     
     if(!this.editData){
-      this.posteForm.value.dateAjout = this.ajoutDate;
-      console.log(this.posteForm.value.dateAjout);
       if(this.posteForm.valid){
         
         this.posteForm.value.numéro= parseInt(this.posteForm.value.numéro);
         this.posteForm.value.userAjout = this.matricule;
+        const userAjout = this.posteForm.value.userAjout;
         console.log(this.posteForm.value);
-        this.service.AddPoste(this.posteForm.value).subscribe(()=>{
+        this.service.AddPoste( { ...this.posteForm.value, userAjout }).subscribe(()=>{
+
           this.posteForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Poste added successfully !');
@@ -86,11 +86,13 @@ export class DialogPosteComponent implements OnInit {
   }
 
   updatePoste(){
-    this.posteForm.value.dateModif = this.modifDate;
     this.posteForm.value.numéro= parseInt(this.posteForm.value.numéro);
+    
     this.posteForm.value.userModif = this.matricule;
-    console.log(this.editData.id);
-    this.service.UpdatePoste(this.editData.id, this.posteForm.value).subscribe(()=>{
+    const userModif = this.posteForm.value.userModif;
+    const dateModif = new Date();
+    this.service.UpdatePoste(this.editData.id, { ...this.posteForm.value, userModif, dateModif}).subscribe(()=>{
+      console.log(this.posteForm.value);
       this.posteForm.reset();
         this.dialogRef.close('modifier');
         this.notificationService.success('Poste modified successfully !');

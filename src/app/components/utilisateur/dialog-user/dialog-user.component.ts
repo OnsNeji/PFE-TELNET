@@ -60,6 +60,7 @@ export class DialogUserComponent implements OnInit {
       motDePasse: ['', Validators.required],
       salaire: ['', Validators.required],
       dateNaissance: ['', Validators.required],
+      userAjout: [''],
     });
     this.getPostes();
     this.getDepartements();
@@ -85,7 +86,8 @@ export class DialogUserComponent implements OnInit {
         console.log(this.userForm.valid);
         if(this.userForm.valid) {
           this.userForm.value.userAjout = this.matricule;
-        this.service.AddUtilisateur(this.userForm.value).subscribe(() => {
+          const userAjout = this.userForm.value.userAjout;
+        this.service.AddUtilisateur({ ...this.userForm.value, userAjout }).subscribe(() => {
           this.userForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('User added successfully!');
@@ -101,7 +103,8 @@ export class DialogUserComponent implements OnInit {
   updateUser() {
     this.userForm.value.dateModif = this.modifDate;
     this.userForm.value.userModif = this.matricule;
-    this.service.UpdateUtilisateur(this.editData.id, this.userForm.value).subscribe(() => {
+    const userModif = this.userForm.value.userModif;
+    this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, userModif }).subscribe(() => {
       this.userForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('User updated successfully!');

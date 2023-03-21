@@ -14,6 +14,8 @@ import { AuthenticationService, DateTimeService, NotificationService } from 'app
 import { User } from 'app/models/shared';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserService } from 'app/services/shared/user.service';
+import { FormGroup } from '@angular/forms';
 
 declare var require: any;
 const FileSaver = require('file-saver');
@@ -114,7 +116,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   imgUrl: string;
 
   constructor(injector: Injector,
-    private cookieService: CookieService) {
+    private cookieService: CookieService, private userService: UserService) {
     this.dialog = injector.get<MatDialog>(MatDialog);
     this.authenticationService = injector.get<AuthenticationService>(AuthenticationService);
     this.notificationService = injector.get<NotificationService>(NotificationService);
@@ -255,6 +257,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   private jwtHelper = new JwtHelperService();
   private id: string = '';
   public prenom: string = '';
+  user: any;
+  profileForm!: FormGroup;
 
   scroll = (): void => {
     const scrollPosition = window.pageYOffset;
@@ -278,6 +282,13 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.id = decodedToken.nameid;
       this.prenom = decodedToken.unique_name;
     }
+
+    this.userService.getUser(parseInt(this.id)).subscribe(data => {
+      this.user = data;
+      this.profileForm.patchValue({
+        image: this.user.image
+      });
+    });
 
     this.Inactive();
     this.reset();

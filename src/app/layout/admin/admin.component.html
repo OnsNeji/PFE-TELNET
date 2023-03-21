@@ -36,7 +36,7 @@
               class="user-profile header-notification ripple light" [ngClass]="profileNotificationClass"
               (click)="toggleProfileNotification()">
               <a href="javascript:">
-                <img class="img-radius" [src]="imgUrl" alt="">
+                <img class="img-radius" [src]="user.image" alt="">
                 <span>{{currentUser.prenom}} </span>
                 <em class="icon-angle-down"></em>
               </a>
@@ -78,7 +78,7 @@
           <div class="pcoded-inner-navbar main-menu" appAccordion (click)="dialogClose()">
             <div class="">
               <div class="main-menu-header ripple light">
-                <img class="img-80 img-radius" [src]="imgUrl" alt="">
+                <img class="img-80 img-radius" [src]="user.image" alt="">
                 <div class="user-details">
                   <span>{{currentUser.prenom}}</span>
                 </div>

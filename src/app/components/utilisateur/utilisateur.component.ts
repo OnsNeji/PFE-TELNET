@@ -29,7 +29,7 @@ export class UtilisateurComponent implements OnInit {
   buttonLabel: string = '';
   searchText!: string;
 
-  displayedColumns: string[] = ['image', 'nom', 'prenom', 'matricule', 'dateEmbauche', 'email', 'tel', 'userModif', 'action'];
+  displayedColumns: string[] = ['image', 'nom && prenom', 'matricule', 'email', 'dateEmbauche', 'departementId', 'dateModif', 'action'];
   dataSource!: MatTableDataSource<Utilisateur>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -133,4 +133,9 @@ export class UtilisateurComponent implements OnInit {
     })
     }
 
+
+    getDepNom(id: number): string {
+    const dep = this.departements.find(s => s.id === id);
+    return dep ? dep.nom : '';
+  }
 }

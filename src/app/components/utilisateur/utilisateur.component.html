@@ -9,21 +9,16 @@
   <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
     matSortDisableClear>
 
-    <ng-container matColumnDef="image" class=" table-hover table-striped table-styling">
+    <ng-container matColumnDef="image">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Image</mat-header-cell>
       <mat-cell *matCellDef="let user">
         <img [src]="user.image" style="width: 30px; height: 30px;">
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="nom">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
-      <mat-cell *matCellDef="let user">  {{user.nom}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="prenom">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</mat-header-cell>
-      <mat-cell *matCellDef="let user"> {{user.prenom}} </mat-cell>
+    <ng-container matColumnDef="nom && prenom">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nom Complet</mat-header-cell>
+      <mat-cell *matCellDef="let user">  {{user.nom}} {{user.prenom}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="matricule">
@@ -31,27 +26,25 @@
       <mat-cell *matCellDef="let user"> {{user.matricule}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="dateEmbauche">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Date d'embauche</mat-header-cell>
-      <mat-cell *matCellDef="let user"> {{user.dateEmbauche | date}} </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="email">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
       <mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="tel">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Tel</mat-header-cell>
-      <mat-cell *matCellDef="let user"> {{user.tel}} </mat-cell>
+    <ng-container matColumnDef="dateEmbauche">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Date d'embauche</mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.dateEmbauche | date}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="userModif">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>userModif</mat-header-cell>
-      <mat-cell *matCellDef="let user"> {{user.userModif}} </mat-cell>
+    <ng-container matColumnDef="departementId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Département</mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{getDepNom(user.departementId)}} </mat-cell>
     </ng-container>
 
-
+    <ng-container matColumnDef="dateModif">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Date modification</mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.dateModif | date}} </mat-cell>
+    </ng-container>
 
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>

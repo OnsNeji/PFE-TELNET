@@ -16,39 +16,6 @@
     }
   }
 
-// .mat-mdc-form-field {
-//   font-size: 14px;
-//   margin-left: 12%;
-//   width: 100%;
-  
-// }
-//   .ajout {
-//     margin-left: 85%;
-//     margin-bottom: -10%;
-//     background-color: lightgray;
-//   }
-//  td {
-//   color: black;
-//   width: 13%;
-//   align-items: center;
-// }
-
-// th {
-//     font-weight: 600;
-//     color: white;
-//     width: 13%;
-//     align-items: center;
-//     background-color: #3f629d;
-//   }
-
-// .mat-elevation-z8 {
-//   width: 100%;
-//   color: black;
-// }
-// table{
-//   background-color: white;
-//   align-items: center;
-// }
 .ajout {
   position: absolute;
   margin-top: 0.5%;
@@ -75,19 +42,15 @@
 
 .mat-cell {
   color: black;
-  width: 20%;
   text-align: center;
-}
+  align-items: center;
 
+}
 
 .material-icons {
   font-size: 15px;
 }
 
-table {
-  width: 100%;
-  align-items: center;
-}
 .mat-elevation-z8 {
   width: 100%;
   color: black;

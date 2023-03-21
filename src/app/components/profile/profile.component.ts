@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'app/services/shared/user.service';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +14,7 @@ export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   id!: number;
   user: any ;
+  imageUrl: string;
 
   constructor(
     private fb: FormBuilder,
@@ -27,16 +29,7 @@ export class ProfileComponent implements OnInit {
 
       this.userService.getUser(this.id).subscribe(data => {
         this.user = data;
-        this.profileForm.patchValue({
-          nom: this.user.nom,
-          prenom: this.user.prenom,
-          email: this.user.email,
-          motDePasse: this.user.motDePasse,
-          matricule: this.user.matricule,
-          tel: this.user.tel,
-          role: this.user.role,
-          image: this.user.image
-        });
+        this.profileForm.patchValue(data);
       });
     });
 
@@ -52,11 +45,21 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.profileForm.value.image  = this.user.image;
     this.userService.editUser(this.id, this.profileForm.value).subscribe(()=>{
       window.location.reload();
     }
     );
   }
 
+  
+  // onFileSelected(event: any): void {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     this.imageUrl = reader.result as string;
+  //   };
+  //   reader.readAsDataURL(file);
 
+  // }
 }

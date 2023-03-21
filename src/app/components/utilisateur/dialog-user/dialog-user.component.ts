@@ -107,8 +107,9 @@ export default class DialogUserComponent implements OnInit {
     this.userForm.value.userModif = this.matricule;
     const userModif = this.userForm.value.userModif;
     this.userForm.value.image = this.imageUrl;
-        console.log( this.userForm.value.image);
+    console.log( this.userForm.value.image);
     this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, userModif }).subscribe(() => {
+
       this.userForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('User updated successfully!');

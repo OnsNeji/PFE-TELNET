@@ -11,6 +11,7 @@ import { SearchFilterService } from 'app/services/shared/search-filter.service';
 import { Subscription } from 'rxjs';
 import { DialogSiteComponent } from './dialog-site/dialog-site.component';
 import swal from 'sweetalert2';
+import { ReferenceSearch } from 'app/models/project-management/project';
 
 @Component({
   selector: 'app-site',
@@ -29,11 +30,16 @@ export class SiteComponent implements OnInit {
   ListeSite!: Site[];
   site: Site = new Site();
   sites!: Site[];
+  refreshSubscription: Subscription;
   subscription: Subscription;
-
-
-  displayedColumns: string[] = ['site', 'adresse', 'tel', 'fax', 'dateModif', 'dateAjout', 'action'];
+  isLoading: boolean;
+  displayedColumns: string[] = ['site', 'adresse', 'tel', 'fax', 'dateModif', 'userModif', 'action'];
   dataSource!: MatTableDataSource<Site>;
+  Site='';
+  Adresse='';
+  Tel='';
+  lengthSites: number;
+  listView = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -47,9 +53,19 @@ export class SiteComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.searchFilterService.showingDataLastFilter);
         }
       );
-    // const ID = this.route.snapshot.paramMap.get('id')!;
-    // const id: number = parseInt(ID, 10); 
-    // this.getSite(id);
+      const siteSearch = JSON.parse(sessionStorage.getItem('siteSearch'));
+      if (siteSearch !== null) {
+        this.Site = siteSearch.Site;
+        this.Adresse = siteSearch.Adresse;
+        this.Tel = siteSearch.Tel;
+      }
+
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.refreshSubscription.unsubscribe();
+    this.searchFilterService.showingDataLastFilter = [];
   }
 
   openDialog() {
@@ -63,14 +79,14 @@ export class SiteComponent implements OnInit {
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  // applyFilter(event: Event) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
+  //   if (this.dataSource.paginator) {
+  //     this.dataSource.paginator.firstPage();
+  //   }
+  // }
 
   deleteSite(id: number): void {
     swal.fire({
@@ -109,17 +125,6 @@ export class SiteComponent implements OnInit {
     })
   }
 
-  onSortData(sort) {
-    this.service.siteRequest.next(sort);
-  }
-
-  // getSite(id: number) {
-  //   this.service.GetSite(id)
-  //   .subscribe(site => {
-  //   this.site = site;
-  //   });
-  // }
-
   updateSite(row: Site) {
     console.log(row);
     this.dialog.open(DialogSiteComponent, {
@@ -130,5 +135,70 @@ export class SiteComponent implements OnInit {
       }
     })
     }
+
+  onSortData(sort) {
+    this.service.siteRequest.next(sort);
+  }
+  // onClickingEnter(event) {
+  //   if (event.key === 'Enter') {
+  //     this.searchButton();
+  //   }
+  // }
+  searchButton() {
+      this.searchFilterService.pageIndex = 0;
+      const siteSearch = new Site();
+      siteSearch.site = this.Site;
+      siteSearch.adresse = this.Adresse;
+      siteSearch.tel = this.Tel;
+      sessionStorage.setItem('siteSearch', JSON.stringify(siteSearch));
+
+      this.isLoading = true;
+      this.service.GetSites().subscribe(
+          data => {
+            this.isLoading = false;
+            this.sites = data;
+            this.lengthSites = this.sites.length;
+            if (data.length !== 0) {
+              this.listView = true;
+            } else {
+              this.listView = false;
+            }
+          });
+  }
+
+  applySiteFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filterPredicate = (data: Site, filter: string) =>
+      data.site.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  applyAdresseFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filterPredicate = (data: Site, filter: string) =>
+      data.adresse.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  applyTelFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filterPredicate = (data: Site, filter: string) =>
+      data.tel.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  onResetAllFilters() {
+    this.onResetSite();
+    this.onResetAdresse();
+    this.onResetTel();
+  }
+
+  onResetSite() {
+    this.Site = '';
+  }
+  onResetAdresse() {
+    this.Adresse = '';
+  }
+
+  onResetTel() {
+    this.Tel = '';
+  }
 
 }

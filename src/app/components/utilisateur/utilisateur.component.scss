@@ -22,7 +22,6 @@
   margin-left: 3%;
   background-color: #3f629d;
   color: white;
-  font-weight: 600;
 }
 
 .mat-table {
@@ -32,18 +31,19 @@
   border-spacing: 10px;
 }
 
+.mat-row{
+  padding: 25px 0;
+}
+
 .mat-header-cell {
   color: white;
   font-size: 15px;
   font-weight: 600;
   width: 20%;
-  text-align: center;
 }
 
 .mat-cell {
   color: black;
-  text-align: center;
-  align-items: center;
 
 }
 

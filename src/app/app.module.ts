@@ -63,6 +63,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { WorkFromHomeModule } from "./components/human-resources/work-from-home/work-from-home.module";
 import { MatListModule } from '@angular/material/list'
 import { PaginatorComponent } from './shared/paginator/paginator.component';
+import { ProjectReference } from './models/project-management/project/project-reference.model';
+import { ReferencesModule } from './components/project-management/project/references/references.module';
+import { Project } from './models/project-management/project/project.model';
+import { ProjectModule } from './components/project-management/project/project.module';
 
 
 export const CUSTOM_DT_FORMATS = {
@@ -94,6 +98,7 @@ export const CUSTOM_DT_FORMATS = {
         DialogPosteComponent,
         DialogDepartementComponent,
         DialogUserComponent,
+        
     ],
     entryComponents: [
         AdminComponent,
@@ -169,6 +174,9 @@ export const CUSTOM_DT_FORMATS = {
         MatNativeDateModule,
         WorkFromHomeModule,
         MatListModule,
+        ReferencesModule,
+        ProjectManagementModule,
+        ProjectModule
     ]
 })
 export class AppModule { }

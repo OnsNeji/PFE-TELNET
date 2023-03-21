@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { ThrowStmt } from '@angular/compiler';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -106,10 +107,14 @@ export default class DialogUserComponent implements OnInit {
     this.userForm.value.dateModif = this.modifDate;
     this.userForm.value.userModif = this.matricule;
     const userModif = this.userForm.value.userModif;
-    this.userForm.value.image = this.imageUrl;
-    console.log( this.userForm.value.image);
+    if (!this.imageUrl){
+      this.userForm.value.image = this.editData.image;
+    }else {
+      this.userForm.value.image = this.imageUrl;
+    }
+    
     this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, userModif }).subscribe(() => {
-
+      
       this.userForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('User updated successfully!');

@@ -9,6 +9,7 @@ import { Site } from 'app/models/shared/site.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
 import { DialogDepartementComponent } from './dialog-departement/dialog-departement.component';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-departement',
@@ -72,15 +73,31 @@ export class DepartementComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
   deleteDepartement(id: number): void {
-    if (confirm(`Etes-vous sûr que vous voulez supprimer ce département ?`)) {
-      this.service.DeleteDepartement(id)
-        .subscribe(() =>{
-          this.getDepartements();
-          this.notificationService.success('Department deleted successfully');
-        });
+    swal.fire({
+      text: `Are you sure to delete this Department ?`,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        this.service.DeleteDepartement(id)
+          .subscribe(()=>
+            {
+              this.getDepartements();
+              this.notificationService.success('Department deleted successfully');
+            },
+            () => {
+              this.notificationService.danger('Delete Department failed');
+            }
+          );
       }
+    });
   }
+
 
   getSites(): void {
     this.service.GetSites().subscribe(sites => {

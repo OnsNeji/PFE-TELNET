@@ -10,6 +10,7 @@ import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
 import DialogUserComponent from './dialog-user/dialog-user.component';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-utilisateur',
@@ -76,13 +77,27 @@ export class UtilisateurComponent implements OnInit {
     }
   }
   deleteUtilisateur(id: number): void {
-    if (confirm(`Etes-vous sûr que vous voulez supprimer cet Utilisateur ?`)) {
-    this.service.DeleteUtilisateur(id)
-      .subscribe(() =>{
-        this.getUtilisateurs();
-        this.notificationService.success('User deleted successfully.');
-      });
-    }
+    swal.fire({
+      text: `Are you sure to delete this User ?`,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        this.service.DeleteUtilisateur(id)
+          .subscribe(()=>
+            {
+              this.getUtilisateurs();
+              this.notificationService.success('User deleted successfully.');
+            },
+            () => {
+              this.notificationService.danger('Delete User failed');
+            }
+          );
+      }
+    });
   }
 
   getPostes(): void {

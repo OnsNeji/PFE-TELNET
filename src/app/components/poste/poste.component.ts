@@ -9,6 +9,7 @@ import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
 import { DialogPosteComponent } from './dialog-poste/dialog-poste.component';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-poste',
@@ -75,13 +76,27 @@ export class PosteComponent implements OnInit {
     }
   }
   deletePoste(id: number): void {
-    if (confirm(`Etes-vous sûr que vous voulez supprimer ce poste ?`)) {
-      this.service.DeletePoste(id)
-      .subscribe(() =>{
-        this.getPostes();
-        this.notificationService.success('Poste deleted successfully');
-      });
+    swal.fire({
+      text: `Are you sure to delete this Poste ?`,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        this.service.DeletePoste(id)
+          .subscribe(()=>
+            {
+              this.getPostes();
+              this.notificationService.success('Poste deleted successfully');
+            },
+            () => {
+              this.notificationService.danger('Delete Poste failed');
+            }
+          );
       }
+    });
   }
 
   getUtilisateurs(): void {

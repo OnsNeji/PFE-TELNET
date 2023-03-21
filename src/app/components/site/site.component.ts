@@ -10,6 +10,7 @@ import { NotificationService } from 'app/services/shared/notification.service';
 import { SearchFilterService } from 'app/services/shared/search-filter.service';
 import { Subscription } from 'rxjs';
 import { DialogSiteComponent } from './dialog-site/dialog-site.component';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-site',
@@ -70,14 +71,29 @@ export class SiteComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
   deleteSite(id: number): void {
-    if (confirm(`Etes-vous sûr que vous voulez supprimer ce site ?`)) {
-      this.service.DeleteSite(id)
-        .subscribe(() =>{
-          this.getSites();
-          this.notificationService.success('Site deleted successfully');
-        });
+    swal.fire({
+      text: `Are you sure to delete this Site ?`,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        this.service.DeleteSite(id)
+          .subscribe(()=>
+            {
+              this.getSites();
+              this.notificationService.success('Site deleted successfully');
+            },
+            () => {
+              this.notificationService.danger('Delete Site failed');
+            }
+          );
       }
+    });
   }
 
   getSites(){

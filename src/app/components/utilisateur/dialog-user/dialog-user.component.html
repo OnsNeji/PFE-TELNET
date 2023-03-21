@@ -41,8 +41,15 @@
 
           <mat-form-field class="col-sm-4">
             <mat-label>Role</mat-label>
-            <input formControlName="role" matInput class="login-input-style">
+            <mat-select formControlName="role" class="login-input-style">
+              <mat-option value="RH">RH</mat-option>
+              <mat-option value="Employé">Employé</mat-option>
+              <mat-option value="Administrateur">Administrateur</mat-option>
+              <mat-option value="Gestionnaire">Gestionnaire</mat-option>
+            </mat-select>
           </mat-form-field>
+
+          
           <mat-form-field class="col-sm-4" floatLabel="always">
             <mat-label>Salaire</mat-label>
             <input matInput formControlName="salaire" type="number" class="login-input-style">

@@ -129,15 +129,6 @@ export default class DialogUserComponent implements OnInit {
     });
   }
 
-  //  onFileSelected(event: any): void {
-  //    const file = event.target.files[0];
-  //    const reader = new FileReader();
-  //    reader.onload = () => {
-  //      this.utilisateur.image = reader.result as string;
-  //    };
-  //    reader.readAsDataURL(file);
-  //  }
-
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     const reader = new FileReader();

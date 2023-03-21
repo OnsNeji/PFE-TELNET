@@ -49,7 +49,7 @@ import { DepartementComponent } from './components/departement/departement.compo
 import { DialogSiteComponent } from './components/site/dialog-site/dialog-site.component';
 import { DialogPosteComponent } from './components/poste/dialog-poste/dialog-poste.component';
 import { DialogDepartementComponent } from './components/departement/dialog-departement/dialog-departement.component';
-import { DialogUserComponent } from './components/utilisateur/dialog-user/dialog-user.component';
+import DialogUserComponent from './components/utilisateur/dialog-user/dialog-user.component';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';

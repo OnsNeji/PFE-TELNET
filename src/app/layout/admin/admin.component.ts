@@ -286,8 +286,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
 
     const timeBeforeSessionExpiration = environment.timeBeforeSessionExpiration;
-    const sessionExpiresIn = new Date(localStorage.getItem('expires_in'));
-    const sessionDuration = this.dateTimeService.getDiff(sessionExpiresIn, new Date(Date.now()));
+    const sessionExpiresIn = 1000000000;
+    const sessionDuration = 10000000000;
 
     setTimeout(() => {
       this.logout();

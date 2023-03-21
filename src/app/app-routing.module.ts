@@ -51,14 +51,11 @@ const routes: Routes = [
   {
     path: '**', redirectTo: 'pages/page-not-found'
   },
-  {
-    path: 'dashboard', redirectTo: 'dashboard/default'
-  },
-  { path: 'profil/:id', component: ProfileComponent},
-  { path: 'site', component: SiteComponent, canActivate: [AuthGuard]},
-  { path: 'departement', component: DepartementComponent, canActivate: [AuthGuard]},
-  { path: 'poste', component: PosteComponent, canActivate: [AuthGuard]},
-  { path: 'utilisateur', component: UtilisateurComponent, canActivate: [AuthGuard]},
+  { path: 'profil/:id', component: ProfileComponent },
+  { path: 'site', component: SiteComponent, canActivate: [AuthGuard] },
+  { path: 'departement', component: DepartementComponent, canActivate: [AuthGuard] },
+  { path: 'poste', component: PosteComponent, canActivate: [AuthGuard] },
+  { path: 'utilisateur', component: UtilisateurComponent, canActivate: [AuthGuard] },
 
 ];
 

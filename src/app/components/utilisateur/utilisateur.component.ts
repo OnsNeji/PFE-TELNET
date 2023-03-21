@@ -9,7 +9,7 @@ import { Poste } from 'app/models/shared/poste.model';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
-import { DialogUserComponent } from './dialog-user/dialog-user.component';
+import DialogUserComponent from './dialog-user/dialog-user.component';
 
 @Component({
   selector: 'app-utilisateur',

@@ -15,7 +15,7 @@ import { NotificationService } from 'app/services/shared/notification.service';
   templateUrl: './dialog-user.component.html',
   styleUrls: ['./dialog-user.component.scss']
 })
-export class DialogUserComponent implements OnInit {
+export default class DialogUserComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   userForm!: FormGroup;
@@ -36,6 +36,7 @@ export class DialogUserComponent implements OnInit {
   modifDate = this.datePipe.transform(this.dateModif, 'yyyy-MM-ddTHH:mm:ss');
   userModif!: string;
   userAjout!: string;
+  imageUrl: string;
 
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
@@ -54,7 +55,7 @@ export class DialogUserComponent implements OnInit {
       email: ['', Validators.required],
       tel: ['', Validators.required],
       role: ['', Validators.required],
-      // image: ['', Validators.required],
+      image: [''],
       posteId: ['', Validators.required],
       departementId: ['', Validators.required],
       motDePasse: ['', Validators.required],
@@ -83,7 +84,8 @@ export class DialogUserComponent implements OnInit {
   AjouterUser() {
       if (!this.editData) { 
         this.userForm.value.dateAjout = this.ajoutDate;
-        console.log(this.userForm.valid);
+        this.userForm.value.image = this.imageUrl;
+        console.log( this.userForm.value.image);
         if(this.userForm.valid) {
           this.userForm.value.userAjout = this.matricule;
           const userAjout = this.userForm.value.userAjout;
@@ -104,6 +106,8 @@ export class DialogUserComponent implements OnInit {
     this.userForm.value.dateModif = this.modifDate;
     this.userForm.value.userModif = this.matricule;
     const userModif = this.userForm.value.userModif;
+    this.userForm.value.image = this.imageUrl;
+        console.log( this.userForm.value.image);
     this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, userModif }).subscribe(() => {
       this.userForm.reset();
       this.dialogRef.close('modifier');
@@ -125,13 +129,23 @@ export class DialogUserComponent implements OnInit {
     });
   }
 
+  //  onFileSelected(event: any): void {
+  //    const file = event.target.files[0];
+  //    const reader = new FileReader();
+  //    reader.onload = () => {
+  //      this.utilisateur.image = reader.result as string;
+  //    };
+  //    reader.readAsDataURL(file);
+  //  }
+
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      this.utilisateur.image = reader.result as string;
+      this.imageUrl = reader.result as string;
     };
     reader.readAsDataURL(file);
+
   }
 
   close() {

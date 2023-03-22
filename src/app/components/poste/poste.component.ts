@@ -26,9 +26,13 @@ export class PosteComponent implements OnInit {
   utilisateurs!: Utilisateur[];
   formTitle: string = '';
   buttonLabel: string = '';
-
+  lengthPostes: number;
+  listView = false;
+  isLoading: boolean;
   displayedColumns: string[] = ['numéro', 'utilisateurId', 'dateAjout', 'action'];
   dataSource!: MatTableDataSource<Poste>;
+  numéro='';
+  utilisateurId='';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -37,6 +41,11 @@ export class PosteComponent implements OnInit {
   ngOnInit() : void{
     this.getPostes();
     this.getUtilisateurs();
+    const posteSearch = JSON.parse(sessionStorage.getItem('posteSearch'));
+      if (posteSearch !== null) {
+        this.numéro = posteSearch.numéro;
+        this.utilisateurId = posteSearch.utilisateurId;
+      }
     // const ID = this.route.snapshot.paramMap.get('id')!;
     // const id: number = parseInt(ID, 10); 
     // this.getPoste(id);
@@ -130,5 +139,36 @@ export class PosteComponent implements OnInit {
     getUtilisateurNom(id: number): string {
       const utilisateur = this.utilisateurs.find(s => s.id === id);
       return utilisateur ? utilisateur.matricule : '';
+    }
+
+    onClickingEnter(event) {
+      if (event.key === 'Enter') {
+        this.onSearchClick();
+      }
+    }
+  
+    onSearchClick() {
+      const filterNumero = document.getElementById('numéro') as HTMLInputElement;
+      const filterUser = document.getElementById('utilisateurId') as HTMLInputElement;
+  
+      const filterNumValue = filterNumero.value.trim().toLowerCase();
+      const filterUserValue = filterUser.value.trim().toLowerCase();
+  
+      if (filterNumValue !== '') {
+        this.dataSource.filterPredicate = (data: Poste, filter: string) =>
+          data.numéro.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        this.dataSource.filter = filterNumValue;
+      } else if (filterUserValue !== '') {
+        this.dataSource.filterPredicate = (data: Poste, filter: string) =>
+        data.utilisateurId.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      this.dataSource.filter = filterUserValue;
+      }
+    }
+  
+    onResetAllFilters() {
+      this.poste.numéro = null; // réinitialisation des filtres
+      this.poste.utilisateurId = null; 
+      this.getPostes();
+      this.onSearchClick(); // lancement d'une nouvelle recherche
     }
 }

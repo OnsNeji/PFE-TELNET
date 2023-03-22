@@ -47,12 +47,6 @@ export class SiteComponent implements OnInit {
 
   ngOnInit() : void{
     this.getSites();
-    this.subscription = this.searchFilterService.resultChanged
-      .subscribe(
-        () => {
-          this.dataSource = new MatTableDataSource(this.searchFilterService.showingDataLastFilter);
-        }
-      );
       const siteSearch = JSON.parse(sessionStorage.getItem('siteSearch'));
       if (siteSearch !== null) {
         this.Site = siteSearch.Site;
@@ -139,66 +133,43 @@ export class SiteComponent implements OnInit {
   onSortData(sort) {
     this.service.siteRequest.next(sort);
   }
-  // onClickingEnter(event) {
-  //   if (event.key === 'Enter') {
-  //     this.searchButton();
-  //   }
-  // }
-  searchButton() {
-      this.searchFilterService.pageIndex = 0;
-      const siteSearch = new Site();
-      siteSearch.site = this.Site;
-      siteSearch.adresse = this.Adresse;
-      siteSearch.tel = this.Tel;
-      sessionStorage.setItem('siteSearch', JSON.stringify(siteSearch));
 
-      this.isLoading = true;
-      this.service.GetSites().subscribe(
-          data => {
-            this.isLoading = false;
-            this.sites = data;
-            this.lengthSites = this.sites.length;
-            if (data.length !== 0) {
-              this.listView = true;
-            } else {
-              this.listView = false;
-            }
-          });
+  onClickingEnter(event) {
+    if (event.key === 'Enter') {
+      this.onSearchClick();
+    }
   }
 
-  applySiteFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filterPredicate = (data: Site, filter: string) =>
-      data.site.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  applyAdresseFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filterPredicate = (data: Site, filter: string) =>
+  onSearchClick() {
+    const filterSite = document.getElementById('nom') as HTMLInputElement;
+    const filterAdresse = document.getElementById('chefD') as HTMLInputElement;
+    const filterTel = document.getElementById('siteId') as HTMLInputElement;
+
+    const filterSiteValue = filterSite.value.trim().toLowerCase();
+    const filterAdrValue = filterAdresse.value.trim().toLowerCase();
+    const filterTelValue = filterTel.value.trim().toLowerCase();
+
+    if (filterSiteValue !== '') {
+      this.dataSource.filterPredicate = (data: Site, filter: string) =>
+        data.site.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      this.dataSource.filter = filterSiteValue;
+    } else if (filterAdrValue !== '') {
+      this.dataSource.filterPredicate = (data: Site, filter: string) =>
       data.adresse.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  applyTelFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filterPredicate = (data: Site, filter: string) =>
+    this.dataSource.filter = filterAdrValue;
+    }else if (filterTelValue !== '') {
+      this.dataSource.filterPredicate = (data: Site, filter: string) =>
       data.tel.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterTelValue;
+    }
   }
+
   onResetAllFilters() {
-    this.onResetSite();
-    this.onResetAdresse();
-    this.onResetTel();
+    this.site.site = ''; // réinitialisation des filtres
+    this.site.adresse = ''; 
+    this.site.tel = ''; 
+    this.getSites();
+    this.onSearchClick(); // lancement d'une nouvelle recherche
   }
-
-  onResetSite() {
-    this.Site = '';
-  }
-  onResetAdresse() {
-    this.Adresse = '';
-  }
-
-  onResetTel() {
-    this.Tel = '';
-  }
-
+  
 }

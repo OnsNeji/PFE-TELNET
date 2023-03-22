@@ -11,6 +11,7 @@ import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
 import DialogUserComponent from './dialog-user/dialog-user.component';
 import swal from 'sweetalert2';
+import { DateTimeService } from 'app/services/shared';
 
 @Component({
   selector: 'app-utilisateur',
@@ -19,7 +20,12 @@ import swal from 'sweetalert2';
 })
 export class UtilisateurComponent implements OnInit {
 
-  constructor(private service: ApiService, private route: ActivatedRoute, private router: Router, public dialog: MatDialog, private notificationService: NotificationService){}
+  constructor(private service: ApiService, 
+              private route: ActivatedRoute, 
+              private router: Router, 
+              public dialog: MatDialog, 
+              private notificationService: NotificationService,
+              private dateTimeService: DateTimeService,){}
 
   ListeUser!: Utilisateur[];
   utilisateur: Utilisateur = new Utilisateur();
@@ -28,6 +34,15 @@ export class UtilisateurComponent implements OnInit {
   formTitle: string = '';
   buttonLabel: string = '';
   searchText!: string;
+  lengthUsers: number;
+  listView = false;
+  nom='';
+  prenom='';
+  matricule='';
+  role='';
+  tel='';
+  isLoading: boolean;
+  dateEmbauche= new Date();
 
   displayedColumns: string[] = ['image', 'nom && prenom', 'matricule', 'email', 'dateEmbauche', 'departementId', 'dateModif', 'action'];
   dataSource!: MatTableDataSource<Utilisateur>;
@@ -40,6 +55,17 @@ export class UtilisateurComponent implements OnInit {
     this.getUtilisateurs();
     this.getPostes();
     this.getDépartements();
+
+    const userSearch = JSON.parse(sessionStorage.getItem('userSearch'));
+      if (userSearch !== null) {
+        this.nom = userSearch.nom;
+        this.prenom = userSearch.prenom;
+        this.matricule = userSearch.matricule;
+        this.dateEmbauche = userSearch.dateEmbauche;
+        this.role = userSearch.role;
+        this.tel = userSearch.tel;
+      }
+
     // const ID = this.route.snapshot.paramMap.get('id')!;
     // const id: number = parseInt(ID, 10); 
     // this.getUtilisateur(id);
@@ -68,14 +94,6 @@ export class UtilisateurComponent implements OnInit {
       });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
   deleteUtilisateur(id: number): void {
     swal.fire({
       text: `Are you sure to delete this User ?`,
@@ -133,9 +151,75 @@ export class UtilisateurComponent implements OnInit {
     })
     }
 
-
     getDepNom(id: number): string {
     const dep = this.departements.find(s => s.id === id);
     return dep ? dep.nom : '';
   }
+
+  dateOnly(event): boolean {
+    return this.dateTimeService.dateOnly(event);
+  }
+
+  onClickingEnter(event) {
+    if (event.key === 'Enter') {
+      this.onSearchClick();
+    }
+  }
+
+  onSearchClick() {
+    const filterNom = document.getElementById('nom') as HTMLInputElement;
+    const filterPrenom = document.getElementById('prenom') as HTMLInputElement;
+    const filterMatricule = document.getElementById('matricule') as HTMLInputElement;
+    const filterDate = document.getElementById('dateEmbauche') as HTMLInputElement;
+    const filterRole = document.getElementById('role') as HTMLInputElement;
+    const filterTel = document.getElementById('tel') as HTMLInputElement;
+
+    const filterNomValue = filterNom.value.trim().toLowerCase();
+    const filterPrenomValue = filterPrenom.value.trim().toLowerCase();
+    const filterMatriculeValue = filterMatricule.value.trim().toLowerCase();
+    const filterDateValue = filterDate.value.trim().toLowerCase();
+    const filterRoleValue = filterRole.value.trim().toLowerCase();
+    const filterTelValue = filterTel.value.trim().toLowerCase();
+
+    if (filterNomValue !== '') {
+      this.dataSource.filterPredicate = (data: Utilisateur, filter: string) =>
+        data.nom.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      this.dataSource.filter = filterNomValue;
+    } else if (filterPrenomValue !== '') {
+      this.dataSource.filterPredicate = (data: Utilisateur, filter: string) =>
+      data.prenom.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterPrenomValue;
+    }else if (filterMatriculeValue !== '') {
+      this.dataSource.filterPredicate = (data: Utilisateur, filter: string) =>
+      data.matricule.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterMatriculeValue;
+    }else if (filterRoleValue !== '') {
+      this.dataSource.filterPredicate = (data: Utilisateur, filter: string) =>
+      data.role.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterRoleValue;
+    }else if (filterTelValue !== '') {
+      this.dataSource.filterPredicate = (data: Utilisateur, filter: string) =>
+      data.tel.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterTelValue;
+    }
+    else if (filterDateValue !== '') {
+      this.dataSource.filterPredicate = (data: Utilisateur, filter: string) => {
+        const formattedDate = new Date(data.dateEmbauche).toLocaleDateString(); // format the date as a string
+        return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      };
+    this.dataSource.filter = filterDateValue;
+    }
+  }
+
+  onResetAllFilters() {
+    this.utilisateur.nom = ''; // réinitialisation des filtres
+    this.utilisateur.prenom = ''; 
+    this.utilisateur.matricule = ''; 
+    this.utilisateur.dateEmbauche = null;
+    this.utilisateur.role = ''; 
+    this.utilisateur.tel = ''; 
+    this.getUtilisateurs();
+    this.onSearchClick(); // lancement d'une nouvelle recherche
+  }
+  
 }

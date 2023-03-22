@@ -10,8 +10,8 @@
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Site</h3>
                 <mat-form-field class="search-input col-sm-8">
-                  <input placeholder="Search here..." matInput name="searchInput" [(ngModel)]="site.site"
-                    (keydown)="applySiteFilter($event)" />
+                  <input placeholder="Search here..." matInput name="searchInput" id="site" [(ngModel)]="site.site"
+                  (keydown)="onClickingEnter($event)" />
                 </mat-form-field>
               </mat-list-item>
             </mat-list>
@@ -21,8 +21,8 @@
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Adr.</h3>
                 <mat-form-field class="search-input col-sm-8">
-                  <input placeholder="Search here..." matInput name="searchInput" [(ngModel)]="site.adresse"
-                    (keydown)="applyAdresseFilter($event)" />
+                  <input placeholder="Search here..." matInput name="searchInput" id="adresse" [(ngModel)]="site.adresse"
+                  (keydown)="onClickingEnter($event)" />
                 </mat-form-field>
               </mat-list-item>
             </mat-list>
@@ -32,8 +32,8 @@
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Tel.</h3>
                 <mat-form-field class="search-input col-sm-8">
-                  <input type="tel" placeholder="Search here..." matInput name="searchInput" [(ngModel)]="site.tel"
-                    (keydown)="applyTelFilter($event)" />
+                  <input type="tel" placeholder="Search here..." matInput name="searchInput" id="tel" [(ngModel)]="site.tel"
+                  (keydown)="onClickingEnter($event)" />
                 </mat-form-field>
               </mat-list-item>
             </mat-list>
@@ -48,7 +48,7 @@
 
           <div class="col-xl-1 col-lg-6">
             <div class="text-center">
-              <button  class="btn btn-md btn-primary ripple light m-t-5">Search</button>
+              <button (click)="onSearchClick()"  class="btn btn-md btn-primary ripple light m-t-5">Search</button>
               
             </div>
           </div>

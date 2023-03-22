@@ -4,8 +4,91 @@
 <app-admin></app-admin>
 
 <main id="main" class="main">
-  <button mat-flat-button class="ajout" (click)="openDialog()"><em class="material-icons">add</em>Département</button>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  <div class="col-xl-12 col-lg-12 filter-bar">
+    <div class="card m-b-10">
+      <div class="card-body p-t-10">
+        <div class='row'>
+
+          <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Nom</h3>
+                <mat-form-field class="search-input col-sm-8">
+                  <input placeholder="Search here..." matInput name="searchInput" id="nom" [(ngModel)]="departement.nom"
+                  (keydown)="onClickingEnter($event)" />
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+            <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Chef.</h3>
+                <mat-form-field class="search-input col-sm-8">
+                  <input placeholder="Search here..." matInput name="searchInput" id="chefD" [(ngModel)]="departement.chefD"
+                  (keydown)="onClickingEnter($event)" />
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+            <div class="col-xl-4 col-lg-6" >
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Site.</h3>
+                <mat-form-field class="search-input col-sm-8">
+                  <input type="tel" placeholder="Search here..." matInput name="searchInput" id="siteId" [(ngModel)]="departement.siteId"
+                  (keydown)="onClickingEnter($event)" />
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+          
+      
+          <div class="col-xl-1 col-lg-6">
+            <div class="text-center">
+              <button class="btn btn-md btn-default ripple light m-t-10" (click)="onResetAllFilters()">Reset</button>
+            </div>
+          </div>
+
+          <div class="col-xl-1 col-lg-6">
+            <div class="text-center">
+              <button (click)="onSearchClick()" class="btn btn-md btn-primary ripple light m-t-5">Search</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-light bg-faded m-b-10 p-10">
+      <div class="col-sm-4">
+        <button (click)="openDialog()" type="button" class="btn btn-sm btn-primary waves-light m-r-10 ripple"
+          style="font-size:inherit;">
+          <em class="icofont icofont-plus"></em> Département
+        </button>
+      </div>
+      <div class="col-sm-8">
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      </div>
+    </nav>
+    <div *ngIf="lengthDeps === 0">
+      <h1>No Result Found</h1>
+    </div>
+    <div class="wrapper">
+      <div class="overlay" *ngIf="isLoading">
+        <div class="spinner-wrapper">
+          <div class="container">
+            <div class="row">
+              <div id="loader">
+                <mat-spinner></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="example-container mat-elevation-z8">
 
   <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"

@@ -25,9 +25,13 @@ export class DepartementComponent implements OnInit {
   sites!: Site[];
   formTitle: string = '';
   buttonLabel: string = '';
-
+  lengthDeps: number;
+  isLoading: boolean;
   displayedColumns: string[] = ['nom', 'chefD', 'siteId', 'action'];
   dataSource!: MatTableDataSource<Departement>;
+  nom='';
+  chefD='';
+  siteId=0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -36,6 +40,12 @@ export class DepartementComponent implements OnInit {
   ngOnInit() : void{
     this.getDepartements();
     this.getSites();
+    const depSearch = JSON.parse(sessionStorage.getItem('depSearch'));
+      if (depSearch !== null) {
+        this.nom = depSearch.nom;
+        this.chefD = depSearch.chefD;
+        this.siteId = depSearch.siteId;
+      }
     // const ID = this.route.snapshot.paramMap.get('id')!;
     // const id: number = parseInt(ID, 10); 
     // this.getDepartement(id);
@@ -63,15 +73,6 @@ export class DepartementComponent implements OnInit {
 
       }
     })
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   deleteDepartement(id: number): void {
@@ -130,4 +131,42 @@ export class DepartementComponent implements OnInit {
     })
     }
 
+    onClickingEnter(event) {
+      if (event.key === 'Enter') {
+        this.onSearchClick();
+      }
+    }
+  
+    onSearchClick() {
+      const filterNom = document.getElementById('nom') as HTMLInputElement;
+      const filterChef = document.getElementById('chefD') as HTMLInputElement;
+      const filterSite = document.getElementById('siteId') as HTMLInputElement;
+  
+      const filterNomValue = filterNom.value.trim().toLowerCase();
+      const filterChefValue = filterChef.value.trim().toLowerCase();
+      const filterSiteValue = filterSite.value.trim().toLowerCase();
+  
+      if (filterNomValue !== '') {
+        this.dataSource.filterPredicate = (data: Departement, filter: string) =>
+          data.nom.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        this.dataSource.filter = filterNomValue;
+      } else if (filterChefValue !== '') {
+        this.dataSource.filterPredicate = (data: Departement, filter: string) =>
+        data.chefD.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      this.dataSource.filter = filterChefValue;
+      }else if (filterSiteValue !== '') {
+        this.dataSource.filterPredicate = (data: Departement, filter: string) =>
+        data.siteId.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      this.dataSource.filter = filterSiteValue;
+      }
+    }
+  
+    onResetAllFilters() {
+      this.departement.nom = ''; // réinitialisation des filtres
+      this.departement.chefD = ''; 
+      this.departement.siteId = null; 
+      this.getDepartements();
+      this.onSearchClick(); // lancement d'une nouvelle recherche
+    }
+  
 }

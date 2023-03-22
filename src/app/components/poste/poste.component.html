@@ -2,8 +2,79 @@
 <app-admin></app-admin>
 
 <main id="main" class="main">
-  <button mat-flat-button class="ajout" (click)="openDialog()"><em class="material-icons">add</em>Poste</button>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  <div class="col-xl-12 col-lg-12 filter-bar">
+    <div class="card m-b-10">
+      <div class="card-body p-t-10">
+        <div class='row'>
+
+          <div class="col-xl-4 col-lg-6" style="margin-right: -1%;">
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Num.</h3>
+                <mat-form-field class="search-input col-sm-8">
+                  <input placeholder="Search here..." matInput name="searchInput" id="numéro" [(ngModel)]="poste['numéro']"
+                  (keydown)="onClickingEnter($event)" />
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+            <div class="col-xl-4 col-lg-6" style="margin-right: -1%;">
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Utili.</h3>
+                <mat-form-field class="search-input col-sm-8">
+                  <input placeholder="Search here..." matInput name="searchInput" id="utilisateurId" [(ngModel)]="poste.utilisateurId"
+                  (keydown)="onClickingEnter($event)" />
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+          
+      
+          <div class="col-xl-1 col-lg-6">
+            <div class="text-center">
+              <button class="btn btn-md btn-default ripple light m-t-10" (click)="onResetAllFilters()">Reset</button>
+            </div>
+          </div>
+
+          <div class="col-xl-1 col-lg-6">
+            <div class="text-center">
+              <button (click)="onSearchClick()"  class="btn btn-md btn-primary ripple light m-t-5">Search</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-light bg-faded m-b-10 p-10">
+      <div class="col-sm-4">
+        <button (click)="openDialog()" type="button" class="btn btn-sm btn-primary waves-light m-r-10 ripple"
+          style="font-size:inherit;">
+          <em class="icofont icofont-plus"></em> Site
+        </button>
+      </div>
+      <div class="col-sm-8">
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      </div>
+    </nav>
+    <div *ngIf="lengthPostes === 0">
+      <h1>No Result Found</h1>
+    </div>
+    <div class="wrapper">
+      <div class="overlay" *ngIf="isLoading">
+        <div class="spinner-wrapper">
+          <div class="container">
+            <div class="row">
+              <div id="loader">
+                <mat-spinner></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="example-container mat-elevation-z8">
 
   <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"

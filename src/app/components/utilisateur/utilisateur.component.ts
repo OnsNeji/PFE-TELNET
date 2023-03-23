@@ -55,6 +55,7 @@ export class UtilisateurComponent implements OnInit {
     this.getUtilisateurs();
     this.getPostes();
     this.getDépartements();
+    this.onResetAllFilters();
 
     const userSearch = JSON.parse(sessionStorage.getItem('userSearch'));
       if (userSearch !== null) {

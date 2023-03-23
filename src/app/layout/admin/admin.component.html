@@ -80,7 +80,7 @@
               <div class="main-menu-header ripple light">
                 <img class="img-80 img-radius" [src]="user.image" alt="">
                 <div class="user-details">
-                  <span>{{currentUser.prenom}}</span>
+                  <span>{{user.prenom}}</span>
                 </div>
               </div>
             </div>
@@ -89,11 +89,27 @@
             </div>
             <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config">
               <div *ngFor="let asideItems of menuItems.getAll()" class="d-color">
+                  <ul>
+                    <li>
+                      <a routerLink="/utilisateur" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">people_outline</em>Utilisateurs</span></a>
+                    </li>
+                    <li>
+                      <a routerLink="/site" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">place</em>Sites</span></a>
+                    </li>
+                    <li>
+                      <a routerLink="/departement" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">domain</em>Départements</span></a>
+                    </li>
+                    <li>
+                      <a routerLink="/poste" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">desktop_mac</em>Postes</span></a>
+                    </li>
+                  </ul>
+                  
                 <ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder"
                   [attr.item-border-style]="itemBorderStyle" [attr.subitem-border]="subItemBorder"
                   *ngFor="let asideItem of asideItems.main">
                   <li [routerLinkActive]="['active']"
                     *ngIf="asideItem.type === 'link' && menuItems.isVisible(asideItem.function)">
+                    
                     <a [routerLinkActive]="['active']" class="ripple"
                       [routerLink]="['/', asideItem.main_state, asideItem.state]" appAccordionToggle
                       *ngIf="asideItem.main_state; else mainContent">
@@ -114,8 +130,12 @@
                           class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
                         <span class="pcoded-mcaret"></span>
                       </a>
+
+                      
                     </ng-template>
+                   
                   </li>
+                  
 
                   <li [routerLinkActive]="['active']" *ngIf="asideItem.type === 'sub'" class="pcoded-hasmenu"
                     [attr.dropdown-icon]="dropDownIcon" [attr.subitem-icon]="subItemIcon" appAccordionLink
@@ -173,10 +193,15 @@
                             </ng-template>
                           </ul>
                         </li>
+                        
                       </ng-template>
                     </ul>
                   </li>
+
+                  
+                  
                 </ul>
+                
               </div>
             </perfect-scrollbar>
           </div>

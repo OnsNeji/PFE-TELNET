@@ -141,9 +141,9 @@ export class SiteComponent implements OnInit {
   }
 
   onSearchClick() {
-    const filterSite = document.getElementById('nom') as HTMLInputElement;
-    const filterAdresse = document.getElementById('chefD') as HTMLInputElement;
-    const filterTel = document.getElementById('siteId') as HTMLInputElement;
+    const filterSite = document.getElementById('site') as HTMLInputElement;
+    const filterAdresse = document.getElementById('adresse') as HTMLInputElement;
+    const filterTel = document.getElementById('tel') as HTMLInputElement;
 
     const filterSiteValue = filterSite.value.trim().toLowerCase();
     const filterAdrValue = filterAdresse.value.trim().toLowerCase();

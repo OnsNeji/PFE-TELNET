@@ -56,12 +56,6 @@ export class SiteComponent implements OnInit {
 
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.refreshSubscription.unsubscribe();
-    this.searchFilterService.showingDataLastFilter = [];
-  }
-
   openDialog() {
     const dialogRef = this.dialog.open(DialogSiteComponent, {
     });

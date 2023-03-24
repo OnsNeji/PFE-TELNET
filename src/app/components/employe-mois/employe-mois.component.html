@@ -96,6 +96,13 @@
   <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
     matSortDisableClear>
 
+    <ng-container matColumnDef="image">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Image</mat-header-cell>
+      <mat-cell *matCellDef="let employeMois">
+        <img [src]="employeMois.image" style="width: 50px; height: 50px;">
+      </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="utilisateurId">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Utilisateur</mat-header-cell>
       <mat-cell *matCellDef="let employeMois"> {{getUserNom(employeMois.utilisateurId)}} </mat-cell>

@@ -13,14 +13,14 @@
       <form [formGroup]="EmployeeForm">
         
         <div class="row m-b-6">
-            <mat-form-field class="col-sm-12">
+            <mat-form-field class="col-sm-6">
                 <mat-label>Employé</mat-label>
                 <mat-select formControlName="utilisateurId" class="login-input-style">
                   <mat-option *ngFor="let user of utilisateurs" [value]="user.id">{{ user.nom }} {{user.prenom}}</mat-option>
                 </mat-select>
               </mat-form-field>
   
-            <mat-form-field class="date-field col-sm-3">
+            <mat-form-field class="date-field col-sm-6">
                 <input matInput [matDatepicker]="picker2200" formControlName="date" class="login-input-style" placeholder="Date">
                 <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
                 <mat-datepicker #picker2200></mat-datepicker>
@@ -30,6 +30,11 @@
               <mat-label>Description</mat-label>
               <input formControlName="description" matInput class="login-input-style">
             </mat-form-field>
+
+            <div class="col-sm-12">
+              <input type="file" (change)="onFileSelected($event)" formControlName="image"
+              name="image" accept="image/*" class="login-input-style" >
+           </div>
 
             <mat-form-field class="col-sm-6" hidden>
               <mat-label>UserAjout</mat-label>

@@ -22,6 +22,7 @@ export class DialogEmployeMoisComponent implements OnInit {
   private jwtHelper = new JwtHelperService();
   public matricule: string = '';
   ActionBtn: string = "Ajouter";
+  imageUrl: string;
 
   constructor(private builder: FormBuilder, 
     private service: EmployeMoisService, 
@@ -35,6 +36,7 @@ export class DialogEmployeMoisComponent implements OnInit {
       date : ['', Validators.required],
       description : ['', Validators.required],
       utilisateurId : ['', Validators.required],
+      image: [''],
       userAjout: [''],
     });
 
@@ -47,6 +49,7 @@ export class DialogEmployeMoisComponent implements OnInit {
         date: this.editData.date,
         description: this.editData.description,
         utilisateurId: this.editData.utilisateurId,
+        image: this.editData.image,
         userAjout : this.editData.userAjout
       });
     }
@@ -60,6 +63,7 @@ export class DialogEmployeMoisComponent implements OnInit {
 
   AjouterEmploye(){
     if(!this.editData){
+      this.EmployeeForm.value.image = this.imageUrl;
       if(this.EmployeeForm.valid){
         this.EmployeeForm.value.userAjout = this.matricule;
         const userAjout = this.EmployeeForm.value.userAjout;
@@ -78,6 +82,11 @@ export class DialogEmployeMoisComponent implements OnInit {
   }
 
   updateEmploye(){
+    if (!this.imageUrl){
+      this.EmployeeForm.value.image = this.editData.image;
+    }else {
+      this.EmployeeForm.value.image = this.imageUrl;
+    }
     this.service.UpdateEmployeMois(this.editData.id, { ...this.EmployeeForm.value }).subscribe(()=>{
       this.EmployeeForm.reset();
       this.dialogRef.close('modifier');
@@ -86,6 +95,16 @@ export class DialogEmployeMoisComponent implements OnInit {
     ()=>{
       this.notificationService.danger('Error when modifying an Employee.');
     });
+  }
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imageUrl = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+
   }
 
   getUsers(): void {

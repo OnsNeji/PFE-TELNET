@@ -8,6 +8,7 @@ import { SiteComponent } from './components/site/site.component';
 import { DepartementComponent } from './components/departement/departement.component';
 import { PosteComponent } from './components/poste/poste.component';
 import { UtilisateurComponent } from './components/utilisateur/utilisateur.component';
+import { EmployeMoisComponent } from './components/employe-mois/employe-mois.component';
 
 const routes: Routes = [
 
@@ -56,6 +57,7 @@ const routes: Routes = [
   { path: 'departement', component: DepartementComponent, canActivate: [AuthGuard] },
   { path: 'poste', component: PosteComponent, canActivate: [AuthGuard] },
   { path: 'utilisateur', component: UtilisateurComponent, canActivate: [AuthGuard] },
+  { path: 'employeMois', component: EmployeMoisComponent, canActivate: [AuthGuard] },
 
 ];
 

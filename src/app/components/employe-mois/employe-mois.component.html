@@ -1,0 +1,156 @@
+
+
+
+<app-admin></app-admin>
+
+<main id="main" class="main">
+
+  <div class="col-xl-12 col-lg-12 filter-bar">
+    <div class="card m-b-10">
+      <div class="card-body p-t-10">
+        <div class='row'>
+
+          <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Date</h3>
+                <mat-form-field class="date-field col-sm-8">
+                  <input placeholder="Search here..." matInput [matDatepicker]="picker11" id="date" name="searchInput"
+                    (keypress)="dateOnly($event)" [(ngModel)]="employeMois.date" (keydown)="onClickingEnter($event)">
+                  <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+                  <mat-datepicker #picker11></mat-datepicker>
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+            <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Desc.</h3>
+                <mat-form-field class="search-input col-sm-8">
+                  <input placeholder="Search here..." matInput name="searchInput" id="description" [(ngModel)]="employeMois.description"
+                  (keydown)="onClickingEnter($event)" />
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+            <div class="col-xl-4 col-lg-6" >
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Util.</h3>
+                <mat-form-field class="search-input col-sm-8">
+                  <input type="tel" placeholder="Search here..." matInput name="searchInput" id="utilisateurId" [(ngModel)]="employeMois.utilisateurId"
+                  (keydown)="onClickingEnter($event)" />
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+          
+      
+          <div class="col-xl-1 col-lg-6">
+            <div class="text-center">
+              <button class="btn btn-md btn-default ripple light m-t-10" (click)="onResetAllFilters()">Reset</button>
+            </div>
+          </div>
+
+          <div class="col-xl-1 col-lg-6">
+            <div class="text-center">
+              <button (click)="onSearchClick()" class="btn btn-md btn-primary ripple light m-t-5">Search</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-light bg-faded m-b-10 p-10">
+      <div class="col-sm-4">
+        <button (click)="openDialog()" type="button" class="btn btn-sm btn-primary waves-light m-r-10 ripple"
+          style="font-size:inherit;">
+          <em class="icofont icofont-plus"></em> Employé Mois
+        </button>
+      </div>
+      <div class="col-sm-8">
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      </div>
+    </nav>
+    <div *ngIf="lengthEmployes === 0">
+      <h1>No Result Found</h1>
+    </div>
+    <div class="wrapper">
+      <div class="overlay" *ngIf="isLoading">
+        <div class="spinner-wrapper">
+          <div class="container">
+            <div class="row">
+              <div id="loader">
+                <mat-spinner></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="example-container mat-elevation-z8">
+
+  <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
+    matSortDisableClear>
+
+    <ng-container matColumnDef="utilisateurId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Utilisateur</mat-header-cell>
+      <mat-cell *matCellDef="let employeMois"> {{getUserNom(employeMois.utilisateurId)}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description" class=" table-hover table-striped table-styling">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+      <mat-cell *matCellDef="let employeMois">
+        {{employeMois.description}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+      <mat-cell *matCellDef="let employeMois">  {{employeMois.date | date}} </mat-cell>
+    </ng-container>
+
+    
+
+    <ng-container matColumnDef="userAjout">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>User Ajout</mat-header-cell>
+      <mat-cell *matCellDef="let employeMois">  {{employeMois.userAjout}} </mat-cell>
+    </ng-container>
+
+
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <!--<button class="btn btn-mini btn-primary m-r-5 ripple light f-right" type="button" matTooltip="Approve"
+          (click)="approveWorkFromHomeRequest(workFromHomeRequest)" [disabled]="forbiddenRejecteValidate || isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest) 
+          || isMyWorkFromHomeRequestInProgress(workFromHomeRequest) || isApproved(workFromHomeRequest) || isRejected(workFromHomeRequest)">
+          <em class="material-icons">done</em></button>
+        <button class="btn btn-mini btn-danger m-r-5 ripple light" type="button" matTooltip="Reject"
+          (click)="rejectWorkFromHomeRequest(workFromHomeRequest)"
+          [disabled]="forbiddenRejectValidate || isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest) || isMyWorkFromHomeRequestInProgress(workFromHomeRequest) || isRejected(workFromHomeRequest)">
+          <em class="material-icons">cancel</em></button>-->
+        <button class="btn btn-mini btn-primary m-r-5 ripple light" type="button"
+        (click)="updateEmployeMois(row)" matTooltip="Edit">
+          <em class="material-icons">edit</em>
+        </button>
+        <button class="btn btn-mini btn-danger ripple light" type="button" matTooltip="Delete"
+        (click)="deleteEmployeMois(row.id)">
+          <em class="material-icons">delete</em></button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class=" table-primary table-*"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr> 
+  </mat-table>
+
+  
+</div>
+</main>

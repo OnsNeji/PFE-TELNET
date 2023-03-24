@@ -138,7 +138,7 @@ export class PosteComponent implements OnInit {
 
     getUtilisateurNom(id: number): string {
       const utilisateur = this.utilisateurs.find(s => s.id === id);
-      return utilisateur ? utilisateur.matricule : '';
+      return utilisateur ? (utilisateur.nom + ' ' + utilisateur.prenom) : '';
     }
 
     onClickingEnter(event) {

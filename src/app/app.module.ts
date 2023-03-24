@@ -67,6 +67,8 @@ import { ProjectReference } from './models/project-management/project/project-re
 import { ReferencesModule } from './components/project-management/project/references/references.module';
 import { Project } from './models/project-management/project/project.model';
 import { ProjectModule } from './components/project-management/project/project.module';
+import { EmployeMoisComponent } from './components/employe-mois/employe-mois.component';
+import { DialogEmployeMoisComponent } from './components/employe-mois/dialog-employe-mois/dialog-employe-mois.component';
 
 
 export const CUSTOM_DT_FORMATS = {
@@ -98,6 +100,8 @@ export const CUSTOM_DT_FORMATS = {
         DialogPosteComponent,
         DialogDepartementComponent,
         DialogUserComponent,
+        EmployeMoisComponent,
+        DialogEmployeMoisComponent,
         
     ],
     entryComponents: [

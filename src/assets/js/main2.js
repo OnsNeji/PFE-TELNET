@@ -219,7 +219,7 @@
         clickable: true
       }
     });
-  
+
     new Swiper('.mediaEvents-slider', {
       speed: 600,
       loop: true,
@@ -234,7 +234,7 @@
         clickable: true
       }
     });
-    
+  
     /**
      * Initiate gallery lightbox 
      */

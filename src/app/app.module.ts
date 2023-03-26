@@ -69,12 +69,12 @@ import { Project } from './models/project-management/project/project.model';
 import { ProjectModule } from './components/project-management/project/project.module';
 import { EmployeMoisComponent } from './components/employe-mois/employe-mois.component';
 import { DialogEmployeMoisComponent } from './components/employe-mois/dialog-employe-mois/dialog-employe-mois.component';
-import { AccueilComponent } from './components/accueil/accueil.component';
 import { EvenementComponent } from './components/evenement/evenement.component';
 import { DialogEventComponent } from './components/evenement/dialog-event/dialog-event.component';
 import { MediaEventComponent } from './components/evenement/media-event/media-event.component';
 import { DialogMediaComponent } from './components/evenement/media-event/dialog-media/dialog-media.component';
 import { FilterMediaEventByEvenementIdPipe } from './pipes/shared/FilterMediaEventByEvenementIdPipe.pipe';
+import { AccueilComponent } from './components/accueil/accueil.component';
 
 
 export const CUSTOM_DT_FORMATS = {
@@ -108,12 +108,12 @@ export const CUSTOM_DT_FORMATS = {
         DialogUserComponent,
         EmployeMoisComponent,
         DialogEmployeMoisComponent,
-        AccueilComponent,
         EvenementComponent,
         DialogEventComponent,
         MediaEventComponent,
         DialogMediaComponent,
-        FilterMediaEventByEvenementIdPipe
+        FilterMediaEventByEvenementIdPipe,
+        AccueilComponent
         
     ],
     entryComponents: [

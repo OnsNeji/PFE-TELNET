@@ -9,9 +9,9 @@ import { DepartementComponent } from './components/departement/departement.compo
 import { PosteComponent } from './components/poste/poste.component';
 import { UtilisateurComponent } from './components/utilisateur/utilisateur.component';
 import { EmployeMoisComponent } from './components/employe-mois/employe-mois.component';
-import { AccueilComponent } from './components/accueil/accueil.component';
 import { EvenementComponent } from './components/evenement/evenement.component';
 import { MediaEventComponent } from './components/evenement/media-event/media-event.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
 
 const routes: Routes = [
 
@@ -61,9 +61,9 @@ const routes: Routes = [
   { path: 'poste', component: PosteComponent, canActivate: [AuthGuard] },
   { path: 'utilisateur', component: UtilisateurComponent, canActivate: [AuthGuard] },
   { path: 'employeMois', component: EmployeMoisComponent, canActivate: [AuthGuard] },
-  { path: 'accueil', component: AccueilComponent, canActivate: [AuthGuard] },
   { path: 'evenement', component: EvenementComponent, canActivate: [AuthGuard] },
   { path: 'mediaEvent', component: MediaEventComponent, canActivate: [AuthGuard] },
+  { path: 'accueil', component: AccueilComponent, canActivate: [AuthGuard] },
 
 ];
 

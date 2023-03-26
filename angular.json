@@ -33,7 +33,17 @@
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "node_modules/ion-rangeslider/css/ion.rangeSlider.css",
               "node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css",
-	            "node_modules/angular-calendar/css/angular-calendar.css"
+	            "node_modules/angular-calendar/css/angular-calendar.css",
+              "https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i",
+              "src/assets/vendor/animate.css/animate.min.css",
+              "src/assets/vendor/bootstrap/css/bootstrap.min.css",
+              "src/assets/vendor/bootstrap-icons/bootstrap-icons.css",
+              "src/assets/vendor/boxicons/css/boxicons.min.css",
+              "src/assets/vendor/glightbox/css/glightbox.min.css",
+              "src/assets/vendor/swiper/swiper-bundle.min.css",
+              "https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css",
+              "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css",
+              "https://unpkg.com/swiper/swiper-bundle.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
@@ -41,7 +51,15 @@
               "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
-              "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js"
+              "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/assets/vendor/glightbox/js/glightbox.min.js",
+              "src/assets/vendor/isotope-layout/isotope.pkgd.min.js",
+              "src/assets/vendor/swiper/swiper-bundle.min.js",
+              "https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js",
+              "https://unpkg.com/swiper/swiper-bundle.min.js",
+              "src/assets/js/main2.js"
             ],
             "aot": true,
             "vendorChunk": true,
@@ -136,22 +154,10 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/datatables/media/js/jquery.dataTables.js",
-              "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
-              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/bootstrap-notify/bootstrap-notify.js",
-              "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js",
-              "node_modules/jquery/dist/jquery.min.js",
-              "assets/vendor/swiper/swiper-bundle.min.js",
-              "node_modules/glightbox/dist/js/glightbox.min.js",
-              "assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
-              "assets/vendor/glightbox/js/glightbox.min.js",
-              "assets/vendor/swiper/swiper-bundle.min.js",
-              "assets/vendor/isotope-layout/isotope.pkgd.min.js",
-              "src/js/main1.js",
-              "https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/web.config"
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
@@ -162,26 +168,15 @@
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "node_modules/ion-rangeslider/css/ion.rangeSlider.css",
               "node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css",
-              "node_modules/angular-calendar/css/angular-calendar.css",
-              "node_modules/isotope-layout/dist/isotope.pkgd.min.css",
-              "node_modules/swiper/swiper-bundle.min.css",
-              "node_modules/glightbox/dist/css/glightbox.min.css",
-              "src/styles.scss",
-              "https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i",
-              "assets/vendor/animate.css/animate.min.css",
-              "assets/vendor/bootstrap/css/bootstrap.min.css",
-              "assets/vendor/bootstrap-icons/bootstrap-icons.css",
-              "assets/vendor/boxicons/css/boxicons.min.css",
-              "assets/vendor/glightbox/css/glightbox.min.css",
-              "assets/vendor/swiper/swiper-bundle.min.css",
-              "https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css",
-              "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-
+	            "node_modules/angular-calendar/css/angular-calendar.css"              
             ],
-            "assets": [
-              "src/assets",
-              "src/favicon.ico",
-              "src/web.config"
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables/media/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.js",
+              "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js"
             ]
           }
         },

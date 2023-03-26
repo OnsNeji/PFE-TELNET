@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import GLightbox from 'glightbox';
 import 'glightbox/dist/css/glightbox.min.css';
-import Swiper from 'swiper';
+import Swiper, { Navigation, Pagination, SwiperOptions } from 'swiper';
 import Isotope from 'isotope-layout';
 import { Evenement } from 'app/models/shared/evenement.model';
 import { MediaEvent } from 'app/models/shared/mediaEvent.model';

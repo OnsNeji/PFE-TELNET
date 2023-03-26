@@ -93,59 +93,31 @@
             <span>Evénements</span>
           </h2>
         </div>
-        <div class="events-slider swiper">
+        <div class="events-slider swiper" >
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <div class="swiper-slide" *ngFor="let evenement of evenements">
               <div class="row event-item">
                 <div class="col-lg-6">
-                  <img src="img/stagiaires.jpeg" class="img-fluid" alt="">
+                  <div class="mediaEvents-slider swiper">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide" *ngFor="let media of evenement.mediaEvents">
+                        <img [src]="media.pieceJointe" class="img-fluid" alt="">
+                        
+                      </div>
+                      
+                    </div>
+                
+                  </div>
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 content">
-                  <h3>Journée d'intégration</h3>
+                  <h3>{{evenement.titre}}</h3>
                   <hr>
-                  <p class="fst-italic">Prenons une minute pour accueillir tous nos nouveaux Stagiaires dans tous les sites Telnet !</p>
+                  <p class="fst-italic">{{evenement.dateEvent | date}}</p>
                   <br>
-                  <p>Pour les aider à démarrer du mieux possible, nous avons prévu des rencontres avec leurs encadrants et une visite du site pour découvrir les coulisses.</p>
-                  <br>
-                  <p>Nous espérons que vous avez tous passé un bon moment et avons hâte de travailler avec vous !</p>
+                  <p class="fst-italic">{{evenement.description}}</p>
                 </div>
               </div>
             </div>
-            <!-- End testimonial item -->
-            <div class="swiper-slide">
-              <div class="row event-item">
-                <div class="col-lg-6">
-                  <img src="img/match.jpeg" class="img-fluid" alt="">
-                </div>
-                <div class="col-lg-6 pt-4 pt-lg-0 content">
-                  <h3>Match TELNET VS KPMG</h3>
-                  <hr>
-                  <p class="fst-italic">A propos du dernier match contre KPMG, nos footballeurs TELNET'S apprécient la compétition du Trophée IT et travaillent toujours dur pour performer le jeu et générer de meilleurs résultats....</p>
-                  <br>
-                  <p>Allez allez allez les gars !</p>
-                  <br>
-                  <p>Le mieux est à venir !</p>
-                </div>
-              </div>
-            </div>
-            <!-- End testimonial item -->
-            <div class="swiper-slide">
-              <div class="row event-item">
-                <div class="col-lg-6">
-                  <video controls width="650" height="350">
-                    <source src="img/telecomDay.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div class="col-lg-6 pt-4 pt-lg-0 content">
-                  <h3>Telecom Day</h3>
-                  <hr>
-                  <p class="fst-italic"> Aujourd'hui, nous avons participé au « Telecom Day » organisé par l'ENET'Com au Centre de Recherche Numérique de Sfax et au Salon de l'emploi NAPU en même temps. </p>
-                  <br>
-                  <p> Les deux événements nous ont permis de partager notre expertise et notre passion avec les étudiants, grâce à notre CHRO qui a brillé comme à son habitude en présentant le groupe Telnet et les interventions remarquables de nos Alumni d'Enetcom qui ont partagé davantage sur leurs success stories et parcours professionnels chez TELNET. 🙏 </p>
-                </div>
-              </div>
-            </div>
-            <!-- End testimonial item -->
           </div>
           <div class="swiper-pagination"></div>
         </div>

@@ -18,12 +18,17 @@ import { DialogEventComponent } from './dialog-event/dialog-event.component';
 })
 export class EvenementComponent implements OnInit {
 
-  constructor(private service: EvenementService, private route: ActivatedRoute, private router: Router, public dialog: MatDialog, private notificationService: NotificationService, private dateTimeService: DateTimeService,){}
+  constructor(private service: EvenementService, 
+              private route: ActivatedRoute, 
+              private router: Router, 
+              public dialog: MatDialog, 
+              private notificationService: NotificationService,
+               private dateTimeService: DateTimeService,){}
 
   ListeEvents!: Evenement[];
   evenement: Evenement = new Evenement();
   mediaEvent : MediaEvent = new MediaEvent();
-  displayedColumns: string[] = ['titre', 'description', 'dateEvent', 'userAjout', 'action'];
+  displayedColumns: string[] = ['titre', 'description', 'dateEvent', 'mediaEvents', 'userAjout', 'action'];
   dataSource!: MatTableDataSource<Evenement>;
   lengthEvents: number;
   isLoading: boolean;

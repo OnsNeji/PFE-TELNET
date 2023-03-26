@@ -220,6 +220,21 @@
       }
     });
   
+    new Swiper('.mediaEvents-slider', {
+      speed: 600,
+      loop: true,
+      autoplay: {
+        delay: 1000,
+        disableOnInteraction: false
+      },
+      slidesPerView: 'auto',
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'bullets',
+        clickable: true
+      }
+    });
+    
     /**
      * Initiate gallery lightbox 
      */

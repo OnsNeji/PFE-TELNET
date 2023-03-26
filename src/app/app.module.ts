@@ -74,6 +74,7 @@ import { EvenementComponent } from './components/evenement/evenement.component';
 import { DialogEventComponent } from './components/evenement/dialog-event/dialog-event.component';
 import { MediaEventComponent } from './components/evenement/media-event/media-event.component';
 import { DialogMediaComponent } from './components/evenement/media-event/dialog-media/dialog-media.component';
+import { FilterMediaEventByEvenementIdPipe } from './pipes/shared/FilterMediaEventByEvenementIdPipe.pipe';
 
 
 export const CUSTOM_DT_FORMATS = {
@@ -112,6 +113,7 @@ export const CUSTOM_DT_FORMATS = {
         DialogEventComponent,
         MediaEventComponent,
         DialogMediaComponent,
+        FilterMediaEventByEvenementIdPipe
         
     ],
     entryComponents: [

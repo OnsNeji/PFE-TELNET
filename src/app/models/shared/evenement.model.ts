@@ -6,5 +6,5 @@ export class Evenement {
     description!: string;
     userAjout!: string;
     dateEvent: Date = new Date();
-    mediaEvent: MediaEvent[] = [];
+    mediaEvents: MediaEvent[] = [];
 }

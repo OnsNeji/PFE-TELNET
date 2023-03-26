@@ -96,6 +96,7 @@
   <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
     matSortDisableClear>
     
+
     <ng-container matColumnDef="titre">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Titre</mat-header-cell>
       <mat-cell *matCellDef="let evenement"> {{evenement.titre}} </mat-cell>
@@ -112,6 +113,19 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
       <mat-cell *matCellDef="let evenement">  {{evenement.dateEvent | date}} </mat-cell>
     </ng-container>
+
+       <!-- Médias Column -->
+<ng-container matColumnDef="mediaEvents">
+  <mat-header-cell *matHeaderCellDef> Médias </mat-header-cell>
+  <mat-cell *matCellDef="let evenement">
+    <ng-container *ngIf="evenement.mediaEvents && evenement.mediaEvents.length > 0">
+      {{ evenement.mediaEvents.length }} pièces jointes
+    </ng-container>
+    <ng-container *ngIf="!evenement.mediaEvents || evenement.mediaEvents.length == 0">
+      Pas de pièces jointes
+    </ng-container>
+  </mat-cell>
+</ng-container>
 
     
 

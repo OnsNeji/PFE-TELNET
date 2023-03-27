@@ -83,14 +83,18 @@ export default class DialogUserComponent implements OnInit {
   }
 
   AjouterUser() {
-      if (!this.editData) { 
-        this.userForm.value.dateAjout = this.ajoutDate;
-        this.userForm.value.image = this.imageUrl;
-        console.log( this.userForm.value.image);
-        if(this.userForm.valid) {
-          this.userForm.value.userAjout = this.matricule;
-          const userAjout = this.userForm.value.userAjout;
-        this.service.AddUtilisateur({ ...this.userForm.value, userAjout }).subscribe(() => {
+    if (!this.editData) {
+      this.userForm.value.dateAjout = this.ajoutDate;
+      this.userForm.value.image = this.imageUrl;
+      console.log(this.userForm.value.image);
+      if (this.userForm.valid) {
+        this.userForm.value.userAjout = this.matricule;
+        const userAjout = this.userForm.value.userAjout;
+        const dateEmbauche = new Date(this.userForm.value.dateEmbauche);
+        dateEmbauche.setDate(dateEmbauche.getDate() + 1);
+        const dateNaissance = new Date(this.userForm.value.dateNaissance);
+        dateNaissance.setDate(dateNaissance.getDate() + 1);
+        this.service.AddUtilisateur({ ...this.userForm.value, dateEmbauche, dateNaissance, userAjout }).subscribe(() => {
           this.userForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('User added successfully!');
@@ -98,23 +102,27 @@ export default class DialogUserComponent implements OnInit {
           this.notificationService.danger('Error when adding a User.');
         });
       }
-      } else { // sinon, mettre à jour l'utilisateur existant
-        this.updateUser();
-      }
+    } else { // sinon, mettre à jour l'utilisateur existant
+      this.updateUser();
+    }
   }
+
 
   updateUser() {
     this.userForm.value.dateModif = this.modifDate;
     this.userForm.value.userModif = this.matricule;
     const userModif = this.userForm.value.userModif;
-    if (!this.imageUrl){
+    if (!this.imageUrl) {
       this.userForm.value.image = this.editData.image;
-    }else {
+    } else {
       this.userForm.value.image = this.imageUrl;
     }
-    
-    this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, userModif }).subscribe(() => {
-      
+    const dateEmbauche = new Date(this.userForm.value.dateEmbauche);
+    dateEmbauche.setDate(dateEmbauche.getDate() + 1);
+    const dateNaissance = new Date(this.userForm.value.dateNaissance);
+    dateNaissance.setDate(dateNaissance.getDate() + 1);
+    this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, dateEmbauche, dateNaissance, userModif }).subscribe(() => {
+
       this.userForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('User updated successfully!');

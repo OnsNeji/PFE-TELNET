@@ -192,7 +192,7 @@ export const CUSTOM_DT_FORMATS = {
         MatListModule,
         ReferencesModule,
         ProjectManagementModule,
-        ProjectModule
-    ]
+        ProjectModule,
+    ],
 })
 export class AppModule { }

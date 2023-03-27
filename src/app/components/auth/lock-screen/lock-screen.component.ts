@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { AdminComponent } from 'app/layout/admin/admin.component';
-import { AuthenticationService } from 'app/services/shared';
-import { CookieService } from 'ngx-cookie-service';
-import { PasswordStrengthBarComponent } from 'app/shared/password-strength-bar/password-strength-bar.component';
+import { AuthenticationService, NotificationService } from 'app/services/shared';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserService } from 'app/services/shared/user.service';
 
 
 @Component({
@@ -17,18 +17,30 @@ export class LockScreenComponent implements OnInit {
   [x: string]: any;
   @ViewChild('password') password: ElementRef;
   wrongPassword = false;
-  isLoading = false;
+  private jwtHelper = new JwtHelperService();
+  id: string = '';
+  userPassword: string = '';
 
   constructor(
     private router: Router,
     public dialog: MatDialog,
     private authService: AuthenticationService,
-    private cookieService: CookieService,
+    private userService: UserService,
+    private notificationService: NotificationService,
     public dialogRef: MatDialogRef<AdminComponent>,
   ) { }
 
   ngOnInit() {
     document.querySelector('body').setAttribute('themebg-pattern', 'theme1');
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      this.id = decodedToken.nameid;
+    }
+    this.userService.getUser(parseInt(this.id)).subscribe(data => {
+      this.user = data;
+      this.userPassword = this.user.motDePasse;
+    });
   }
 
   backToLogin() {
@@ -36,26 +48,18 @@ export class LockScreenComponent implements OnInit {
     this.router.navigate(['/auth/login']);
     this.dialogRef.close();
   }
+
   unlock() {
-    /*this.isLoading = true;
-    const userLogin = JSON.parse(localStorage.getItem('currentUser')).userNumber;
     const password = this.password.nativeElement.value;
-    const score = PasswordStrengthBarComponent.measureStrength(password);
-    this.authService.login(userLogin, password)
-      .subscribe(
-        data => {
-          this.isLoading = false;
-          if (data && this.authService.isAuthenticated()) {
-            sessionStorage.removeItem('DialogExpirationSessionOpened');
-            this.dialogRef.close();
-          } else {
-            this.wrongPassword = true;
-          }
-        },
-        () => {
-          this.isLoading = false;
-          this.wrongPassword = true;
-        }
-      );*/
+    if (password == '') {
+      this.notificationService.danger('Unlock screen failed');
+    }
+    if (password == this.userPassword) {
+      sessionStorage.removeItem('DialogExpirationSessionOpened');
+      this.dialogRef.close();
+      this.notificationService.success('Screen unlocked successfully');
+    } else {
+      this.notificationService.danger('Unlock screen failed');
+    }
   }
 }

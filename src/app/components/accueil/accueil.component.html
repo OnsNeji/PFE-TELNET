@@ -39,7 +39,7 @@
     <br>
     <main id="main">
       <!-- ======= Whu Us Section ======= -->
-      <section id="why-us" class="why-us">
+      <section class="why-us">
         <div class="container">
           <div class="section-title">
             <h2>
@@ -48,7 +48,7 @@
           </div>
           <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" height="auto">
+              <div class="swiper-slide">
                 <div class="box">
                   <h4>HR Expo</h4>
                   <p>Rejoignez-nous au salon HR Expo à Tunis les 01 et 02 mars 2023 et apprenez-en plus sur vos opportunités de carrière au sein du Groupe TELNET !</p>
@@ -62,7 +62,7 @@
               </div>
               <div class="swiper-slide">
                 <div class="box">
-                  <h4>La 08ème édition du NAPU Job fair</h4>
+                  <h4>La 8ème édition du NAPU Job fair</h4>
                   <p>Samedi, le 4 février 2023, participation à la 08e édition de Napu Job Fair dans le nouveau campus de Napu avec la présence de nos ambassadors.</p>
                 </div>
               </div>
@@ -81,7 +81,7 @@
       </section>
       <!-- End Whu Us Section -->
       <!-- ======= Events Section ======= -->
-      <section id="events" class="events">
+      <!--<section class="events">
         <div class="container">
           <div class="section-title">
             <h2>
@@ -94,15 +94,56 @@
                 <div class="row event-item">
                   <div class="col-lg-6">
                     <div class="mediaEvents-slider swiper">
-                        <div class="swiper-wrapper">
-                          <div class="swiper-slide" *ngFor="let media of evenement.mediaEvents">
-                            <img [src]="media.pieceJointe" class="img-fluid" alt="">
-                            
-                          </div>
-                          
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide" *ngFor="let media of evenement.mediaEvents">
+                          <img [src]="media.pieceJointe" class="img-fluid" alt="">
                         </div>
-                    
                       </div>
+                  
+                    </div>
+                  </div>
+                  <div class="col-lg-6 pt-4 pt-lg-0 content">
+                    <h3>{{evenement.titre}}</h3>
+                    <hr>
+                    <p class="fst-italic">{{evenement.dateEvent | date}}</p>
+                    <br>
+                    <p>Pour les aider à démarrer du mieux possible, nous avons prévu des rencontres avec leurs encadrants et une visite du site pour découvrir les coulisses.</p>
+                    <br>
+                    <p>Nous espérons que vous avez tous passé un bon moment et avons hâte de travailler avec vous !</p>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </section>-->
+      <!-- End Events Section -->
+
+      <!-- ======= Events Section ======= -->
+      <section class="events">
+        <div class="container">
+          <div class="section-title">
+            <h2>
+              <span>Evénements</span>
+            </h2>
+          </div>
+          <div class="events-slider swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide" *ngFor="let evenement of evenements">
+                <div class="row event-item">
+                  <div class="col-lg-6">
+                    <ngb-carousel>
+                      <ng-template ngbSlide *ngFor="let media of evenement.mediaEvents">
+                        <div>
+                          <div class="picsum-img-wrapper">
+                            <img [src]="media.pieceJointe" alt="">
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ngb-carousel>
+                        
                   </div>
                   <div class="col-lg-6 pt-4 pt-lg-0 content">
                     <h3>{{evenement.titre}}</h3>
@@ -116,11 +157,11 @@
                 </div>
               </div>
             </div>
-            <div class="swiper-pagination"></div>
           </div>
         </div>
       </section>
       <!-- End Events Section -->
+
       <!-- ======= Specials Section ======= -->
       <section id="specials" class="specials">
         <div class="container">
@@ -418,22 +459,21 @@
         <h2>Employé du <span> Mois</span>
         </h2>
       </div>
-      <section id="testimonials" class="testimonials">
+      <section class="testimonials">
         <div class="container position-relative">
-          <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-            <div class="swiper-wrapper">
+          <div class="testimonials-slider" data-aos="fade-up" data-aos-delay="100" *ngIf="latestEmployee">
            
                 <div class="testimonial-item">
-                  <img src="../../../assets/img/testimonials-1.jpg" class="testimonial-img" alt="">
-                  <h3>Saul Goodman</h3>
-                  <h4>Ingénieur Aérospatial</h4>
+                  <h4>{{latestEmployee.date | date: 'MMMM,YYYY'}}</h4>
+                  <img [src]="latestEmployee.image" class="testimonial-img" alt="">
+                  <h3>{{getUtilisateurNom(latestEmployee.utilisateurId)}}</h3>
+                  
                   <p>
-                    <i class="bx bxs-quote-alt-left quote-icon-left"></i> Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper. <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>{{latestEmployee.description}}<i class="bx bxs-quote-alt-right quote-icon-right"></i>
                   </p>
                 </div>
             
               <!-- End testimonial item -->
-            </div>
           </div>
         </div>
       </section>

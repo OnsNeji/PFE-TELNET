@@ -33,7 +33,8 @@
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "node_modules/ion-rangeslider/css/ion.rangeSlider.css",
               "node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css",
-	            "node_modules/angular-calendar/css/angular-calendar.css"
+	            "node_modules/angular-calendar/css/angular-calendar.css",
+              "node_modules/swiper/swiper-bundle.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
@@ -41,7 +42,8 @@
               "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
-              "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js"
+              "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js",
+              "node_modules/swiper/swiper-bundle.min.js"
             ],
             "aot": true,
             "vendorChunk": true,

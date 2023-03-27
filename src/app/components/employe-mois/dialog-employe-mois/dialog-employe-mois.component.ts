@@ -61,40 +61,44 @@ export class DialogEmployeMoisComponent implements OnInit {
     }
   }
 
-  AjouterEmploye(){
-    if(!this.editData){
+  AjouterEmploye() {
+    if (!this.editData) {
       this.EmployeeForm.value.image = this.imageUrl;
-      if(this.EmployeeForm.valid){
+      if (this.EmployeeForm.valid) {
         this.EmployeeForm.value.userAjout = this.matricule;
         const userAjout = this.EmployeeForm.value.userAjout;
-        this.service.AddEmployeMois({ ...this.EmployeeForm.value, userAjout }).subscribe(()=>{
+        const date = new Date(this.EmployeeForm.value.date);
+        date.setDate(date.getDate() + 1);
+        this.service.AddEmployeMois({ ...this.EmployeeForm.value, date, userAjout }).subscribe(() => {
           this.EmployeeForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Employee added successfully !');
         },
-        ()=>{
-          this.notificationService.danger('Error when adding an Employee.');
-        })
+          () => {
+            this.notificationService.danger('Error when adding an Employee.');
+          })
       }
     } else {
       this.updateEmploye();
     }
   }
 
-  updateEmploye(){
-    if (!this.imageUrl){
+  updateEmploye() {
+    if (!this.imageUrl) {
       this.EmployeeForm.value.image = this.editData.image;
-    }else {
+    } else {
       this.EmployeeForm.value.image = this.imageUrl;
     }
-    this.service.UpdateEmployeMois(this.editData.id, { ...this.EmployeeForm.value }).subscribe(()=>{
+    const date = new Date(this.EmployeeForm.value.date);
+    date.setDate(date.getDate() + 1);
+    this.service.UpdateEmployeMois(this.editData.id, { ...this.EmployeeForm.value, date }).subscribe(() => {
       this.EmployeeForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('Employee modified successfully !');
     },
-    ()=>{
-      this.notificationService.danger('Error when modifying an Employee.');
-    });
+      () => {
+        this.notificationService.danger('Error when modifying an Employee.');
+      });
   }
 
   onFileSelected(event: any): void {

@@ -1,11 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import GLightbox from 'glightbox';
 import 'glightbox/dist/css/glightbox.min.css';
-import Swiper, { Navigation, Pagination, SwiperOptions } from 'swiper';
+import Swiper from 'swiper';
+
 import Isotope from 'isotope-layout';
 import { Evenement } from 'app/models/shared/evenement.model';
 import { MediaEvent } from 'app/models/shared/mediaEvent.model';
 import { EvenementService } from 'app/services/shared/evenement.service';
+import { EmployéMois } from 'app/models/shared/employeMois.model';
+import { ApiService } from 'app/services/shared/api.service';
+import { EmployeMoisService } from 'app/services/shared/employe-mois.service';
+import { Utilisateur } from 'app/models/shared/utilisateur.model';
+
 
 @Component({
   selector: 'app-accueil',
@@ -15,14 +21,48 @@ import { EvenementService } from 'app/services/shared/evenement.service';
 export class AccueilComponent implements OnInit {
 
   evenements: Evenement[] = [];
-  mediaEvents: MediaEvent[];
   evenement: Evenement = new Evenement();
-  mediaEvent : MediaEvent = new MediaEvent();
-  
-  constructor(private service: EvenementService) {
-   }
+  latestEmployee: EmployéMois;
 
+  constructor(private service: EvenementService, private employeMoisService: EmployeMoisService, private apiService: ApiService) {}
+
+  utilisateurs!: Utilisateur[];
+
+  ngAfterViewInit(){
+    var swiper = new Swiper('.swiper-container', {
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+
+    const mySwiper = new Swiper('.mediaEvents-slider', {
+      speed: 600,
+      loop: true,
+      autoplay: {
+        delay: 1000,
+        disableOnInteraction: false
+      },
+      slidesPerView: 'auto',
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'bullets',
+        clickable: true
+      }
+    });
+  }
+  
   ngOnInit(): void {
+
+    this.getEvenements();
+    this.getEmployéMois();
+    this.getUtilisateurs();
+
+  
 (function() {
   "use strict";
 
@@ -39,18 +79,6 @@ export class AccueilComponent implements OnInit {
     }
   }
 
-  var swiper = new Swiper(".mySwiper", {
-    slidesPerView: 3,
-    spaceBetween: 30,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-  });
-  var swiper = new Swiper(".mySwipeeer", {
-    effect: "cards",
-    grabCursor: true,
-  });
 
   /**
    * Easy event listener function
@@ -234,6 +262,7 @@ export class AccueilComponent implements OnInit {
     }
 
   });
+  
 
   /**
    * Testimonials slider
@@ -248,25 +277,32 @@ export class AccueilComponent implements OnInit {
     slidesPerView: 'auto',
     pagination: {
       el: '.swiper-pagination',
-      type: 'bullets',
+      type: 'fraction',
       clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
     }
   });
 
-  new Swiper('.mediaEvents-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 1000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
+
+
+  new Swiper(".mySwipeeer", {
+    effect: "cards",
+    grabCursor: true,
   });
+
+  
+new Swiper(".mySwiper", {
+  slidesPerView: 3,
+  spaceBetween: 30,
+  pagination: {
+    el: '.swiper-pagination',
+    type: 'bullets',
+    clickable: true
+  }
+});
 
   /**
    * Initiate gallery lightbox 
@@ -297,7 +333,7 @@ export class AccueilComponent implements OnInit {
 
 })()
 
-this.getEvenements();
+
   }
 
   getEvenements(){
@@ -311,4 +347,28 @@ this.getEvenements();
     );
   }
 
+  getEmployéMois(){
+    this.employeMoisService.GetEmployesMois().subscribe(
+      (data: EmployéMois[]) => {
+        if (data.length > 0) {
+          this.latestEmployee = data[data.length - 1];
+          console.log(data);
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+
+  getUtilisateurs(): void {
+    this.apiService.GetUtilisateurs().subscribe(utilisateurs => {
+      this.utilisateurs = utilisateurs;
+    });
+  }
+
+  getUtilisateurNom(id: number): string {
+    const utilisateur = this.utilisateurs.find(s => s.id === id);
+    return utilisateur ? (utilisateur.nom + ' ' + utilisateur.prenom) : '';
+  }
+  
 }

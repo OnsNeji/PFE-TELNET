@@ -8,7 +8,7 @@
     },
     "types": [],
     "experimentalDecorators": true,
-    "allowJs": true
+    "allowJs": true,
   },
   "files": [
     "./main.ts",

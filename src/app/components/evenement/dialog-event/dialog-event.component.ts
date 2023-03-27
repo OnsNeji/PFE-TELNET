@@ -54,34 +54,38 @@ export class DialogEventComponent implements OnInit {
     }
   }
 
-  AjouterEvenement(){
-    if(!this.editData){
-      if(this.eventForm.valid){
+  AjouterEvenement() {
+    if (!this.editData) {
+      if (this.eventForm.valid) {
         this.eventForm.value.userAjout = this.matricule;
         const userAjout = this.eventForm.value.userAjout;
-        this.service.AddEvenement({ ...this.eventForm.value, userAjout }).subscribe(()=>{
+        const dateEvent = new Date(this.eventForm.value.dateEvent);
+        dateEvent.setDate(dateEvent.getDate() + 1);
+        this.service.AddEvenement({ ...this.eventForm.value, dateEvent, userAjout }).subscribe(() => {
           this.eventForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Event added successfully !');
         },
-        ()=>{
-          this.notificationService.danger('Error when adding an Event.');
-        })
+          () => {
+            this.notificationService.danger('Error when adding an Event.');
+          })
       }
     } else {
       this.updateEvenement();
     }
   }
 
-  updateEvenement(){
-    this.service.UpdateEvenement(this.editData.id, { ...this.eventForm.value }).subscribe(()=>{
+  updateEvenement() {
+    const dateEvent = new Date(this.eventForm.value.dateEvent);
+    dateEvent.setDate(dateEvent.getDate() + 1);
+    this.service.UpdateEvenement(this.editData.id, { ...this.eventForm.value, dateEvent }).subscribe(() => {
       this.eventForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('Event modified successfully !');
     },
-    ()=>{
-      this.notificationService.danger('Error when modifying an Event.');
-    });
+      () => {
+        this.notificationService.danger('Error when modifying an Event.');
+      });
   }
 
   close() {

@@ -5,6 +5,6 @@ export class Convention {
     dateDebut: Date = new Date();
     dateFin: Date = new Date();
     description!: string;
-    pieceJointe: File | null = null;
+    pieceJointe: string;
     userAjout!: string;
 }

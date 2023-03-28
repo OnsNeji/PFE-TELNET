@@ -1,0 +1,74 @@
+<div class="modal_header">
+    <div class="modal_title">
+        <span>
+            Convention
+        </span>
+        <span>
+            <em class="material-icons modal-close" (click)="close()">close</em>
+        </span>
+    </div>
+  </div>
+  <div class="modal_body">
+    <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
+      <form [formGroup]="conventionForm">
+        
+        <div class="row m-b-6">
+          <mat-form-field class="col-sm-6">
+              <mat-label>Titre</mat-label>
+              <input formControlName="titre" matInput class="login-input-style">
+            </mat-form-field>
+  
+            <mat-form-field class="col-sm-6">
+              <mat-label>Description</mat-label>
+              <input formControlName="description" matInput class="login-input-style">
+            </mat-form-field>
+  
+            <mat-form-field class="date-field col-sm-6">
+              <input matInput [matDatepicker]="picker2200" formControlName="dateDebut" class="login-input-style" placeholder="Date début">
+              <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
+              <mat-datepicker #picker2200></mat-datepicker>
+            </mat-form-field>
+  
+            <mat-form-field class="date-field col-sm-6">
+                <input matInput [matDatepicker]="picker1100" formControlName="dateFin" placeholder="Date fin">
+                <mat-datepicker-toggle matSuffix [for]="picker1100"></mat-datepicker-toggle>
+                <mat-datepicker #picker1100></mat-datepicker>
+              </mat-form-field>
+
+
+            <div class="col-sm-6">
+                <input type="file" (change)="onFileSelected($event)" formControlName="logo"
+                name="image" accept="image/*" class="login-input-style" >
+             </div>
+
+            <div class="col-sm-6">
+              <input type="file" (change)="onPDFSelected($event)" formControlName="pieceJointe"
+              name="pdf" accept=".pdf" class="login-input-style" >
+           </div>
+
+          <mat-form-field class="col-sm-6" hidden>
+            <mat-label>UserAjout</mat-label>
+            <input matInput formControlName="userAjout" class="login-input-style" disabled hidden>
+          </mat-form-field>
+  
+           
+          </div>
+  
+          <div class="row m-t-20">
+            <div class="col-lg-12">
+                <div class="row f-right">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+                        &nbsp; &nbsp;
+                        <button type="submit" class="btn btn-primary ripple light btn-md" (click)="AjouterConvention()">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  

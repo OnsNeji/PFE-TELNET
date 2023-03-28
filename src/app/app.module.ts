@@ -75,6 +75,8 @@ import { MediaEventComponent } from './components/evenement/media-event/media-ev
 import { DialogMediaComponent } from './components/evenement/media-event/dialog-media/dialog-media.component';
 import { FilterMediaEventByEvenementIdPipe } from './pipes/shared/FilterMediaEventByEvenementIdPipe.pipe';
 import { AccueilComponent } from './components/accueil/accueil.component';
+import { ConventionComponent } from './components/convention/convention.component';
+import { DialogConventionComponent } from './components/convention/dialog-convention/dialog-convention.component';
 
 
 export const CUSTOM_DT_FORMATS = {
@@ -113,7 +115,9 @@ export const CUSTOM_DT_FORMATS = {
         MediaEventComponent,
         DialogMediaComponent,
         FilterMediaEventByEvenementIdPipe,
-        AccueilComponent
+        AccueilComponent,
+        ConventionComponent,
+        DialogConventionComponent
         
     ],
     entryComponents: [

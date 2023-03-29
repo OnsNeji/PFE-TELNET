@@ -57,7 +57,6 @@ export default class DialogUserComponent implements OnInit {
       tel: ['', Validators.required],
       role: ['', Validators.required],
       image: [''],
-      posteId: ['', Validators.required],
       departementId: ['', Validators.required],
       motDePasse: ['', Validators.required],
       salaire: ['', Validators.required],

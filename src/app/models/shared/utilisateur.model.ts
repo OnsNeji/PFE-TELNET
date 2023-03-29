@@ -1,3 +1,6 @@
+import { Departement } from "./departement.model";
+import { Poste } from "./poste.model";
+
 export class Utilisateur {
     id: number;
     nom!: string;
@@ -14,8 +17,9 @@ export class Utilisateur {
     resetPasswordExpiry: Date = new Date();
     image!: string;
     salaire!: number;
-    posteId!: number;
+    poste: Poste[] = [];
     departementId!: number;
+    departement: Departement[] = [];
     supprimé: Boolean = false;
     dateAjout: Date = new Date();
     dateModif: Date = new Date();

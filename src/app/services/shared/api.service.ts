@@ -87,6 +87,9 @@ export class ApiService {
   GetUtilisateur(id: number):Observable<Utilisateur>{
     return this.http.get<Utilisateur>(`${this.baseUrl}Utilisateur/${id}`);
   }
+  getLatestUtilisateurs(): Observable<Utilisateur[]> {
+    return this.http.get<Utilisateur[]>(`${this.baseUrl}Utilisateur/latest`);
+  }
   AddUtilisateur(utilisateur:Utilisateur): Observable<Utilisateur> {
     const url = `${this.baseUrl}Utilisateur`;
     const userData = { ...utilisateur, userAjout: utilisateur.userAjout };

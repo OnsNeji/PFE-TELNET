@@ -174,82 +174,29 @@
           <div class="row">
             <div class="col-lg-3">
               <ul class="nav nav-tabs flex-column">
-                <li class="nav-item">
-                  <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">Convention Anantara</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="tab" href="#tab-2">Convention Abracadabra</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="tab" href="#tab-3">Convention ZEN</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="tab" href="#tab-4">Convention Fleur de Lys</a>
+                <li class="nav-item" *ngFor="let convention of conventions; let i=index">
+                  <a class="nav-link" data-bs-toggle="tab" href="#tab-{{i}}" (click)="selectConvention(i)" >{{'Convention ' + convention.titre}}</a>
                 </li>
               </ul>
             </div>
             <div class="col-lg-9 mt-4 mt-lg-0">
               <div class="tab-content">
-                <div class="tab-pane active show" id="tab-1">
+
+                <div *ngFor="let convention of conventions; let i=index" class="tab-pane" [class.active.show]="selectedConventionIndex === i" id="{{'tab-' + i}}">
                   <div class="row">
                     <div class="col-lg-8 details order-2 order-lg-1">
-                      <h3>Une remise de 20%</h3>
-                      <p class="fst-italic">La convention est conclue pour une période d'une année à courir de la date de sa signature par les deux parties.</p>
-                      <p>Elle est renouvelable par lettre de recommendation avec accusé de réception, trois mois avant son expiration.</p>
+                      <h4>{{conventions[selectedConventionIndex]?.dateDebut | date}} - {{conventions[selectedConventionIndex]?.dateFin | date}}</h4>
+                      <p class="fst-italic">{{conventions[selectedConventionIndex]?.description}}</p>
                       <p>
-                        <a href="#">Voir plus</a>
+                        <a (click)="downloadPDF(conventions[selectedConventionIndex]?.pieceJointe, conventions[selectedConventionIndex]?.titre)">Download PDF</a>
                       </p>
                     </div>
                     <div class="col-lg-4 text-center order-1 order-lg-2">
-                      <img src="../../../assets/img/anantara.png" alt="" class="img-fluid">
+                      <img src="{{conventions[selectedConventionIndex]?.logo}}" alt="" class="fixed-img">
                     </div>
                   </div>
                 </div>
-                <div class="tab-pane" id="tab-2">
-                  <div class="row">
-                    <div class="col-lg-8 details order-2 order-lg-1">
-                      <h3>Un bon d'une valeur de 300dt</h3>
-                      <p class="fst-italic">La convention est conclue pour une période d'une année à courir de la date de sa signature par les deux parties.</p>
-                      <p>Elle est renouvelable par lettre de recommendation avec accusé de réception, trois mois avant son expiration.</p>
-                      <p>
-                        <a href="#">Voir plus</a>
-                      </p>
-                    </div>
-                    <div class="col-lg-4 text-center order-1 order-lg-2">
-                      <img src="../../../assets/img/abracadabra.png" alt="" class="img-fluid">
-                    </div>
-                  </div>
-                </div>
-                <div class="tab-pane" id="tab-3">
-                  <div class="row">
-                    <div class="col-lg-8 details order-2 order-lg-1">
-                      <h3>Une remise de 12%</h3>
-                      <p class="fst-italic">La convention est conclue pour une période d'une année à courir de la date de sa signature par les deux parties.</p>
-                      <p>Elle est renouvelable par lettre de recommendation avec accusé de réception, trois mois avant son expiration.</p>
-                      <p>
-                        <a href="#">Voir plus</a>
-                      </p>
-                    </div>
-                    <div class="col-lg-4 text-center order-1 order-lg-2">
-                      <img src="../../../assets/img/zen.png" alt="" class="img-fluid">
-                    </div>
-                  </div>
-                </div>
-                <div class="tab-pane" id="tab-4">
-                  <div class="row">
-                    <div class="col-lg-8 details order-2 order-lg-1">
-                      <h3>Une remise de 10%</h3>
-                      <p class="fst-italic">La convention est conclue pour une période d'une année à courir de la date de sa signature par les deux parties.</p>
-                      <p>Elle est renouvelable par lettre de recommendation avec accusé de réception, trois mois avant son expiration.</p>
-                      <p>
-                        <a href="#">Voir plus</a>
-                      </p>
-                    </div>
-                    <div class="col-lg-4 text-center order-1 order-lg-2">
-                      <img src="../../../assets/img/fleur lys.png" alt="" class="img-fluid">
-                    </div>
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>
@@ -291,47 +238,14 @@
           </div>
           <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide">
+              <div class="swiper-slide" *ngFor="let utilisateur of latestUtilisateurs" style="width: 40%; height:500px;">
                 <div class="member">
                   <div class="pic">
-                    <img src="../../../assets/img/user.png" class="img-fluid" alt="">
+                    <img [src]="utilisateur.image" alt="" style="width: 100%; height: 38² 10px;">
                   </div>
                   <div class="member-info">
-                    <h4>Walter White</h4>
-                    <span>Développeur .NET</span>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="member">
-                  <div class="pic">
-                    <img src="../../../assets/img/user.png" class="img-fluid" alt="">
-                  </div>
-                  <div class="member-info">
-                    <h4>Sarah Jhonson</h4>
-                    <span>Ingénieur QA</span>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="member">
-                  <div class="pic">
-                    <img src="../../../assets/img/user.png" class="img-fluid" alt="">
-                  </div>
-                  <div class="member-info">
-                    <h4>William Anderson</h4>
-                    <span>Ingénieur logiciel embarqué</span>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="member">
-                  <div class="pic">
-                    <img src="../../../assets/img/user.png" class="img-fluid" alt="">
-                  </div>
-                  <div class="member-info">
-                    <h4>William Anderson</h4>
-                    <span>ingénieur aérospatial</span>
+                    <h4>{{utilisateur.prenom}} {{utilisateur.nom}}</h4>
+                    <span>{{utilisateur.dateEmbauche | date:'dd/MM/yyyy'}}</span>
                   </div>
                 </div>
               </div>

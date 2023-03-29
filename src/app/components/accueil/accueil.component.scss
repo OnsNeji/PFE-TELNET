@@ -446,6 +446,7 @@ section {
 --------------------------------------------------------------*/
 .specials {
   overflow: hidden;
+  height: 400px;
 }
 
 .specials .nav-tabs {
@@ -504,6 +505,23 @@ section {
   }
 }
 
+.specials .col-lg-3 {
+  max-height: 200px; /* ajustez cette valeur en fonction de vos besoins */
+  overflow-y: scroll;
+}
+
+.specials .col-lg-3::-webkit-scrollbar {
+  width: 0px;
+  background-color: transparent;
+}
+
+.fixed-img {
+  top: 50%;
+  left: 50%;
+  transform: translate(-30%, -60%);
+  margin-top: 35%;
+  margin-right: -90%;
+  }
 /*--------------------------------------------------------------
 # Events
 --------------------------------------------------------------*/

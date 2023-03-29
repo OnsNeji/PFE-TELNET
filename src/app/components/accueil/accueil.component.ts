@@ -11,6 +11,9 @@ import { EmployéMois } from 'app/models/shared/employeMois.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { EmployeMoisService } from 'app/services/shared/employe-mois.service';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
+import { Convention } from 'app/models/shared/convention.model';
+import { ConventionService } from 'app/services/shared/convention.service';
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -23,10 +26,17 @@ export class AccueilComponent implements OnInit {
   evenements: Evenement[] = [];
   evenement: Evenement = new Evenement();
   latestEmployee: EmployéMois;
-
-  constructor(private service: EvenementService, private employeMoisService: EmployeMoisService, private apiService: ApiService) {}
-
   utilisateurs!: Utilisateur[];
+  conventions!: Convention[];
+  selectedConventionIndex: number = 0;
+  latestUtilisateurs!: Utilisateur[];
+
+  constructor(private service: EvenementService, 
+              private employeMoisService: EmployeMoisService, 
+              private apiService: ApiService,
+              private convService: ConventionService) {}
+
+ 
 
   ngAfterViewInit(){
     var swiper = new Swiper('.swiper-container', {
@@ -61,6 +71,8 @@ export class AccueilComponent implements OnInit {
     this.getEvenements();
     this.getEmployéMois();
     this.getUtilisateurs();
+    this.getConventions();
+    this.getLatestUtilisateurs();
 
   
 (function() {
@@ -336,6 +348,9 @@ new Swiper(".mySwiper", {
 
   }
 
+  selectConvention(index: number): void {
+    this.selectedConventionIndex = index;
+  }
   getEvenements(){
     this.service.GetEvenements().subscribe(
       data => {
@@ -371,4 +386,26 @@ new Swiper(".mySwiper", {
     return utilisateur ? (utilisateur.nom + ' ' + utilisateur.prenom) : '';
   }
   
+  getConventions(){
+    this.convService.GetConventions().subscribe(data => {
+      this.conventions = data;
+    })
+  }
+
+  downloadPDF(pieceJointe: string, fileName: string) {
+    const byteCharacters = atob(pieceJointe.substring(28));
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i=0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray =  new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], {type: 'application/pdf'});
+    FileSaver.saveAs(blob, fileName);
+  }
+
+  getLatestUtilisateurs(): void{
+    this.apiService.getLatestUtilisateurs().subscribe(utilisateurs => {
+      this.latestUtilisateurs = utilisateurs;
+    })
+  }
 }

@@ -82,20 +82,13 @@
           </mat-form-field>
 
           <mat-form-field class="col-sm-4">
-            <mat-label>Poste</mat-label>
-            <mat-select formControlName="posteId" class="login-input-style">
-              <mat-option *ngFor="let poste of postes" [value]="poste.id">{{poste['numéro']}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class="col-sm-4">
             <mat-label>Département</mat-label>
             <mat-select formControlName="departementId" class="login-input-style">
               <mat-option *ngFor="let departement of departements" [value]="departement.id">{{ departement.nom }}</mat-option>
             </mat-select>
           </mat-form-field>
 
-          <div class="col-sm-12">
+          <div class="col-sm-4">
             <input type="file" (change)="onFileSelected($event)" formControlName="image"
             name="image" accept="image/*" class="login-input-style" >
          </div>

@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:44346/api/',
+  apiUrl: 'https://localhost:44355/api/',
   localUrl: 'http://localhost:4200/',
   captchaEndpointUrl: 'captcha-endpoint.ashx',
 

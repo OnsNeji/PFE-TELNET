@@ -26,6 +26,7 @@
                 <mat-option *ngIf="utilisateur.poste === null" [value]="utilisateur.id">{{ utilisateur.prenom }} {{utilisateur.nom}}</mat-option>
               </ng-container>
             </mat-select>
+            <mat-error *ngIf="posteForm.get('utilisateurId').invalid && posteForm.get('utilisateurId').touched">Pas d'utilisateurs disponibles pour le moment</mat-error>
           </mat-form-field>
           
 

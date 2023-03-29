@@ -90,6 +90,9 @@ export class ApiService {
   getLatestUtilisateurs(): Observable<Utilisateur[]> {
     return this.http.get<Utilisateur[]>(`${this.baseUrl}Utilisateur/latest`);
   }
+  getAnniversaires(): Observable<Utilisateur[]> {
+    return this.http.get<Utilisateur[]>(`${this.baseUrl}Utilisateur/anniversaires`);
+  }
   AddUtilisateur(utilisateur:Utilisateur): Observable<Utilisateur> {
     const url = `${this.baseUrl}Utilisateur`;
     const userData = { ...utilisateur, userAjout: utilisateur.userAjout };

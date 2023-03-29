@@ -121,6 +121,13 @@
       <mat-cell *matCellDef="let convention">  {{convention.dateFin | date}} </mat-cell>
     </ng-container> 
 
+    <ng-container matColumnDef="pieceJointe">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Piece Jointe</mat-header-cell>
+      <mat-cell *matCellDef="let convention" (click)="downloadPDF(convention.pieceJointe, convention.titre)">
+        {{convention.titre + '.pdf'}}
+       </mat-cell>
+    </ng-container> 
+
     <ng-container matColumnDef="userAjout">
       <mat-header-cell *matHeaderCellDef mat-sort-header>User Ajout</mat-header-cell>
       <mat-cell *matCellDef="let convention">  {{convention.userAjout}} </mat-cell>

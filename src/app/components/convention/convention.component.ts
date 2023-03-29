@@ -11,6 +11,7 @@ import { ConventionService } from 'app/services/shared/convention.service';
 import { DialogEventComponent } from '../evenement/dialog-event/dialog-event.component';
 import { DialogConventionComponent } from './dialog-convention/dialog-convention.component';
 import swal from 'sweetalert2';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-convention',
@@ -28,7 +29,7 @@ export class ConventionComponent implements OnInit {
 
 ListeConventions!: Convention[];
 convention: Convention = new Convention();
-displayedColumns: string[] = ['logo', 'titre', 'dateDebut', 'dateFin', 'action'];
+displayedColumns: string[] = ['logo', 'titre', 'dateDebut', 'dateFin', 'pieceJointe', 'action'];
 dataSource!: MatTableDataSource<Convention>;
 lengthConventions: number;
 isLoading: boolean;
@@ -103,6 +104,17 @@ if(result === "modifier"){
 this.getConventions();
 }
 })
+}
+
+downloadPDF(pieceJointe: string, fileName: string) {
+  const byteCharacters = atob(pieceJointe.substring(28));
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i=0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray =  new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], {type: 'application/pdf'});
+  FileSaver.saveAs(blob, fileName);
 }
 
 dateOnly(event): boolean {

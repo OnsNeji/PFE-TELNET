@@ -82,7 +82,7 @@
 
       <ng-container matColumnDef="evenementId">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Evénement</mat-header-cell>
-        <mat-cell *matCellDef="let mediaEvent"> {{mediaEvent.evenementId}} </mat-cell>
+        <mat-cell *matCellDef="let mediaEvent"> {{getEventNom(mediaEvent.evenementId)}} </mat-cell>
       </ng-container>
 
     <ng-container matColumnDef="action">

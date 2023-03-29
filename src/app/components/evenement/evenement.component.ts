@@ -9,6 +9,7 @@ import { MediaEvent } from 'app/models/shared/mediaEvent.model';
 import { NotificationService, DateTimeService } from 'app/services/shared';
 import { EvenementService } from 'app/services/shared/evenement.service';
 import swal from 'sweetalert2';
+import { DialogDescriptionComponent } from './dialog-description/dialog-description.component';
 import { DialogEventComponent } from './dialog-event/dialog-event.component';
 
 @Component({
@@ -53,6 +54,12 @@ export class EvenementComponent implements OnInit {
     });
   }
 
+  openDescriptionDialog(evenement: any): void {
+    const dialogRef = this.dialog.open(DialogDescriptionComponent, {
+      width: '500px',
+      data: { description: evenement.description },
+    });
+  }
   
   getEvenements(){
     this.service.GetEvenements().subscribe({

@@ -37,11 +37,13 @@
 
 
             <div class="col-sm-6">
+              <mat-label>Logo</mat-label><br>
                 <input type="file" (change)="onFileSelected($event)" formControlName="logo"
                 name="image" accept="image/*" class="login-input-style" >
              </div>
 
             <div class="col-sm-6">
+              <mat-label>Piece Jointe</mat-label><br>
               <input type="file" (change)="onPDFSelected($event)" formControlName="pieceJointe"
               name="pdf" accept=".pdf" class="login-input-style" >
            </div>

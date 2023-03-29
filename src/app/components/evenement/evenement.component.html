@@ -104,8 +104,8 @@
 
     <ng-container matColumnDef="description" class=" table-hover table-striped table-styling">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
-      <mat-cell *matCellDef="let evenement">
-        {{evenement.description}}
+      <mat-cell *matCellDef="let evenement" (click)="openDescriptionDialog(evenement)">
+        {{evenement.description | slice:0:52:'...'}}{{evenement.description.length > 50 ? '...' : ''}}
       </mat-cell>
     </ng-container>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import GLightbox from 'glightbox';
 import 'glightbox/dist/css/glightbox.min.css';
 import Swiper from 'swiper';
@@ -14,6 +14,7 @@ import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { Convention } from 'app/models/shared/convention.model';
 import { ConventionService } from 'app/services/shared/convention.service';
 import * as FileSaver from 'file-saver';
+import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -30,42 +31,23 @@ export class AccueilComponent implements OnInit {
   conventions!: Convention[];
   selectedConventionIndex: number = 0;
   latestUtilisateurs!: Utilisateur[];
+  anniversaires!: Utilisateur[];
 
   constructor(private service: EvenementService, 
               private employeMoisService: EmployeMoisService, 
               private apiService: ApiService,
               private convService: ConventionService) {}
 
- 
+  @ViewChild('carousel', { static: true }) carousel: NgbCarousel;
+  
 
   ngAfterViewInit(){
-    var swiper = new Swiper('.swiper-container', {
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
+    this.carousel.pause(); // Pause le diaporama
+    this.carousel.cycle(); // Redémarre le diaporama avec les nouvelles options
 
-    const mySwiper = new Swiper('.mediaEvents-slider', {
-      speed: 600,
-      loop: true,
-      autoplay: {
-        delay: 1000,
-        disableOnInteraction: false
-      },
-      slidesPerView: 'auto',
-      pagination: {
-        el: '.swiper-pagination',
-        type: 'bullets',
-        clickable: true
-      }
-    });
+    
   }
-  
+
   ngOnInit(): void {
 
     this.getEvenements();
@@ -73,10 +55,9 @@ export class AccueilComponent implements OnInit {
     this.getUtilisateurs();
     this.getConventions();
     this.getLatestUtilisateurs();
+    this.getAnniversaires();
 
-  
-(function() {
-  "use strict";
+    
 
   /**
    * Easy selector helper function
@@ -289,21 +270,27 @@ export class AccueilComponent implements OnInit {
     slidesPerView: 'auto',
     pagination: {
       el: '.swiper-pagination',
-      type: 'fraction',
+      type: 'bullets',
       clickable: true
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
     }
   });
 
-
-
-  new Swiper(".mySwipeeer", {
-    effect: "cards",
-    grabCursor: true,
+  const mediaEventsSliders = document.querySelectorAll('.mediaEvents-slider');
+mediaEventsSliders.forEach(mediaEventsSlider => {
+  const slider = new Swiper('.mediaEvents-slider', {
+    speed: 600,
+    loop: true,
+    autoplay: {
+      delay: 1000,
+      disableOnInteraction: false
+    },
+    slidesPerView: 'auto',
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    }
   });
+});
 
   
 new Swiper(".mySwiper", {
@@ -314,6 +301,11 @@ new Swiper(".mySwiper", {
     type: 'bullets',
     clickable: true
   }
+});
+
+new Swiper(".mySwipeeer", {
+  effect: "cards",
+  grabCursor: true,
 });
 
   /**
@@ -340,10 +332,6 @@ new Swiper(".mySwiper", {
       clickable: true
     }
   });
-
-
-
-})()
 
 
   }
@@ -406,6 +394,12 @@ new Swiper(".mySwiper", {
   getLatestUtilisateurs(): void{
     this.apiService.getLatestUtilisateurs().subscribe(utilisateurs => {
       this.latestUtilisateurs = utilisateurs;
+    })
+  }
+
+  getAnniversaires(): void{
+    this.apiService.getAnniversaires().subscribe(data => {
+      this.anniversaires = data;
     })
   }
 }

@@ -14,20 +14,20 @@
         
         <div class="row m-b-6">
   
-            <mat-form-field class="col-sm-3">
+            <mat-form-field class="col-sm-6">
               <mat-label>Titre</mat-label>
               <input formControlName="titre" matInput class="login-input-style">
             </mat-form-field>
   
-            <mat-form-field class="col-sm-3">
-              <mat-label>Description</mat-label>
-              <input matInput formControlName="description" class="login-input-style">
-            </mat-form-field>
-  
-            <mat-form-field class="date-field col-sm-3">
+            <mat-form-field class="date-field col-sm-6">
               <input matInput [matDatepicker]="picker2200" formControlName="dateEvent" class="login-input-style" placeholder="Date d'événement'">
               <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
               <mat-datepicker #picker2200></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-sm-12">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description" class="login-input-style">
             </mat-form-field>
 
           <mat-form-field class="col-sm-6" hidden>

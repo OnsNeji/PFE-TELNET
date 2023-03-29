@@ -11,6 +11,7 @@ import { MediaEventService } from 'app/services/shared/media-event.service';
 import { DialogEventComponent } from '../dialog-event/dialog-event.component';
 import { DialogMediaComponent } from './dialog-media/dialog-media.component';
 import swal from 'sweetalert2';
+import { EvenementService } from 'app/services/shared/evenement.service';
 
 @Component({
   selector: 'app-media-event',
@@ -19,10 +20,17 @@ import swal from 'sweetalert2';
 })
 export class MediaEventComponent implements OnInit {
 
-  constructor(private service: MediaEventService, private route: ActivatedRoute, private router: Router, public dialog: MatDialog, private notificationService: NotificationService, private dateTimeService: DateTimeService,){}
+  constructor(private service: MediaEventService, 
+              private route: ActivatedRoute, 
+              private router: Router, 
+              public dialog: MatDialog, 
+              private notificationService: NotificationService, 
+              private dateTimeService: DateTimeService,
+              private eventService: EvenementService){}
 
   ListeMedia!: MediaEvent[];
   mediaEvent: MediaEvent = new MediaEvent();
+  evenements!: Evenement[];
   displayedColumns: string[] = ['pieceJointe', 'evenementId', 'action'];
   dataSource!: MatTableDataSource<MediaEvent>;
   lengthMedia: number;
@@ -34,6 +42,7 @@ export class MediaEventComponent implements OnInit {
   
   ngOnInit(): void {
     this.getMediaEvents();
+    this.getEvenements();
   }
 
   openDialog() {
@@ -102,6 +111,15 @@ export class MediaEventComponent implements OnInit {
       return this.dateTimeService.dateOnly(event);
     }
 
+    getEvenements(){
+      this.eventService.GetEvenements().subscribe(data => {
+        this.evenements = data;
+      })
+    }
+    getEventNom(id: number): string {
+      const event = this.evenements.find(s => s.id === id);
+      return event ? (event.titre) : '';
+    }
     // onClickingEnter(event) {
     //   if (event.key === 'Enter') {
     //     this.onSearchClick();

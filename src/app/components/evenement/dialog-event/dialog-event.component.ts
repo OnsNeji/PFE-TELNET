@@ -86,7 +86,13 @@ export class DialogEventComponent implements OnInit {
 
   updateEvenement() {
     const dateEvent = new Date(this.eventForm.value.dateEvent);
-    dateEvent.setDate(dateEvent.getDate() + 1);
+    if (this.eventForm.value.dateEvent == this.editData.dateEvent) {
+      dateEvent.setDate(dateEvent.getDate());
+    }
+    if (this.eventForm.value.dateEvent != this.editData.dateEvent) {
+      dateEvent.setDate(dateEvent.getDate() + 1);
+    }
+    if (this.eventForm.valid) {
     this.service.UpdateEvenement(this.editData.id, { ...this.eventForm.value, dateEvent }).subscribe(() => {
       this.eventForm.reset();
       this.dialogRef.close('modifier');
@@ -95,6 +101,7 @@ export class DialogEventComponent implements OnInit {
       () => {
         this.notificationService.danger('Error when modifying an Event.');
       });
+    }
   }
 
   close() {

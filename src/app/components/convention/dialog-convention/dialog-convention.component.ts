@@ -78,9 +78,21 @@ export class DialogConventionComponent implements OnInit {
         this.conventionForm.value.userAjout = this.matricule;
         const userAjout = this.conventionForm.value.userAjout;
         const dateDebut = new Date(this.conventionForm.value.dateDebut);
-        dateDebut.setDate(dateDebut.getDate() + 1);
+        if (this.conventionForm.value.dateDebut == this.editData.dateDebut) {
+          dateDebut.setDate(dateDebut.getDate());
+        }
+        if (this.conventionForm.value.dateDebut != this.editData.dateDebut) {
+          dateDebut.setDate(dateDebut.getDate() + 1);
+        }
         const dateFin = new Date(this.conventionForm.value.dateFin);
-        dateFin.setDate(dateFin.getDate() + 1);
+        if (this.conventionForm.value.dateFin == this.editData.dateFin) {
+          dateFin.setDate(dateFin.getDate());
+        }
+        if (this.conventionForm.value.dateFin != this.editData.dateFin) {
+          dateFin.setDate(dateFin.getDate() + 1);
+        }
+
+        if (this.conventionForm.valid) {
         this.service.AddConvention({ ...this.conventionForm.value, dateDebut, dateFin, userAjout }).subscribe(() => {
           this.conventionForm.reset();
           this.dialogRef.close('ajouter');
@@ -88,6 +100,7 @@ export class DialogConventionComponent implements OnInit {
         }, () => {
           this.notificationService.danger('Error when adding a Agreement.');
         });
+      }
       }
     } else { // sinon, mettre à jour l'utilisateur existant
       this.updateConvention();

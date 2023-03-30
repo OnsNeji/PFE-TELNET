@@ -90,6 +90,7 @@ export class DialogDepartementComponent implements OnInit {
     this.departementForm.value.dateModif = this.modifDate;
     this.departementForm.value.userModif = this.matricule;
     const userModif = this.departementForm.value.userModif;
+    if (this.departementForm.valid) {
     this.service.UpdateDepartement(this.editData.id, { ...this.departementForm.value, userModif }).subscribe(()=>{
       this.departementForm.reset();
       this.dialogRef.close('modifier');
@@ -98,6 +99,7 @@ export class DialogDepartementComponent implements OnInit {
     ()=>{
       this.notificationService.danger('Error when modifying a Department.');
     });
+  }
   }
   getSites(): void {
     this.service.GetSites().subscribe(sites => {

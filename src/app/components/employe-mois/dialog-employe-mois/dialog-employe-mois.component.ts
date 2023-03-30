@@ -124,7 +124,13 @@ export class DialogEmployeMoisComponent implements OnInit {
       this.EmployeeForm.value.image = this.imageUrl;
     }
     const date = new Date(this.EmployeeForm.value.date);
-    date.setDate(date.getDate() + 1);
+    if (this.EmployeeForm.value.date == this.editData.date) {
+      date.setDate(date.getDate());
+    }
+    if (this.EmployeeForm.value.date != this.editData.date) {
+      date.setDate(date.getDate() + 1);
+    }
+    if (this.EmployeeForm.valid) {
     this.service.UpdateEmployeMois(this.editData.id, { ...this.EmployeeForm.value, date }).subscribe(() => {
       this.EmployeeForm.reset();
       this.dialogRef.close('modifier');
@@ -133,6 +139,7 @@ export class DialogEmployeMoisComponent implements OnInit {
       () => {
         this.notificationService.danger('Error when modifying an Employee.');
       });
+    }
   }
 
   onFileSelected(event: any): void {

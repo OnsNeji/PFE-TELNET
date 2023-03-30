@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
     this.profileForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', Validators.required],
       motDePasse: ['', Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')],
       matricule: ['', Validators.required],
       tel: ['', Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("^[0-9]*$")],
@@ -46,10 +46,12 @@ export class ProfileComponent implements OnInit {
 
   onSubmit(): void {
     this.profileForm.value.image  = this.user.image;
+    if (this.profileForm.valid) {
     this.userService.editUser(this.id, this.profileForm.value).subscribe(()=>{
       window.location.reload();
     }
     );
+  }
   }
 
   

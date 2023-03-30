@@ -111,12 +111,14 @@ export class DialogPosteComponent implements OnInit {
     this.posteForm.value.userModif = this.matricule;
     const userModif = this.posteForm.value.userModif;
     const dateModif = new Date();
+    if (this.posteForm.valid) {
     this.service.UpdatePoste(this.editData.id, { ...this.posteForm.value, userModif, dateModif}).subscribe(()=>{
       console.log(this.posteForm.value);
       this.posteForm.reset();
         this.dialogRef.close('modifier');
         this.notificationService.success('Poste modified successfully !');
     });
+  }
   }
   getUtilisateurs(): void {
     this.service.GetUtilisateurs().subscribe(utilisateurs => {

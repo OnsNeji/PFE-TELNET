@@ -94,6 +94,7 @@ export class DialogSiteComponent implements OnInit {
     this.siteForm.value.dateModif = this.modifDate;
     this.siteForm.value.userModif = this.matricule;
     const userModif = this.siteForm.value.userModif;
+    if (this.siteForm.valid) {
     this.service.UpdateSite(this.editData.id, { ...this.siteForm.value, userModif }).subscribe(site=>{
       this.siteForm.reset();
       this.dialogRef.close('modifier');
@@ -102,6 +103,7 @@ export class DialogSiteComponent implements OnInit {
     ()=>{
       this.notificationService.danger('Error when modifying a site.');
     });
+  }
   }
 
 }

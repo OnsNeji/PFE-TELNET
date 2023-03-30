@@ -1,12 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Identifier } from 'app/models/shared';
 import { EmployéMois } from 'app/models/shared/employeMois.model';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { NotificationService } from 'app/services/shared';
 import { EmployeMoisService } from 'app/services/shared/employe-mois.service';
+import { ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-employe-mois',
@@ -23,6 +26,9 @@ export class DialogEmployeMoisComponent implements OnInit {
   public matricule: string = '';
   ActionBtn: string = "Ajouter";
   imageUrl: string;
+  public userFilterCtrl: FormControl = new FormControl();
+  private _onDestroy = new Subject<void>();
+  filteredUsers: Utilisateur[];
 
   constructor(private builder: FormBuilder, 
     private service: EmployeMoisService, 
@@ -41,6 +47,11 @@ export class DialogEmployeMoisComponent implements OnInit {
     });
 
     this.getUsers();
+    this.userFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filterUsers();
+    });
 
     if(this.editData){
       this.ActionBtn = "Modifier";
@@ -52,6 +63,8 @@ export class DialogEmployeMoisComponent implements OnInit {
         image: this.editData.image,
         userAjout : this.editData.userAjout
       });
+
+     
     }
 
     const token = localStorage.getItem('token');
@@ -61,6 +74,18 @@ export class DialogEmployeMoisComponent implements OnInit {
     }
   }
 
+  filterUsers() {
+    let search = this.userFilterCtrl.value;
+    if (!search) {
+      this.filteredUsers = this.utilisateurs.slice();
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.filteredUsers = this.utilisateurs.filter(user => 
+      user.nom.toLowerCase().indexOf(search) > -1 || user.prenom.toLowerCase().indexOf(search) > -1);
+  }
+  
   AjouterEmploye() {
     if (!this.editData) {
       this.EmployeeForm.value.image = this.imageUrl;
@@ -114,6 +139,7 @@ export class DialogEmployeMoisComponent implements OnInit {
   getUsers(): void {
     this.service.GetUtilisateurs().subscribe(utilisateurs => {
       this.utilisateurs = utilisateurs;
+      this.filteredUsers = utilisateurs;
     });
   }
 

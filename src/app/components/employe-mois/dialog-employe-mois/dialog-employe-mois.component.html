@@ -16,9 +16,17 @@
             <mat-form-field class="col-sm-6">
                 <mat-label>Employé</mat-label>
                 <mat-select formControlName="utilisateurId" class="login-input-style">
-                  <mat-option *ngFor="let user of utilisateurs" [value]="user.id">{{ user.nom }} {{user.prenom}}</mat-option>
+                  <mat-option>
+                    <ngx-mat-select-search  [placeholderLabel]="'Search'" aria-label="Recherche" matInput [formControl]="userFilterCtrl"
+                      [noEntriesFoundLabel]="'No options found'">
+                      <mat-icon ngxMatSelectSearchClear>close</mat-icon>
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let user of filteredUsers" [value]="user.id">{{ user.nom }} {{user.prenom}}</mat-option>
                 </mat-select>
               </mat-form-field>
+
+              
   
             <mat-form-field class="date-field col-sm-6">
                 <input matInput [matDatepicker]="picker2200" formControlName="date" class="login-input-style" placeholder="Date">

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -8,6 +8,8 @@ import { Poste } from 'app/models/shared/poste.model';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-poste',
@@ -24,11 +26,9 @@ export class DialogPosteComponent implements OnInit {
   ActionBtn: string = "Ajouter";
   private jwtHelper = new JwtHelperService();
   public matricule: string = '';
-  // dateAjout = new Date();
-  // dateModif = new Date();
-  // datePipe = new DatePipe('en-US');
-  // ajoutDate = this.datePipe.transform(this.dateAjout, 'yyyy-MM-ddTHH:mm:ss');
-  // modifDate = this.datePipe.transform(this.dateModif, 'yyyy-MM-ddTHH:mm:ss');
+  private _onDestroy = new Subject<void>();
+  filteredUsers: Utilisateur[];
+  public userFilterCtrl: FormControl = new FormControl();
   
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
@@ -48,7 +48,12 @@ export class DialogPosteComponent implements OnInit {
     });
     this.getUtilisateurs();
     
-
+    this.userFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filterUsers();
+    });
+    
     console.log(this.editData)
     if(this.editData){
       this.ActionBtn = "Modifier";
@@ -61,6 +66,17 @@ export class DialogPosteComponent implements OnInit {
     }
   }
 
+  filterUsers() {
+    let search = this.userFilterCtrl.value;
+    if (!search) {
+      this.filteredUsers = this.utilisateurs.slice();
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.filteredUsers = this.utilisateurs.filter(user => 
+      user.nom.toLowerCase().indexOf(search) > -1 || user.prenom.toLowerCase().indexOf(search) > -1);
+  }
   AjouterPoste(){
     
     if(!this.editData){
@@ -101,6 +117,7 @@ export class DialogPosteComponent implements OnInit {
   getUtilisateurs(): void {
     this.service.GetUtilisateurs().subscribe(utilisateurs => {
       this.utilisateurs = utilisateurs;
+      this.filteredUsers = utilisateurs;
     });
   }
 

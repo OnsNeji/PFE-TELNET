@@ -42,7 +42,7 @@ export class DialogPosteComponent implements OnInit {
 
     this.posteForm = this.builder.group({
       // id : ['', [Validators.required, Validators.pattern(/^-?[0-9]\d*(\d+)?$/)]],
-      numéro : ['', Validators.required, Validators.pattern('^[0-9]*$')],
+      numéro : ['', Validators.required],
       utilisateurId : ['', Validators.required],
       userAjout: [''],
     });
@@ -57,7 +57,11 @@ export class DialogPosteComponent implements OnInit {
     console.log(this.editData)
     if(this.editData){
       this.ActionBtn = "Modifier";
-      this.posteForm.patchValue(this.editData);
+      this.posteForm.setValue({
+        numéro: this.editData.numéro,
+        utilisateurId: this.editData.utilisateurId,
+        userAjout: this.editData.userAjout
+      });
     }
     const token = localStorage.getItem('token');
     if (token) {

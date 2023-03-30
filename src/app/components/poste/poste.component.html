@@ -92,9 +92,9 @@
       <mat-cell *matCellDef="let poste">  {{getUtilisateurNom(poste.utilisateurId)}}  </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="dateAjout">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>dateAjout</mat-header-cell>
-      <mat-cell *matCellDef="let poste">  {{poste.dateAjout | date}} </mat-cell>
+    <ng-container matColumnDef="dateModif">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Date Modifcation</mat-header-cell>
+      <mat-cell *matCellDef="let poste">  {{poste.dateModif | date}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="action">

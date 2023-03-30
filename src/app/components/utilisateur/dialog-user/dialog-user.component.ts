@@ -52,15 +52,15 @@ export default class DialogUserComponent implements OnInit {
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       matricule: ['', Validators.required],
-      dateEmbauche: ['', [Validators.required, this.validDate]],
+      dateEmbauche: ['', Validators.required],
       email: ['', Validators.required, Validators.email],
-      tel: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("^[0-9]*$")]],
+      tel: ['', Validators.required],
       role: ['', Validators.required],
       image: [''],
       departementId: ['', Validators.required],
-      motDePasse: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')]],
+      motDePasse: ['', Validators.required],
       salaire: ['', Validators.required],
-      dateNaissance: ['', [Validators.required, this.validDate, this.validAge]],
+      dateNaissance: ['', Validators.required],
       userAjout: [''],
     });
     this.getPostes();
@@ -109,12 +109,23 @@ export default class DialogUserComponent implements OnInit {
         dateEmbauche.setDate(dateEmbauche.getDate() + 1);
         const dateNaissance = new Date(this.userForm.value.dateNaissance);
         dateNaissance.setDate(dateNaissance.getDate() + 1);
-        this.service.AddUtilisateur({ ...this.userForm.value, dateEmbauche, dateNaissance, userAjout }).subscribe(() => {
-          this.userForm.reset();
-          this.dialogRef.close('ajouter');
-          this.notificationService.success('User added successfully!');
+
+        // Check if the matricule already exists in the database
+        this.service.GetUtilisateurs().subscribe((data: Utilisateur[]) => {
+          const matricules = data.map((user: Utilisateur) => user.matricule);
+          if (matricules.includes(this.userForm.value.matricule)) {
+            this.notificationService.danger('This matricule already exists!');
+          } else {
+            this.service.AddUtilisateur({ ...this.userForm.value, dateEmbauche, dateNaissance, userAjout }).subscribe(() => {
+              this.userForm.reset();
+              this.dialogRef.close('ajouter');
+              this.notificationService.success('User added successfully!');
+            }, () => {
+              this.notificationService.danger('Error when adding a User.');
+            });
+          }
         }, () => {
-          this.notificationService.danger('Error when adding a User.');
+          this.notificationService.danger('Error when getting users from the database.');
         });
       }
     } else { // sinon, mettre à jour l'utilisateur existant
@@ -132,11 +143,26 @@ export default class DialogUserComponent implements OnInit {
     } else {
       this.userForm.value.image = this.imageUrl;
     }
+
+
     const dateEmbauche = new Date(this.userForm.value.dateEmbauche);
-    dateEmbauche.setDate(dateEmbauche.getDate() + 1);
+
+    if (this.userForm.value.dateEmbauche == this.editData.dateEmbauche) {
+      dateEmbauche.setDate(dateEmbauche.getDate());
+    }
+    if (this.userForm.value.dateEmbauche != this.editData.dateEmbauche) {
+      dateEmbauche.setDate(dateEmbauche.getDate() + 1);
+    }
+
     const dateNaissance = new Date(this.userForm.value.dateNaissance);
-    dateNaissance.setDate(dateNaissance.getDate() + 1);
-    if (this.userForm.valid) {
+
+    if (this.userForm.value.dateNaissance == this.editData.dateNaissance) {
+      dateNaissance.setDate(dateNaissance.getDate());
+    }
+    if (this.userForm.value.dateNaissance != this.editData.dateNaissance) {
+      dateNaissance.setDate(dateNaissance.getDate() + 1);
+    }
+
     this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, dateEmbauche, dateNaissance, userModif }).subscribe(() => {
 
       this.userForm.reset();
@@ -145,7 +171,6 @@ export default class DialogUserComponent implements OnInit {
     }, () => {
       this.notificationService.danger('Error when updating a User.');
     });
-  }
   }
   
   getPostes(): void {

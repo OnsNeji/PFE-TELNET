@@ -81,7 +81,7 @@
       </ng-container>
 
       <ng-container matColumnDef="evenementId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Evénement</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header routerLink="/evenement">Evénement</mat-header-cell>
         <mat-cell *matCellDef="let mediaEvent"> {{getEventNom(mediaEvent.evenementId)}} </mat-cell>
       </ng-container>
 

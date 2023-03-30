@@ -116,7 +116,7 @@
 
        <!-- Médias Column -->
 <ng-container matColumnDef="mediaEvents">
-  <mat-header-cell *matHeaderCellDef> Médias </mat-header-cell>
+  <mat-header-cell *matHeaderCellDef routerLink="/mediaEvent"> Médias </mat-header-cell>
   <mat-cell *matCellDef="let evenement">
     <ng-container *ngIf="evenement.mediaEvents && evenement.mediaEvents.length > 0">
       {{ evenement.mediaEvents.length }} pièces jointes

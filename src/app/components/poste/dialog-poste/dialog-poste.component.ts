@@ -42,7 +42,7 @@ export class DialogPosteComponent implements OnInit {
 
     this.posteForm = this.builder.group({
       // id : ['', [Validators.required, Validators.pattern(/^-?[0-9]\d*(\d+)?$/)]],
-      numéro : ['', Validators.required],
+      numéro : ['', Validators.required, Validators.pattern('^[0-9]*$')],
       utilisateurId : ['', Validators.required],
       userAjout: [''],
     });

@@ -26,6 +26,12 @@
           <mat-form-field class="col-sm-3">
             <mat-label>Telephone</mat-label>
             <input type="tel" matInput formControlName="tel" class="login-input-style">
+            <mat-error *ngIf="userForm.controls.tel.errors && (userForm.controls.tel.dirty || userForm.controls.tel.touched)">
+              <span *ngIf="userForm.controls.tel.errors.required">Le champ téléphone est obligatoire.</span>
+              <span *ngIf="userForm.controls.tel.errors.minlength">Le numéro de téléphone doit comporter au moins 8 chiffres.</span>
+              <span *ngIf="userForm.controls.tel.errors.maxlength">Le numéro de téléphone ne peut pas dépasser 8 chiffres.</span>
+              <span *ngIf="userForm.controls.tel.errors.pattern">Le numéro de téléphone doit contenir uniquement des chiffres.</span>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="date-field col-sm-3">
@@ -72,6 +78,10 @@
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
+            <mat-error *ngIf="userForm.controls.motDePasse.hasError('required')">Le mot de passe est obligatoire</mat-error>
+            <mat-error *ngIf="userForm.controls.motDePasse.hasError('minlength')">Le mot de passe doit comporter au moins 8 caractères</mat-error>
+            <mat-error *ngIf="userForm.controls.motDePasse.hasError('maxlength')">Le mot de passe ne doit pas dépasser 20 caractères</mat-error>
+            <mat-error *ngIf="userForm.controls.motDePasse.hasError('pattern')">Le mot de passe doit inclure au moins une lettre minuscule, une lettre majuscule et un chiffre</mat-error>
           </mat-form-field>
 
           

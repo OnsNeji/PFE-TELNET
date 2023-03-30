@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -37,8 +37,8 @@ export class DialogConventionComponent implements OnInit {
     this.conventionForm = this.builder.group({
       // id: [''],
       titre: ['', Validators.required],
-      dateDebut: ['', Validators.required],
-      dateFin: ['', Validators.required],
+      dateDebut: ['', [Validators.required, this.validDate]],
+      dateFin: ['', [Validators.required]],
       description: ['', Validators.required],
       pieceJointe: [''],
       logo: [''],
@@ -58,6 +58,17 @@ export class DialogConventionComponent implements OnInit {
     }
   }
 
+  validDate(control) {
+    let minDate = new Date(1900, 0, 1);
+    let maxDate = new Date();
+    let value = new Date(control.value);
+    if (value < minDate || value > maxDate) {
+      return { invalidDate: true };
+    }
+    return null;
+  }
+  
+  
   AjouterConvention() {
     if (!this.editData) {
       

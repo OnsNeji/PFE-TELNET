@@ -39,7 +39,7 @@ export class DialogEmployeMoisComponent implements OnInit {
 
   ngOnInit(): void {
     this.EmployeeForm = this.builder.group({
-      date : ['', Validators.required],
+      date : ['', [Validators.required, this.validDate]],
       description : ['', Validators.required],
       utilisateurId : ['', Validators.required],
       image: [''],
@@ -74,6 +74,15 @@ export class DialogEmployeMoisComponent implements OnInit {
     }
   }
 
+  validDate(control) {
+    let minDate = new Date(1900, 0, 1);
+    let maxDate = new Date();
+    let value = new Date(control.value);
+    if (value < minDate || value > maxDate) {
+      return { invalidDate: true };
+    }
+    return null;
+  }
   filterUsers() {
     let search = this.userFilterCtrl.value;
     if (!search) {

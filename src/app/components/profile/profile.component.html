@@ -111,6 +111,11 @@
                                         <mat-form-field class="col-sm-6">
                                             <mat-label>Mot de passe</mat-label>
                                             <input type="password" matInput formControlName="motDePasse" class="login-input-style">
+                                            <mat-error *ngIf="profileForm.controls.motDePasse.hasError('required')">Le mot de passe est obligatoire</mat-error>
+                                            <mat-error *ngIf="profileForm.controls.motDePasse.hasError('minlength')">Le mot de passe doit comporter au moins 8 caractères</mat-error>
+                                            <mat-error *ngIf="profileForm.controls.motDePasse.hasError('maxlength')">Le mot de passe ne doit pas dépasser 20 caractères</mat-error>
+                                            <mat-error *ngIf="profileForm.controls.motDePasse.hasError('pattern')">Le mot de passe doit inclure au moins une lettre minuscule, une lettre majuscule et un chiffre</mat-error>
+      
                                           </mat-form-field>
 
                                           <mat-form-field class="col-sm-6">
@@ -123,6 +128,12 @@
                                           <mat-label>Téléphone</mat-label>
                                           <input type="tel" matInput formControlName="tel"
                                           [(ngModel)]="user.tel" class="login-input-style">
+                                          <mat-error *ngIf="profileForm.controls.tel.errors && (profileForm.controls.tel.dirty || profileForm.controls.tel.touched)">
+                                            <span *ngIf="profileForm.controls.tel.errors.required">Le champ téléphone est obligatoire.</span>
+                                            <span *ngIf="profileForm.controls.tel.errors.minlength">Le numéro de téléphone doit comporter au moins 8 chiffres.</span>
+                                            <span *ngIf="profileForm.controls.tel.errors.maxlength">Le numéro de téléphone ne peut pas dépasser 8 chiffres.</span>
+                                            <span *ngIf="profileForm.controls.tel.errors.pattern">Le numéro de téléphone doit contenir uniquement des chiffres.</span>
+                                          </mat-error>
                                         </mat-form-field>
                                        
                                       </div>

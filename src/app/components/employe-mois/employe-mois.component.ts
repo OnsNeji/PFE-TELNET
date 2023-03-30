@@ -9,6 +9,7 @@ import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { DateTimeService, NotificationService } from 'app/services/shared';
 import { EmployeMoisService } from 'app/services/shared/employe-mois.service';
 import swal from 'sweetalert2';
+import { DialogDescComponent } from './dialog-desc/dialog-desc.component';
 import { DialogEmployeMoisComponent } from './dialog-employe-mois/dialog-employe-mois.component';
 
 @Component({
@@ -101,6 +102,13 @@ export class EmployeMoisComponent implements OnInit {
   getUserNom(id: number): string {
     const user = this.utilisateurs.find(s => s.id === id);
     return user ? (user.nom + ' ' + user.prenom) : '';
+  }
+
+  openDescriptionDialog(employeMois: any): void {
+    const dialogRef = this.dialog.open(DialogDescComponent, {
+      width: '500px',
+      data: { description: employeMois.description },
+    });
   }
 
   updateEmployeMois(row: any) {

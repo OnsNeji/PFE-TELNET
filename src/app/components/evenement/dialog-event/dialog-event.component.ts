@@ -30,7 +30,7 @@ export class DialogEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventForm = this.builder.group({
-      dateEvent : ['', Validators.required],
+      dateEvent : ['', [Validators.required, this.validDate]],
       description : ['', Validators.required],
       titre : ['', Validators.required],
       userAjout: [''],
@@ -54,6 +54,15 @@ export class DialogEventComponent implements OnInit {
     }
   }
 
+  validDate(control) {
+    let minDate = new Date(1900, 0, 1);
+    let maxDate = new Date();
+    let value = new Date(control.value);
+    if (value < minDate || value > maxDate) {
+      return { invalidDate: true };
+    }
+    return null;
+  }
   AjouterEvenement() {
     if (!this.editData) {
       if (this.eventForm.valid) {

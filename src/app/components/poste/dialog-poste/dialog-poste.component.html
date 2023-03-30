@@ -17,6 +17,9 @@
           <mat-form-field  class="col-sm-6">
             <mat-label>Numéro de poste</mat-label>
             <input matInput formControlName="numéro" class="login-input-style">
+            <mat-error *ngIf="posteForm.get('numéro').invalid">
+              Please enter only digits for the postal number
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="col-sm-6">

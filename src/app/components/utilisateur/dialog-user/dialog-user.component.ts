@@ -52,15 +52,15 @@ export default class DialogUserComponent implements OnInit {
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       matricule: ['', Validators.required],
-      dateEmbauche: ['', Validators.required],
-      email: ['', Validators.required],
-      tel: ['', Validators.required],
+      dateEmbauche: ['', [Validators.required, this.validDate]],
+      email: ['', Validators.required, Validators.email],
+      tel: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("^[0-9]*$")]],
       role: ['', Validators.required],
       image: [''],
       departementId: ['', Validators.required],
-      motDePasse: ['', Validators.required],
+      motDePasse: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')]],
       salaire: ['', Validators.required],
-      dateNaissance: ['', Validators.required],
+      dateNaissance: ['', [Validators.required, this.validDate, this.validAge]],
       userAjout: [''],
     });
     this.getPostes();
@@ -77,10 +77,26 @@ export default class DialogUserComponent implements OnInit {
       const decodedToken = this.jwtHelper.decodeToken(token);
       this.matricule = decodedToken.family_name;
     }
-
-
+  }
+  validDate(control) {
+    let minDate = new Date(1900, 0, 1);
+    let maxDate = new Date();
+    let value = new Date(control.value);
+    if (value < minDate || value > maxDate) {
+      return { invalidDate: true };
+    }
+    return null;
   }
 
+  validAge(control) {
+    let eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+    let value = new Date(control.value);
+    if (value > eighteenYearsAgo) {
+      return { tooYoung: true };
+    }
+    return null;
+  }
   AjouterUser() {
     if (!this.editData) {
       this.userForm.value.dateAjout = this.ajoutDate;
@@ -120,6 +136,7 @@ export default class DialogUserComponent implements OnInit {
     dateEmbauche.setDate(dateEmbauche.getDate() + 1);
     const dateNaissance = new Date(this.userForm.value.dateNaissance);
     dateNaissance.setDate(dateNaissance.getDate() + 1);
+    if (this.userForm.valid) {
     this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, dateEmbauche, dateNaissance, userModif }).subscribe(() => {
 
       this.userForm.reset();
@@ -128,6 +145,7 @@ export default class DialogUserComponent implements OnInit {
     }, () => {
       this.notificationService.danger('Error when updating a User.');
     });
+  }
   }
   
   getPostes(): void {

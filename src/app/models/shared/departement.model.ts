@@ -7,7 +7,7 @@ export class Departement {
     chefD!: string;
     siteId!: number;
     utilisateurs: Utilisateur[] = [];
-    site?: Site;
+    site!: Site;
     dateAjout: Date = new Date();
     dateModif: Date = new Date();
     userModif!: string;

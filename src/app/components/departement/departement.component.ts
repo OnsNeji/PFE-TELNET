@@ -10,6 +10,8 @@ import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
 import { DialogDepartementComponent } from './dialog-departement/dialog-departement.component';
 import swal from 'sweetalert2';
+import { data } from 'jquery';
+import { Utilisateur } from 'app/models/shared/utilisateur.model';
 
 @Component({
   selector: 'app-departement',
@@ -22,6 +24,7 @@ export class DepartementComponent implements OnInit {
 
   ListeDepartement!: Departement[];
   departement: Departement = new Departement();
+  Site: Site[];
   sites!: Site[];
   formTitle: string = '';
   buttonLabel: string = '';
@@ -32,7 +35,7 @@ export class DepartementComponent implements OnInit {
   nom='';
   chefD='';
   siteId=0;
-
+  selectedSite: Site;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -65,6 +68,7 @@ export class DepartementComponent implements OnInit {
   getDepartements(){
     this.service.GetDepartements().subscribe({
       next:(res)=>{
+        console.log(res);
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -98,7 +102,6 @@ export class DepartementComponent implements OnInit {
       }
     });
   }
-
 
   getSites(): void {
     this.service.GetSites().subscribe(sites => {
@@ -137,34 +140,37 @@ export class DepartementComponent implements OnInit {
       }
     }
   
-    onSearchClick() {
-      const filterNom = document.getElementById('nom') as HTMLInputElement;
-      const filterChef = document.getElementById('chefD') as HTMLInputElement;
-      const filterSite = document.getElementById('siteId') as HTMLInputElement;
+onSearchClick() {
+  const filterNom = document.getElementById('nom') as HTMLInputElement;
+  const filterChef = document.getElementById('chefD') as HTMLInputElement;
   
-      const filterNomValue = filterNom.value.trim().toLowerCase();
-      const filterChefValue = filterChef.value.trim().toLowerCase();
-      const filterSiteValue = filterSite.value.trim().toLowerCase();
+
+  const filterNomValue = filterNom.value.trim().toLowerCase();
+  const filterChefValue = filterChef.value.trim().toLowerCase();
+  const filterSiteValue = this.selectedSite ? this.selectedSite.site.toString().toLowerCase() : '';
+
+  if (filterNomValue !== '') {
+    this.dataSource.filterPredicate = (data: Departement, filter: string) =>
+      data.nom.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterNomValue;
+  } else if (filterChefValue !== '') {
+    this.dataSource.filterPredicate = (data: Departement, filter: string) =>
+      data.chefD.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterChefValue;
+    console.log( this.dataSource.filter);
+  } else if (filterSiteValue !== '') {
+    this.dataSource.filterPredicate = (data: Departement, filter: string) =>
+      this.getSiteNom(data.siteId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterSiteValue;
+  }
   
-      if (filterNomValue !== '') {
-        this.dataSource.filterPredicate = (data: Departement, filter: string) =>
-          data.nom.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-        this.dataSource.filter = filterNomValue;
-      } else if (filterChefValue !== '') {
-        this.dataSource.filterPredicate = (data: Departement, filter: string) =>
-        data.chefD.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-      this.dataSource.filter = filterChefValue;
-      }else if (filterSiteValue !== '') {
-        this.dataSource.filterPredicate = (data: Departement, filter: string) =>
-        data.siteId.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-      this.dataSource.filter = filterSiteValue;
-      }
-    }
+}
+
   
     onResetAllFilters() {
       this.departement.nom = ''; // réinitialisation des filtres
       this.departement.chefD = ''; 
-      this.departement.siteId = null; 
+      this.selectedSite = null; 
       this.getDepartements();
       this.onSearchClick(); // lancement d'une nouvelle recherche
     }

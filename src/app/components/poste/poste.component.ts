@@ -10,6 +10,9 @@ import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
 import { DialogPosteComponent } from './dialog-poste/dialog-poste.component';
 import swal from 'sweetalert2';
+import { FormControl } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-poste',
@@ -33,6 +36,9 @@ export class PosteComponent implements OnInit {
   dataSource!: MatTableDataSource<Poste>;
   numéro='';
   utilisateurId='';
+  selectedUser: Utilisateur;
+  public userFilterCtrl: FormControl = new FormControl();
+  private _onDestroy = new Subject<void>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -46,11 +52,25 @@ export class PosteComponent implements OnInit {
         this.numéro = posteSearch.numéro;
         this.utilisateurId = posteSearch.utilisateurId;
       }
-    // const ID = this.route.snapshot.paramMap.get('id')!;
-    // const id: number = parseInt(ID, 10); 
-    // this.getPoste(id);
+
+      this.userFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filterUsers();
+    });
   }
 
+  filterUsers() {
+    let search = this.userFilterCtrl.value;
+    if (!search) {
+      this.utilisateurs = this.utilisateurs.slice();
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.utilisateurs = this.utilisateurs.filter(user => 
+      user.nom.toLowerCase().indexOf(search) > -1 || user.prenom.toLowerCase().indexOf(search) > -1);
+  }
   openDialog() {
     const dialogRef = this.dialog.open(DialogPosteComponent, {
      
@@ -66,6 +86,7 @@ export class PosteComponent implements OnInit {
   getPostes(){
     this.service.GetPostes().subscribe({
       next:(res)=>{
+        console.log(res);
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -149,25 +170,26 @@ export class PosteComponent implements OnInit {
   
     onSearchClick() {
       const filterNumero = document.getElementById('numéro') as HTMLInputElement;
-      const filterUser = document.getElementById('utilisateurId') as HTMLInputElement;
   
       const filterNumValue = filterNumero.value.trim().toLowerCase();
-      const filterUserValue = filterUser.value.trim().toLowerCase();
+      const filterUserValue = this.selectedUser ? (this.selectedUser.nom + ' ' + this.selectedUser.prenom).toLowerCase() : '';
+
   
       if (filterNumValue !== '') {
         this.dataSource.filterPredicate = (data: Poste, filter: string) =>
           data.numéro.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
         this.dataSource.filter = filterNumValue;
-      } else if (filterUserValue !== '') {
+      }
+      else if (filterUserValue !== '') {
         this.dataSource.filterPredicate = (data: Poste, filter: string) =>
-        data.utilisateurId.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-      this.dataSource.filter = filterUserValue;
+          this.getUtilisateurNom(data.utilisateurId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        this.dataSource.filter = filterUserValue;
       }
     }
   
     onResetAllFilters() {
       this.poste.numéro = null; // réinitialisation des filtres
-      this.poste.utilisateurId = null; 
+      this.selectedUser = null; 
       this.getPostes();
       this.onSearchClick(); // lancement d'une nouvelle recherche
     }

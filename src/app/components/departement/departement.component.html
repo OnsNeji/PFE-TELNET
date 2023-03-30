@@ -33,15 +33,18 @@
             </mat-list>
           </div>
             <div class="col-xl-4 col-lg-6" >
+
             <mat-list>
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Site.</h3>
                 <mat-form-field class="search-input col-sm-8">
-                  <input placeholder="Search here..." matInput name="searchInput" id="siteId" [(ngModel)]="departement.siteId"
-                  (keydown)="onClickingEnter($event)" />
+                  <mat-select placeholder="Select a site" [(ngModel)]="selectedSite" (selectionChange)="onSearchClick()">
+                    <mat-option *ngFor="let site of sites" [value]="site">{{site.site}}</mat-option>
+                  </mat-select>
                 </mat-form-field>
               </mat-list-item>
             </mat-list>
+            
           </div>
           
       

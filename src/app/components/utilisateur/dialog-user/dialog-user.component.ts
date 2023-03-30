@@ -52,15 +52,15 @@ export default class DialogUserComponent implements OnInit {
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       matricule: ['', Validators.required],
-      dateEmbauche: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
-      tel: ['', Validators.required],
+      dateEmbauche: ['', [Validators.required, this.validDate]],
+      email: ['', Validators.required],
+      tel: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("^[0-9]*$")]],
       role: ['', Validators.required],
       image: [''],
       departementId: ['', Validators.required],
-      motDePasse: ['', Validators.required],
+      motDePasse: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')]],
       salaire: ['', Validators.required],
-      dateNaissance: ['', Validators.required],
+      dateNaissance: ['', [Validators.required, this.validDate, this.validAge]],
       userAjout: [''],
     });
     this.getPostes();
@@ -162,7 +162,7 @@ export default class DialogUserComponent implements OnInit {
     if (this.userForm.value.dateNaissance != this.editData.dateNaissance) {
       dateNaissance.setDate(dateNaissance.getDate() + 1);
     }
-
+    if (this.userForm.valid) {
     this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, dateEmbauche, dateNaissance, userModif }).subscribe(() => {
 
       this.userForm.reset();
@@ -171,6 +171,7 @@ export default class DialogUserComponent implements OnInit {
     }, () => {
       this.notificationService.danger('Error when updating a User.');
     });
+  }
   }
   
   getPostes(): void {

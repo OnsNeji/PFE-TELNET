@@ -43,6 +43,7 @@ export class UtilisateurComponent implements OnInit {
   tel='';
   isLoading: boolean;
   dateEmbauche= new Date();
+  selectedDep: Departement;
 
   displayedColumns: string[] = ['image', 'nom && prenom', 'matricule', 'email', 'dateEmbauche', 'departementId', 'dateModif', 'action'];
   dataSource!: MatTableDataSource<Utilisateur>;
@@ -131,6 +132,12 @@ export class UtilisateurComponent implements OnInit {
     });
   }
 
+  getDepNom(id: number): string {
+    const dep = this.departements.find(s => s.id === id);
+    return dep ? dep.nom : '';
+  }
+
+
   // getUtilisateur(id: number) {
   //   this.service.GetUtilisateur(id)
   //   .subscribe(utilisateur => {
@@ -152,11 +159,6 @@ export class UtilisateurComponent implements OnInit {
     })
     }
 
-    getDepNom(id: number): string {
-    const dep = this.departements.find(s => s.id === id);
-    return dep ? dep.nom : '';
-  }
-
   dateOnly(event): boolean {
     return this.dateTimeService.dateOnly(event);
   }
@@ -173,14 +175,13 @@ export class UtilisateurComponent implements OnInit {
     const filterMatricule = document.getElementById('matricule') as HTMLInputElement;
     const filterDate = document.getElementById('dateEmbauche') as HTMLInputElement;
     const filterRole = document.getElementById('role') as HTMLInputElement;
-    const filterTel = document.getElementById('tel') as HTMLInputElement;
 
     const filterNomValue = filterNom.value.trim().toLowerCase();
     const filterPrenomValue = filterPrenom.value.trim().toLowerCase();
     const filterMatriculeValue = filterMatricule.value.trim().toLowerCase();
     const filterDateValue = filterDate.value.trim().toLowerCase();
     const filterRoleValue = filterRole.value.trim().toLowerCase();
-    const filterTelValue = filterTel.value.trim().toLowerCase();
+    const filterDepValue = this.selectedDep ? this.selectedDep.nom.toString().toLowerCase() : '';
 
     if (filterNomValue !== '') {
       this.dataSource.filterPredicate = (data: Utilisateur, filter: string) =>
@@ -198,10 +199,10 @@ export class UtilisateurComponent implements OnInit {
       this.dataSource.filterPredicate = (data: Utilisateur, filter: string) =>
       data.role.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
     this.dataSource.filter = filterRoleValue;
-    }else if (filterTelValue !== '') {
+    } else if (filterDepValue !== '') {
       this.dataSource.filterPredicate = (data: Utilisateur, filter: string) =>
-      data.tel.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    this.dataSource.filter = filterTelValue;
+        this.getDepNom(data.departementId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      this.dataSource.filter = filterDepValue;
     }
     else if (filterDateValue !== '') {
       this.dataSource.filterPredicate = (data: Utilisateur, filter: string) => {
@@ -218,7 +219,7 @@ export class UtilisateurComponent implements OnInit {
     this.utilisateur.matricule = ''; 
     this.utilisateur.dateEmbauche = null;
     this.utilisateur.role = ''; 
-    this.utilisateur.tel = ''; 
+    this.selectedDep = null; 
     this.getUtilisateurs();
     this.onSearchClick(); // lancement d'une nouvelle recherche
   }

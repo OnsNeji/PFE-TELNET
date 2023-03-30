@@ -39,8 +39,15 @@
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Util.</h3>
                 <mat-form-field class="search-input col-sm-8">
-                  <input type="tel" placeholder="Search here..." matInput name="searchInput" id="utilisateurId" [(ngModel)]="employeMois.utilisateurId"
-                  (keydown)="onClickingEnter($event)" />
+                  <mat-select placeholder="Select a site" [(ngModel)]="selectedUser" (selectionChange)="onSearchClick()">
+                    <mat-option>
+                      <ngx-mat-select-search  [placeholderLabel]="'Search'" aria-label="Recherche" matInput [formControl]="userFilterCtrl"
+                        [noEntriesFoundLabel]="'No options found'">
+                        <mat-icon ngxMatSelectSearchClear>close</mat-icon>
+                      </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur">{{utilisateur.nom}} {{utilisateur.prenom}}</mat-option>
+                  </mat-select>
                 </mat-form-field>
               </mat-list-item>
             </mat-list>

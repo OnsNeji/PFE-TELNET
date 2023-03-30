@@ -55,13 +55,14 @@
                   (keydown)="onClickingEnter($event)" />
                 </mat-form-field>
               </mat-list-item>
-              <mat-list-item>
-                <h3 class="mat-subheader col-sm-2">Tel.</h3>
-                <mat-form-field class="search-input col-sm-8">
-                  <input placeholder="Search here..." matInput name="searchInput" id="tel" [(ngModel)]="utilisateur.tel"
-                  (keydown)="onClickingEnter($event)" />
-                </mat-form-field>
-              </mat-list-item>
+                <mat-list-item>
+                  <h3 class="mat-subheader col-sm-2">Dép.</h3>
+                  <mat-form-field class="search-input col-sm-8">
+                    <mat-select placeholder="Select a department" [(ngModel)]="selectedDep" (selectionChange)="onSearchClick()">
+                      <mat-option *ngFor="let departement of departements" [value]="departement">{{departement.nom}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-list-item>
             </mat-list>
           </div>
       

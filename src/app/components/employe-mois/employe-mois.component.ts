@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,6 +9,8 @@ import { EmployéMois } from 'app/models/shared/employeMois.model';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { DateTimeService, NotificationService } from 'app/services/shared';
 import { EmployeMoisService } from 'app/services/shared/employe-mois.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { DialogDescComponent } from './dialog-desc/dialog-desc.component';
 import { DialogEmployeMoisComponent } from './dialog-employe-mois/dialog-employe-mois.component';
@@ -31,6 +34,9 @@ export class EmployeMoisComponent implements OnInit {
   date= new Date();
   description='';
   utilisateurId=0;
+  selectedUser: Utilisateur;
+  public userFilterCtrl: FormControl = new FormControl();
+  private _onDestroy = new Subject<void>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -39,6 +45,12 @@ export class EmployeMoisComponent implements OnInit {
     this.getEmployesMois();
     this.getUsers();
     this.onResetAllFilters();
+
+    this.userFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filterUsers();
+    });
   }
 
   openDialog() {
@@ -50,6 +62,18 @@ export class EmployeMoisComponent implements OnInit {
         this.getEmployesMois();
       }
     });
+  }
+
+  filterUsers() {
+    let search = this.userFilterCtrl.value;
+    if (!search) {
+      this.utilisateurs = this.utilisateurs.slice();
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.utilisateurs = this.utilisateurs.filter(user => 
+      user.nom.toLowerCase().indexOf(search) > -1 || user.prenom.toLowerCase().indexOf(search) > -1);
   }
 
   getEmployesMois(){
@@ -134,11 +158,10 @@ export class EmployeMoisComponent implements OnInit {
     onSearchClick() {
       const filterDate = document.getElementById('date') as HTMLInputElement;
       const filterDesc = document.getElementById('description') as HTMLInputElement;
-      const filterUser = document.getElementById('utilisateurId') as HTMLInputElement;
-  
+
       const filterDateValue = filterDate.value.trim().toLowerCase();
       const filterDescValue = filterDesc.value.trim().toLowerCase();
-      const filterUserValue = filterUser.value.trim().toLowerCase();
+      const filterUserValue = this.selectedUser ? (this.selectedUser.nom + ' ' + this.selectedUser.prenom).toLowerCase() : '';
   
       if (filterDescValue !== '') {
         this.dataSource.filterPredicate = (data: EmployéMois, filter: string) =>
@@ -146,8 +169,8 @@ export class EmployeMoisComponent implements OnInit {
       this.dataSource.filter = filterDescValue;
       }else if (filterUserValue !== '') {
         this.dataSource.filterPredicate = (data: EmployéMois, filter: string) =>
-        data.utilisateurId.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-      this.dataSource.filter = filterUserValue;
+          this.getUserNom(data.utilisateurId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        this.dataSource.filter = filterUserValue;
       }else if (filterDateValue !== '') {
         this.dataSource.filterPredicate = (data: EmployéMois, filter: string) => {
           const formattedDate = new Date(data.date).toLocaleDateString(); // format the date as a string
@@ -160,7 +183,7 @@ export class EmployeMoisComponent implements OnInit {
     onResetAllFilters() {
       this.employeMois.description = ''; // réinitialisation des filtres
       this.employeMois.date = null; 
-      this.employeMois.utilisateurId = null; 
+      this.selectedUser = null; 
       this.getEmployesMois();
       this.onSearchClick(); // lancement d'une nouvelle recherche
     }

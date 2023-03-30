@@ -4,7 +4,7 @@ import { Utilisateur } from "./utilisateur.model";
 export class Departement {
     id: number = 0;
     nom!: string;
-    chefD!: string;
+    chefD!: number;
     siteId!: number;
     utilisateurs: Utilisateur[] = [];
     site!: Site;

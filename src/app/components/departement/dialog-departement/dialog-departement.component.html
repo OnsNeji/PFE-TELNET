@@ -17,10 +17,12 @@
             <mat-label>Nom</mat-label>
             <input formControlName="Nom" matInput class="login-input-style">
           </mat-form-field>
-
+          
           <mat-form-field class="col-sm-6">
             <mat-label>Chef Département</mat-label>
-            <input formControlName="ChefD" matInput class="login-input-style">
+            <mat-select formControlName="ChefD" class="login-input-style">
+              <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.id">{{utilisateur.nom}} {{utilisateur.prenom}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field class="col-sm-12">

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Departement } from 'app/models/shared/departement.model';
 import { Site } from 'app/models/shared/site.model';
+import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
 
@@ -29,6 +30,7 @@ export class DialogDepartementComponent implements OnInit {
   datePipe = new DatePipe('en-US');
   ajoutDate = this.datePipe.transform(this.dateAjout, 'yyyy-MM-ddTHH:mm:ss');
   modifDate = this.datePipe.transform(this.dateModif, 'yyyy-MM-ddTHH:mm:ss');
+  utilisateurs!: Utilisateur[];
   
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
@@ -46,7 +48,7 @@ export class DialogDepartementComponent implements OnInit {
       userAjout: [''],
     });
     this.getSites();
-
+    this.getUtilisateurs();
     console.log(this.editData)
     if(this.editData){
       this.ActionBtn = "Modifier";
@@ -104,6 +106,11 @@ export class DialogDepartementComponent implements OnInit {
   getSites(): void {
     this.service.GetSites().subscribe(sites => {
       this.sites = sites;
+    });
+  }
+  getUtilisateurs(): void {
+    this.service.GetUtilisateurs().subscribe(utilisateurs => {
+      this.utilisateurs = utilisateurs;
     });
   }
 

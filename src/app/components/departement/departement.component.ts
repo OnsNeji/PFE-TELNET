@@ -26,6 +26,7 @@ export class DepartementComponent implements OnInit {
   departement: Departement = new Departement();
   Site: Site[];
   sites!: Site[];
+  utilisateurs!: Utilisateur[];
   formTitle: string = '';
   buttonLabel: string = '';
   lengthDeps: number;
@@ -36,12 +37,14 @@ export class DepartementComponent implements OnInit {
   chefD='';
   siteId=0;
   selectedSite: Site;
+  selectedUser: Utilisateur;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
 
   ngOnInit() : void{
     this.getDepartements();
+    this.getUtilisateurs();
     this.getSites();
     const depSearch = JSON.parse(sessionStorage.getItem('depSearch'));
       if (depSearch !== null) {
@@ -114,12 +117,16 @@ export class DepartementComponent implements OnInit {
     return site ? site.site : '';
   }
 
-  // getDepartement(id: number) {
-  //   this.service.GetDepartement(id)
-  //   .subscribe(departement => {
-  //   this.departement = departement;
-  //   });
-  // }
+  getUtilisateurs(): void {
+    this.service.GetUtilisateurs().subscribe(utilisateurs => {
+      this.utilisateurs = utilisateurs;
+    });
+  }
+
+  getUtilisateurNom(id: number): string {
+    const utilisateur = this.utilisateurs.find(s => s.id === id);
+    return utilisateur ? (utilisateur.nom + ' ' + utilisateur.prenom) : '';
+  }
 
   onSortData(sort) {
     this.service.siteRequest.next(sort);
@@ -142,22 +149,19 @@ export class DepartementComponent implements OnInit {
   
 onSearchClick() {
   const filterNom = document.getElementById('nom') as HTMLInputElement;
-  const filterChef = document.getElementById('chefD') as HTMLInputElement;
-  
 
   const filterNomValue = filterNom.value.trim().toLowerCase();
-  const filterChefValue = filterChef.value.trim().toLowerCase();
+  const filterUserValue = this.selectedUser ? (this.selectedUser.nom + ' ' + this.selectedUser.prenom).toLowerCase() : '';
   const filterSiteValue = this.selectedSite ? this.selectedSite.site.toString().toLowerCase() : '';
 
   if (filterNomValue !== '') {
     this.dataSource.filterPredicate = (data: Departement, filter: string) =>
       data.nom.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
     this.dataSource.filter = filterNomValue;
-  } else if (filterChefValue !== '') {
+  } else if (filterUserValue !== '') {
     this.dataSource.filterPredicate = (data: Departement, filter: string) =>
-      data.chefD.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    this.dataSource.filter = filterChefValue;
-    console.log( this.dataSource.filter);
+      this.getUtilisateurNom(data.chefD).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterUserValue;
   } else if (filterSiteValue !== '') {
     this.dataSource.filterPredicate = (data: Departement, filter: string) =>
       this.getSiteNom(data.siteId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
@@ -169,7 +173,7 @@ onSearchClick() {
   
     onResetAllFilters() {
       this.departement.nom = ''; // réinitialisation des filtres
-      this.departement.chefD = ''; 
+      this.selectedUser= null; 
       this.selectedSite = null; 
       this.getDepartements();
       this.onSearchClick(); // lancement d'une nouvelle recherche

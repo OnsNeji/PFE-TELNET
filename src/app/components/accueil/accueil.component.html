@@ -80,46 +80,6 @@
         </div>
       </section>
       <!-- End Whu Us Section -->
-      <!-- ======= Events Section ======= -->
-      <!--<section class="events">
-        <div class="container">
-          <div class="section-title">
-            <h2>
-              <span>Evénements</span>
-            </h2>
-          </div>
-          <div class="events-slider swiper">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide" *ngFor="let evenement of evenements">
-                <div class="row event-item">
-                  <div class="col-lg-6">
-                    <div class="mediaEvents-slider swiper">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide" *ngFor="let media of evenement.mediaEvents">
-                          <img [src]="media.pieceJointe" class="img-fluid" alt="">
-                        </div>
-                      </div>
-                  
-                    </div>
-                  </div>
-                  <div class="col-lg-6 pt-4 pt-lg-0 content">
-                    <h3>{{evenement.titre}}</h3>
-                    <hr>
-                    <p class="fst-italic">{{evenement.dateEvent | date}}</p>
-                    <br>
-                    <p>Pour les aider à démarrer du mieux possible, nous avons prévu des rencontres avec leurs encadrants et une visite du site pour découvrir les coulisses.</p>
-                    <br>
-                    <p>Nous espérons que vous avez tous passé un bon moment et avons hâte de travailler avec vous !</p>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-            <div class="swiper-pagination"></div>
-          </div>
-        </div>
-      </section>-->
-      <!-- End Events Section -->
 
       <!-- ======= Events Section ======= -->
       <section class="events">
@@ -134,16 +94,24 @@
               <div class="swiper-slide" *ngFor="let evenement of evenements">
                 <div class="row event-item">
                   <div class="col-lg-6">
-                    <ngb-carousel #carousel [interval]="3000">
-                      <ng-template ngbSlide *ngFor="let media of evenement.mediaEvents">
-                        <div>
-                          <div class="picsum-img-wrapper">
-                            <img [src]="media.pieceJointe" alt="">
-                          </div>
+                    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                      <ol class="carousel-indicators">
+                        <li data-bs-target="#heroCarousel" *ngFor="let media of evenement.mediaEvents; let i = index" [attr.data-bs-slide-to]="i" [class.active]="i == 0"></li>
+                      </ol>
+                      <div class="carousel-inner">
+                        <div class="carousel-item" *ngFor="let media of evenement.mediaEvents; let i = index" [class.active]="i == 0">
+                          <img [src]="media.pieceJointe" class="d-block w-100" alt="...">
                         </div>
-                      </ng-template>
-                    </ngb-carousel>
-                        
+                      </div>
+                      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </a>
+                      <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </a>
+                    </div>
                   </div>
                   <div class="col-lg-6 pt-4 pt-lg-0 content">
                     <h3>{{evenement.titre}}</h3>
@@ -158,6 +126,7 @@
           </div>
         </div>
       </section>
+      
       <!-- End Events Section -->
 
       <!-- ======= Specials Section ======= -->

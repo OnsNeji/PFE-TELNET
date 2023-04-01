@@ -29,6 +29,11 @@
               <mat-label>Description</mat-label>
               <input matInput formControlName="description" class="login-input-style">
             </mat-form-field>
+            
+            <div class="col-sm-12">
+              <input type="file" #mediaEvents multiple (change)="onFileSelected($event)" formControlName="mediaEvents"
+              name="image" accept="image/*" class="login-input-style" >
+           </div>
 
           <mat-form-field class="col-sm-6" hidden>
             <mat-label>UserAjout</mat-label>

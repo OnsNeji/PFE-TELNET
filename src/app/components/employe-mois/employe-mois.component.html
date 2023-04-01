@@ -14,7 +14,7 @@
             <mat-list>
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Date</h3>
-                <mat-form-field class="date-field col-sm-8">
+                <mat-form-field class="date-field col-sm-12">
                   <input placeholder="Search here..." matInput [matDatepicker]="picker11" id="date" name="searchInput"
                     (keypress)="dateOnly($event)" [(ngModel)]="employeMois.date" (keydown)="onClickingEnter($event)">
                   <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
@@ -23,22 +23,11 @@
               </mat-list-item>
             </mat-list>
           </div>
-            <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
-            <mat-list>
-              <mat-list-item>
-                <h3 class="mat-subheader col-sm-2">Desc.</h3>
-                <mat-form-field class="search-input col-sm-8">
-                  <input placeholder="Search here..." matInput name="searchInput" id="description" [(ngModel)]="employeMois.description"
-                  (keydown)="onClickingEnter($event)" />
-                </mat-form-field>
-              </mat-list-item>
-            </mat-list>
-          </div>
-            <div class="col-xl-4 col-lg-6" >
+            <div class="col-xl-4 col-lg-6" style="margin-left: 10%;">
             <mat-list>
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Util.</h3>
-                <mat-form-field class="search-input col-sm-8">
+                <mat-form-field class="search-input col-sm-12">
                   <mat-select placeholder="Select a site" [(ngModel)]="selectedUser" (selectionChange)="onSearchClick()">
                     <mat-option>
                       <ngx-mat-select-search  [placeholderLabel]="'Search'" aria-label="Recherche" matInput [formControl]="userFilterCtrl"

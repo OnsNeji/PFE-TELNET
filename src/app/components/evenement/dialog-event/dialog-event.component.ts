@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -16,10 +16,11 @@ export class DialogEventComponent implements OnInit {
 
   eventForm!: FormGroup;
   listeEvents!: Evenement[];
-  employe: Evenement = new Evenement();
+  evenement: Evenement = new Evenement();
   private jwtHelper = new JwtHelperService();
   public matricule: string = '';
   ActionBtn: string = "Ajouter";
+  imageUrl: string;
 
   constructor(private builder: FormBuilder, 
     private service: EvenementService, 
@@ -34,6 +35,7 @@ export class DialogEventComponent implements OnInit {
       description : ['', Validators.required],
       titre : ['', Validators.required],
       userAjout: [''],
+      mediaEvents: [''],
     });
 
     if(this.editData){
@@ -43,7 +45,8 @@ export class DialogEventComponent implements OnInit {
         dateEvent: this.editData.dateEvent,
         description: this.editData.description,
         titre: this.editData.titre,
-        userAjout : this.editData.userAjout
+        userAjout : this.editData.userAjout,
+        mediaEvents : this.editData.mediaEvents,
       });
     }
 
@@ -65,12 +68,18 @@ export class DialogEventComponent implements OnInit {
   }
   AjouterEvenement() {
     if (!this.editData) {
+      const evenement = this.eventForm.value;
+      evenement.mediaEvents = this.imageUrl;
+      const mediaEvents = evenement.mediaEvents; 
+      console.log(mediaEvents);
       if (this.eventForm.valid) {
         this.eventForm.value.userAjout = this.matricule;
         const userAjout = this.eventForm.value.userAjout;
         const dateEvent = new Date(this.eventForm.value.dateEvent);
         dateEvent.setDate(dateEvent.getDate() + 1);
-        this.service.AddEvenement({ ...this.eventForm.value, dateEvent, userAjout }).subscribe(() => {
+
+        const evenement = { ...this.eventForm.value, dateEvent, userAjout };
+        this.service.AddEvenement(evenement, mediaEvents).subscribe(() => {
           this.eventForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Event added successfully !');
@@ -103,6 +112,16 @@ export class DialogEventComponent implements OnInit {
       });
     }
   }
+
+
+  // onFileSelected(event: any): void {
+  //   this.imageUrl = event.target.files;
+  // }
+
+  onFileSelected(event: any): void {
+    this.imageUrl = event.target.files;
+  }
+  
 
   close() {
     this.dialogRef.close();

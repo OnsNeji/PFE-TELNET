@@ -157,17 +157,11 @@ export class EmployeMoisComponent implements OnInit {
 
     onSearchClick() {
       const filterDate = document.getElementById('date') as HTMLInputElement;
-      const filterDesc = document.getElementById('description') as HTMLInputElement;
 
       const filterDateValue = filterDate.value.trim().toLowerCase();
-      const filterDescValue = filterDesc.value.trim().toLowerCase();
       const filterUserValue = this.selectedUser ? (this.selectedUser.nom + ' ' + this.selectedUser.prenom).toLowerCase() : '';
   
-      if (filterDescValue !== '') {
-        this.dataSource.filterPredicate = (data: EmployéMois, filter: string) =>
-        data.description.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-      this.dataSource.filter = filterDescValue;
-      }else if (filterUserValue !== '') {
+      if (filterUserValue !== '') {
         this.dataSource.filterPredicate = (data: EmployéMois, filter: string) =>
           this.getUserNom(data.utilisateurId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
         this.dataSource.filter = filterUserValue;
@@ -181,7 +175,6 @@ export class EmployeMoisComponent implements OnInit {
     }
 
     onResetAllFilters() {
-      this.employeMois.description = ''; // réinitialisation des filtres
       this.employeMois.date = null; 
       this.selectedUser = null; 
       this.getEmployesMois();

@@ -91,37 +91,38 @@
           </div>
           <div class="events-slider swiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" *ngFor="let evenement of evenements">
+              <div class="swiper-slide" *ngFor="let swiperEvenement of evenements">
                 <div class="row event-item">
                   <div class="col-lg-6">
-                    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div id="heroCarousel{{swiperEvenement.id}}" class="carousel slide carousel-fade" data-bs-ride="carousel">
                       <ol class="carousel-indicators">
-                        <li data-bs-target="#heroCarousel" *ngFor="let media of evenement.mediaEvents; let i = index" [attr.data-bs-slide-to]="i" [class.active]="i == 0"></li>
+                        <li data-bs-target="#heroCarousel{{swiperEvenement.id}}" *ngFor="let media of swiperEvenement.mediaEvents; let i = index" [attr.data-bs-slide-to]="i" [class.active]="i == 0"></li>
                       </ol>
                       <div class="carousel-inner">
-                        <div class="carousel-item" *ngFor="let media of evenement.mediaEvents; let i = index" [class.active]="i == 0">
+                        <div class="carousel-item" *ngFor="let media of swiperEvenement.mediaEvents; let i = index" [class.active]="i == 0">
                           <img [src]="media.pieceJointe" class="d-block w-100" alt="...">
                         </div>
                       </div>
-                      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+                      <a class="carousel-control-prev" href="#heroCarousel{{swiperEvenement.id}}" role="button" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                       </a>
-                      <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+                      <a class="carousel-control-next" href="#heroCarousel{{swiperEvenement.id}}" role="button" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                       </a>
                     </div>
                   </div>
                   <div class="col-lg-6 pt-4 pt-lg-0 content">
-                    <h3>{{evenement.titre}}</h3>
+                    <h3>{{swiperEvenement.titre}}</h3>
                     <hr>
-                    <p class="fst-italic">{{evenement.dateEvent | date}}</p>
+                    <p class="fst-italic">{{swiperEvenement.dateEvent | date}}</p>
                     <br>
-                    <p style="line-height: 2em;">{{evenement.description}}</p>
+                    <p style="line-height: 2em;">{{swiperEvenement.description}}</p>
                   </div>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>
@@ -249,77 +250,11 @@
                   </div>
                 </div>
               </div>-->
-              <div class="my-swiper">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide" *ngFor="let utilisateur of anniversaires">
-                    <div class="member">
-                      <img src="{{utilisateur.image}}" alt="" style="height: 280px;">
-                      <div class="member-info">
-                        <div class="member-info-content">
-                          <h4>{{utilisateur.prenom}} {{utilisateur.nom}}</h4>
-                          <span>{{utilisateur.dateNaissance | date:'dd/MM'}}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
-      <!--<section id="team" class="team">
-        <div class="container">
-          <div class="section-title">
-            <h2>
-              <span>Mariages & Naissances</span>
-            </h2>
-          </div>
-          <div class="info-wrap">
-            <div class="row">
-              <div class="swiper mySwipeeer">
-                <div class="swiper-wrapper">
-                  <div class="a swiper-slide">
-                    <div class="member">
-                      <img src="../../../assets/img/user1.png" class="img-fluid" alt="">
-                      <div class="member-info">
-                        <div class="member-info-content">
-                          <h4>Walter White</h4>
-                          <span>Mariage - 19 Mars</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="a swiper-slide">
-                    <div class="member">
-                      <img src="../../../assets/img/user1.png" class="img-fluid" alt="">
-                      <div class="member-info">
-                        <div class="member-info-content">
-                          <h4>Walter White</h4>
-                          <span>Naissance - 10 Mars</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="a swiper-slide">
-                    <div class="member">
-                      <img src="../../../assets/img/user1.png" class="img-fluid" alt="">
-                      <div class="member-info">
-                        <div class="member-info-content">
-                          <h4>Walter White</h4>
-                          <span>Mariage - 20 Mars</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>-->
+   
       <!-- ======= Testimonials Section ======= -->
       <div class="section-title">
         <h2>Employé du <span> Mois</span>
@@ -330,7 +265,7 @@
           <div class="testimonials-slider" data-aos="fade-up" data-aos-delay="100" *ngIf="latestEmployee">
            
                 <div class="testimonial-item">
-                  <h4>{{latestEmployee.date | date: 'MMMM,YYYY'}}</h4>
+                  <h4>{{latestEmployee.date | date: 'MMMM, YYYY'}}</h4>
                   <img [src]="latestEmployee.image" class="testimonial-img" alt="">
                   <h3>{{getUtilisateurNom(latestEmployee.utilisateurId)}}</h3>
                   

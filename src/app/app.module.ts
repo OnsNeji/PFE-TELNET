@@ -79,6 +79,8 @@ import { ConventionComponent } from './components/convention/convention.componen
 import { DialogConventionComponent } from './components/convention/dialog-convention/dialog-convention.component';
 import { DialogDescriptionComponent } from './components/evenement/dialog-description/dialog-description.component';
 import { DialogDescComponent } from './components/employe-mois/dialog-desc/dialog-desc.component';
+import { NouveauteComponent } from './components/nouveaute/nouveaute.component';
+import { DialogNouveauteComponent } from './components/nouveaute/dialog-nouveaute/dialog-nouveaute.component';
 
 
 export const CUSTOM_DT_FORMATS = {
@@ -121,7 +123,9 @@ export const CUSTOM_DT_FORMATS = {
         ConventionComponent,
         DialogConventionComponent,
         DialogDescriptionComponent,
-        DialogDescComponent
+        DialogDescComponent,
+        NouveauteComponent,
+        DialogNouveauteComponent
         
     ],
     entryComponents: [

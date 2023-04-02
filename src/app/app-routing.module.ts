@@ -13,6 +13,7 @@ import { EvenementComponent } from './components/evenement/evenement.component';
 import { MediaEventComponent } from './components/evenement/media-event/media-event.component';
 import { AccueilComponent } from './components/accueil/accueil.component';
 import { ConventionComponent } from './components/convention/convention.component';
+import { NouveauteComponent } from './components/nouveaute/nouveaute.component';
 
 const routes: Routes = [
 
@@ -66,6 +67,7 @@ const routes: Routes = [
   { path: 'mediaEvent', component: MediaEventComponent, canActivate: [AuthGuard] },
   { path: 'accueil', component: AccueilComponent, canActivate: [AuthGuard] },
   { path: 'convention', component: ConventionComponent, canActivate: [AuthGuard] },
+  { path: 'nouveauté', component: NouveauteComponent, canActivate: [AuthGuard] },
 
 ];
 

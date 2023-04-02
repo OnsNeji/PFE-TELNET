@@ -38,16 +38,6 @@ export class AccueilComponent implements OnInit {
               private apiService: ApiService,
               private convService: ConventionService) {}
 
-  @ViewChild('carousel', { static: true }) carousel: NgbCarousel;
-  
-
-  ngAfterViewInit(){
-    this.carousel.pause(); // Pause le diaporama
-    this.carousel.cycle(); // Redémarre le diaporama avec les nouvelles options
-
-    
-  }
-
   ngOnInit(): void {
 
     this.getEvenements();

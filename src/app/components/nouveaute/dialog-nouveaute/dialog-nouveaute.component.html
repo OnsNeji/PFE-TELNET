@@ -1,1 +1,59 @@
-<p>dialog-nouveaute works!</p>
+<div class="modal_header">
+    <div class="modal_title">
+        <span>
+            Département
+        </span>
+        <span>
+            <em class="material-icons modal-close" (click)="close()">close</em>
+        </span>
+    </div>
+  </div>
+  <div class="modal_body">
+    <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
+      <form [formGroup]="nouveauteForm">
+        
+        <div class="row m-b-6">
+          <mat-form-field class="col-sm-6">
+              <mat-label>Titre</mat-label>
+              <input formControlName="titre" matInput class="login-input-style">
+            </mat-form-field>
+            
+            <mat-form-field class="col-sm-6">
+                <mat-label>Description</mat-label>
+                <input formControlName="description" matInput class="login-input-style">
+              </mat-form-field>
+  
+              <div class="col-sm-12">
+                <input type="file" (change)="onFileSelected($event)" formControlName="pieceJointe"
+                name="image" accept="image/*" class="login-input-style" >
+             </div>
+            <mat-form-field class="col-sm-6" hidden>
+              <mat-label>UserAjout</mat-label>
+              <input matInput formControlName="userAjout" class="login-input-style" disabled hidden>
+            </mat-form-field>
+  
+            <mat-form-field class="col-sm-6" hidden>
+              <mat-label>DatePublication</mat-label>
+              <input matInput formControlName="datePublication" class="login-input-style" disabled hidden>
+            </mat-form-field>
+          </div>
+  
+          
+        <div class="row m-t-20">
+          <div class="col-lg-12">
+              <div class="row f-right">
+                  <div class="col-lg-12">
+                      <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+                      &nbsp; &nbsp;
+                      <button type="submit" class="btn btn-primary ripple light btn-md" (click)="AjouterNouveaute()">
+                          Save
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+        
+      </form>
+    </div>
+  </div>
+  

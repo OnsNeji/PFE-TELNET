@@ -48,28 +48,11 @@
           </div>
           <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide">
+              <div class="swiper-slide" *ngFor="let nouveaute of nouveautes" >
                 <div class="box">
-                  <h4>HR Expo</h4>
-                  <p>Rejoignez-nous au salon HR Expo à Tunis les 01 et 02 mars 2023 et apprenez-en plus sur vos opportunités de carrière au sein du Groupe TELNET !</p>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="box">
-                  <h4>Visite des étudiants d'ESPITA</h4>
-                  <p>Telnet holding s'engage à investir dans les talents de demain ! 20 Février, accueil des étudiants de l'ESPITA et leur équipe pédagogique dans notre bureau du lac.</p>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="box">
-                  <h4>La 8ème édition du NAPU Job fair</h4>
-                  <p>Samedi, le 4 février 2023, participation à la 08e édition de Napu Job Fair dans le nouveau campus de Napu avec la présence de nos ambassadors.</p>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="box">
-                  <h4> Ad ad velit qui</h4>
-                  <p>Molestiae officiis omnis illo asperiores. Aut doloribus vitae sunt debitis quo vel nam quis. Molestiae officiis omnis illo asperiores. Molestiae officiis omnis illo asperiores. </p>
+                  <h4>{{nouveaute.titre}}</h4>
+                  <p>{{nouveaute.description}}</p>
+                  <h6>{{nouveaute.datePublication | date}}</h6>
                 </div>
               </div>
             </div>
@@ -226,41 +209,7 @@
         </div>
       </section>
       <!-- End Chefs Section -->
-      <!--<section id="team" class="team">
-        <div class="container">
-          <div class="section-title">
-            <h2>
-              <span>Anniversaires</span>
-            </h2>
-          </div>
-          <div class="info-wrap">
-            <div class="row" style="  margin-left: 5%;">
-              <div class="swipeer mySwipeeer">
-                <div class="swipeer-wrapper">
-                  <div class="a swiper-slide" *ngFor="let utilisateur of anniversaires">
-                    <div class="member">
-                      <img src="{{utilisateur.image}}" class="img-fluid" alt="">
-                      <div class="member-info">
-                        <div class="member-info-content">
-                          <h4>{{utilisateur.prenom}} {{utilisateur.nom}}</h4>
-                          <span>{{utilisateur.dateNaissance | date:'dd/MM'}}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>-->
-<!--<section class="anniv">
-      <div class="sliderr" *ngFor="let utilisateur of anniversaires; let i=index">
-        <span style="--i:{{i+1}};">
-          <img src="{{utilisateur.image}}" alt="">
-        </span>
-      </div>
-</section>-->
+
 <section class="anniv">
   
   <div class="containerrr">

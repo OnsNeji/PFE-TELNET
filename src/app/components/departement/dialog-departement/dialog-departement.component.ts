@@ -17,7 +17,6 @@ import { NotificationService } from 'app/services/shared/notification.service';
 })
 export class DialogDepartementComponent implements OnInit {
 
-  
   departementForm!: FormGroup;
   sites!: Site[];
   ListeDepartement!: Departement[];

@@ -94,6 +94,15 @@ export class DialogEventComponent implements OnInit {
   }
 
   updateEvenement() {
+    const evenement = this.eventForm.value;
+
+      if (!this.imageUrl) {
+        this.eventForm.value.mediaEvents = this.editData.mediaEvents;
+
+      } else {
+        this.eventForm.value.mediaEvents = this.imageUrl;
+      }
+      const mediaEvents = evenement.mediaEvents; 
     const dateEvent = new Date(this.eventForm.value.dateEvent);
     if (this.eventForm.value.dateEvent == this.editData.dateEvent) {
       dateEvent.setDate(dateEvent.getDate());
@@ -102,7 +111,7 @@ export class DialogEventComponent implements OnInit {
       dateEvent.setDate(dateEvent.getDate() + 1);
     }
     if (this.eventForm.valid) {
-    this.service.UpdateEvenement(this.editData.id, { ...this.eventForm.value, dateEvent }).subscribe(() => {
+    this.service.UpdateEvenement(this.editData.id, { ...this.eventForm.value, dateEvent }, mediaEvents).subscribe(() => {
       this.eventForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('Event modified successfully !');

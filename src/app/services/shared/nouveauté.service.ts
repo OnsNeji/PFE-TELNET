@@ -27,6 +27,10 @@ export class NouveautéService {
     const nouveauteData = { ...nouveaute, userAjout: nouveaute.userAjout, datePublication };
     return this.http.post<Nouveauté>(url, nouveauteData);
   }
+  AddSiteToNouveaute(nouveauteId: number, siteId: number) {
+    const url = `${this.baseUrl}Nouveauté/${nouveauteId}/Site/${siteId}`;
+    return this.http.post(url, null);
+  }
 
   UpdateNouveauté(id: number, nouveaute: Nouveauté): Observable<any> {
     const url = `${this.baseUrl}Nouveauté/${id}`;
@@ -36,5 +40,10 @@ export class NouveautéService {
 
   DeleteNouveauté(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}Nouveauté/${id}`);
+  }
+
+  DeleteSiteFromNouveaute(nouveauteId: number, siteId: number) {
+    const url = `${this.baseUrl}Nouveauté/${nouveauteId}/Site/${siteId}`;
+    return this.http.delete(url);
   }
 }

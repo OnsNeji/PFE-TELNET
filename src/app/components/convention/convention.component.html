@@ -9,19 +9,11 @@
         <div class="card m-b-10">
           <div class="card-body p-t-10">
             <div class='row'>
-              <div class="col-xl-4 col-lg-6">
+             
+              <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
               <mat-list>
-                <mat-list-item>
-                  <h3 class="mat-subheader col-sm-4">D.deb</h3>
-                  <mat-form-field class="date-field col-sm-8">
-                    <input placeholder="Search here..." matInput [matDatepicker]="picker11" id="dateDebut" name="searchInput"
-                      (keypress)="dateOnly($event)" [(ngModel)]="convention.dateDebut" (keydown)="onClickingEnter($event)">
-                    <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
-                    <mat-datepicker #picker11></mat-datepicker>
-                  </mat-form-field>
-                </mat-list-item>
               <mat-list-item>
-                <h3 class="mat-subheader col-sm-4">Tit.</h3>
+                <h3 class="mat-subheader col-sm-2">Tit.</h3>
                 <mat-form-field class="search-input col-sm-8">
                   <input placeholder="Search here..." matInput name="searchInput" id="titre" [(ngModel)]="convention.titre"
                   (keydown)="onClickingEnter($event)" />
@@ -29,11 +21,25 @@
               </mat-list-item>
             </mat-list>
           </div>
+
+          <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2" >D.deb</h3>
+                <mat-form-field class="date-field col-sm-8">
+                  <input placeholder="Search here..." matInput [matDatepicker]="picker11" id="dateDebut" name="searchInput"
+                    (keypress)="dateOnly($event)" [(ngModel)]="convention.dateDebut" (keydown)="onClickingEnter($event)">
+                  <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+                  <mat-datepicker #picker11></mat-datepicker>
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+            </div>
              
-                <div class="col-xl-4 col-lg-6" style="margin-left: -5%;">
+                <div class="col-xl-4 col-lg-6">
                 <mat-list>
                     <mat-list-item>
-                        <h3 class="mat-subheader col-sm-4">D.fin</h3>
+                        <h3 class="mat-subheader col-sm-2">D.fin</h3>
                         <mat-form-field class="date-field col-sm-8">
                           <input placeholder="Search here..." matInput [matDatepicker]="picker22" id="dateFin" name="searchInput"
                             (keypress)="dateOnly($event)" [(ngModel)]="convention.dateFin" (keydown)="onClickingEnter($event)">
@@ -41,21 +47,20 @@
                           <mat-datepicker #picker22></mat-datepicker>
                         </mat-form-field>
                       </mat-list-item>
-                  <mat-list-item>
-                    <h3 class="mat-subheader col-sm-4">Desc.</h3>
-                    <mat-form-field class="search-input col-sm-8">
-                      <input placeholder="Search here..." matInput name="searchInput" id="description" [(ngModel)]="convention.description"
-                      (keydown)="onClickingEnter($event)" />
-                    </mat-form-field>
-                  </mat-list-item>
                 </mat-list>
               </div>
           
               <div class="col-xl-1 col-lg-6">
                 <div class="text-center">
     
-                  <button (click)="onSearchClick()"  class="btn btn-md btn-primary ripple light m-t-5">Search</button>
                   <button class="btn btn-md btn-default ripple light m-t-10" (click)="onResetAllFilters()">Reset</button>
+                </div>
+              </div>
+
+              <div class="col-xl-1 col-lg-6">
+                <div class="text-center">
+    
+                  <button (click)="onSearchClick()"  class="btn btn-md btn-primary ripple light m-t-5">Search</button>
                 </div>
               </div>
     

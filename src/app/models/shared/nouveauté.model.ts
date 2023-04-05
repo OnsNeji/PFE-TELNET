@@ -6,6 +6,7 @@ export class Nouveauté {
     description!: string;
     pieceJointe!: string;
     datePublication: Date = new Date();
+    siteId: number;
     sites: Site[] = [];
     userAjout!: string;
   }

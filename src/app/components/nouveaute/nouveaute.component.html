@@ -21,19 +21,8 @@
               </mat-list-item>
             </mat-list>
           </div>
-            <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
 
-            <mat-list>
-              <mat-list-item>
-                <h3 class="mat-subheader col-sm-2">Desc.</h3>
-                <mat-form-field class="search-input col-sm-8">
-                  <input placeholder="Search here..." matInput name="searchInput" id="description" [(ngModel)]="nouveaute.description"
-                  (keydown)="onClickingEnter($event)" />
-                </mat-form-field>
-              </mat-list-item>
-            </mat-list>
-          </div>
-            <div class="col-xl-4 col-lg-6" >
+            <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
 
               <mat-list>
                 <mat-list-item>
@@ -47,6 +36,19 @@
                 </mat-list-item>
               </mat-list>
             
+          </div>
+          <div class="col-xl-4 col-lg-6" >
+
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Site.</h3>
+                <mat-form-field class="search-input col-sm-8">
+                  <mat-select placeholder="Select a site" [(ngModel)]="selectedSite" (selectionChange)="onSearchClick()">
+                    <mat-option *ngFor="let site of sites" [value]="site">{{site.site}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
           </div>
           
       
@@ -116,23 +118,26 @@
     <ng-container matColumnDef="description" class=" table-hover table-striped table-styling">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
         <mat-cell *matCellDef="let nouveaute" (click)="openDescriptionDialog(nouveaute)">
-          {{nouveaute.description | slice:0:52:'...'}}{{nouveaute.description.length > 50 ? '...' : ''}}
+          {{nouveaute.description | slice:0:40:'...'}}{{nouveaute.description.length > 40 ? '...' : ''}}
         </mat-cell>
       </ng-container>
-
-      <ng-container matColumnDef="userAjout" class=" table-hover table-striped table-styling">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>User Ajout</mat-header-cell>
-        <mat-cell *matCellDef="let nouveaute">
-          {{nouveaute.userAjout}}
-        </mat-cell>
-      </ng-container>
-
 
     <ng-container matColumnDef="datePublication">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Date Publication</mat-header-cell>
       <mat-cell *matCellDef="let nouveaute">  {{nouveaute.datePublication | date}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="userAjout" class=" table-hover table-striped table-styling">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Ajouté par</mat-header-cell>
+      <mat-cell *matCellDef="let nouveaute">
+        {{nouveaute.userAjout}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="siteId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Site</mat-header-cell>
+      <mat-cell *matCellDef="let nouveaute"> {{getSiteNom(nouveaute.siteId)}} </mat-cell>
+    </ng-container>
 
 
     <ng-container matColumnDef="action">

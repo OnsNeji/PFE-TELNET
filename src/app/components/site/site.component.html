@@ -112,14 +112,9 @@
       <mat-cell *matCellDef="let site"> {{site.fax}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="dateModif">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Date Modification</mat-header-cell>
-      <mat-cell *matCellDef="let site">  {{site.dateModif | date}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="userModif">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Modifié par</mat-header-cell>
-      <mat-cell *matCellDef="let site">  {{site.userModif}} </mat-cell>
+    <ng-container matColumnDef="userAjout">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Ajouté par</mat-header-cell>
+      <mat-cell *matCellDef="let site">  {{site.userAjout}} </mat-cell>
     </ng-container>
 
 

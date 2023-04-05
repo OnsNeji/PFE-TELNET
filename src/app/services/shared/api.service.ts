@@ -49,10 +49,6 @@ export class ApiService {
     const siteData = { ...site, userAjout: site.userAjout };
     return this.http.post<Site>(url, siteData);
   }
-  AddNouveauteToSite(siteId: number, nouveauteId: number) {
-    const url = `${this.baseUrl}Site/${siteId}/Nouveauté/${nouveauteId}`;
-    return this.http.post(url, null);
-  }
   UpdateSite(id: number, site:Site): Observable<any> {
     const url = `${this.baseUrl}Site/${id}`;
     const siteData = { ...site, id: id, userModif: site.userModif }; // inclure l'ID dans le corps de la requête
@@ -60,10 +56,6 @@ export class ApiService {
   }
   DeleteSite(id: number): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}Site/${id}`);
-  }
-  DeleteNouveauteFromSite(siteId: number, nouveauteId: number) {
-    const url = `${this.baseUrl}Site/${siteId}/Nouveauté/${nouveauteId}`;
-    return this.http.delete(url);
   }
 
 

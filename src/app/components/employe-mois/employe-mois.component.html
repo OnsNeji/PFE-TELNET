@@ -23,7 +23,7 @@
               </mat-list-item>
             </mat-list>
           </div>
-            <div class="col-xl-4 col-lg-6" style="margin-left: 10%;">
+            <div class="col-xl-4 col-lg-6" style="margin-left: 15%;">
             <mat-list>
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Util.</h3>
@@ -43,7 +43,7 @@
           </div>
           
       
-          <div class="col-xl-1 col-lg-6">
+          <div class="col-xl-1 col-lg-6" style="margin-left: 10%;">
             <div class="text-center">
               <button class="btn btn-md btn-default ripple light m-t-10" (click)="onResetAllFilters()">Reset</button>
             </div>
@@ -119,7 +119,7 @@
     
 
     <ng-container matColumnDef="userAjout">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>User Ajout</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Ajouté par</mat-header-cell>
       <mat-cell *matCellDef="let employeMois">  {{employeMois.userAjout}} </mat-cell>
     </ng-container>
 

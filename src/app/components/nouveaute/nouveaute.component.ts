@@ -36,7 +36,7 @@ export class NouveauteComponent implements OnInit {
   buttonLabel: string = '';
   lengthNouv: number;
   isLoading: boolean;
-  displayedColumns: string[] = ['pieceJointe', 'titre', 'description', 'datePublication', 'userAjout', 'action'];
+  displayedColumns: string[] = ['pieceJointe', 'titre', 'description', 'datePublication', 'userAjout', 'siteId', 'action'];
   dataSource!: MatTableDataSource<Nouveauté>;
   siteId=0;
   selectedSite: Site;
@@ -143,21 +143,20 @@ export class NouveauteComponent implements OnInit {
   
 onSearchClick() {
   const filterTitre = document.getElementById('titre') as HTMLInputElement;
-  const filterDesc = document.getElementById('description') as HTMLInputElement;
   const filterDate = document.getElementById('datePublication') as HTMLInputElement;
 
   const filterTitreValue = filterTitre.value.trim().toLowerCase();
-  const filterDescValue = filterDesc.value.trim().toLowerCase();
   const filterDateValue = filterDate.value.trim().toLowerCase();
+  const filterSiteValue = this.selectedSite ? this.selectedSite.site.toString().toLowerCase() : '';
 
   if (filterTitreValue !== '') {
     this.dataSource.filterPredicate = (data: Nouveauté, filter: string) =>
       data.titre.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
     this.dataSource.filter = filterTitreValue;
-  }else if (filterDescValue !== '') {
+  }else if (filterSiteValue !== '') {
     this.dataSource.filterPredicate = (data: Nouveauté, filter: string) =>
-    data.description.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    this.dataSource.filter = filterDescValue;
+      this.getSiteNom(data.siteId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterSiteValue;
   }else if (filterDateValue !== '') {
       this.dataSource.filterPredicate = (data: Nouveauté, filter: string) => {
         const formattedDate = new Date(data.datePublication).toLocaleDateString(); // format the date as a string
@@ -171,7 +170,7 @@ onSearchClick() {
   
     onResetAllFilters() {
       this.nouveaute.titre = '';
-      this.nouveaute.description = ''; // réinitialisation des filtres
+      this.selectedSite = null; 
       this.nouveaute.datePublication = null;
       this.getNouveautés();
       this.onSearchClick(); // lancement d'une nouvelle recherche

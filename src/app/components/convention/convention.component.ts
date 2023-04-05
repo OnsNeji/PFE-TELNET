@@ -129,12 +129,10 @@ this.onSearchClick();
 
 onSearchClick() {
 const filterDateD = document.getElementById('dateDebut') as HTMLInputElement;
-const filterDesc = document.getElementById('description') as HTMLInputElement;
 const filterTitre = document.getElementById('titre') as HTMLInputElement;
 const filterDateF = document.getElementById('dateFin') as HTMLInputElement;
 
 const filterTitreValue = filterTitre.value.trim().toLowerCase();
-const filterDescValue = filterDesc.value.trim().toLowerCase();
 const filterDateDValue = filterDateD.value.trim().toLowerCase();
 const filterDateFValue = filterDateF.value.trim().toLowerCase();
 
@@ -142,10 +140,6 @@ if (filterTitreValue !== '') {
 this.dataSource.filterPredicate = (data: Convention, filter: string) =>
 data.titre.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
 this.dataSource.filter = filterTitreValue;
-}else if (filterDescValue !== '') {
-this.dataSource.filterPredicate = (data: Convention, filter: string) =>
-data.description.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-this.dataSource.filter = filterDescValue;
 }else if (filterDateDValue !== '') {
 this.dataSource.filterPredicate = (data: Convention, filter: string) => {
 const formattedDate = new Date(data.dateDebut).toLocaleDateString(); // format the date as a string

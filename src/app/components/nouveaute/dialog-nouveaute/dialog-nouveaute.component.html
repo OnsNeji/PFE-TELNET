@@ -17,8 +17,15 @@
               <mat-label>Titre</mat-label>
               <input formControlName="titre" matInput class="login-input-style">
             </mat-form-field>
-            
+
             <mat-form-field class="col-sm-6">
+              <mat-label>Site</mat-label>
+              <mat-select formControlName="siteId" class="login-input-style"> 
+                <mat-option *ngFor="let site of sites" [value]="site.id">{{ site.site }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field class="col-sm-12">
                 <mat-label>Description</mat-label>
                 <input formControlName="description" matInput class="login-input-style">
               </mat-form-field>

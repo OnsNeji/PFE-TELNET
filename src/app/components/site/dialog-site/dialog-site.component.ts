@@ -45,8 +45,8 @@ export class DialogSiteComponent implements OnInit {
       // id : [''],
       site : ['', Validators.required],
       adresse : ['', Validators.required],
-      tel : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("^[0-9]*$")]],
-      fax : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("^[0-9]*$")]],
+      tel : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(12), Validators.pattern("^[+0-9]*$")]],
+      fax : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(12), Validators.pattern("^[+0-9]*$")]],
       userAjout: [''],
     })
 

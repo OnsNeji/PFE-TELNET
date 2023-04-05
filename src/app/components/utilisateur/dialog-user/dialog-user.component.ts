@@ -38,6 +38,7 @@ export default class DialogUserComponent implements OnInit {
   userModif!: string;
   userAjout!: string;
   imageUrl: string;
+  cache = false;
 
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
@@ -69,6 +70,7 @@ export default class DialogUserComponent implements OnInit {
     console.log(this.editData)
     if(this.editData){
       this.ActionBtn = "Modifier";
+      this.cache = true;
       this.userForm.patchValue(this.editData);
     }
 

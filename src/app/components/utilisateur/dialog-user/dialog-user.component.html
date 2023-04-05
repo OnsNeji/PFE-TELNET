@@ -61,7 +61,7 @@
             <input matInput formControlName="salaire" type="number" class="login-input-style">
           </mat-form-field>
 
-          <mat-form-field class="col-sm-6">
+          <mat-form-field [ngClass]="{'col-sm-3': cache, 'col-sm-6': !cache}">
             <mat-label>Email</mat-label>
             <input type="email" matInput formControlName="email" class="login-input-style">
             <mat-error *ngIf="userForm.hasError('email') && !userForm.hasError('required')">
@@ -72,7 +72,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="col-sm-6">
+          <mat-form-field class="col-sm-6" *ngIf="!editData">
             <mat-label>Mot de passe</mat-label>
             <input matInput [type]="hide ? 'password' : 'text'" formControlName="motDePasse" class="login-input-style">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
@@ -85,20 +85,20 @@
           </mat-form-field>
 
           
-          <mat-form-field class="date-field col-sm-4">
+          <mat-form-field [ngClass]="{'date-field col-sm-3': cache, 'date-field col-sm-4': !cache}">
             <input matInput [matDatepicker]="picker1100" formControlName="dateEmbauche" placeholder="Date d'embauche">
             <mat-datepicker-toggle matSuffix [for]="picker1100"></mat-datepicker-toggle>
             <mat-datepicker #picker1100></mat-datepicker>
           </mat-form-field>
 
-          <mat-form-field class="col-sm-4">
+          <mat-form-field [ngClass]="{'col-sm-3': cache, 'col-sm-4': !cache}">
             <mat-label>Département</mat-label>
             <mat-select formControlName="departementId" class="login-input-style">
               <mat-option *ngFor="let departement of departements" [value]="departement.id">{{ departement.nom }}</mat-option>
             </mat-select>
           </mat-form-field>
 
-          <div class="col-sm-4">
+          <div [ngClass]="{'col-sm-3': cache, 'col-sm-4': !cache}">
             <input type="file" (change)="onFileSelected($event)" formControlName="image"
             name="image" accept="image/*" class="login-input-style" >
          </div>
@@ -133,7 +133,7 @@
                       <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
                       &nbsp; &nbsp;
                       <button type="submit" class="btn btn-primary ripple light btn-md" (click)="AjouterUser()">
-                          Save
+                          {{ActionBtn}}
                       </button>
                   </div>
               </div>

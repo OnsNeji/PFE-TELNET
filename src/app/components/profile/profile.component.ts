@@ -37,7 +37,6 @@ export class ProfileComponent implements OnInit {
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       email: ['', Validators.required],
-      motDePasse: ['', Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')],
       matricule: ['', Validators.required],
       tel: ['', Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("^[0-9]*$")],
       role: ['', Validators.required],

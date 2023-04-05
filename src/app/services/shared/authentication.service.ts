@@ -84,8 +84,8 @@ export class AuthenticationService {
         return this.httpClient.post<any>(`${this.baseUrl}reset-password`, resetPasswordObj);
       }
 
-      changerPassword(id: number, changerPasswordObj: ChangerPassword): Observable<any> {
-        return this.httpClient.put(`${this.baseUrl}changerPassword/${id}`, changerPasswordObj);
+      changerPassword(id: number, changerPasswordObj: ChangerPassword){
+        return this.httpClient.post(`${this.baseUrl}changerPassword/${id}`, changerPasswordObj);
         }
 
         isLoggedIn(): boolean{

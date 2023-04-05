@@ -1,10 +1,13 @@
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserProfile, UserIdentifiers } from 'app/models/shared';
 import { ChangerPassword } from 'app/models/shared/changer-password.model';
 import { AuthenticationService, NotificationService } from 'app/services/shared';
+import { UserService } from 'app/services/shared/user.service';
+import { SHA256 } from 'crypto-js';
+import { ResetPassword } from 'app/models/shared/reset-password.model';
 
 @Component({
     selector: 'app-change-password-component',
@@ -17,32 +20,35 @@ export class ChangePasswordComponent implements OnInit {
     hideNewPassword = true;
     hideNewPasswordConfirmed = true;
     userIdentifiers: UserIdentifiers;
-    password: string;
     newPassword: string;
     newPasswordConfirmed: string;
     barLabel = 'New Password Strength:';
     passwordStrength = false;
     userProfile: UserProfile;
-
+    [x: string]: any;
+    @ViewChild('passwordActuel') passwordActuel: ElementRef;
     id: number;
+  userPassword: string = '';
     changerPasswordForm!: FormGroup;
     changerPasswordObj = new ChangerPassword();
     private jwtHelper = new JwtHelperService();
+    
 
     constructor(private dialogRef: MatDialogRef<ChangePasswordComponent>,
-        private authentication: AuthenticationService,
-        private notificationService: NotificationService,
-        private fb: FormBuilder) {
+                private authService: AuthenticationService,
+                private notificationService: NotificationService,
+                private fb: FormBuilder, 
+                private userService: UserService,) {
     }
 
     ngOnInit() {
 
           this.changerPasswordForm = new FormGroup({
             PasswordActuel: new FormControl(null, Validators.required),
-            NouveauPassword: new FormControl(null, Validators.required),
-            ConfirmerNouveauPassword: new FormControl(null, Validators.required),
+            NouveauMotDePasse: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')]),
+            ConfirmerNouveauMotDePasse: new FormControl(null, Validators.required),
           }, {
-            validators: this.ConfirmPasswordValidator("NouveauPassword", "ConfirmerNouveauPassword")
+            validators: this.ConfirmPasswordValidator("NouveauMotDePasse", "ConfirmerNouveauMotDePasse")
           });
 
           const token = localStorage.getItem('token');
@@ -50,47 +56,40 @@ export class ChangePasswordComponent implements OnInit {
       const decodedToken = this.jwtHelper.decodeToken(token);
       this.id = decodedToken.nameid;
     }
+    this.userService.getUser(this.id).subscribe(data => {
+      this.user = data;
+      this.userPassword = this.user.motDePasse;
+      console.log(this.userPassword)
+    });
     }
 
-    // changePassword() {
-    //     this.userProfile = this.authentication.getProfile();
-    //     this.userIdentifiers.identifier = this.userProfile.currentUser.id.toString();
-    //     this.userIdentifiers.password = this.password;
-    //     this.userIdentifiers.newPassword = this.newPassword;
-    //     this.userIdentifiers.newPasswordConfirmed = this.newPasswordConfirmed;
-    //     if (this.validPasswords()) {
-    //         this.authentication.changePassword(this.userIdentifiers).subscribe(
-    //             (data) => {
-    //                 if (data === 'succeeded') {
-    //                     this.notificationService.success('Your password is updated successfully');
-    //                     this.dialogRef.close();
-    //                 } else {
-    //                     this.notificationService.danger('Verify your old password');
-    //                 }
-    //             }
-    //         );
-    //     }
-    // }
-
     changerPassword() {
-        console.log(this.changerPasswordForm.valid);
-        if (this.changerPasswordForm.valid) {
-          this.changerPasswordObj.MotDePasseActuel = this.changerPasswordForm.value.PasswordActuel;
-          this.changerPasswordObj.NouveauMotDePasse = this.changerPasswordForm.value.NouveauPassword;
-          this.changerPasswordObj.ConfirmerNouveauMotDePasse = this.changerPasswordForm.value.ConfirmerNouveauPassword;
-          
-          // appel de l'API pour changer le mot de passe ici
-          this.authentication.changerPassword(this.id, this.changerPasswordObj).subscribe(() => {
-            this.dialogRef.close();
-            this.notificationService.success('Your password has been successfully changed.');
-          }, error => {
-            this.notificationService.danger('Password change failed.');
-          });
-        } else {
-          this.notificationService.danger('Verify your password confirmation.');
-        }
+      const password = this.passwordActuel.nativeElement.value;
+    if (password == '') {
+      this.notificationService.danger('Mot de passe Actuel est nécessaire');
+    }
+
+    const hashedPassword = SHA256(password).toString();
+    if (hashedPassword == this.userPassword) {
+      if (this.changerPasswordForm.valid) {
+        this.changerPasswordObj.MotDePasseActuel = hashedPassword;
+        this.changerPasswordObj.NouveauMotDePasse = this.changerPasswordForm.value.NouveauMotDePasse;
+        this.changerPasswordObj.ConfirmerNouveauMotDePasse = this.changerPasswordForm.value.ConfirmerNouveauMotDePasse;
+        console.log(this.changerPasswordObj);
+        
+        this.authService.changerPassword(this.id, this.changerPasswordObj).subscribe(() => {
+          this.dialogRef.close();
+          this.notificationService.success('Your password has been successfully changed.');
+        }, error => {
+          this.notificationService.danger('Password change failed.');
+        });
+      } else {
+        this.notificationService.danger('Verify your new password.');
       }
-    
+      }else{
+        this.notificationService.danger('Mot de passe Actuel invalid');
+      }
+    }
 
     getPasswordStrength(passwordStrength: boolean) {
         this.passwordStrength = passwordStrength;

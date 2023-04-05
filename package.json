@@ -51,6 +51,7 @@
     "c3": "^0.4.24",
     "caniuse-lite": "^1.0.30001280",
     "core-js": "^2.6.5",
+    "crypto-js": "^4.1.1",
     "d3": "^4.13.0",
     "datatables": "1.10.12",
     "datatables.net-bs": "1.10.12",

@@ -5,6 +5,7 @@ import { AdminComponent } from 'app/layout/admin/admin.component';
 import { AuthenticationService, NotificationService } from 'app/services/shared';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'app/services/shared/user.service';
+import { SHA256 } from 'crypto-js';
 
 
 @Component({
@@ -54,7 +55,10 @@ export class LockScreenComponent implements OnInit {
     if (password == '') {
       this.notificationService.danger('Unlock screen failed');
     }
-    if (password == this.userPassword) {
+
+    const hashedPassword = SHA256(password).toString();
+
+    if (hashedPassword == this.userPassword) {
       sessionStorage.removeItem('DialogExpirationSessionOpened');
       this.dialogRef.close();
       this.notificationService.success('Screen unlocked successfully');

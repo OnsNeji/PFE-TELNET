@@ -49,7 +49,7 @@ export class MariageComponent implements OnInit {
   ngOnInit(): void {
     this.getMariageNaissances();
     this.getUsers();
-    // this.onResetAllFilters();
+    this.onResetAllFilters();
 
     this.userFilterCtrl.valueChanges
     .pipe(takeUntil(this._onDestroy))
@@ -147,37 +147,44 @@ export class MariageComponent implements OnInit {
       return this.dateTimeService.dateOnly(event);
     }
 
-    // onClickingEnter(event) {
-    //   if (event.key === 'Enter') {
-    //     this.onSearchClick();
-    //   }
-    // }
+    onClickingEnter(event) {
+      if (event.key === 'Enter') {
+        this.onSearchClick();
+      }
+    }
 
-    // onSearchClick() {
-    //   const filterDate = document.getElementById('date') as HTMLInputElement;
+    onSearchClick() {
+      const filterDate = document.getElementById('date') as HTMLInputElement;
+      const filterTitre = document.getElementById('titre') as HTMLInputElement;
 
-    //   const filterDateValue = filterDate.value.trim().toLowerCase();
-    //   const filterUserValue = this.selectedUser ? (this.selectedUser.nom + ' ' + this.selectedUser.prenom).toLowerCase() : '';
+      const filterDateValue = filterDate.value.trim().toLowerCase();
+      const filterTitreValue = filterTitre.value.trim().toLowerCase();
+      const filterUserValue = this.selectedUser ? (this.selectedUser.nom + ' ' + this.selectedUser.prenom).toLowerCase() : '';
   
-    //   if (filterUserValue !== '') {
-    //     this.dataSource.filterPredicate = (data: EmployéMois, filter: string) =>
-    //       this.getUserNom(data.utilisateurId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    //     this.dataSource.filter = filterUserValue;
-    //   }else if (filterDateValue !== '') {
-    //     this.dataSource.filterPredicate = (data: EmployéMois, filter: string) => {
-    //       const formattedDate = new Date(data.date).toLocaleDateString(); // format the date as a string
-    //       return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-    //     };
-    //   this.dataSource.filter = filterDateValue;
-    //   }
-    // }
+      if (filterUserValue !== '') {
+        this.dataSource.filterPredicate = (data: MariageNaissance, filter: string) =>
+          this.getUserNom(data.utilisateurId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        this.dataSource.filter = filterUserValue;
+      }else if (filterTitreValue !== '') {
+        this.dataSource.filterPredicate = (data: MariageNaissance, filter: string) =>
+          data.titre.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        this.dataSource.filter = filterTitreValue;
+      }else if (filterDateValue !== '') {
+        this.dataSource.filterPredicate = (data: MariageNaissance, filter: string) => {
+          const formattedDate = new Date(data.date).toLocaleDateString(); // format the date as a string
+          return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        };
+      this.dataSource.filter = filterDateValue;
+      }
+    }
 
-    // onResetAllFilters() {
-    //   this.employeMois.date = null; 
-    //   this.selectedUser = null; 
-    //   this.getEmployesMois();
-    //   this.onSearchClick(); // lancement d'une nouvelle recherche
-    // }
+    onResetAllFilters() {
+      this.MariageNaissance.date = null; 
+      this.MariageNaissance.titre ='';
+      this.selectedUser = null; 
+      this.getMariageNaissances();
+      this.onSearchClick(); // lancement d'une nouvelle recherche
+    }
   
 
 }

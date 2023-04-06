@@ -116,14 +116,10 @@
       <mat-cell *matCellDef="let employeMois">  {{employeMois.date | date}} </mat-cell>
     </ng-container>
 
-    
-
     <ng-container matColumnDef="userAjout">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Ajouté par</mat-header-cell>
       <mat-cell *matCellDef="let employeMois">  {{employeMois.userAjout}} </mat-cell>
     </ng-container>
-
-
 
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>

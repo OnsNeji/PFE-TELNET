@@ -450,6 +450,73 @@ section {
 }
 
 
+/*--------------------------------------------------------------
+# Menu Section
+--------------------------------------------------------------*/
+// .menu-container {
+//   overflow-y: scroll;
+//   max-height: 250px; /* ajuster la hauteur maximale en fonction de vos besoins */
+// }
+
+// .menu-container::-webkit-scrollbar {
+//   width: 0px;
+//   background-color: transparent;
+// }
+.menu{
+  margin-top: -10%;
+}
+div.row.menu-containerr{
+  overflow-y: scroll;
+  max-height: 250px;
+}
+
+div.row.menu-containerr::-webkit-scrollbar {
+  width: 0px;
+  background-color: transparent;
+  }
+
+.menu .menu-content {
+  margin-top: 30px;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.menu .menu-content::after {
+  content: "......................................................................" "...................................................................." "....................................................................";
+  position: absolute;
+  left: 20px;
+  right: 0;
+  top: -4px;
+  z-index: 1;
+  color: #dad8d4;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.menu .menu-content a {
+  padding-right: 10px;
+  background: #fff;
+  position: relative;
+  z-index: 3;
+  font-weight: 700;
+  color: #1ba3dd;
+}
+
+.menu .menu-content span {
+  background: #fff;
+  position: relative;
+  z-index: 3;
+  padding: 0 10px;
+  font-weight: 600;
+}
+
+.menu .menu-ingredients {
+  font-style: italic;
+  font-size: 14px;
+  font-family: "Comic Neue", sans-serif;
+  color: #948c81;
+}
 
 /*--------------------------------------------------------------
 # Hero Section

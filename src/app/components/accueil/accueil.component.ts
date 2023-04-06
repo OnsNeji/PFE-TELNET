@@ -17,6 +17,8 @@ import * as FileSaver from 'file-saver';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { NouveautéService } from 'app/services/shared/nouveauté.service';
 import { Nouveauté } from 'app/models/shared/nouveauté.model';
+import { MariageNaissanceService } from 'app/services/shared/mariageNaissance.service';
+import { MariageNaissance } from 'app/models/shared/mariageNaissance.model';
 
 
 @Component({
@@ -30,6 +32,8 @@ export class AccueilComponent implements OnInit {
   nouveaute: Nouveauté = new Nouveauté();
   evenements: Evenement[] = [];
   evenement: Evenement = new Evenement();
+  MariageNaissances: MariageNaissance[] = [];
+  MariageNaissance: MariageNaissance = new MariageNaissance();
   latestEmployee: EmployéMois;
   utilisateurs!: Utilisateur[];
   conventions!: Convention[];
@@ -41,7 +45,8 @@ export class AccueilComponent implements OnInit {
               private nouvService: NouveautéService,
               private employeMoisService: EmployeMoisService, 
               private apiService: ApiService,
-              private convService: ConventionService) {}
+              private convService: ConventionService,
+              private MNService: MariageNaissanceService) {}
 
   ngOnInit(): void {
 
@@ -52,9 +57,7 @@ export class AccueilComponent implements OnInit {
     this.getConventions();
     this.getLatestUtilisateurs();
     this.getAnniversaires();
-
-    
-
+    this.getMariageNaissances();
 
   const select = (el, all = false) => {
     el = el.trim()
@@ -313,6 +316,13 @@ new Swiper(".mySwipeeer", {
   getConventions(){
     this.convService.GetConventions().subscribe(data => {
       this.conventions = data;
+    })
+  }
+
+  getMariageNaissances(){
+    this.MNService.GetMariageNaissances().subscribe(data => {
+      this.MariageNaissances = data;
+      console.log(data);
     })
   }
 

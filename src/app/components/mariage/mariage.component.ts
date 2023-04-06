@@ -4,17 +4,16 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Mariage } from 'app/models/shared/mariage.model';
-import { Nouveauté } from 'app/models/shared/nouveauté.model';
-import { Site } from 'app/models/shared/site.model';
 import { DateTimeService, NotificationService } from 'app/services/shared';
 import { ApiService } from 'app/services/shared/api.service';
-import { MariageService } from 'app/services/shared/mariage.service';
-import { NouveautéService } from 'app/services/shared/nouveauté.service';
-import { DialogDescriptionNouvComponent } from '../nouveaute/dialog-description-nouv/dialog-description-nouv.component';
-import { DialogNouveauteComponent } from '../nouveaute/dialog-nouveaute/dialog-nouveaute.component';
+import { MariageNaissanceService } from 'app/services/shared/mariageNaissance.service';
 import swal from 'sweetalert2';
 import { DialogMariageComponent } from './dialog-mariage/dialog-mariage.component';
+import { MariageNaissance } from 'app/models/shared/mariageNaissance.model';
+import { FormControl } from '@angular/forms';
+import { Utilisateur } from 'app/models/shared/utilisateur.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mariage',
@@ -22,142 +21,163 @@ import { DialogMariageComponent } from './dialog-mariage/dialog-mariage.componen
   styleUrls: ['./mariage.component.scss']
 })
 export class MariageComponent implements OnInit {
-  constructor(private service: NouveautéService, 
-    private siteService: ApiService, 
-    private route: ActivatedRoute, 
-    private router: Router, 
-    public dialog: MatDialog,
-    private dateTimeService: DateTimeService, 
-    private notificationService: NotificationService,
-    private mariageService: MariageService){}
+  constructor(private MNService: MariageNaissanceService, 
+              private service: ApiService,
+              private route: ActivatedRoute, 
+              private router: Router, 
+              public dialog: MatDialog, 
+              private notificationService: NotificationService, 
+              private dateTimeService: DateTimeService,){}
 
-    mariages: Mariage[];
-Nouveautes!: Nouveauté[];
-nouveaute: Nouveauté = new Nouveauté();
-Site: Site[];
-sites!: Site[];
-formTitle: string = '';
-buttonLabel: string = '';
-lengthNouv: number;
-isLoading: boolean;
-displayedColumns: string[] = ['titre', 'date', 'description', 'action'];
-dataSource!: MatTableDataSource<Mariage>;
-siteId=0;
-selectedSite: Site;
-@ViewChild(MatPaginator) paginator!: MatPaginator;
-@ViewChild(MatSort) sort!: MatSort;
+  MariageNaissances!: MariageNaissance[];
+  MariageNaissance: MariageNaissance = new MariageNaissance();
+  utilisateurs! : Utilisateur[];
+  displayedColumns: string[] = ['utilisateurId', 'titre', 'date', 'userAjout', 'action'];
+  dataSource!: MatTableDataSource<MariageNaissance>;
+  lengthMN: number;
+  isLoading: boolean;
+  date= new Date();
+  description='';
+  utilisateurId=0;
+  selectedUser: Utilisateur;
+  public userFilterCtrl: FormControl = new FormControl();
+  private _onDestroy = new Subject<void>();
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-ngOnInit() : void{
-this.getMariages();
-this.onResetAllFilters();
-}
+  ngOnInit(): void {
+    this.getMariageNaissances();
+    this.getUsers();
+    // this.onResetAllFilters();
 
-openDialog() {
-const dialogRef = this.dialog.open(DialogMariageComponent, {
-});
-
-dialogRef.afterClosed().subscribe(result => {
-if(result === "ajouter"){
-this.getMariages();
-}
-});
-}
-
-getMariages(){
-  this.mariageService.GetMariages().subscribe(mariages => {
-    this.dataSource = new MatTableDataSource(mariages);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  });
-}
-
-deleteNouveaute(id: number): void {
-swal.fire({
-text: `Are you sure to delete this News ?`,
-icon: 'error',
-showCancelButton: true,
-confirmButtonColor: '#3085d6',
-cancelButtonColor: '#d33',
-confirmButtonText: 'Yes, delete it!',
-showLoaderOnConfirm: true,
-preConfirm: () => {
-this.service.DeleteNouveauté(id)
-.subscribe(()=>
-  {
-    this.getMariages();
-    this.notificationService.success('News deleted successfully');
-  },
-  () => {
-    this.notificationService.danger('Delete News failed');
+    this.userFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filterUsers();
+    });
   }
-);
-}
-});
-}
 
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogMariageComponent, {
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result === "ajouter"){
+        this.getMariageNaissances();
+      }
+    });
+  }
 
-onSortData(sort) {
-this.mariageService.mariageRequest.next(sort);
-}
-updateNouveaute(row: any) {
-this.dialog.open(DialogNouveauteComponent, {
-data: row,
-}).afterClosed().subscribe(result=>{
-if(result === "modifier"){
-this.getMariages();
-}
-})
-}
+  filterUsers() {
+    let search = this.userFilterCtrl.value;
+    if (!search) {
+      this.utilisateurs = this.utilisateurs.slice();
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.utilisateurs = this.utilisateurs.filter(user => 
+      user.nom.toLowerCase().indexOf(search) > -1 || user.prenom.toLowerCase().indexOf(search) > -1);
+  }
 
-openDescriptionDialog(nouveaute: any): void {
-const dialogRef = this.dialog.open(DialogDescriptionNouvComponent, {
-width: '500px',
-data: { description: nouveaute.description },
-});
-}
+  getMariageNaissances(){
+    this.MNService.GetMariageNaissances().subscribe({
+      next:(res)=>{
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error:()=>{
 
-dateOnly(event): boolean {
-return this.dateTimeService.dateOnly(event);
-}
+      }
+    })
+  }
 
-onClickingEnter(event) {
-if (event.key === 'Enter') {
-this.onSearchClick();
-}
-}
+  deleteMariageNaissance(id: number): void {
+    swal.fire({
+      text: `Are you sure to delete it ?`,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        this.MNService.DeleteMariageNaissance(id)
+          .subscribe(()=>
+            {
+              this.getMariageNaissances();
+              this.notificationService.success('Mariage/Naissance deleted successfully');
+            },
+            () => {
+              this.notificationService.danger('Delete Mariage/Naissance failed');
+            }
+          );
+      }
+    });
+  }
 
-onSearchClick() {
-const filterTitre = document.getElementById('titre') as HTMLInputElement;
-const filterDate = document.getElementById('datePublication') as HTMLInputElement;
+  onSortData(sort) {
+    this.MNService.MNRequest.next(sort);
+  }
 
-const filterTitreValue = filterTitre.value.trim().toLowerCase();
-const filterDateValue = filterDate.value.trim().toLowerCase();
-const filterSiteValue = this.selectedSite ? this.selectedSite.site.toString().toLowerCase() : '';
+  getUsers(): void {
+    this.service.GetUtilisateurs().subscribe(users => {
+      this.utilisateurs = users;
+    });
+  }
 
-if (filterTitreValue !== '') {
-this.dataSource.filterPredicate = (data: Nouveauté, filter: string) =>
-data.titre.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-this.dataSource.filter = filterTitreValue;
-}else if (filterDateValue !== '') {
-this.dataSource.filterPredicate = (data: Nouveauté, filter: string) => {
-const formattedDate = new Date(data.datePublication).toLocaleDateString(); // format the date as a string
-return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-};
-this.dataSource.filter = filterDateValue;
-}
+  getUserNom(id: number): string {
+    const user = this.utilisateurs.find(s => s.id === id);
+    return user ? (user.nom + ' ' + user.prenom) : '';
+  }
 
-}
+  updateMariageNaissance(row: any) {
+    this.dialog.open(DialogMariageComponent, {
+      data: row,
+    }).afterClosed().subscribe(result=>{
+      if(result === "modifier"){
+        this.getMariageNaissances();
+      }
+    })
+    }
 
+    dateOnly(event): boolean {
+      return this.dateTimeService.dateOnly(event);
+    }
 
-onResetAllFilters() {
-this.nouveaute.titre = '';
-this.selectedSite = null; 
-this.nouveaute.datePublication = null;
-this.getMariages();
-this.onSearchClick(); // lancement d'une nouvelle recherche
-}
+    // onClickingEnter(event) {
+    //   if (event.key === 'Enter') {
+    //     this.onSearchClick();
+    //   }
+    // }
 
+    // onSearchClick() {
+    //   const filterDate = document.getElementById('date') as HTMLInputElement;
+
+    //   const filterDateValue = filterDate.value.trim().toLowerCase();
+    //   const filterUserValue = this.selectedUser ? (this.selectedUser.nom + ' ' + this.selectedUser.prenom).toLowerCase() : '';
+  
+    //   if (filterUserValue !== '') {
+    //     this.dataSource.filterPredicate = (data: EmployéMois, filter: string) =>
+    //       this.getUserNom(data.utilisateurId).toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    //     this.dataSource.filter = filterUserValue;
+    //   }else if (filterDateValue !== '') {
+    //     this.dataSource.filterPredicate = (data: EmployéMois, filter: string) => {
+    //       const formattedDate = new Date(data.date).toLocaleDateString(); // format the date as a string
+    //       return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    //     };
+    //   this.dataSource.filter = filterDateValue;
+    //   }
+    // }
+
+    // onResetAllFilters() {
+    //   this.employeMois.date = null; 
+    //   this.selectedUser = null; 
+    //   this.getEmployesMois();
+    //   this.onSearchClick(); // lancement d'une nouvelle recherche
+    // }
+  
 
 }

@@ -210,13 +210,47 @@
       </section>
       <!-- End Chefs Section -->
 
-<section class="anniv">
+          <!-- ======= Menu Section ======= -->
+    <section class="menu">
+      <div class="container">
+
+        <div class="section-title">
+          <h2><span>Mariage & Naissance</span></h2>
+        </div>
+
+        <div class="row menu-containerr">
+
+          <div class="col-lg-6 menu-item" *ngFor="let MariageNaissance of MariageNaissances">
+            <div class="menu-content">
+              <a href="#">{{getUtilisateurNom(MariageNaissance.utilisateurId)}}</a><span>{{MariageNaissance.date | date}}</span>
+            </div>
+            <div class="menu-ingredients">
+              {{MariageNaissance.titre}}
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+    </section>
+    <!-- End Menu Section -->
+
+
+<!--<section class="anniv">
   
   <div class="containerrr">
     <div class="section-title" style="margin-top: -20%;">
       <h2>
         <span>Anniversaires</span>
       </h2>
+    </div>
+
+    <div class="col-lg-3">
+      <ul class="nav nav-tabs flex-column">
+        <li class="nav-item" *ngFor="let convention of conventions; let i=index">
+          <a class="nav-link" data-bs-toggle="tab" href="#tab-{{i}}" (click)="selectConvention(i)" >{{'Convention ' + convention.titre}}</a>
+        </li>
+      </ul>
     </div>
     <input type="radio" name="slider" class="d-none" id="s1" checked>
     <input type="radio" name="slider" class="d-none" id="s2" >
@@ -249,7 +283,7 @@
     </div>
 
   </div>
-</section>
+</section>-->
       <!-- ======= Testimonials Section ======= -->
       <div class="section-title">
         <h2>Employé du <span> Mois</span>

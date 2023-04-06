@@ -56,13 +56,7 @@ export class DialogEmployeMoisComponent implements OnInit {
     if(this.editData){
       this.ActionBtn = "Modifier";
       // this.departementForm.patchValue(this.editData);
-      this.EmployeeForm.setValue({
-        date: this.editData.date,
-        description: this.editData.description,
-        utilisateurId: this.editData.utilisateurId,
-        image: this.editData.image,
-        userAjout : this.editData.userAjout
-      });
+      this.EmployeeForm.patchValue(this.editData);
 
      
     }

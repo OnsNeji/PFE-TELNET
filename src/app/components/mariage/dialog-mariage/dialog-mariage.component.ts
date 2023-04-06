@@ -1,14 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Mariage } from 'app/models/shared/mariage.model';
+import { MariageNaissance } from 'app/models/shared/mariageNaissance.model';
 import { Nouveauté } from 'app/models/shared/nouveauté.model';
 import { Site } from 'app/models/shared/site.model';
+import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { NotificationService } from 'app/services/shared';
 import { ApiService } from 'app/services/shared/api.service';
-import { MariageService } from 'app/services/shared/mariage.service';
+import { MariageNaissanceService } from 'app/services/shared/mariageNaissance.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-mariage',
@@ -18,35 +21,33 @@ import { MariageService } from 'app/services/shared/mariage.service';
 export class DialogMariageComponent implements OnInit {
 
   
+  MariageNaissances!: MariageNaissance[];
+  MariageNaissance: MariageNaissance = new MariageNaissance();
+  utilisateurs! : Utilisateur[];
   mariageForm!: FormGroup;
-  mariages: Mariage[];
-  sites!: Site[];
-  mariage: Nouveauté = new Mariage();
-  nouveauté: Nouveauté = new Nouveauté();
   ActionBtn: string = "Ajouter";
   private jwtHelper = new JwtHelperService();
   public matricule: string = '';
   imageUrl: string;
+  public userFilterCtrl: FormControl = new FormControl();
+  private _onDestroy = new Subject<void>();
+  filteredUsers: Utilisateur[];
 
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
-              private mariageService: MariageService,
+              private MNService: MariageNaissanceService,
+              private mariageService: MariageNaissanceService,
               private dialogRef: MatDialogRef<DialogMariageComponent>, 
-              @Inject(MAT_DIALOG_DATA) public editData: Mariage,
+              @Inject(MAT_DIALOG_DATA) public editData: MariageNaissance,
               private notificationService: NotificationService,
               private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.mariageForm = this.builder.group({
-      // id : [''],
       titre : ['', Validators.required],
-      description : ['', Validators.required],
-      siteId : [],
-      pieceJointe : [''],
+      utilisateurId : ['', Validators.required],
       userAjout: [''],
       date: [''],
-      datePublication: [''],
-      
     });
 
     console.log(this.editData)
@@ -55,13 +56,9 @@ export class DialogMariageComponent implements OnInit {
       // this.departementForm.patchValue(this.editData);
       this.mariageForm.setValue({
         titre: this.editData.titre,
-        description: this.editData.description,
-        pieceJointe: this.editData.pieceJointe,
         userAjout : this.editData.userAjout,
         date: this.editData.date,
-        siteId: this.editData.siteId,
-        datePublication: this.editData.datePublication,
-        
+        utilisateurId: this.editData.utilisateurId,    
       });
     }
 
@@ -70,17 +67,41 @@ export class DialogMariageComponent implements OnInit {
       const decodedToken = this.jwtHelper.decodeToken(token);
       this.matricule = decodedToken.family_name;
     }
+
+    this.getUsers();
+    this.userFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filterUsers();
+    });
   }
   
+  filterUsers() {
+    let search = this.userFilterCtrl.value;
+    if (!search) {
+      this.filteredUsers = this.utilisateurs.slice();
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.filteredUsers = this.utilisateurs.filter(user => 
+      user.nom.toLowerCase().indexOf(search) > -1 || user.prenom.toLowerCase().indexOf(search) > -1);
+  }
 
-  AjouterMariage(){
+  getUsers(): void {
+    this.service.GetUtilisateurs().subscribe(utilisateurs => {
+      this.utilisateurs = utilisateurs;
+      this.filteredUsers = utilisateurs;
+    });
+  }
+
+  AjouterMariageNaissance(){
     if(!this.editData){
-      this.mariageForm.value.pieceJointe = this.imageUrl;
       if(this.mariageForm.valid){
         this.mariageForm.value.userAjout = this.matricule;
         const userAjout = this.mariageForm.value.userAjout;
         const datePublication = new Date();
-        this.mariageService.AddMariage({ ...this.mariageForm.value, userAjout, datePublication }).subscribe(()=>{
+        this.mariageService.AddMariageNaissance({ ...this.mariageForm.value, userAjout }).subscribe(()=>{
           this.mariageForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Mariage added successfully !');
@@ -90,19 +111,20 @@ export class DialogMariageComponent implements OnInit {
         })
       }
     } else {
-      this.updateMariage();
+      this.updateMariageNaissance();
     }
   }
 
-  updateMariage(){
-    if (!this.imageUrl) {
-      this.mariageForm.value.pieceJointe = this.editData.pieceJointe;
-    } else {
-      this.mariageForm.value.pieceJointe = this.imageUrl;
+  updateMariageNaissance(){
+    const date = new Date(this.mariageForm.value.date);
+    if (this.mariageForm.value.date == this.editData.date) {
+      date.setDate(date.getDate());
     }
-
+    if (this.mariageForm.value.date != this.editData.date) {
+      date.setDate(date.getDate() + 1);
+    }
     if (this.mariageForm.valid) {
-    this.mariageService.UpdateMariage(this.editData.id, { ...this.mariageForm.value }).subscribe(()=>{
+    this.mariageService.UpdateMariageNaissance(this.editData.id, { ...this.mariageForm.value, date }).subscribe(()=>{
       this.mariageForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('Mariage modified successfully !');
@@ -112,17 +134,6 @@ export class DialogMariageComponent implements OnInit {
     });
   }
   }
-
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imageUrl = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-
-  }
-
 
   close() {
     this.dialogRef.close();

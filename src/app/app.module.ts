@@ -82,6 +82,8 @@ import { DialogDescComponent } from './components/employe-mois/dialog-desc/dialo
 import { NouveauteComponent } from './components/nouveaute/nouveaute.component';
 import { DialogNouveauteComponent } from './components/nouveaute/dialog-nouveaute/dialog-nouveaute.component';
 import { DialogDescriptionNouvComponent } from './components/nouveaute/dialog-description-nouv/dialog-description-nouv.component';
+import { MariageComponent } from './components/mariage/mariage.component';
+import { DialogMariageComponent } from './components/mariage/dialog-mariage/dialog-mariage.component';
 
 
 export const CUSTOM_DT_FORMATS = {
@@ -127,7 +129,9 @@ export const CUSTOM_DT_FORMATS = {
         DialogDescComponent,
         NouveauteComponent,
         DialogNouveauteComponent,
-        DialogDescriptionNouvComponent
+        DialogDescriptionNouvComponent,
+        MariageComponent,
+        DialogMariageComponent
         
     ],
     entryComponents: [

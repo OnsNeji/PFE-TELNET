@@ -14,6 +14,7 @@ import { MediaEventComponent } from './components/evenement/media-event/media-ev
 import { AccueilComponent } from './components/accueil/accueil.component';
 import { ConventionComponent } from './components/convention/convention.component';
 import { NouveauteComponent } from './components/nouveaute/nouveaute.component';
+import { MariageComponent } from './components/mariage/mariage.component';
 
 const routes: Routes = [
 
@@ -68,6 +69,7 @@ const routes: Routes = [
   { path: 'accueil', component: AccueilComponent, canActivate: [AuthGuard] },
   { path: 'convention', component: ConventionComponent, canActivate: [AuthGuard] },
   { path: 'nouveauté', component: NouveauteComponent, canActivate: [AuthGuard] },
+  { path: 'mariage', component: MariageComponent, canActivate: [AuthGuard] },
 
 ];
 

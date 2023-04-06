@@ -59,7 +59,7 @@ export default class DialogUserComponent implements OnInit {
       role: ['', Validators.required],
       image: [''],
       departementId: ['', Validators.required],
-      motDePasse: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')]],
+      motDePasse: ['', Validators.required],
       salaire: ['', Validators.required],
       dateNaissance: ['', [Validators.required, this.validDate, this.validAge]],
       userAjout: [''],

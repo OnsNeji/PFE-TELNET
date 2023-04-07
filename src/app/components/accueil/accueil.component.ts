@@ -35,7 +35,8 @@ export class AccueilComponent implements OnInit {
   nouveautes: Nouveauté[] = [];
   nouveaute: Nouveauté = new Nouveauté();
   evenements: Evenement[] = [];
-  evenement: Evenement = new Evenement();
+  latestEvenements: Evenement[];
+  latestNouveautes: Nouveauté[];
   MariageNaissances: MariageNaissance[] = [];
   MariageNaissance: MariageNaissance = new MariageNaissance();
   projectSuccesses: ProjectSuccess[] = [];
@@ -280,9 +281,11 @@ new Swiper(".mySwipeeer", {
     this.selectedConventionIndex = index;
   }
   getNouveautes(){
-    this.nouvService.GetNouveautés().subscribe(
+    this.nouvService.getLatestNouveautés().subscribe(
       data => {
-        this.nouveautes = data;
+        this.latestNouveautes = data;
+        this.latestNouveautes.sort((a, b) => new Date(b.datePublication).getTime() - new Date(a.datePublication).getTime());
+        console.log(this.nouveautes);
       },
       error => {
         console.error(error);
@@ -290,9 +293,10 @@ new Swiper(".mySwipeeer", {
     );
   }
   getEvenements(){
-    this.service.GetEvenements().subscribe(
+    this.service.getLatestEvenements().subscribe(
       data => {
-        this.evenements = data;
+        this.latestEvenements = data;
+        this.latestEvenements.sort((a, b) => new Date(b.dateEvent).getTime() - new Date(a.dateEvent).getTime());
       },
       error => {
         console.error(error);

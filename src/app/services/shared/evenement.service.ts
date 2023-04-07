@@ -19,6 +19,10 @@ export class EvenementService {
   GetEvenement(id: number):Observable<Evenement>{
     return this.http.get<Evenement>(`${this.baseUrl}Evenement/${id}`);
   }
+
+  getLatestEvenements(): Observable<Evenement[]> {
+    return this.http.get<Evenement[]>(`${this.baseUrl}Evenement/latest`);
+  }
   // AddEvenement(event:Evenement): Observable<Evenement> {
   //   const url = `${this.baseUrl}Evenement`;
   //   const eventData = { ...event, userAjout: event.userAjout };
@@ -38,25 +42,25 @@ export class EvenementService {
     return this.http.post<Evenement>(url, formData);
   }
   
-//   UpdateEvenement(id: number, event:Evenement): Observable<any> {
-//     const url = `${this.baseUrl}Evenement/${id}`;
-//     const eventData = { ...event, id: id,}; // inclure l'ID dans le corps de la requête
-//     return this.http.put<any>(url, eventData);
-// }
-
-  UpdateEvenement(id: number, event:Evenement, mediaEvents: FileList): Observable<any> {
+  UpdateEvenement(id: number, event:Evenement): Observable<any> {
     const url = `${this.baseUrl}Evenement/${id}`;
-    const formData = new FormData();
-    for (let i = 0; i < mediaEvents.length; i++) {
-      formData.append('mediaEvents', mediaEvents[i], mediaEvents[i].name);
-    }
-    formData.append('id', id.toString());
-    formData.append('titre', event.titre);
-    formData.append('description', event.description);
-    formData.append('dateEvent', event.dateEvent.toISOString());
-    formData.append('userAjout', event.userAjout);
-    return this.http.put<any>(url, formData);
+    const eventData = { ...event, id: id}; // inclure l'ID dans le corps de la requête
+    return this.http.put<any>(url, eventData);
 }
+
+//   UpdateEvenement(id: number, event:Evenement, mediaEvents: FileList): Observable<any> {
+//     const url = `${this.baseUrl}Evenement/${id}`;
+//     const formData = new FormData();
+//     for (let i = 0; i < mediaEvents.length; i++) {
+//       formData.append('mediaEvents', mediaEvents[i], mediaEvents[i].name);
+//     }
+//     formData.append('id', id.toString());
+//     formData.append('titre', event.titre);
+//     formData.append('description', event.description);
+//     formData.append('dateEvent', event.dateEvent.toISOString());
+//     formData.append('userAjout', event.userAjout);
+//     return this.http.put<any>(url, formData);
+// }
 
   DeleteEvenement(id: number): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}Evenement/${id}`);

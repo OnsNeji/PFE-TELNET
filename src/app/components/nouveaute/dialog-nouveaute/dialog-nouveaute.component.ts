@@ -94,7 +94,7 @@ export class DialogNouveauteComponent implements OnInit {
 
   AjouterNouveaute(){
     if(!this.editData){
-      this.nouveauteForm.value.image = this.imageUrl;
+      this.nouveauteForm.value.pieceJointe = this.imageUrl;
       if(this.nouveauteForm.valid){
         this.nouveauteForm.value.userAjout = this.matricule;
         const userAjout = this.nouveauteForm.value.userAjout;

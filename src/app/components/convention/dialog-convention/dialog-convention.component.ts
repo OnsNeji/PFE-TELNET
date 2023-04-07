@@ -71,28 +71,16 @@ export class DialogConventionComponent implements OnInit {
   
   AjouterConvention() {
     if (!this.editData) {
-      
+
       this.conventionForm.value.pieceJointe = this.pdfUrl;
       this.conventionForm.value.logo = this.imageUrl;
       if (this.conventionForm.valid) {
         this.conventionForm.value.userAjout = this.matricule;
         const userAjout = this.conventionForm.value.userAjout;
         const dateDebut = new Date(this.conventionForm.value.dateDebut);
-        if (this.conventionForm.value.dateDebut == this.editData.dateDebut) {
-          dateDebut.setDate(dateDebut.getDate());
-        }
-        if (this.conventionForm.value.dateDebut != this.editData.dateDebut) {
-          dateDebut.setDate(dateDebut.getDate() + 1);
-        }
+        dateDebut.setDate(dateDebut.getDate() + 1);
         const dateFin = new Date(this.conventionForm.value.dateFin);
-        if (this.conventionForm.value.dateFin == this.editData.dateFin) {
-          dateFin.setDate(dateFin.getDate());
-        }
-        if (this.conventionForm.value.dateFin != this.editData.dateFin) {
-          dateFin.setDate(dateFin.getDate() + 1);
-        }
-
-        if (this.conventionForm.valid) {
+        dateFin.setDate(dateFin.getDate() + 1);
         this.service.AddConvention({ ...this.conventionForm.value, dateDebut, dateFin, userAjout }).subscribe(() => {
           this.conventionForm.reset();
           this.dialogRef.close('ajouter');
@@ -100,7 +88,6 @@ export class DialogConventionComponent implements OnInit {
         }, () => {
           this.notificationService.danger('Error when adding a Agreement.');
         });
-      }
       }
     } else { // sinon, mettre à jour l'utilisateur existant
       this.updateConvention();
@@ -114,16 +101,26 @@ export class DialogConventionComponent implements OnInit {
     } else {
       this.conventionForm.value.pieceJointe = this.pdfUrl;
     }
-  
+
     if (!this.imageUrl) {
       this.conventionForm.value.logo = this.editData.logo;
     } else {
       this.conventionForm.value.logo = this.imageUrl;
     }
     const dateDebut = new Date(this.conventionForm.value.dateDebut);
-    dateDebut.setDate(dateDebut.getDate() + 1);
+    if (this.conventionForm.value.dateDebut == this.editData.dateDebut) {
+      dateDebut.setDate(dateDebut.getDate());
+    }
+    if (this.conventionForm.value.dateDebut != this.editData.dateDebut) {
+      dateDebut.setDate(dateDebut.getDate() + 1);
+    }
     const dateFin = new Date(this.conventionForm.value.dateFin);
-    dateFin.setDate(dateFin.getDate() + 1);
+    if (this.conventionForm.value.dateFin == this.editData.dateFin) {
+      dateFin.setDate(dateFin.getDate());
+    }
+    if (this.conventionForm.value.dateFin != this.editData.dateFin) {
+      dateFin.setDate(dateFin.getDate() + 1);
+    }
     this.service.UpdateConvention(this.editData.id, { ...this.conventionForm.value, dateDebut, dateFin }).subscribe(() => {
 
       this.conventionForm.reset();
@@ -133,6 +130,7 @@ export class DialogConventionComponent implements OnInit {
       this.notificationService.danger('Error when updating a Agreement.');
     });
   }
+  
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     const reader = new FileReader();

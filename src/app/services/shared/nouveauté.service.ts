@@ -21,6 +21,10 @@ export class NouveautéService {
     return this.http.get<Nouveauté>(`${this.baseUrl}Nouveauté/${id}`);
   }
 
+  getLatestNouveautés(): Observable<Nouveauté[]> {
+    return this.http.get<Nouveauté[]>(`${this.baseUrl}Nouveauté/latest`);
+  }
+
   AddNouveauté(nouveaute:Nouveauté): Observable<Nouveauté> {
     const url = `${this.baseUrl}Nouveauté`;
     const datePublication = new Date(); 

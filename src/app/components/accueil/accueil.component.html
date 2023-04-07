@@ -48,7 +48,7 @@
           </div>
           <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" *ngFor="let nouveaute of nouveautes" >
+              <div class="swiper-slide" *ngFor="let nouveaute of latestNouveautes" >
                 <div class="box">
                   <h4>{{nouveaute.titre}}</h4>
                   <p>{{nouveaute.description}}</p>
@@ -74,7 +74,7 @@
           </div>
           <div class="events-slider swiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" *ngFor="let swiperEvenement of evenements">
+              <div class="swiper-slide" *ngFor="let swiperEvenement of latestEvenements">
                 <div class="row event-item">
                   <div class="col-lg-6">
                     <div id="heroCarousel{{swiperEvenement.id}}" class="carousel slide carousel-fade" data-bs-ride="carousel">

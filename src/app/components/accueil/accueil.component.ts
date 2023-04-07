@@ -377,12 +377,14 @@ new Swiper(".mySwipeeer", {
   getLatestUtilisateurs(): void{
     this.apiService.getLatestUtilisateurs().subscribe(utilisateurs => {
       this.latestUtilisateurs = utilisateurs;
+      this.latestUtilisateurs.sort((a, b) => new Date(b.dateEmbauche).getTime() - new Date(a.dateEmbauche).getTime());
     })
   }
 
   getAnniversaires(): void{
     this.apiService.getAnniversaires().subscribe(data => {
       this.anniversaires = data;
+      console.log(this.anniversaires)
     })
   }
 }

@@ -312,37 +312,13 @@
             </div>
             <div class="info-wrap">
               <div class="row">
-                <div class="col-lg-3 col-md-6 info" style="text-align: center;">
+                <div class="col-lg-3 col-md-6 info" style="text-align: center;" *ngFor="let site of sites">
                   <h4>
-                    <a href="#" style="color: black;">TELNET TECHNOCENTRE:</a>
+                    <a (click)="agenda(site.id)" style="color: black;">{{site.site}}:</a>
                   </h4>
-                  <p>Tel : 71 860 233</p>
-                  <p>FAX : 71 860 069</p>
-                  <p>Adresse : Rue du Lac Léman 1053, TUNIS LES BERGES DU LAC </p>
-                </div>
-                <div class="col-lg-3 col-md-6 info mt-4 mt-lg-0" style="text-align: center;">
-                  <h4>
-                    <a href="#" style="color: black;">TELNET Ennour:</a>
-                  </h4>
-                  <p>Tel : 71 706 922</p>
-                  <p>FAX : 71 706 939</p>
-                  <p>Adresse : Imm Ennour Centre Urbain Nord 1082 El Menzah Tunis </p>
-                </div>
-                <div class="col-lg-3 col-md-6 info mt-4 mt-lg-0" style="text-align: center;">
-                  <h4>
-                    <a href="#" style="color: black;">TELNET SFAX:</a>
-                  </h4>
-                  <p>Tel : 74 287 700</p>
-                  <p>FAX : 74 287 019</p>
-                  <p>Adresse : 25 Rue Jamel Eddine El Afghani Zone Industrielle Poudrière I, 3000 Sfax </p>
-                </div>
-                <div class="col-lg-3 col-md-6 info mt-4 mt-lg-0" style="text-align: center;">
-                  <h4>
-                    <a href="#" style="color: black;">TELNET Paris:</a>
-                  </h4>
-                  <p>Tel : +33 1 42 97 40 40</p>
-                  <p>FAX : +33 1 40 13 07 63</p>
-                  <p>Adresse : 33 Av. de l'Opéra, 75002 Paris, France </p>
+                  <p>Tel : {{site.tel}}</p>
+                  <p>FAX : {{site.fax}}</p>
+                  <p>Adresse : {{site.adresse}}</p>
                 </div>
               </div>
             </div>

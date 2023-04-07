@@ -23,6 +23,8 @@ import { ProjectSuccess } from 'app/models/shared/projectSuccess.model';
 import { ProjectSuccessService } from 'app/services/shared/project-success.service';
 import { Projet } from 'app/models/shared/projet.model';
 import { ProjetService } from 'app/services/shared/projet.service';
+import { Site } from 'app/models/shared/site.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -34,6 +36,8 @@ export class AccueilComponent implements OnInit {
 
   nouveautes: Nouveauté[] = [];
   nouveaute: Nouveauté = new Nouveauté();
+  sites: Site[] = [];
+  site: Site = new Site();
   evenements: Evenement[] = [];
   latestEvenements: Evenement[];
   latestNouveautes: Nouveauté[];
@@ -50,13 +54,15 @@ export class AccueilComponent implements OnInit {
   anniversaires!: Utilisateur[];
 
   constructor(private service: EvenementService, 
+              private siteService: ApiService,
               private nouvService: NouveautéService,
               private employeMoisService: EmployeMoisService, 
               private projectSuccessService: ProjectSuccessService,
               private projetService: ProjetService,
               private apiService: ApiService,
               private convService: ConventionService,
-              private MNService: MariageNaissanceService) {}
+              private MNService: MariageNaissanceService,
+              private router: Router) {}
 
   ngOnInit(): void {
 
@@ -70,7 +76,7 @@ export class AccueilComponent implements OnInit {
     this.getLatestUtilisateurs();
     this.getAnniversaires();
     this.getMariageNaissances();
-
+    this.getSites();
   const select = (el, all = false) => {
     el = el.trim()
     if (all) {
@@ -387,4 +393,15 @@ new Swiper(".mySwipeeer", {
       console.log(this.anniversaires)
     })
   }
+
+  getSites(){
+    this.siteService.GetSites().subscribe(data => {
+      this.sites = data;
+    })
+  }
+
+  agenda(id: string) {
+    this.router.navigate(['/agenda', id]);
+  }
+
 }

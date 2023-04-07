@@ -19,6 +19,10 @@ import { NouveautéService } from 'app/services/shared/nouveauté.service';
 import { Nouveauté } from 'app/models/shared/nouveauté.model';
 import { MariageNaissanceService } from 'app/services/shared/mariageNaissance.service';
 import { MariageNaissance } from 'app/models/shared/mariageNaissance.model';
+import { ProjectSuccess } from 'app/models/shared/projectSuccess.model';
+import { ProjectSuccessService } from 'app/services/shared/project-success.service';
+import { Projet } from 'app/models/shared/projet.model';
+import { ProjetService } from 'app/services/shared/projet.service';
 
 
 @Component({
@@ -34,6 +38,9 @@ export class AccueilComponent implements OnInit {
   evenement: Evenement = new Evenement();
   MariageNaissances: MariageNaissance[] = [];
   MariageNaissance: MariageNaissance = new MariageNaissance();
+  projectSuccesses: ProjectSuccess[] = [];
+  projectSuccess: ProjectSuccess;
+  projets: Projet[];
   latestEmployee: EmployéMois;
   utilisateurs!: Utilisateur[];
   conventions!: Convention[];
@@ -44,6 +51,8 @@ export class AccueilComponent implements OnInit {
   constructor(private service: EvenementService, 
               private nouvService: NouveautéService,
               private employeMoisService: EmployeMoisService, 
+              private projectSuccessService: ProjectSuccessService,
+              private projetService: ProjetService,
               private apiService: ApiService,
               private convService: ConventionService,
               private MNService: MariageNaissanceService) {}
@@ -53,6 +62,8 @@ export class AccueilComponent implements OnInit {
     this.getNouveautes();
     this.getEvenements();
     this.getEmployéMois();
+    this.getProjectSuccesses();
+    this.getProjets();
     this.getUtilisateurs();
     this.getConventions();
     this.getLatestUtilisateurs();
@@ -301,6 +312,28 @@ new Swiper(".mySwipeeer", {
     );
   }
 
+  getProjectSuccesses(){
+    this.projectSuccessService.GetProjectSuccesses().subscribe(
+      (data: ProjectSuccess[]) => {
+        if (data.length > 0) {
+          this.projectSuccess = data[data.length - 1];
+          console.log(this.projectSuccess);
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+  getProjets(){
+    this.projetService.GetProjets().subscribe(projets => {
+      this.projets = projets;
+    });
+  }
+
+  getProjetNom(id: number): string {
+    const projet = this.projets.find(s => s.id === id);
+    return projet ? (projet.nom) : '';
+  }
 
   getUtilisateurs(): void {
     this.apiService.GetUtilisateurs().subscribe(utilisateurs => {

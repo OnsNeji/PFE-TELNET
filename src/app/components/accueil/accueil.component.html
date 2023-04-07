@@ -165,12 +165,12 @@
           <div class="Projet-slider swiper" data-aos="fade-up" data-aos-delay="100">
             <div class="swiper-wrapper">
               <div class="swiper-slide">
-                <div class="Projet-item">
-                  <h3>Challenge One</h3>
-                  <h4>SPACE CONNECTING THINGS</h4>
+                <div class="Projet-item" *ngIf="projectSuccess">
+                  <h3>{{projectSuccess.titre}}</h3>
+                  <!--<h4>{{getProjetNom(projectSuccess.projetId)}}</h4>-->
                   <p>
                     <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                    <strong>Challenge One</strong> est le projet ambitieux pour la conception et le développement du premier satellite Tunisien et qui sera appliqué au nouveau domaine du <strong>Space for IoT.</strong> Le satellite <strong>ChallengeOne</strong> jouera le rôle d’une passerelle <strong>LoRa</strong> placée en orbite dans l’espace, et de ce fait sera capable de recevoir les données qui lui sont destinées et émises par les terminaux au sol. Point d'entrée au domaine <strong>Space for IoT.</strong>
+                    <strong>{{projectSuccess.description}}</strong>
                     <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                   </p>
                 </div>

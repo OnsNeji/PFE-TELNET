@@ -15,6 +15,7 @@ import { AccueilComponent } from './components/accueil/accueil.component';
 import { ConventionComponent } from './components/convention/convention.component';
 import { NouveauteComponent } from './components/nouveaute/nouveaute.component';
 import { MariageComponent } from './components/mariage/mariage.component';
+import { ProjectSuccessComponent } from './components/project-success/project-success.component';
 
 const routes: Routes = [
 
@@ -70,6 +71,8 @@ const routes: Routes = [
   { path: 'convention', component: ConventionComponent, canActivate: [AuthGuard] },
   { path: 'nouveauté', component: NouveauteComponent, canActivate: [AuthGuard] },
   { path: 'mariage', component: MariageComponent, canActivate: [AuthGuard] },
+  { path: 'project-success', component: ProjectSuccessComponent, canActivate: [AuthGuard] },
+
 
 ];
 

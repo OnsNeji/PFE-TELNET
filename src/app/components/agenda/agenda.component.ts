@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Site } from 'app/models/shared/site.model';
 import { ApiService } from 'app/services/shared/api.service';
+import * as myScript from '../../../assets/js/tabs.js';
 
 @Component({
   selector: 'app-agenda',
@@ -15,6 +16,7 @@ export class AgendaComponent implements OnInit {
   constructor(private route: ActivatedRoute, private siteService: ApiService) { }
 
   ngOnInit() {
+    myScript.Tabs();
     this.route.params.subscribe(params => {
       const id = params['id'];
       this.getSiteById(id);

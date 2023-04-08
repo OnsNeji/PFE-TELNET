@@ -112,11 +112,13 @@ export default class DialogUserComponent implements OnInit {
         const dateNaissance = new Date(this.userForm.value.dateNaissance);
         dateNaissance.setDate(dateNaissance.getDate() + 1);
 
-        // Check if the matricule already exists in the database
         this.service.GetUtilisateurs().subscribe((data: Utilisateur[]) => {
           const matricules = data.map((user: Utilisateur) => user.matricule);
+          const emails = data.map((user: Utilisateur) => user.email);
           if (matricules.includes(this.userForm.value.matricule)) {
             this.notificationService.danger('This matricule already exists!');
+          } else if (emails.includes(this.userForm.value.email)) {
+            this.notificationService.danger('This email already exists!');
           } else {
             this.service.AddUtilisateur({ ...this.userForm.value, dateEmbauche, dateNaissance, userAjout }).subscribe(() => {
               this.userForm.reset();
@@ -140,15 +142,14 @@ export default class DialogUserComponent implements OnInit {
     this.userForm.value.dateModif = this.modifDate;
     this.userForm.value.userModif = this.matricule;
     const userModif = this.userForm.value.userModif;
+
     if (!this.imageUrl) {
       this.userForm.value.image = this.editData.image;
     } else {
       this.userForm.value.image = this.imageUrl;
     }
 
-
     const dateEmbauche = new Date(this.userForm.value.dateEmbauche);
-
     if (this.userForm.value.dateEmbauche == this.editData.dateEmbauche) {
       dateEmbauche.setDate(dateEmbauche.getDate());
     }
@@ -157,23 +158,34 @@ export default class DialogUserComponent implements OnInit {
     }
 
     const dateNaissance = new Date(this.userForm.value.dateNaissance);
-
     if (this.userForm.value.dateNaissance == this.editData.dateNaissance) {
       dateNaissance.setDate(dateNaissance.getDate());
     }
     if (this.userForm.value.dateNaissance != this.editData.dateNaissance) {
       dateNaissance.setDate(dateNaissance.getDate() + 1);
     }
-    if (this.userForm.valid) {
-    this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, dateEmbauche, dateNaissance, userModif }).subscribe(() => {
 
-      this.userForm.reset();
-      this.dialogRef.close('modifier');
-      this.notificationService.success('User updated successfully!');
-    }, () => {
-      this.notificationService.danger('Error when updating a User.');
-    });
-  }
+    if (this.userForm.valid) {
+      this.service.GetUtilisateurs().subscribe((data: Utilisateur[]) => {
+        const matricules = data.map((user: Utilisateur) => user.matricule);
+        const emails = data.map((user: Utilisateur) => user.email);
+        if (matricules.includes(this.userForm.value.matricule)) {
+          this.notificationService.danger('This matricule already exists!');
+        } else if (emails.includes(this.userForm.value.email)) {
+          this.notificationService.danger('This email already exists!');
+        } else {
+          this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, dateEmbauche, dateNaissance, userModif }).subscribe(() => {
+            this.userForm.reset();
+            this.dialogRef.close('modifier');
+            this.notificationService.success('User updated successfully!');
+          }, () => {
+            this.notificationService.danger('Error when updating a User.');
+          });
+        }
+      }, () => {
+        this.notificationService.danger('Error when getting users from the database.');
+      });
+    }
   }
   
   getPostes(): void {

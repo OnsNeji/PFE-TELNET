@@ -166,7 +166,15 @@ export default class DialogUserComponent implements OnInit {
     }
 
     if (this.userForm.valid) {
+
       this.service.GetUtilisateurs().subscribe((data: Utilisateur[]) => {
+        const matricules = data.map((user: Utilisateur) => user.matricule);
+      const emails = data.map((user: Utilisateur) => user.email);
+      if (matricules.includes(this.userForm.value.matricule) && (this.userForm.value.matricule != this.editData.matricule)) {
+        this.notificationService.danger('This matricule already exists!');
+      } else if (emails.includes(this.userForm.value.email) && (this.userForm.value.email != this.editData.email)) {
+        this.notificationService.danger('This email already exists!');
+      } else {
           this.service.UpdateUtilisateur(this.editData.id, { ...this.userForm.value, dateEmbauche, dateNaissance, userModif }).subscribe(() => {
             this.userForm.reset();
             this.dialogRef.close('modifier');
@@ -174,7 +182,7 @@ export default class DialogUserComponent implements OnInit {
           }, () => {
             this.notificationService.danger('Error when updating a User.');
           });
-        },
+      }},
      () => {
         this.notificationService.danger('Error when getting users from the database.');
       });

@@ -116,6 +116,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   imgUrl: string;
   notification: Notification[] = []
+  todayCount: number[];
 
   constructor(injector: Injector,
     private cookieService: CookieService, private userService: UserService) {
@@ -297,6 +298,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     });
 
     this.getNotifications();
+    this.getTodayNotificationsCount();
 
     this.Inactive();
     this.reset();
@@ -716,15 +718,11 @@ export class AdminComponent implements OnInit, OnDestroy {
     );
   }
 
-//   getUnreadNotificationsCount(): number {
-//     return this.notifications.filter(notification => !notification.seen).length;
-// }
-// markAsRead(notification: Notification): void {
-//   this.notificationService.markAsRead(notification.id)
-//     .subscribe(() => {
-//       notification.seen = true;
-//     });
-// }
+  getTodayNotificationsCount(): void {
+  this.notificationService.GetTodayNotificationsCount().subscribe(data => {
+      this.todayCount = data;
+    });
+}
 
   feedback() {
     // do nothing

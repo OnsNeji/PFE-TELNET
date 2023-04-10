@@ -50,4 +50,8 @@ export class NotificationService {
   GetNotifications():Observable<Notification[]>{
     return this.http.get<Notification[]>(`${this.baseUrl}Notification`);
   }
+
+  GetTodayNotificationsCount():Observable<number[]>{
+    return this.http.get<number[]>(`${this.baseUrl}Notification/todayCount`);
+  }
 }

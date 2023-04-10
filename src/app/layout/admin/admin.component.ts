@@ -716,15 +716,15 @@ export class AdminComponent implements OnInit, OnDestroy {
     );
   }
 
-  getUnreadNotificationsCount(): number {
-    return this.notifications.filter(notification => !notification.seen).length;
-}
-markAsRead(notification: Notification): void {
-  this.notificationService.markAsRead(notification.id)
-    .subscribe(() => {
-      notification.seen = true;
-    });
-}
+//   getUnreadNotificationsCount(): number {
+//     return this.notifications.filter(notification => !notification.seen).length;
+// }
+// markAsRead(notification: Notification): void {
+//   this.notificationService.markAsRead(notification.id)
+//     .subscribe(() => {
+//       notification.seen = true;
+//     });
+// }
 
   feedback() {
     // do nothing

@@ -16,5 +16,4 @@ export class Notification {
     evenements: Evenement[] = [];
     EmployéMoisId: number;
     employésMois: EmployéMois[] = [];
-    seen: boolean = false;
 }

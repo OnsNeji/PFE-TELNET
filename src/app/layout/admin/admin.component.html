@@ -37,11 +37,11 @@
                 (click)="toggleNotification()">
               <a href="javascript:">
                 <i class="icon-bell"></i>
-                <span class="badge badge-pill badge-primary">{{getUnreadNotificationsCount()}}</span>
+                <span class="badge badge-pill badge-primary">{{notifications.length}}</span>
               </a>
               <ul [@notificationBottom]="Notification" class="show-notification notification-notification">
                 <li *ngFor="let notification of notifications">
-                  <a href="javascript:" (mouseenter)="markAsRead(notification)">
+                  <a href="javascript:">
                     <div class="media">
                       <div class="media-body">
                         <p class="notification-msg">{{notification.message}}</p>

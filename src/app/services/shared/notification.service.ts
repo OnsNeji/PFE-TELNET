@@ -50,9 +50,4 @@ export class NotificationService {
   GetNotifications():Observable<Notification[]>{
     return this.http.get<Notification[]>(`${this.baseUrl}Notification`);
   }
-
-  markAsRead(id: number): Observable<any> {
-    const url = `${this.baseUrl}Notification/${id}`;
-    return this.http.put(url, null)
-  }
 }

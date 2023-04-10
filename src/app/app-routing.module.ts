@@ -71,7 +71,7 @@ const routes: Routes = [
   { path: 'accueil', component: AccueilComponent, canActivate: [AuthGuard] },
   { path: 'convention', component: ConventionComponent, canActivate: [AuthGuard] },
   { path: 'nouveauté', component: NouveauteComponent, canActivate: [AuthGuard] },
-  { path: 'mariage', component: MariageComponent, canActivate: [AuthGuard] },
+  { path: 'mariage-naissance', component: MariageComponent, canActivate: [AuthGuard] },
   { path: 'project-success', component: ProjectSuccessComponent, canActivate: [AuthGuard] },
   { path: 'agenda/:id', component: AgendaComponent, canActivate: [AuthGuard] },
 

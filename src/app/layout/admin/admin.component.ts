@@ -16,6 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'app/services/shared/user.service';
 import { FormGroup } from '@angular/forms';
+import { Notification } from 'app/models/shared/Notification.model';
 
 declare var require: any;
 const FileSaver = require('file-saver');
@@ -114,6 +115,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   location: Location;
 
   imgUrl: string;
+  notification: Notification[] = []
 
   constructor(injector: Injector,
     private cookieService: CookieService, private userService: UserService) {
@@ -149,6 +151,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     this.liveNotification = 'an-off';
     this.profileNotification = 'an-off';
+    this.Notification = 'an-off';
 
     this.chatSlideInOut = 'out';
     this.innerChatSlideInOut = 'out';
@@ -205,6 +208,8 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   public profileNotification: string;
   public profileNotificationClass: string;
+  public Notification: string;
+  public NotificationClass: string;
 
   public chatSlideInOut: string;
   public innerChatSlideInOut: string;
@@ -259,6 +264,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   public prenom: string = '';
   user: any;
   profileForm!: FormGroup;
+  notifications: Notification[] = [];
 
   scroll = (): void => {
     const scrollPosition = window.pageYOffset;
@@ -289,6 +295,8 @@ export class AdminComponent implements OnInit, OnDestroy {
         image: this.user.image
       });
     });
+
+    this.getNotifications();
 
     this.Inactive();
     this.reset();
@@ -440,11 +448,25 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleNotification() {
+    this.Notification = this.Notification === 'an-off' ? 'an-animate' : 'an-off';
+    this.NotificationClass = this.Notification === 'an-animate' ? 'active' : '';
+
+    if (this.Notification === 'an-animate' && this.innerChatSlideInOut === 'in') {
+      this.toggleInnerChat();
+    }
+    if (this.Notification === 'an-animate' && this.chatSlideInOut === 'in') {
+      this.toggleChat();
+    }
+  }
+
   notificationOutsideClick(ele: string) {
     if (ele === 'live' && this.liveNotification === 'an-animate') {
       this.toggleLiveNotification();
     } else if (ele === 'profile' && this.profileNotification === 'an-animate') {
       this.toggleProfileNotification();
+    }else if (ele === 'notification' && this.Notification === 'an-animate') {
+      this.toggleNotification();
     }
   }
 
@@ -681,6 +703,28 @@ export class AdminComponent implements OnInit, OnDestroy {
     };
     this.displayEditdialogRef = this.dialog.open(ChangePasswordComponent, config);
   }
+
+  getNotifications() {
+    this.notificationService.GetNotifications().subscribe(
+      data => {
+        this.notifications = data;
+        this.notifications.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  getUnreadNotificationsCount(): number {
+    return this.notifications.filter(notification => !notification.seen).length;
+}
+markAsRead(notification: Notification): void {
+  this.notificationService.markAsRead(notification.id)
+    .subscribe(() => {
+      notification.seen = true;
+    });
+}
 
   feedback() {
     // do nothing

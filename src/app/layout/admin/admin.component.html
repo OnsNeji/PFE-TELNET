@@ -32,6 +32,27 @@
                 <em class="icofont icofont-book"></em>
               </button>
             </li>
+            <li (clickOutside)="notificationOutsideClick('notification')"
+                class="notification header-notification ripple light" [ngClass]="NotificationClass"
+                (click)="toggleNotification()">
+              <a href="javascript:">
+                <i class="icon-bell"></i>
+                <span class="badge badge-pill badge-primary">{{getUnreadNotificationsCount()}}</span>
+              </a>
+              <ul [@notificationBottom]="Notification" class="show-notification notification-notification">
+                <li *ngFor="let notification of notifications">
+                  <a href="javascript:" (mouseenter)="markAsRead(notification)">
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="notification-msg">{{notification.message}}</p>
+                        <span class="notification-time">{{notification.date | date:'short'}}</span>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
             <li (clickOutside)="notificationOutsideClick('profile')"
               class="user-profile header-notification ripple light" [ngClass]="profileNotificationClass"
               (click)="toggleProfileNotification()">

@@ -1,9 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
+import { Notification } from 'app/models/shared/Notification.model';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class NotificationService {
-  constructor(private servicePNotify: NotificationsService) { }
+
+  private baseUrl: string = "";
+
+  constructor(private servicePNotify: NotificationsService, private http: HttpClient) { }
   public options: any = {
     position: ['bottom', 'right'],
   };
@@ -39,5 +45,14 @@ export class NotificationService {
       animate: 'fromRight'
     };
     this.servicePNotify.create(title, mssg, type, this.options);
+  }
+
+  GetNotifications():Observable<Notification[]>{
+    return this.http.get<Notification[]>(`${this.baseUrl}Notification`);
+  }
+
+  markAsRead(id: number): Observable<any> {
+    const url = `${this.baseUrl}Notification/${id}`;
+    return this.http.put(url, null)
   }
 }

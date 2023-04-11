@@ -37,14 +37,14 @@
                 (click)="toggleNotification()">
               <a href="javascript:">
                 <i class="icon-bell"></i>
-                <span class="badge badge-pill badge-primary">{{notifications.length}}</span>
+                <span class="badge badge-pill badge-primary">{{todayCount}}</span>
               </a>
               <ul [@notificationBottom]="Notification" class="show-notification notification-notification">
                 <li *ngFor="let notification of notifications">
                   <a href="javascript:">
                     <div class="media">
                       <div class="media-body">
-                        <p class="notification-msg">{{notification.message}}</p>
+                        <p class="notification-msg" [ngClass]="{'notification-today': isToday(notification.date)}">{{notification.message}}</p>
                         <span class="notification-time">{{notification.date | date:'short'}}</span>
                       </div>
                     </div>
@@ -127,6 +127,9 @@
                       <a routerLink="/employeMois" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">accessibility</em>Employé du Mois</span></a>
                     </li>
                     <li>
+                      <a routerLink="/mariage-naissance" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">cake</em>Mariage & Naissance</span></a>
+                    </li>
+                    <li>
                       <a routerLink="/evenement" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">event</em>Evénements</span></a>
                     </li>
                     <li>
@@ -134,6 +137,9 @@
                     </li>
                     <li>
                       <a routerLink="/convention" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">description</em>Conventions</span></a>
+                    </li>
+                    <li>
+                      <a routerLink="/project-success" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">verified_user</em>Project Success</span></a>
                     </li>
                   </ul>
                   

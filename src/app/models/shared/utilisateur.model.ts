@@ -2,7 +2,7 @@ import { Departement } from "./departement.model";
 import { Poste } from "./poste.model";
 
 export class Utilisateur {
-    id: number;
+    id: number = 0;
     nom!: string;
     prenom!: string;
     matricule!: string;

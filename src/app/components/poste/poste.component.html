@@ -100,6 +100,16 @@
       <mat-cell *matCellDef="let poste">  {{getUtilisateurNom(poste.utilisateurId)}}  </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="siteId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Site</mat-header-cell>
+      <mat-cell *matCellDef="let poste">  {{getSiteNom(poste.siteId)}}  </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="etage">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Etage</mat-header-cell>
+      <mat-cell *matCellDef="let poste">  {{poste.etage}}  </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="dateModif">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Date Modifcation</mat-header-cell>
       <mat-cell *matCellDef="let poste">  {{poste.dateModif | date}} </mat-cell>

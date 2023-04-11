@@ -1,3 +1,4 @@
+import { Site } from "./site.model";
 import { Utilisateur } from "./utilisateur.model";
 
 export class Poste {
@@ -9,4 +10,7 @@ export class Poste {
     dateModif: Date = new Date();
     userModif!: string;
     userAjout!: string;
+    etage!: string;
+    siteId!: number;
+    sites: Site[] = [];
 }

@@ -90,6 +90,7 @@ export class NouveauteComponent implements OnInit {
             {
               this.getNouveautés();
               this.notificationService.success('News deleted successfully');
+              window.location.reload();
             },
             () => {
               this.notificationService.danger('Delete News failed');

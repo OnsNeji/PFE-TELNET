@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Poste } from 'app/models/shared/poste.model';
+import { Site } from 'app/models/shared/site.model';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
@@ -29,6 +30,7 @@ export class DialogPosteComponent implements OnInit {
   private _onDestroy = new Subject<void>();
   filteredUsers: Utilisateur[];
   public userFilterCtrl: FormControl = new FormControl();
+  sites!: Site[];
   
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
@@ -44,9 +46,12 @@ export class DialogPosteComponent implements OnInit {
       // id : ['', [Validators.required, Validators.pattern(/^-?[0-9]\d*(\d+)?$/)]],
       numéro : ['', Validators.required],
       utilisateurId : ['', Validators.required],
+      etage : ['', Validators.required],
+      siteId : ['', Validators.required],
       userAjout: [''],
     });
     this.getUtilisateurs();
+    this.getSites();
     
     this.userFilterCtrl.valueChanges
     .pipe(takeUntil(this._onDestroy))
@@ -60,6 +65,8 @@ export class DialogPosteComponent implements OnInit {
       this.posteForm.setValue({
         numéro: this.editData.numéro,
         utilisateurId: this.editData.utilisateurId,
+        etage: this.editData.etage,
+        siteId: this.editData.siteId,
         userAjout: this.editData.userAjout
       });
     }
@@ -127,6 +134,12 @@ export class DialogPosteComponent implements OnInit {
     });
   }
 
+  getSites(): void {
+    this.service.GetSites().subscribe(sites => {
+      this.sites = sites;
+    });
+  }
+  
   close() {
     this.dialogRef.close();
   }

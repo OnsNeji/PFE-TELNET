@@ -103,7 +103,8 @@ export class EmployeMoisComponent implements OnInit {
           .subscribe(()=>
             {
               this.getEmployesMois();
-              this.notificationService.success('Department deleted successfully');
+              this.notificationService.success('Employé du Mois deleted successfully');
+              window.location.reload();
             },
             () => {
               this.notificationService.danger('Delete Employé du Mois failed');

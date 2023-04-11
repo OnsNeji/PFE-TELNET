@@ -13,6 +13,7 @@ import swal from 'sweetalert2';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Site } from 'app/models/shared/site.model';
 
 @Component({
   selector: 'app-poste',
@@ -27,12 +28,14 @@ export class PosteComponent implements OnInit {
   ListePoste!: Poste[];
   poste: Poste = new Poste();
   utilisateurs!: Utilisateur[];
+  Site: Site[];
+  sites!: Site[];
   formTitle: string = '';
   buttonLabel: string = '';
   lengthPostes: number;
   listView = false;
   isLoading: boolean;
-  displayedColumns: string[] = ['numéro', 'utilisateurId', 'dateModif', 'action'];
+  displayedColumns: string[] = ['numéro', 'utilisateurId', 'siteId', 'etage', 'dateModif', 'action'];
   dataSource!: MatTableDataSource<Poste>;
   numéro='';
   utilisateurId='';
@@ -47,6 +50,7 @@ export class PosteComponent implements OnInit {
   ngOnInit() : void{
     this.getPostes();
     this.getUtilisateurs();
+    this.getSites();
     const posteSearch = JSON.parse(sessionStorage.getItem('posteSearch'));
       if (posteSearch !== null) {
         this.numéro = posteSearch.numéro;
@@ -135,6 +139,16 @@ export class PosteComponent implements OnInit {
     });
   }
 
+  getSites(): void {
+    this.service.GetSites().subscribe(sites => {
+      this.sites = sites;
+    });
+  }
+
+  getSiteNom(id: number): string {
+    const site = this.sites.find(s => s.id === id);
+    return site ? site.site : '';
+  }
 
   onSortData(sort) {
     this.service.siteRequest.next(sort);

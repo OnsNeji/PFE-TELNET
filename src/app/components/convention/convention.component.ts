@@ -82,6 +82,7 @@ this.service.DeleteConvention(id)
 .subscribe(()=>
   {
     this.getConventions();
+    window.location.reload();
     this.notificationService.success('Agreement deleted successfully');
   },
   () => {

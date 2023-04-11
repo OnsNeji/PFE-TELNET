@@ -31,6 +31,26 @@
             </mat-select>
           </mat-form-field>
 
+          <mat-form-field class="col-sm-6">
+            <mat-label>Site</mat-label>
+            <mat-select formControlName="siteId" class="login-input-style">
+              <ng-container *ngFor="let site of sites">
+              <mat-option [value]="site.id">{{ site.site }}</mat-option>
+            </ng-container>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-6">
+            <mat-label>Etage</mat-label>
+            <mat-select formControlName="etage" class="login-input-style">
+              <mat-option value="Rez de Chaussée">Rez de Chaussée</mat-option>
+              <mat-option value="1ér étage">1ér étage</mat-option>
+              <mat-option value="2éme étage">2éme étage</mat-option>
+              <mat-option value="3éme étage">3éme étage</mat-option>
+              <mat-option value="4éme étage">4éme étage</mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <!--<mat-form-field class="col-sm-6">
             <mat-label>Utilisateur</mat-label>
             <mat-select formControlName="utilisateurId" class="login-input-style">

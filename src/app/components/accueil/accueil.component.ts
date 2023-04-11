@@ -25,6 +25,8 @@ import { Projet } from 'app/models/shared/projet.model';
 import { ProjetService } from 'app/services/shared/projet.service';
 import { Site } from 'app/models/shared/site.model';
 import { Router } from '@angular/router';
+import { UserCardComponent } from '../user-card/user-card.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -52,6 +54,7 @@ export class AccueilComponent implements OnInit {
   selectedConventionIndex: number = 0;
   latestUtilisateurs!: Utilisateur[];
   anniversaires!: Utilisateur[];
+  id: number;
 
   constructor(private service: EvenementService, 
               private siteService: ApiService,
@@ -62,7 +65,8 @@ export class AccueilComponent implements OnInit {
               private apiService: ApiService,
               private convService: ConventionService,
               private MNService: MariageNaissanceService,
-              private router: Router) {}
+              private router: Router,
+              public dialog: MatDialog, ) {}
 
   ngOnInit(): void {
 
@@ -404,4 +408,19 @@ new Swiper(".mySwipeeer", {
     this.router.navigate(['/agenda', id]);
   }
 
+
+  getUserDetails(id: number): void {
+    this.apiService.GetUtilisateur(id).subscribe(
+      (data) => {
+        const dialogRef = this.dialog.open(UserCardComponent, {
+          data: data,
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  
+  
 }

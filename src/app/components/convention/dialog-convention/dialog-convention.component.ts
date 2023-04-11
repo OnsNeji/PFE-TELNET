@@ -84,7 +84,9 @@ export class DialogConventionComponent implements OnInit {
         this.service.AddConvention({ ...this.conventionForm.value, dateDebut, dateFin, userAjout }).subscribe(() => {
           this.conventionForm.reset();
           this.dialogRef.close('ajouter');
+          window.location.reload();
           this.notificationService.success('Agreement added successfully!');
+          
         }, () => {
           this.notificationService.danger('Error when adding a Agreement.');
         });

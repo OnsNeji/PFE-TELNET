@@ -102,7 +102,9 @@ export class DialogNouveauteComponent implements OnInit {
         this.nouvService.AddNouveauté({ ...this.nouveauteForm.value, userAjout, datePublication }).subscribe(()=>{
           this.nouveauteForm.reset();
           this.dialogRef.close('ajouter');
+          window.location.reload();
           this.notificationService.success('News added successfully !');
+
         },
         ()=>{
           this.notificationService.danger('Error when adding a News.');

@@ -82,6 +82,7 @@ export class DialogEventComponent implements OnInit {
         this.service.AddEvenement(evenement, mediaEvents).subscribe(() => {
           this.eventForm.reset();
           this.dialogRef.close('ajouter');
+          window.location.reload();
           this.notificationService.success('Event added successfully !');
         },
           () => {

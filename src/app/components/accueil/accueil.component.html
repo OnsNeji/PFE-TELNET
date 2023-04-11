@@ -196,7 +196,7 @@
                     <img [src]="utilisateur.image" alt="" style="width: 80%; height: 280px;">
                   </div>
                   <div class="member-info">
-                    <h4>{{utilisateur.prenom}} {{utilisateur.nom}}</h4>
+                    <h4 (click)="getUserDetails(utilisateur.id)">{{utilisateur.prenom}} {{utilisateur.nom}}</h4>
                     <span>{{utilisateur.dateEmbauche | date:'dd/MM/yyyy'}}</span>
                   </div>
                 </div>

@@ -4,28 +4,28 @@ $('nav a').click(function(e) {
     e.preventDefault();
     $('nav a').removeClass('active');
     $(this).addClass('active');
-    if(this.id === !'payment'){
-      $('.payment').addClass('noshow');
+    if(this.id === !'étage1'){
+      $('.étage1').addClass('noshow');
     }
-    else if(this.id === 'payment') {
-      $('.payment').removeClass('noshow');
-      $('.rightbox').children().not('.payment').addClass('noshow');
+    else if(this.id === 'étage1') {
+      $('.étage1').removeClass('noshow');
+      $('.rightbox').children().not('.étage1').addClass('noshow');
     }
-    else if (this.id === 'profile') {
-      $('.profile').removeClass('noshow');
-       $('.rightbox').children().not('.profile').addClass('noshow');
+    else if (this.id === 'rdc') {
+      $('.rdc').removeClass('noshow');
+       $('.rightbox').children().not('.rdc').addClass('noshow');
     }
-    else if(this.id === 'subscription') {
-      $('.subscription').removeClass('noshow');
-      $('.rightbox').children().not('.subscription').addClass('noshow');
+    else if(this.id === 'étage2') {
+      $('.étage2').removeClass('noshow');
+      $('.rightbox').children().not('.étage2').addClass('noshow');
     }
-      else if(this.id === 'privacy') {
-      $('.privacy').removeClass('noshow');
-      $('.rightbox').children().not('.privacy').addClass('noshow');
+      else if(this.id === 'étage3') {
+      $('.étage3').removeClass('noshow');
+      $('.étage3').children().not('.étage3').addClass('noshow');
     }
-    else if(this.id === 'settings') {
-      $('.settings').removeClass('noshow');
-      $('.rightbox').children().not('.settings').addClass('noshow');
+    else if(this.id === 'étage4') {
+      $('.étage4').removeClass('noshow');
+      $('.rightbox').children().not('.étage4').addClass('noshow');
     }
   });
 }

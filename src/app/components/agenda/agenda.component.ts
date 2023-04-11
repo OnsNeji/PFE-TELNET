@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Site } from 'app/models/shared/site.model';
 import { ApiService } from 'app/services/shared/api.service';
 import * as myScript from '../../../assets/js/tabs.js';
+import { Utilisateur } from 'app/models/shared/utilisateur.model.js';
 
 @Component({
   selector: 'app-agenda',
@@ -12,11 +13,13 @@ import * as myScript from '../../../assets/js/tabs.js';
 export class AgendaComponent implements OnInit {
 
   site: Site;
+  utilisateurs!: Utilisateur[];
 
-  constructor(private route: ActivatedRoute, private siteService: ApiService) { }
+  constructor(private route: ActivatedRoute, private Service: ApiService) { }
 
   ngOnInit() {
     myScript.Tabs();
+    this.getUtilisateurs();
     this.route.params.subscribe(params => {
       const id = params['id'];
       this.getSiteById(id);
@@ -24,9 +27,20 @@ export class AgendaComponent implements OnInit {
   }
 
   getSiteById(id: number) {
-    this.siteService.GetSite(id).subscribe(data => {
+    this.Service.GetSite(id).subscribe(data => {
       this.site = data;
     });
+  }
+
+  getUtilisateurs(): void {
+    this.Service.GetUtilisateurs().subscribe(utilisateurs => {
+      this.utilisateurs = utilisateurs;
+    });
+  }
+
+  getUtilisateurNom(id: number): string {
+    const utilisateur = this.utilisateurs.find(s => s.id === id);
+    return utilisateur ? (utilisateur.nom + ' ' + utilisateur.prenom) : '';
   }
 
 }

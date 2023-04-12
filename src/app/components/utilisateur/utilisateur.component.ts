@@ -12,6 +12,7 @@ import { NotificationService } from 'app/services/shared/notification.service';
 import DialogUserComponent from './dialog-user/dialog-user.component';
 import swal from 'sweetalert2';
 import { DateTimeService } from 'app/services/shared';
+import { UserCardComponent } from '../user-card/user-card.component';
 
 @Component({
   selector: 'app-utilisateur',
@@ -130,6 +131,20 @@ export class UtilisateurComponent implements OnInit {
     this.service.GetDepartements().subscribe(departements => {
       this.departements = departements;
     });
+  }
+
+  getUtilisateur(id: number) {
+    this.service.GetUtilisateur(id).subscribe(
+      (data) => {
+        const dialogRef = this.dialog.open(UserCardComponent, {
+          data: data,
+        });
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   getDepNom(id: number): string {

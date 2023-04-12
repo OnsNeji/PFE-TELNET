@@ -160,6 +160,10 @@
           (click)="rejectWorkFromHomeRequest(workFromHomeRequest)"
           [disabled]="forbiddenRejectValidate || isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest) || isMyWorkFromHomeRequestInProgress(workFromHomeRequest) || isRejected(workFromHomeRequest)">
           <em class="material-icons">cancel</em></button>-->
+          <button class="btn btn-mini btn-secondary m-r-5 ripple light" type="button"
+        (click)="getUtilisateur(row.id)" matTooltip="Details">
+          <em class="material-icons">visibility</em>
+        </button>
         <button class="btn btn-mini btn-primary m-r-5 ripple light" type="button"
         (click)="updateUtilisateur(row)" matTooltip="Edit">
           <em class="material-icons">edit</em>

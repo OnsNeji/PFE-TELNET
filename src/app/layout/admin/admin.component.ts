@@ -724,6 +724,25 @@ export class AdminComponent implements OnInit, OnDestroy {
     });
 }
 
+hasNotificationLink(notification: Notification): boolean {
+  return notification.conventionId !== null || notification.nouveautéId !== null || notification.EvenementId !== null || notification.EmployéMoisId !== null;
+}
+
+// Obtenir le lien pour la notification
+getNotificationLink(notification: Notification): any[] {
+  if (notification.conventionId !== null) {
+    return ['/convention'];
+  } else if (notification.nouveautéId !== null) {
+    return ['/nouveauté'];
+  } else if (notification.EvenementId !== null) {
+    return ['/evenement'];
+  } else if (notification.EmployéMoisId !== null) {
+    return ['/employeMois'];
+  } else {
+    return [];
+  }
+}
+
 isToday(dateString: string): boolean{
   const today = new Date();
   const date = new Date(dateString);

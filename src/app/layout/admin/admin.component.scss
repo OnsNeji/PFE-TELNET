@@ -23,13 +23,13 @@
 }
 
 .notification-notification {
-  max-height: 200px; /* définir la hauteur maximale pour l'affichage des notifications */
+  max-height: 180px; /* définir la hauteur maximale pour l'affichage des notifications */
   overflow-y: auto !important; /* activer la barre de défilement verticale */
   }
 
 .notification-notification::-webkit-scrollbar {
-    width: 3px;
-    background-color: black;
+    width: 0px;
+    background-color: transparent;
     }
   
 .notification-today{

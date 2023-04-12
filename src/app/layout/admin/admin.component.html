@@ -41,7 +41,7 @@
               </a>
               <ul [@notificationBottom]="Notification" class="show-notification notification-notification">
                 <li *ngFor="let notification of notifications">
-                  <a href="javascript:">
+                  <a href="#" [routerLink]="getNotificationLink(notification)" *ngIf="hasNotificationLink(notification)">
                     <div class="media">
                       <div class="media-body">
                         <p class="notification-msg" [ngClass]="{'notification-today': isToday(notification.date)}">{{notification.message}}</p>
@@ -49,7 +49,16 @@
                       </div>
                     </div>
                   </a>
+                  <div *ngIf="!hasNotificationLink(notification)">
+                    <div class="media">
+                      <div class="media-body">
+                        <p class="notification-msg" [ngClass]="{'notification-today': isToday(notification.date)}">{{notification.message}}</p>
+                        <span class="notification-time">{{notification.date | date:'short'}}</span>
+                      </div>
+                    </div>
+                  </div>
                 </li>
+                
               </ul>
             </li>
 

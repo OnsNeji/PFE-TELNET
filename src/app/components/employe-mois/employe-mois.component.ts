@@ -104,7 +104,9 @@ export class EmployeMoisComponent implements OnInit {
             {
               this.getEmployesMois();
               this.notificationService.success('Employé du Mois deleted successfully');
-              window.location.reload();
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
             },
             () => {
               this.notificationService.danger('Delete Employé du Mois failed');

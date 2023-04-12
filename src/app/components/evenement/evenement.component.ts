@@ -88,8 +88,10 @@ export class EvenementComponent implements OnInit {
           .subscribe(()=>
             {
               this.getEvenements();
-              window.location.reload();
               this.notificationService.success('Event deleted successfully');
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
             },
             () => {
               this.notificationService.danger('Delete Event failed');

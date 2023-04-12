@@ -67,13 +67,12 @@ export class ApiService {
   }
   AddPoste(poste:Poste): Observable<Poste> {
     const url = `${this.baseUrl}Poste`;
-    const dateAjout = new Date(); 
-    const postData = { ...poste, userAjout: poste.userAjout, dateAjout };
+    const postData = { ...poste, userAjout: poste.userAjout };
     return this.http.post<Poste>(url, postData);
   }
   UpdatePoste(id: number, poste:Poste): Observable<any> {
     const url = `${this.baseUrl}Poste/${id}`;
-    const postData = { ...poste, id: id, userModif: poste.userModif, dateModif: new Date()  }; // inclure l'ID dans le corps de la requête
+    const postData = { ...poste, id: id, userModif: poste.userModif  }; // inclure l'ID dans le corps de la requête
     return this.http.put<any>(url, postData);
   }
 

@@ -12,9 +12,9 @@
         <a id="étage4">4éme étage</a>
       </nav>
     </div>
-    <div class="rightbox" *ngFor="let poste of site.postes">
-      <div class="rdc" >
-        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm" *ngIf="poste.etage === 'Rez de chaussée'">
+    <div class="rightbox" >
+      <div class="rdc">
+        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
           <table class="table manage-candidates-top mb-0">
             <thead>
               <tr>
@@ -23,41 +23,43 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="candidates-list">
-                <td class="title">
-                  <div class="thumb">
-                    <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
-                  </div>
-                  <div class="candidate-list-details">
-                    <div class="candidate-list-info">
-                      <div class="candidate-list-title">
-                        <h5 class="mb-0">
-                          <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
-                        </h5>
-                      </div>
-                      <div class="candidate-list-option">
-                        <ul class="list-unstyled">
-                          <li>
-                            <i class="fas fa-filter pr-1"></i>Information Technology
-                          </li>
-                          <li>
-                            <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
-                          </li>
-                        </ul>
+              <ng-container *ngFor="let poste of site.postes">
+                <tr class="candidates-list" *ngIf="poste.etage === 'Rez de chaussée'">
+                  <td class="title">
+                    <div class="thumb">
+                      <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                    </div>
+                    <div class="candidate-list-details">
+                      <div class="candidate-list-info">
+                        <div class="candidate-list-title">
+                          <h5 class="mb-0">
+                            <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
+                          </h5>
+                        </div>
+                        <div class="candidate-list-option">
+                          <ul class="list-unstyled">
+                            <li>
+                              <i class="fas fa-filter pr-1"></i>Information Technology
+                            </li>
+                            <li>
+                              <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="candidate-list-favourite-time text-center">
-                  <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
-                </td>
-              </tr>
+                  </td>
+                  <td class="candidate-list-favourite-time text-center">
+                    <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
       </div>
       <div class="étage1 noshow"> 
-        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm" *ngIf="poste.etage === '1ér étage'">
+        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
           <table class="table manage-candidates-top mb-0">
             <thead>
               <tr>
@@ -66,41 +68,43 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="candidates-list">
-                <td class="title">
-                  <div class="thumb">
-                    <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
-                  </div>
-                  <div class="candidate-list-details">
-                    <div class="candidate-list-info">
-                      <div class="candidate-list-title">
-                        <h5 class="mb-0">
-                          <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
-                        </h5>
-                      </div>
-                      <div class="candidate-list-option">
-                        <ul class="list-unstyled">
-                          <li>
-                            <i class="fas fa-filter pr-1"></i>Information Technology
-                          </li>
-                          <li>
-                            <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
-                          </li>
-                        </ul>
+              <ng-container *ngFor="let poste of site.postes">
+                <tr class="candidates-list" *ngIf="poste.etage === '1ér étage'">
+                  <td class="title">
+                    <div class="thumb">
+                      <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+                    </div>
+                    <div class="candidate-list-details">
+                      <div class="candidate-list-info">
+                        <div class="candidate-list-title">
+                          <h5 class="mb-0">
+                            <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
+                          </h5>
+                        </div>
+                        <div class="candidate-list-option">
+                          <ul class="list-unstyled">
+                            <li>
+                              <i class="fas fa-filter pr-1"></i>{{getUtilisateurDep(poste.utilisateurId)}}
+                            </li>
+                            <li>
+                              <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="candidate-list-favourite-time text-center">
-                  <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
-                </td>
-              </tr>
+                  </td>
+                  <td class="candidate-list-favourite-time text-center">
+                    <span class="candidate-list-time order-1" style="font-size: 15px;">{{poste['numéro']}}</span>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
       </div>
       <div class="étage2 noshow">
-        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm" *ngIf="poste.etage === '2éme étage'">
+        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
           <table class="table manage-candidates-top mb-0">
             <thead>
               <tr>
@@ -109,41 +113,43 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="candidates-list">
-                <td class="title">
-                  <div class="thumb">
-                    <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
-                  </div>
-                  <div class="candidate-list-details">
-                    <div class="candidate-list-info">
-                      <div class="candidate-list-title">
-                        <h5 class="mb-0">
-                          <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
-                        </h5>
-                      </div>
-                      <div class="candidate-list-option">
-                        <ul class="list-unstyled">
-                          <li>
-                            <i class="fas fa-filter pr-1"></i>Information Technology
-                          </li>
-                          <li>
-                            <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
-                          </li>
-                        </ul>
+              <ng-container *ngFor="let poste of site.postes">
+                <tr class="candidates-list" *ngIf="poste.etage === '2éme étage'">
+                  <td class="title">
+                    <div class="thumb">
+                      <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                    </div>
+                    <div class="candidate-list-details">
+                      <div class="candidate-list-info">
+                        <div class="candidate-list-title">
+                          <h5 class="mb-0">
+                            <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
+                          </h5>
+                        </div>
+                        <div class="candidate-list-option">
+                          <ul class="list-unstyled">
+                            <li>
+                              <i class="fas fa-filter pr-1"></i>Information Technology
+                            </li>
+                            <li>
+                              <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="candidate-list-favourite-time text-center">
-                  <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
-                </td>
-              </tr>
+                  </td>
+                  <td class="candidate-list-favourite-time text-center">
+                    <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
       </div>
       <div class="étage3 noshow">
-        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm" *ngIf="poste.etage === '3éme étage'">
+        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
           <table class="table manage-candidates-top mb-0">
             <thead>
               <tr>
@@ -152,41 +158,43 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="candidates-list">
-                <td class="title">
-                  <div class="thumb">
-                    <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
-                  </div>
-                  <div class="candidate-list-details">
-                    <div class="candidate-list-info">
-                      <div class="candidate-list-title">
-                        <h5 class="mb-0">
-                          <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
-                        </h5>
-                      </div>
-                      <div class="candidate-list-option">
-                        <ul class="list-unstyled">
-                          <li>
-                            <i class="fas fa-filter pr-1"></i>Information Technology
-                          </li>
-                          <li>
-                            <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
-                          </li>
-                        </ul>
+              <ng-container *ngFor="let poste of site.postes">
+                <tr class="candidates-list" *ngIf="poste.etage === '3éme étage'">
+                  <td class="title">
+                    <div class="thumb">
+                      <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                    </div>
+                    <div class="candidate-list-details">
+                      <div class="candidate-list-info">
+                        <div class="candidate-list-title">
+                          <h5 class="mb-0">
+                            <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
+                          </h5>
+                        </div>
+                        <div class="candidate-list-option">
+                          <ul class="list-unstyled">
+                            <li>
+                              <i class="fas fa-filter pr-1"></i>Information Technology
+                            </li>
+                            <li>
+                              <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="candidate-list-favourite-time text-center">
-                  <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
-                </td>
-              </tr>
+                  </td>
+                  <td class="candidate-list-favourite-time text-center">
+                    <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
       </div>
       <div class="étage4 noshow">
-        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm" *ngIf="poste.etage === '4éme étage'">
+        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
           <table class="table manage-candidates-top mb-0">
             <thead>
               <tr>
@@ -195,35 +203,37 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="candidates-list">
-                <td class="title">
-                  <div class="thumb">
-                    <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
-                  </div>
-                  <div class="candidate-list-details">
-                    <div class="candidate-list-info">
-                      <div class="candidate-list-title">
-                        <h5 class="mb-0">
-                          <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
-                        </h5>
-                      </div>
-                      <div class="candidate-list-option">
-                        <ul class="list-unstyled">
-                          <li>
-                            <i class="fas fa-filter pr-1"></i>Information Technology
-                          </li>
-                          <li>
-                            <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
-                          </li>
-                        </ul>
+              <ng-container *ngFor="let poste of site.postes">
+                <tr class="candidates-list" *ngIf="poste.etage === '4éme étage'">
+                  <td class="title">
+                    <div class="thumb">
+                      <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                    </div>
+                    <div class="candidate-list-details">
+                      <div class="candidate-list-info">
+                        <div class="candidate-list-title">
+                          <h5 class="mb-0">
+                            <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
+                          </h5>
+                        </div>
+                        <div class="candidate-list-option">
+                          <ul class="list-unstyled">
+                            <li>
+                              <i class="fas fa-filter pr-1"></i>Information Technology
+                            </li>
+                            <li>
+                              <i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows, IL 60008
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="candidate-list-favourite-time text-center">
-                  <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
-                </td>
-              </tr>
+                  </td>
+                  <td class="candidate-list-favourite-time text-center">
+                    <span class="candidate-list-time order-1">{{poste['numéro']}}</span>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>

@@ -409,12 +409,13 @@ new Swiper(".mySwipeeer", {
   }
 
 
-  getUserDetails(id: number): void {
+  getUserDetails(id: number) {
     this.apiService.GetUtilisateur(id).subscribe(
       (data) => {
         const dialogRef = this.dialog.open(UserCardComponent, {
           data: data,
         });
+        console.log(data);
       },
       (error) => {
         console.log(error);

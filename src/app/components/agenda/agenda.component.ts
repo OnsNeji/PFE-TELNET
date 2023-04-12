@@ -55,14 +55,9 @@ export class AgendaComponent implements OnInit {
     return utilisateur ? (utilisateur.departementId) : null;
   }
 
-  // getNomDepartement(id: number): string {
-  //   const utilisateur = this.utilisateurs.find(u => u.id === id);
-  //   if (!utilisateur) {
-  //     return null;
-  //   }
-  //   const departement = this.departements.find(d => d.id === utilisateur.departementId);
-  //   return departement ? departement.nom : null;
-  // }
-  
+  getUtilisateurMatricule(id: number): string {
+    const utilisateur = this.utilisateurs.find(s => s.id === id);
+    return utilisateur ? (utilisateur.matricule) : null;
+  }
 
 }

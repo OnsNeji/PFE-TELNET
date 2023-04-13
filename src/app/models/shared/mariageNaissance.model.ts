@@ -4,6 +4,7 @@ export class MariageNaissance{
     id: number =0;
     titre: string;
     date: Date = new Date();
+    messageVoeux!: string;
     userAjout!: string;
     utilisateurId: number;
     utilisateurs: Utilisateur[] = [];

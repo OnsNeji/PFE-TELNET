@@ -369,6 +369,7 @@ new Swiper(".mySwipeeer", {
   getMariageNaissances(){
     this.MNService.GetMariageNaissances().subscribe(data => {
       this.MariageNaissances = data;
+      this.MariageNaissances.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       console.log(data);
     })
   }

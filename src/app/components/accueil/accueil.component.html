@@ -222,11 +222,9 @@
 
           <div class="col-lg-6 menu-item" *ngFor="let MariageNaissance of MariageNaissances">
             <div class="menu-content">
-              <a>{{getUtilisateurNom(MariageNaissance.utilisateurId)}}</a><span>{{MariageNaissance.date | date}}</span>
+              <a>{{getUtilisateurNom(MariageNaissance.utilisateurId)}}<div class="menu-ingredients">{{MariageNaissance.titre}}</div> </a><span>{{MariageNaissance.date | date}}</span>
             </div>
-            <div class="menu-ingredients">
-              {{MariageNaissance.titre}}
-            </div>
+            <div class="menu-ingredients">{{MariageNaissance.messageVoeux}}</div>
           </div>
           
         </div>

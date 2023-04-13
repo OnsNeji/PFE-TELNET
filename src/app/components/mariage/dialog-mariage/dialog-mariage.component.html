@@ -41,6 +41,14 @@
                 <mat-datepicker-toggle matSuffix [for]="picker1100"></mat-datepicker-toggle>
                 <mat-datepicker #picker1100></mat-datepicker>
               </mat-form-field>
+
+              <mat-form-field class="col-sm-12">
+                <mat-label>Message de Voeux</mat-label>
+                <mat-select formControlName="messageVoeux" class="login-input-style">
+                  <mat-option value="Nous vous adressons toutes nos félicitations pour ce merveilleux jour. Que ce grand jour marque le début d'une grande et belle aventure pour vous deux.">Nous vous adressons toutes nos félicitations pour ce merveilleux jour. Que ce grand jour marque le début d'une grande et belle aventure pour vous deux.</mat-option>
+                  <mat-option value="Toute l’équipe tient à souhaiter la bienvenue au petit et vous adresse ses voeux de bonheur les plus sincères !">Toute l’équipe tient à souhaiter la bienvenue au petit et vous adresse ses voeux de bonheur les plus sincères !</mat-option>
+                </mat-select>
+              </mat-form-field>
   
             <mat-form-field class="col-sm-6" hidden>
               <mat-label>UserAjout</mat-label>

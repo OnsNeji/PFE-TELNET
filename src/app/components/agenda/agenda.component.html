@@ -20,11 +20,12 @@
               <tr>
                 <th>Employé</th>
                 <th class="text-center">Poste</th>
+                <th class="text-right">Action</th>
               </tr>
             </thead>
             <tbody>
               <ng-container *ngFor="let poste of site.postes">
-                <tr class="candidates-list" *ngIf="poste.etage === 'Rez de chaussée'">
+                <tr class="candidates-list" *ngIf="poste.etage === 'Rez de Chaussée'">
                   <td class="title">
                     <div class="thumb">
                       <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
@@ -36,18 +37,19 @@
                             <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
                           </h5>
                         </div>
-                        <div class="candidate-list-option">
-                          <ul class="list-unstyled">
-                            <li>
-                              <i class="fas fa-filter pr-1"></i>{{getUtilisateurMatricule(poste.utilisateurId)}}
-                            </li>
-                          </ul>
-                        </div>
+
                       </div>
                     </div>
                   </td>
                   <td class="candidate-list-favourite-time text-center">
                     <span class="candidate-list-time order-1" style="font-size: 15px;">{{poste['numéro']}}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-mini" type="button" style="color: black;"
+                    (click)="getUtilisateur(poste.utilisateurId)" matTooltip="Details">
+                      <em class="material-icons">visibility</em>
+                    </button>
+                  
                   </td>
                 </tr>
               </ng-container>
@@ -60,8 +62,9 @@
           <table class="table manage-candidates-top mb-0">
             <thead>
               <tr>
-                <th>Employé</th>
+                <th >Employé</th>
                 <th class="text-center">Poste</th>
+                <th class="text-right">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -85,6 +88,13 @@
                   <td class="candidate-list-favourite-time text-center">
                     <span class="candidate-list-time order-1" style="font-size: 15px;">{{poste['numéro']}}</span>
                   </td>
+                  <td>
+                    <button class="btn btn-mini" type="button" style="color: black;"
+                    (click)="getUtilisateur(poste.utilisateurId)" matTooltip="Details">
+                      <em class="material-icons">visibility</em>
+                    </button>
+                  
+                  </td>
                 </tr>
               </ng-container>
             </tbody>
@@ -98,6 +108,7 @@
               <tr>
                 <th>Employé</th>
                 <th class="text-center">Poste</th>
+                <th class="text-right">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -114,18 +125,19 @@
                             <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
                           </h5>
                         </div>
-                        <div class="candidate-list-option">
-                          <ul class="list-unstyled">
-                            <li>
-                              <i class="fas fa-filter pr-1"></i>{{getUtilisateurMatricule(poste.utilisateurId)}}
-                            </li>
-                          </ul>
-                        </div>
+
                       </div>
                     </div>
                   </td>
                   <td class="candidate-list-favourite-time text-center">
                     <span class="candidate-list-time order-1" style="font-size: 15px;">{{poste['numéro']}}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-mini" type="button" style="color: black;"
+                    (click)="getUtilisateur(poste.utilisateurId)" matTooltip="Details">
+                      <em class="material-icons">visibility</em>
+                    </button>
+                  
                   </td>
                 </tr>
               </ng-container>
@@ -140,6 +152,7 @@
               <tr>
                 <th>Employé</th>
                 <th class="text-center">Poste</th>
+                <th class="text-right">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -156,18 +169,19 @@
                             <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
                           </h5>
                         </div>
-                        <div class="candidate-list-option">
-                          <ul class="list-unstyled">
-                            <li>
-                              <i class="fas fa-filter pr-1"></i>{{getUtilisateurMatricule(poste.utilisateurId)}}
-                            </li>
-                          </ul>
-                        </div>
+
                       </div>
                     </div>
                   </td>
                   <td class="candidate-list-favourite-time text-center">
                     <span class="candidate-list-time order-1" style="font-size: 15px;">{{poste['numéro']}}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-mini" type="button" style="color: black;"
+                    (click)="getUtilisateur(poste.utilisateurId)" matTooltip="Details">
+                      <em class="material-icons">visibility</em>
+                    </button>
+                  
                   </td>
                 </tr>
               </ng-container>
@@ -182,6 +196,7 @@
               <tr>
                 <th>Employé</th>
                 <th class="text-center">Poste</th>
+                <th class="text-right">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -198,18 +213,19 @@
                             <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a>
                           </h5>
                         </div>
-                        <div class="candidate-list-option">
-                          <ul class="list-unstyled">
-                            <li>
-                              <i class="fas fa-filter pr-1"></i>{{getUtilisateurMatricule(poste.utilisateurId)}}
-                            </li>
-                          </ul>
-                        </div>
+
                       </div>
                     </div>
                   </td>
                   <td class="candidate-list-favourite-time text-center">
                     <span class="candidate-list-time order-1" style="font-size: 15px;">{{poste['numéro']}}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-mini" type="button" style="color: black;"
+                    (click)="getUtilisateur(poste.utilisateurId)" matTooltip="Details">
+                      <em class="material-icons">visibility</em>
+                    </button>
+                  
                   </td>
                 </tr>
               </ng-container>

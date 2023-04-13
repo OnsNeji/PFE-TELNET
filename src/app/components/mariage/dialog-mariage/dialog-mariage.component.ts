@@ -46,6 +46,7 @@ export class DialogMariageComponent implements OnInit {
     this.mariageForm = this.builder.group({
       titre : ['', Validators.required],
       utilisateurId : ['', Validators.required],
+      messageVoeux : ['', Validators.required],
       userAjout: [''],
       date: [''],
     });
@@ -58,7 +59,8 @@ export class DialogMariageComponent implements OnInit {
         titre: this.editData.titre,
         userAjout : this.editData.userAjout,
         date: this.editData.date,
-        utilisateurId: this.editData.utilisateurId,    
+        utilisateurId: this.editData.utilisateurId,   
+        messageVoeux: this.editData.messageVoeux,    
       });
     }
 

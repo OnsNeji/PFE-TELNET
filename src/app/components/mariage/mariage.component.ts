@@ -14,6 +14,7 @@ import { FormControl } from '@angular/forms';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DialogDescriptionMariageComponent } from './dialog-description-mariage/dialog-description-mariage.component';
 
 @Component({
   selector: 'app-mariage',
@@ -32,7 +33,7 @@ export class MariageComponent implements OnInit {
   MariageNaissances!: MariageNaissance[];
   MariageNaissance: MariageNaissance = new MariageNaissance();
   utilisateurs! : Utilisateur[];
-  displayedColumns: string[] = ['utilisateurId', 'titre', 'date', 'userAjout', 'action'];
+  displayedColumns: string[] = ['utilisateurId', 'titre', 'messageVoeux','date', 'userAjout', 'action'];
   dataSource!: MatTableDataSource<MariageNaissance>;
   lengthMN: number;
   isLoading: boolean;
@@ -79,6 +80,13 @@ export class MariageComponent implements OnInit {
     }
     this.utilisateurs = this.utilisateurs.filter(user => 
       user.nom.toLowerCase().indexOf(search) > -1 || user.prenom.toLowerCase().indexOf(search) > -1);
+  }
+
+  openDescriptionDialog(MariageNaissance: any): void {
+    const dialogRef = this.dialog.open(DialogDescriptionMariageComponent, {
+      width: '500px',
+      data: { messageVoeux: MariageNaissance.messageVoeux },
+    });
   }
 
   getMariageNaissances(){

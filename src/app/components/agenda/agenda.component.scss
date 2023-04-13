@@ -24,8 +24,7 @@ h4{
 }
 
 .container {
-  background: $white;
-  width: 100%;
+  width: 50%;
   height: 800px;
   position: relative;
   box-shadow: 2px 5px 20px rgba($gray, .5);
@@ -33,36 +32,12 @@ h4{
   margin-bottom: 15%;
 }
 
-.CTA {
-  width: 80px;
-  height: 40px;
-  right: -20px;
-  bottom: 0;
-  margin-bottom: 90px;
-  position: absolute;
-  z-index: 1;
-  background: $green;
-  font-size: 1em;
-  transform: rotate(-90deg);
-  transition: all .5s ease-in-out;
-  cursor: pointer;
-  h1 {
-    color: $white;
-    margin-top: 10px;
-    margin-left: 9px;
-  }
-  &:hover {
-    background: $aqua;
-    transform: scale(1.1);
-  }
-}
-
 .leftbox {
   float: left;
   top: -5%;
   left: 5%;
   position: absolute;
-  width: 15%;
+  width: 23%;
   height: 110%;
   background: #1ba3dd;
   text-align: center;
@@ -93,7 +68,7 @@ nav a {
 
 .rightbox {
   float: right;
-  width: 60%;
+  width: 50%;
   height: 100%;
 }
 
@@ -101,7 +76,7 @@ nav a {
 .rdc, .étage1, .étage2, .étage3, .étage4 {
   transition: opacity .5s ease-in;
   position: absolute;
-  width: 70%;
+  width: 100%;
 }
 
 h1 {
@@ -159,22 +134,14 @@ input {
   margin: 0;
 }
 
-.privacy h2{
-  margin-top: 25px;
-}
-
-.settings h2{
-  margin-top: 25px;
-}
-
 .noshow {
   opacity: 0;
 }
 
 .user-dashboard-info-box.table-responsive.mb-0.bg-white.p-4.shadow-sm {
-    width: 100%;
+    width: 66%;
     height: 800px;
-    margin-left: -22%;
+    margin-left: -18%;
   }
 
 .p-4 {
@@ -227,7 +194,7 @@ input {
 }
 
 .table.manage-candidates-top {
-    min-width: 650px;
+    width: 450px;
 }
 
 .user-dashboard-info-box .candidate-list-details ul {
@@ -302,25 +269,6 @@ input {
 .candidate-list .candidate-list-favourite-time span {
     display: block;
     margin: 0 auto;
-}
-.candidate-list .candidate-list-favourite-time .candidate-list-favourite {
-    display: inline-block;
-    position: relative;
-    height: 40px;
-    width: 40px;
-    line-height: 40px;
-    border: 1px solid #eeeeee;
-    border-radius: 100%;
-    text-align: center;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #646f79;
-}
-.candidate-list .candidate-list-favourite-time .candidate-list-favourite:hover {
-    background: #ffffff;
-    color: #e74c3c;
 }
 
 .candidate-banner .candidate-list:hover {

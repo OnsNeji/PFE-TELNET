@@ -5,6 +5,8 @@ import { ApiService } from 'app/services/shared/api.service';
 import * as myScript from '../../../assets/js/tabs.js';
 import { Utilisateur } from 'app/models/shared/utilisateur.model.js';
 import { Departement } from 'app/models/shared/departement.model.js';
+import { MatDialog } from '@angular/material/dialog';
+import { UserCardComponent } from '../user-card/user-card.component';
 
 @Component({
   selector: 'app-agenda',
@@ -17,7 +19,7 @@ export class AgendaComponent implements OnInit {
   utilisateurs!: Utilisateur[];
   departements!: Departement[];
 
-  constructor(private route: ActivatedRoute, private Service: ApiService) { }
+  constructor(private route: ActivatedRoute, private Service: ApiService, public dialog: MatDialog) { }
 
   ngOnInit() {
     myScript.Tabs();
@@ -60,4 +62,19 @@ export class AgendaComponent implements OnInit {
     return utilisateur ? (utilisateur.matricule) : null;
   }
 
+  getUtilisateur(id: number) {
+    console.log('Méthode getUtilisateur appelée avec l\'id:', id);
+    this.Service.GetUtilisateur(id).subscribe(
+      (data) => {
+        console.log(data);
+        const dialogRef = this.dialog.open(UserCardComponent, {
+          data: data,
+        });
+        
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

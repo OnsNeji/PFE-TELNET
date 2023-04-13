@@ -16,7 +16,7 @@ export class UserCardComponent implements OnInit {
 
   utilisateur: Utilisateur;
   utilisateurs: Utilisateur[];
-  site: Site[];
+  sites!: Site[];
   departements!: Departement[];
   departement: Departement = new Departement();
 
@@ -67,16 +67,12 @@ export class UserCardComponent implements OnInit {
     return '';
   }
   
-  // getNomSite(id: number): string {
-  //   const departement = this.departements.find(d => d.id === id);
-  //   if (departement) {
-  //     const site = departement.site.find(u => u.id === departement.siteId);
-  //     if (site) {
-  //       return site.site;
-  //     }
-  //   }
-  //   return '';
-  // }
+  getNomSite(id: number): string {
+      const site = this.sites.find(s => s.id === id);
+      return site ? site.site : '';
+    
+  }
+  
 
   close() {
     this.dialogRef.close();

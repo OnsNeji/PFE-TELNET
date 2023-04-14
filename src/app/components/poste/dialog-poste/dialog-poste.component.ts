@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Departement } from 'app/models/shared/departement.model';
 import { Poste } from 'app/models/shared/poste.model';
 import { Site } from 'app/models/shared/site.model';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
@@ -22,6 +23,7 @@ export class DialogPosteComponent implements OnInit {
   
   posteForm!: FormGroup;
   utilisateurs!: Utilisateur[];
+  departements: Departement[] = [];
   ListePoste!: Poste[];
   poste: Poste = new Poste();
   ActionBtn: string = "Ajouter";
@@ -47,12 +49,16 @@ export class DialogPosteComponent implements OnInit {
       numéro : ['', Validators.required],
       utilisateurId : ['', Validators.required],
       etage : ['', Validators.required],
-      siteId : ['', Validators.required],
+      siteId : [],
       userAjout: [''],
     });
     this.getUtilisateurs();
     this.getSites();
     
+    this.service.GetDepartements().subscribe((departements: Departement[]) => {
+          this.departements = departements;
+        });
+
     this.userFilterCtrl.valueChanges
     .pipe(takeUntil(this._onDestroy))
     .subscribe(() => {
@@ -96,6 +102,10 @@ export class DialogPosteComponent implements OnInit {
         this.posteForm.value.numéro= parseInt(this.posteForm.value.numéro);
         this.posteForm.value.userAjout = this.matricule;
         const userAjout = this.posteForm.value.userAjout;
+        const utilisateur = this.utilisateurs.find(u => u.id === this.posteForm.value.utilisateurId);
+        const departement = this.departements.find(d => d.id === utilisateur.departementId);
+        console.log(departement)
+        this.posteForm.value.siteId = departement.siteId;
         console.log(this.posteForm.value);
         this.service.AddPoste( { ...this.posteForm.value, userAjout }).subscribe(()=>{
 
@@ -117,6 +127,12 @@ export class DialogPosteComponent implements OnInit {
     
     this.posteForm.value.userModif = this.matricule;
     const userModif = this.posteForm.value.userModif;
+
+    const utilisateur = this.utilisateurs.find(u => u.id === this.posteForm.value.utilisateurId);
+    const departement = this.departements.find(d => d.id === utilisateur.departementId);
+    console.log(departement)
+    this.posteForm.value.siteId = departement.siteId;
+    
     if (this.posteForm.valid) {
     this.service.UpdatePoste(this.editData.id, { ...this.posteForm.value, userModif}).subscribe(()=>{
       console.log(this.posteForm.value);

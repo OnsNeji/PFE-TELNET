@@ -21,7 +21,7 @@ $('nav a').click(function(e) {
     }
       else if(this.id === 'étage3') {
       $('.étage3').removeClass('noshow');
-      $('.étage3').children().not('.étage3').addClass('noshow');
+      $('.rightbox').children().not('.étage3').addClass('noshow');
     }
     else if(this.id === 'étage4') {
       $('.étage4').removeClass('noshow');

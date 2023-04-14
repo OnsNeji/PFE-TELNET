@@ -14,7 +14,7 @@
       
       <div class="row m-b-6">
 
-          <mat-form-field  class="col-sm-6">
+          <mat-form-field  class="col-sm-4">
             <mat-label>Numéro de poste</mat-label>
             <input matInput formControlName="numéro" class="login-input-style">
             <mat-error *ngIf="posteForm.get('numéro').invalid">
@@ -22,7 +22,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="col-sm-6">
+          <mat-form-field class="col-sm-4">
             <mat-label>Utilisateur</mat-label>
             <mat-select formControlName="utilisateurId" class="login-input-style">
               <ng-container *ngFor="let utilisateur of utilisateurs">
@@ -31,16 +31,16 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="col-sm-6">
+          <mat-form-field class="col-sm-6" hidden>
             <mat-label>Site</mat-label>
-            <mat-select formControlName="siteId" class="login-input-style">
+            <mat-select formControlName="siteId" class="login-input-style" hidden>
               <ng-container *ngFor="let site of sites">
               <mat-option [value]="site.id">{{ site.site }}</mat-option>
             </ng-container>
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="col-sm-6">
+          <mat-form-field class="col-sm-4">
             <mat-label>Etage</mat-label>
             <mat-select formControlName="etage" class="login-input-style">
               <mat-option value="Rez de Chaussée">Rez de Chaussée</mat-option>

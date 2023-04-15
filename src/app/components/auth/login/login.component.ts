@@ -6,6 +6,7 @@ import { environment } from 'environments/environment';
 import { CaptchaComponent } from 'angular-captcha';
 import { PasswordStrengthBarComponent } from 'app/shared/password-strength-bar/password-strength-bar.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private cookieService: CookieService,
     private notificationService: NotificationService,
+    private userStore: UserStoreService
   ) {
     this.commitTime = environment.commitTime;
   }
@@ -44,41 +46,8 @@ export class LoginComponent implements OnInit {
       Matricule: ['', Validators.required],
       MotDePasse: ['', Validators.required]
     })
-
-    //document.querySelector('body').setAttribute('themebg-pattern', 'theme1');
-
-    //this.authenticationService.logout();
-
-    //this.returnUrl = '/dashboard';
-    // this.captchaComponent.captchaEndpoint = environment.apiUrl + environment.captchaEndpointUrl;
   }
 
-  // validateCaptcha(): void {
-  //   const userEnteredCaptchaCode = this.captchaComponent.userEnteredCaptchaCode;
-  //   const captchaId = this.captchaComponent.captchaId;
-
-  //   const postData = {
-  //     userEnteredCaptchaCode: userEnteredCaptchaCode,
-  //     captchaId: captchaId
-  //   };
-
-  //   this.authenticationService.validateCaptcha(postData)
-  //     .subscribe(
-  //       response => {
-  //         if (response === 'false') {
-  //           this.failedLogin = false;
-  //           this.failedCaptcha = true;
-  //           this.captchaComponent.reloadImage();
-  //         } else {
-  //           this.login();
-  //           this.failedCaptcha = false;
-  //         }
-  //       },
-  //       error => {
-  //         this.failedLogin = false;
-  //         this.failedCaptcha = true;
-  //       });
-  // }
 
   login() {
     if (this.loginForm.valid) {
@@ -89,6 +58,8 @@ export class LoginComponent implements OnInit {
             //alert(res.message)
             this.loginForm.reset();
             this.authenticationService.storeToken(res.token);
+            const tokenPayload = this.authenticationService.decodedToken();
+            this.userStore.setRoleFromStore(tokenPayload.role);
             this.router.navigateByUrl('/dashboard');
           },
           error: (err) => {

@@ -12,12 +12,14 @@ import { JwtHelper } from 'app/helpers';
 import { environment } from 'environments/environment';
 import { ResetPassword } from 'app/models/shared/reset-password.model';
 import { ChangerPassword } from 'app/models/shared/changer-password.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable()
 export class AuthenticationService {
     private headers: HttpHeaders;
     private jwtHelper: JwtHelper = new JwtHelper();
     private baseUrl: string = "Login/";
+    private userPayload: any;
 
     constructor(
         public coreDataService: CoreDataService,
@@ -26,44 +28,8 @@ export class AuthenticationService {
         private entityParameterService: EntityParameterService
     ) {
         this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+        this.userPayload = this.decodedToken();
     }
-
-    // login(userLogin: string, userPassword: string, score: number): Observable<any> {
-    //     const entityParameters = new Array<EntityParameter>();
-    //     this.entityParameterService.AddEntityParameter(entityParameters,
-    //         'userLogin', userLogin, OracleDbType.Varchar2, Direction.Input);
-    //     this.entityParameterService.AddEntityParameter(entityParameters,
-    //         'userPassword', userPassword, OracleDbType.Varchar2, Direction.Input);
-
-    //     const body = new Body();
-    //     body.storedProcedureName = 'SITT.GetAuthenticatedUser';
-    //     body.entitiesParameters = new Array(entityParameters);
-    //     body.cursorName = 'curs';
-
-    //     return null;
-    //     // return this.httpClient.post('/Login/Authenticate', JSON.stringify(body), { headers: this.headers })
-    //     //     .pipe(map((data) => {
-    //     //         // login successful if there's a jwt token in the response
-    //     //         const profile: UserProfile = new UserProfile;
-    //     //         profile.access_token = data['access_token'];
-    //     //         profile.currentUser = data['currentUser'][0];
-    //     //         if (!(environment.activitiesStrengthCheck.trim().split(',').includes(profile.currentUser.activityId.toString())) &&
-    //     //             (environment.activitiesStrengthCheck.trim().toUpperCase() !== 'ALL') || (score >= environment.minStrengthScore)) {
-    //     //             profile.currentUser.rolesId = data['currentUser'][0]['rolesId'].split(',');
-    //     //             profile.currentUser.functionsId = data['currentUser'][0]['functionsId'].split(',');
-    //     //             this.cookieService.set('passwordStrength', 'Strong');
-    //     //         } else {
-    //     //             this.cookieService.set('passwordStrength', 'Week');
-    //     //             profile.currentUser.rolesId = [];
-    //     //             profile.currentUser.functionsId = [];
-    //     //         }
-    //     //         if (profile && profile.access_token) {
-    //     //             this.setProfile(profile);
-    //     //             return profile;
-    //     //         }
-    //     //         return profile;
-    //     //     }));
-    // }
 
     login(utilisateurObj: any) {
         return this.httpClient.post<any>(`${this.baseUrl}authenticate`, utilisateurObj);
@@ -91,27 +57,6 @@ export class AuthenticationService {
         isLoggedIn(): boolean{
             return !!localStorage.getItem('token')
           }
-    
-
-    // sendResetPassword(email: string) {
-    //     const message: Message = new Message();
-    //     message.from = 'AdminMail';
-    //     message.to = email;
-    //     message.subject = 'Reset Password';
-    //     message.body = 'Core.ResetPassword';
-    //     return this.httpClient.post('/Login/SendResetPassword', JSON.stringify(message),
-    //         { headers: this.headers, responseType: 'text' });
-    // }
-
-    // resetPassword(userIdentifiers: UserIdentifiers) {
-    //     return this.httpClient.post('/Login/ResetPassword', JSON.stringify(userIdentifiers),
-    //         { headers: this.headers, responseType: 'text' });
-    // }
-
-    // changePassword(userIdentifiers: UserIdentifiers) {
-    //     return this.httpClient.post('/Login/ChangePassword', JSON.stringify(userIdentifiers),
-    //         { headers: this.headers, responseType: 'text' });
-    // }
 
     isAuthenticated() {
         const profile = this.getProfile();
@@ -171,5 +116,16 @@ export class AuthenticationService {
 
     getToken() {
         return localStorage.getItem('token')
+    }
+
+    decodedToken(){
+        const jwtHelper = new JwtHelperService();
+        const token = this.getToken()!;
+        return jwtHelper.decodeToken(token)
+    }
+
+    getRoleFromToken(){
+        if(this.userPayload)
+        return this.userPayload.role;
     }
 }

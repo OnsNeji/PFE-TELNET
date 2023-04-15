@@ -17,6 +17,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'app/services/shared/user.service';
 import { FormGroup } from '@angular/forms';
 import { Notification } from 'app/models/shared/Notification.model';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 declare var require: any;
 const FileSaver = require('file-saver');
@@ -117,9 +118,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   imgUrl: string;
   notification: Notification[] = []
   todayCount: number[];
+  role!: string;
 
   constructor(injector: Injector,
-    private cookieService: CookieService, private userService: UserService) {
+    private cookieService: CookieService, private userService: UserService, private userStore: UserStoreService) {
     this.dialog = injector.get<MatDialog>(MatDialog);
     this.authenticationService = injector.get<AuthenticationService>(AuthenticationService);
     this.notificationService = injector.get<NotificationService>(NotificationService);
@@ -295,6 +297,11 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.profileForm.patchValue({
         image: this.user.image
       });
+    });
+
+    this.userStore.getRoleFromStore().subscribe(val => {
+      const roleFromToken = this.authenticationService.getRoleFromToken();
+      this.role = val || roleFromToken;
     });
 
     this.getNotifications();

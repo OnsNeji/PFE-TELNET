@@ -41,6 +41,7 @@ export class AccueilComponent implements OnInit {
   nouveaute: Nouveauté = new Nouveauté();
   sites: Site[] = [];
   site: Site = new Site();
+  evenement: Evenement = new Evenement();
   evenements: Evenement[] = [];
   latestEvenements: Evenement[];
   latestNouveautes: Nouveauté[];
@@ -426,47 +427,37 @@ new Swiper(".mySwipeeer", {
     );
   }
 
-  getEventDetails(id: number) {
-    this.service.GetEvenement(id).subscribe(
-      (data) => {
-        const dialogRef = this.dialog.open(DialogInformationComponent, {
-          data: data,
-        });
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  getTypeDetails(type: string, id: number) {
+    this.type = type;
+    if (type === 'evenement') {
+        this.service.GetEvenement(id).subscribe(
+          (data) => {
+            const dialogRef = this.dialog.open(DialogInformationComponent, {
+              data: {
+                ...data,
+                type: type
+              }
+            });
+            console.log(data);
+          }
+        );
+      
+    } else if (type === 'nouveaute') {
+        this.nouvService.GetNouveauté(id).subscribe(
+          (data) => {
+            const dialogRef = this.dialog.open(DialogInformationComponent, {
+              data: {
+                ...data,
+                type: type
+              }
+            });
+            console.log(data);
+          }
+        );
+      
+    }
   }
-
-  // getTypeDetails(type: string) {
-  //   this.type = type; // mettre à jour la variable type
-  //   let dataToRetrieve;
-  //   if (type === 'evenement') {
-  //     dataToRetrieve = this.evenements[0]; 
-  //     this.service.GetEvenement(dataToRetrieve.id).subscribe(
-  //       (data) => {
-  //         const dialogRef = this.dialog.open(DialogInformationComponent, {
-  //           data: data,
-  //           type: type // passer la variable type à la dialogue
-  //         });
-  //         console.log(data);
-  //       }
-  //     );
-  //   } else if (type === 'nouveaute') {
-  //     dataToRetrieve = this.nouveautes[0];
-  //     this.nouvService.GetNouveauté(dataToRetrieve.id).subscribe(
-  //       (data) => {
-  //         const dialogRef = this.dialog.open(DialogInformationComponent, {
-  //           data: data,
-  //           type: type // passer la variable type à la dialogue
-  //         });
-  //         console.log(data);
-  //       }
-  //     ); // récupérer la première nouveauté dans latestNouveautes
-  //   }
-  // }
+  
   
   
   

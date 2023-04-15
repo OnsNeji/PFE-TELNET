@@ -50,8 +50,11 @@
             <div class="swiper-wrapper">
               <div class="swiper-slide" *ngFor="let nouveaute of latestNouveautes" >
                 <div class="box">
-                  <h4>{{nouveaute.titre}}</h4>
-                  <p>{{nouveaute.description}}</p>
+                  <h4 >{{nouveaute.titre}}</h4>
+                  <p>{{nouveaute.description | slice:0:120:'...'}}{{nouveaute.description.length > 50 ? ' ... ' : ''}}</p>
+                  <br>
+                  <p (click)="getTypeDetails('nouveaute',nouveaute.id)" style="text-decoration: underline; font-weight: bold;">Voir plus</p>
+
                   <h6>{{nouveaute.datePublication | date}}</h6>
                 </div>
               </div>
@@ -97,11 +100,14 @@
                     </div>
                   </div>
                   <div class="col-lg-6 pt-4 pt-lg-0 content">
-                    <h3 (click)="getEventDetails(swiperEvenement.id)">{{swiperEvenement.titre}}</h3>
+                    <h3 >{{swiperEvenement.titre}}</h3>
                     <hr>
                     <p class="fst-italic">{{swiperEvenement.dateEvent | date}}</p>
                     <br>
-                    <p style="line-height: 2em;">{{swiperEvenement.description}}</p>
+                    <p style="line-height: 2em;">{{swiperEvenement.description | slice:0:300:'...'}}{{swiperEvenement.description.length > 50 ? ' ... ' : ''}}</p>
+                    <br>
+                    <p (click)="getTypeDetails('evenement',swiperEvenement.id)" style="text-decoration: underline; font-weight: bold;">Voir plus</p>
+                   
                   </div>
                 </div>
               </div>

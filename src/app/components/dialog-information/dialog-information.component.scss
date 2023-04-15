@@ -17,6 +17,7 @@
     }
   }
 
+
   .modal-close-disabled {
     cursor: not-allowed;
     color: gainsboro;
@@ -26,37 +27,33 @@
     }
   }
   }
-  
+
 .events {
   background-size: cover;
   position: relative;
-  height: 500px;
+  height: 450px;
 }
 
 .events::before {
   content: "";
-  background-color: rgba(12, 11, 10, 0.8);
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
+  background-color: #fff;
 }
 
 .events .container {
   position: relative;
   padding-top: 5%;
+  background-color: #fff;
 }
 
 @media (min-width: 1024px) {
   .events {
     background-attachment: fixed;
   }
-}
-
-.events .events-carousel {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 30px;
 }
 
 .events .event-item {
@@ -113,4 +110,9 @@
 
 .events .swiper-pagination .swiper-pagination-bullet-active {
   background-color: #1ba3dd;
+}
+.carousel-item img {
+  width: 500px;
+  height: 350px;
+  margin-left: 1%;
 }

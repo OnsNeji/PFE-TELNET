@@ -1,10 +1,13 @@
-<main id="main" *ngIf="evenement">
+<main id="main">
 
     <div class="modal_header">
     <div class="modal_title">
-        <span>
+        <span *ngIf="data.type === 'evenement'">
             Détails de l'événement
         </span>
+        <span *ngIf="data.type === 'nouveaute'">
+          Détails de la nouveauté
+      </span>
         <span>
             <em class="material-icons modal-close" (click)="close()">close</em>
         </span>
@@ -17,7 +20,7 @@
         <div class="swiper-slide">
           <div class="row event-item">
             <div class="col-lg-6">
-              <div id="dialogHeroCarousel{{data.id}}" class="carousel slide carousel-fade" data-bs-ride="carousel">
+              <div id="dialogHeroCarousel{{data.id}}" class="carousel slide carousel-fade" data-bs-ride="carousel" *ngIf="data.type === 'evenement'">
                 <ol class="carousel-indicators">
                   <li data-bs-target="#dialogHeroCarousel{{data.id}}" *ngFor="let media of data.mediaEvents; let i = index" [attr.data-bs-slide-to]="i" [class.active]="i == 0"></li>
                 </ol>
@@ -35,12 +38,22 @@
                   <span class="visually-hidden">Next</span>
                 </a>
               </div>
+
+              <div id="dialogHeroCarousel{{data.id}}" class="carousel slide carousel-fade" data-bs-ride="carousel" *ngIf="data.type === 'nouveaute'">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img [src]="data.pieceJointe" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+              </div>
+              
               
             </div>
-            <div class="col-lg-6 pt-4 pt-lg-0 content">
+            <div class="col-lg-6 pt-4 pt-lg-0 content" style="color: black;">
               <h3>{{data.titre}}</h3>
               <hr>
-              <p class="fst-italic">{{data.dateEvent | date}}</p>
+              <p class="fst-italic"  *ngIf="data.type === 'evenement'">{{data.dateEvent | date}}</p>
+              <p class="fst-italic"  *ngIf="data.type === 'nouveaute'">{{data.datePublication | date}}</p>
               <br>
               <p style="line-height: 2em;">{{data.description}}</p>
             </div>

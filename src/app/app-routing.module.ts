@@ -26,7 +26,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/auth/login',
+        redirectTo: '/accueil',
         pathMatch: 'full'
       },
       {
@@ -68,7 +68,7 @@ const routes: Routes = [
   { path: 'employeMois', component: EmployeMoisComponent, canActivate: [AuthGuard] },
   { path: 'evenement', component: EvenementComponent, canActivate: [AuthGuard] },
   { path: 'mediaEvent', component: MediaEventComponent, canActivate: [AuthGuard] },
-  { path: 'accueil', component: AccueilComponent, canActivate: [AuthGuard] },
+  { path: 'accueil', component: AccueilComponent },
   { path: 'convention', component: ConventionComponent, canActivate: [AuthGuard] },
   { path: 'nouveauté', component: NouveauteComponent, canActivate: [AuthGuard] },
   { path: 'mariage-naissance', component: MariageComponent, canActivate: [AuthGuard] },

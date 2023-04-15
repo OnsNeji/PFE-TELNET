@@ -1,0 +1,116 @@
+.modal_header {
+  height: 50px;
+  background-color: #3f629d;
+  padding: 18px 15px;
+
+  .modal_title {
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  .modal-close {
+    float: right;
+    cursor: pointer;
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  .modal-close-disabled {
+    cursor: not-allowed;
+    color: gainsboro;
+
+    &:hover {
+      color: gainsboro;
+    }
+  }
+  }
+  
+.events {
+  background-size: cover;
+  position: relative;
+  height: 500px;
+}
+
+.events::before {
+  content: "";
+  background-color: rgba(12, 11, 10, 0.8);
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.events .container {
+  position: relative;
+  padding-top: 5%;
+}
+
+@media (min-width: 1024px) {
+  .events {
+    background-attachment: fixed;
+  }
+}
+
+.events .events-carousel {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 30px;
+}
+
+.events .event-item {
+  color: #fff;
+}
+
+.events .event-item h3 {
+  font-weight: 600;
+  font-size: 26px;
+  color: #1ba3dd;
+}
+
+.events .event-item .price {
+  font-size: 26px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.events .event-item .price span {
+  border-bottom: 2px solid #1ba3dd;
+}
+
+.events .event-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.events .event-item ul li {
+  padding-bottom: 10px;
+}
+
+.events .event-item ul i {
+  font-size: 20px;
+  padding-right: 4px;
+  color: #1ba3dd;
+}
+
+.events .event-item p:last-child {
+  margin-bottom: 0;
+}
+
+.events .swiper-pagination {
+  margin-top: 20px;
+  position: relative;
+}
+
+.events .swiper-pagination .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+}
+
+.events .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: #1ba3dd;
+}

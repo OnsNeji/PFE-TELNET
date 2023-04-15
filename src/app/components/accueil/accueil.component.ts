@@ -27,6 +27,7 @@ import { Site } from 'app/models/shared/site.model';
 import { Router } from '@angular/router';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogInformationComponent } from '../dialog-information/dialog-information.component';
 
 
 @Component({
@@ -55,6 +56,7 @@ export class AccueilComponent implements OnInit {
   latestUtilisateurs!: Utilisateur[];
   anniversaires!: Utilisateur[];
   id: number;
+  type: string
 
   constructor(private service: EvenementService, 
               private siteService: ApiService,
@@ -423,6 +425,49 @@ new Swiper(".mySwipeeer", {
       }
     );
   }
+
+  getEventDetails(id: number) {
+    this.service.GetEvenement(id).subscribe(
+      (data) => {
+        const dialogRef = this.dialog.open(DialogInformationComponent, {
+          data: data,
+        });
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  // getTypeDetails(type: string) {
+  //   this.type = type; // mettre à jour la variable type
+  //   let dataToRetrieve;
+  //   if (type === 'evenement') {
+  //     dataToRetrieve = this.evenements[0]; 
+  //     this.service.GetEvenement(dataToRetrieve.id).subscribe(
+  //       (data) => {
+  //         const dialogRef = this.dialog.open(DialogInformationComponent, {
+  //           data: data,
+  //           type: type // passer la variable type à la dialogue
+  //         });
+  //         console.log(data);
+  //       }
+  //     );
+  //   } else if (type === 'nouveaute') {
+  //     dataToRetrieve = this.nouveautes[0];
+  //     this.nouvService.GetNouveauté(dataToRetrieve.id).subscribe(
+  //       (data) => {
+  //         const dialogRef = this.dialog.open(DialogInformationComponent, {
+  //           data: data,
+  //           type: type // passer la variable type à la dialogue
+  //         });
+  //         console.log(data);
+  //       }
+  //     ); // récupérer la première nouveauté dans latestNouveautes
+  //   }
+  // }
+  
   
   
 }

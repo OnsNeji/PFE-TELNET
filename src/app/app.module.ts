@@ -89,6 +89,8 @@ import { DialogProjectSuccessComponent } from './components/project-success/dial
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { DialogDescriptionMariageComponent } from './components/mariage/dialog-description-mariage/dialog-description-mariage.component';
+import { DialogInformationComponent } from './components/dialog-information/dialog-information.component';
+
 
 
 export const CUSTOM_DT_FORMATS = {
@@ -141,7 +143,9 @@ export const CUSTOM_DT_FORMATS = {
         DialogProjectSuccessComponent,
         AgendaComponent,
         UserCardComponent,
-        DialogDescriptionMariageComponent
+        DialogDescriptionMariageComponent,
+        DialogInformationComponent,
+
         
     ],
     entryComponents: [

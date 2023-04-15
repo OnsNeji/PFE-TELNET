@@ -97,7 +97,7 @@
                     </div>
                   </div>
                   <div class="col-lg-6 pt-4 pt-lg-0 content">
-                    <h3>{{swiperEvenement.titre}}</h3>
+                    <h3 (click)="getEventDetails(swiperEvenement.id)">{{swiperEvenement.titre}}</h3>
                     <hr>
                     <p class="fst-italic">{{swiperEvenement.dateEvent | date}}</p>
                     <br>

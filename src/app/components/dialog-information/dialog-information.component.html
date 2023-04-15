@@ -1,0 +1,54 @@
+<main id="main" *ngIf="evenement">
+
+    <div class="modal_header">
+    <div class="modal_title">
+        <span>
+            Détails de l'événement
+        </span>
+        <span>
+            <em class="material-icons modal-close" (click)="close()">close</em>
+        </span>
+    </div>
+  </div>
+  <section class="events">
+    <div class="container">
+    <div class="events-slider swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="row event-item">
+            <div class="col-lg-6">
+              <div id="dialogHeroCarousel{{data.id}}" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-bs-target="#dialogHeroCarousel{{data.id}}" *ngFor="let media of data.mediaEvents; let i = index" [attr.data-bs-slide-to]="i" [class.active]="i == 0"></li>
+                </ol>
+                <div class="carousel-inner">
+                  <div class="carousel-item" *ngFor="let media of data.mediaEvents; let i = index" [class.active]="i == 0">
+                    <img [src]="media.pieceJointe" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#dialogHeroCarousel{{data.id}}" role="button" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#dialogHeroCarousel{{data.id}}" role="button" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </a>
+              </div>
+              
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0 content">
+              <h3>{{data.titre}}</h3>
+              <hr>
+              <p class="fst-italic">{{data.dateEvent | date}}</p>
+              <br>
+              <p style="line-height: 2em;">{{data.description}}</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+</main>

@@ -8,7 +8,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
-import { NotificationService, DateTimeService } from 'app/services/shared';
+import { NotificationService, DateTimeService, AuthenticationService } from 'app/services/shared';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 @Component({
   selector: 'app-project-success',
@@ -22,7 +23,9 @@ export class ProjectSuccessComponent implements OnInit {
               private router: Router, 
               public dialog: MatDialog, 
               private notificationService: NotificationService, 
-              private dateTimeService: DateTimeService,){}
+              private dateTimeService: DateTimeService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   ProjectSuccesses!: ProjectSuccess[];
   projectSuccess: ProjectSuccess = new ProjectSuccess();
@@ -30,6 +33,7 @@ export class ProjectSuccessComponent implements OnInit {
   dataSource!: MatTableDataSource<ProjectSuccess>;
   lengthPS: number;
   isLoading: boolean;
+  role!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -37,6 +41,18 @@ export class ProjectSuccessComponent implements OnInit {
   ngOnInit(): void {
     this.getProjectSuccesses();
     this.onResetAllFilters();
+
+    this.userStore.getRoleFromStore().subscribe(val => {
+      const roleFromToken = this.authenticationService.getRoleFromToken();
+      this.role = val || roleFromToken;
+
+      if (this.role !== 'Gestionnaire') {
+        const actionIndex = this.displayedColumns.indexOf('action');
+        if (actionIndex !== -1) {
+          this.displayedColumns.splice(actionIndex, 1);
+        }
+      }
+    });
   }
 
   openDialog() {

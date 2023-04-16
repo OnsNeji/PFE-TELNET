@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DateTimeService, NotificationService } from 'app/services/shared';
+import { AuthenticationService, DateTimeService, NotificationService } from 'app/services/shared';
 import { ApiService } from 'app/services/shared/api.service';
 import { MariageNaissanceService } from 'app/services/shared/mariageNaissance.service';
 import swal from 'sweetalert2';
@@ -15,6 +15,7 @@ import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DialogDescriptionMariageComponent } from './dialog-description-mariage/dialog-description-mariage.component';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 @Component({
   selector: 'app-mariage',
@@ -28,7 +29,9 @@ export class MariageComponent implements OnInit {
               private router: Router, 
               public dialog: MatDialog, 
               private notificationService: NotificationService, 
-              private dateTimeService: DateTimeService,){}
+              private dateTimeService: DateTimeService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   MariageNaissances!: MariageNaissance[];
   MariageNaissance: MariageNaissance = new MariageNaissance();
@@ -43,6 +46,7 @@ export class MariageComponent implements OnInit {
   selectedUser: Utilisateur;
   public userFilterCtrl: FormControl = new FormControl();
   private _onDestroy = new Subject<void>();
+  role!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -56,6 +60,17 @@ export class MariageComponent implements OnInit {
     .pipe(takeUntil(this._onDestroy))
     .subscribe(() => {
       this.filterUsers();
+    });
+
+    this.userStore.getRoleFromStore().subscribe(val => {
+      const roleFromToken = this.authenticationService.getRoleFromToken();
+      this.role = val || roleFromToken;
+      if (this.role !== 'RH') {
+        const actionIndex = this.displayedColumns.indexOf('action');
+        if (actionIndex !== -1) {
+          this.displayedColumns.splice(actionIndex, 1);
+        }
+      }
     });
   }
 

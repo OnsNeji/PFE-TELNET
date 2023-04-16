@@ -14,6 +14,8 @@ import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Site } from 'app/models/shared/site.model';
+import { UserStoreService } from 'app/services/shared/user-store.service';
+import { AuthenticationService } from 'app/services/shared/authentication.service';
 
 @Component({
   selector: 'app-poste',
@@ -23,7 +25,13 @@ import { Site } from 'app/models/shared/site.model';
 export class PosteComponent implements OnInit {
 
   
-  constructor(private service: ApiService, private route: ActivatedRoute, private router: Router, public dialog: MatDialog, private notificationService: NotificationService){}
+  constructor(private service: ApiService, 
+              private route: ActivatedRoute, 
+              private router: Router, 
+              public dialog: MatDialog, 
+              private notificationService: NotificationService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   ListePoste!: Poste[];
   poste: Poste = new Poste();
@@ -42,6 +50,7 @@ export class PosteComponent implements OnInit {
   selectedUser: Utilisateur;
   public userFilterCtrl: FormControl = new FormControl();
   private _onDestroy = new Subject<void>();
+  role!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -61,6 +70,17 @@ export class PosteComponent implements OnInit {
     .pipe(takeUntil(this._onDestroy))
     .subscribe(() => {
       this.filterUsers();
+    });
+
+    this.userStore.getRoleFromStore().subscribe(val => {
+      const roleFromToken = this.authenticationService.getRoleFromToken();
+      this.role = val || roleFromToken;
+      if (this.role !== 'RH') {
+        const actionIndex = this.displayedColumns.indexOf('action');
+        if (actionIndex !== -1) {
+          this.displayedColumns.splice(actionIndex, 1);
+        }
+      }
     });
   }
 

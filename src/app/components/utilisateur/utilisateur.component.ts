@@ -11,8 +11,9 @@ import { ApiService } from 'app/services/shared/api.service';
 import { NotificationService } from 'app/services/shared/notification.service';
 import DialogUserComponent from './dialog-user/dialog-user.component';
 import swal from 'sweetalert2';
-import { DateTimeService } from 'app/services/shared';
+import { AuthenticationService, DateTimeService } from 'app/services/shared';
 import { UserCardComponent } from '../user-card/user-card.component';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 @Component({
   selector: 'app-utilisateur',
@@ -26,7 +27,9 @@ export class UtilisateurComponent implements OnInit {
               private router: Router, 
               public dialog: MatDialog, 
               private notificationService: NotificationService,
-              private dateTimeService: DateTimeService,){}
+              private dateTimeService: DateTimeService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   ListeUser!: Utilisateur[];
   utilisateur: Utilisateur = new Utilisateur();
@@ -40,11 +43,11 @@ export class UtilisateurComponent implements OnInit {
   nom='';
   prenom='';
   matricule='';
-  role='';
   tel='';
   isLoading: boolean;
   dateEmbauche= new Date();
   selectedDep: Departement;
+  role!: string;
 
   displayedColumns: string[] = ['image', 'nom && prenom', 'matricule', 'email', 'dateEmbauche', 'departementId', 'dateModif', 'action'];
   dataSource!: MatTableDataSource<Utilisateur>;
@@ -59,19 +62,17 @@ export class UtilisateurComponent implements OnInit {
     this.getDépartements();
     this.onResetAllFilters();
 
-    const userSearch = JSON.parse(sessionStorage.getItem('userSearch'));
-      if (userSearch !== null) {
-        this.nom = userSearch.nom;
-        this.prenom = userSearch.prenom;
-        this.matricule = userSearch.matricule;
-        this.dateEmbauche = userSearch.dateEmbauche;
-        this.role = userSearch.role;
-        this.tel = userSearch.tel;
-      }
+    this.userStore.getRoleFromStore().subscribe(val => {
+      const roleFromToken = this.authenticationService.getRoleFromToken();
+      this.role = val || roleFromToken;
 
-    // const ID = this.route.snapshot.paramMap.get('id')!;
-    // const id: number = parseInt(ID, 10); 
-    // this.getUtilisateur(id);
+      if (this.role !== 'RH') {
+        const actionIndex = this.displayedColumns.indexOf('action');
+        if (actionIndex !== -1) {
+          this.displayedColumns.splice(actionIndex, 1);
+        }
+      }
+    });
   }
 
   openDialog() {
@@ -89,9 +90,7 @@ export class UtilisateurComponent implements OnInit {
     this.service.GetUtilisateurs()
       .subscribe(ListeUser => {
         this.ListeUser = ListeUser.filter(utilisateur => !utilisateur.supprimé);
-        console.log(this.ListeUser);
         this.dataSource = new MatTableDataSource(this.ListeUser);
-        console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });

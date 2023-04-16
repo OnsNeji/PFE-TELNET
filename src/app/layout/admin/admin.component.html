@@ -119,7 +119,6 @@
             </div>
             <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config">
               <div *ngFor="let asideItems of menuItems.getAll()" class="d-color">
-                <ng-container *ngIf="role ==='RH'">
                   <ul>
                     <li>
                       <a routerLink="/utilisateur" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">people_outline</em>Utilisateurs</span></a>
@@ -139,12 +138,6 @@
                     <li>
                       <a routerLink="/mariage-naissance" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">cake</em>Mariage & Naissance</span></a>
                     </li>
-                   
-                  </ul>
-                </ng-container>
-                
-
-                  <ul *ngIf="role ==='Administrateur'">
                     <li>
                       <a routerLink="/evenement" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">event</em>Evénements</span></a>
                     </li>
@@ -154,9 +147,6 @@
                     <li>
                       <a routerLink="/convention" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">description</em>Conventions</span></a>
                     </li>
-                   
-                  </ul>
-                  <ul *ngIf="role ==='Gestionnaire'">
                     <li>
                       <a routerLink="/project-success" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">verified_user</em>Project Success</span></a>
                     </li>

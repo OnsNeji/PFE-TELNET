@@ -6,12 +6,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Convention } from 'app/models/shared/convention.model';
 import { Evenement } from 'app/models/shared/evenement.model';
-import { NotificationService, DateTimeService } from 'app/services/shared';
+import { NotificationService, DateTimeService, AuthenticationService } from 'app/services/shared';
 import { ConventionService } from 'app/services/shared/convention.service';
 import { DialogEventComponent } from '../evenement/dialog-event/dialog-event.component';
 import { DialogConventionComponent } from './dialog-convention/dialog-convention.component';
 import swal from 'sweetalert2';
 import * as FileSaver from 'file-saver';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 @Component({
   selector: 'app-convention',
@@ -25,7 +26,9 @@ export class ConventionComponent implements OnInit {
     private router: Router, 
     public dialog: MatDialog, 
     private notificationService: NotificationService,
-     private dateTimeService: DateTimeService,){}
+    private dateTimeService: DateTimeService,
+    private userStore: UserStoreService,
+    private authenticationService: AuthenticationService){}
 
 ListeConventions!: Convention[];
 convention: Convention = new Convention();
@@ -34,6 +37,7 @@ dataSource!: MatTableDataSource<Convention>;
 lengthConventions: number;
 isLoading: boolean;
 date= new Date();
+role!: string;
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
@@ -41,6 +45,17 @@ date= new Date();
 ngOnInit(): void {
 this.getConventions();
 this.onResetAllFilters();
+
+this.userStore.getRoleFromStore().subscribe(val => {
+  const roleFromToken = this.authenticationService.getRoleFromToken();
+  this.role = val || roleFromToken;
+  if (this.role !== 'Administrateur') {
+    const actionIndex = this.displayedColumns.indexOf('action');
+    if (actionIndex !== -1) {
+      this.displayedColumns.splice(actionIndex, 1);
+    }
+  }
+});
 }
 
 openDialog() {

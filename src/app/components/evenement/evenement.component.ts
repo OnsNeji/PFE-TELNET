@@ -6,11 +6,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Evenement } from 'app/models/shared/evenement.model';
 import { MediaEvent } from 'app/models/shared/mediaEvent.model';
-import { NotificationService, DateTimeService } from 'app/services/shared';
+import { NotificationService, DateTimeService, AuthenticationService } from 'app/services/shared';
 import { EvenementService } from 'app/services/shared/evenement.service';
 import swal from 'sweetalert2';
 import { DialogDescriptionComponent } from './dialog-description/dialog-description.component';
 import { DialogEventComponent } from './dialog-event/dialog-event.component';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 @Component({
   selector: 'app-evenement',
@@ -24,7 +25,9 @@ export class EvenementComponent implements OnInit {
               private router: Router, 
               public dialog: MatDialog, 
               private notificationService: NotificationService,
-               private dateTimeService: DateTimeService,){}
+              private dateTimeService: DateTimeService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   ListeEvents!: Evenement[];
   evenement: Evenement = new Evenement();
@@ -34,6 +37,7 @@ export class EvenementComponent implements OnInit {
   lengthEvents: number;
   isLoading: boolean;
   date= new Date();
+  role!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -41,6 +45,17 @@ export class EvenementComponent implements OnInit {
   ngOnInit(): void {
     this.getEvenements();
     this.onResetAllFilters();
+    
+this.userStore.getRoleFromStore().subscribe(val => {
+  const roleFromToken = this.authenticationService.getRoleFromToken();
+  this.role = val || roleFromToken;
+  if (this.role !== 'Administrateur') {
+    const actionIndex = this.displayedColumns.indexOf('action');
+    if (actionIndex !== -1) {
+      this.displayedColumns.splice(actionIndex, 1);
+    }
+  }
+});
   }
 
   openDialog() {

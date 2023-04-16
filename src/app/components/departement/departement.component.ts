@@ -12,6 +12,8 @@ import { DialogDepartementComponent } from './dialog-departement/dialog-departem
 import swal from 'sweetalert2';
 import { data } from 'jquery';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
+import { UserStoreService } from 'app/services/shared/user-store.service';
+import { AuthenticationService } from 'app/services/shared/authentication.service';
 
 @Component({
   selector: 'app-departement',
@@ -20,7 +22,13 @@ import { Utilisateur } from 'app/models/shared/utilisateur.model';
 })
 export class DepartementComponent implements OnInit {
 
-  constructor(private service: ApiService, private route: ActivatedRoute, private router: Router, public dialog: MatDialog, private notificationService: NotificationService){}
+  constructor(private service: ApiService, 
+              private route: ActivatedRoute, 
+              private router: Router, 
+              public dialog: MatDialog, 
+              private notificationService: NotificationService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   ListeDepartement!: Departement[];
   departement: Departement = new Departement();
@@ -40,6 +48,7 @@ export class DepartementComponent implements OnInit {
   selectedUser: Utilisateur;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  role!: string;
 
 
   ngOnInit() : void{
@@ -52,9 +61,16 @@ export class DepartementComponent implements OnInit {
         this.chefD = depSearch.chefD;
         this.siteId = depSearch.siteId;
       }
-    // const ID = this.route.snapshot.paramMap.get('id')!;
-    // const id: number = parseInt(ID, 10); 
-    // this.getDepartement(id);
+      this.userStore.getRoleFromStore().subscribe(val => {
+        const roleFromToken = this.authenticationService.getRoleFromToken();
+        this.role = val || roleFromToken;
+        if (this.role !== 'RH') {
+          const actionIndex = this.displayedColumns.indexOf('action');
+          if (actionIndex !== -1) {
+            this.displayedColumns.splice(actionIndex, 1);
+          }
+        }
+      });
   }
 
   openDialog() {

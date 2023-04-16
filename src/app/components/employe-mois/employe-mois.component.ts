@@ -7,13 +7,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployéMois } from 'app/models/shared/employeMois.model';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
-import { DateTimeService, NotificationService } from 'app/services/shared';
+import { AuthenticationService, DateTimeService, NotificationService } from 'app/services/shared';
 import { EmployeMoisService } from 'app/services/shared/employe-mois.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { DialogDescComponent } from './dialog-desc/dialog-desc.component';
 import { DialogEmployeMoisComponent } from './dialog-employe-mois/dialog-employe-mois.component';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 @Component({
   selector: 'app-employe-mois',
@@ -22,7 +23,14 @@ import { DialogEmployeMoisComponent } from './dialog-employe-mois/dialog-employe
 })
 export class EmployeMoisComponent implements OnInit {
 
-  constructor(private service: EmployeMoisService, private route: ActivatedRoute, private router: Router, public dialog: MatDialog, private notificationService: NotificationService, private dateTimeService: DateTimeService,){}
+  constructor(private service: EmployeMoisService, 
+              private route: ActivatedRoute, 
+              private router: Router, 
+              public dialog: MatDialog, 
+              private notificationService: NotificationService, 
+              private dateTimeService: DateTimeService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   ListeEmployes!: EmployéMois[];
   employeMois: EmployéMois = new EmployéMois();
@@ -37,6 +45,7 @@ export class EmployeMoisComponent implements OnInit {
   selectedUser: Utilisateur;
   public userFilterCtrl: FormControl = new FormControl();
   private _onDestroy = new Subject<void>();
+  role!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -50,6 +59,17 @@ export class EmployeMoisComponent implements OnInit {
     .pipe(takeUntil(this._onDestroy))
     .subscribe(() => {
       this.filterUsers();
+    });
+
+    this.userStore.getRoleFromStore().subscribe(val => {
+      const roleFromToken = this.authenticationService.getRoleFromToken();
+      this.role = val || roleFromToken;
+      if (this.role !== 'RH') {
+        const actionIndex = this.displayedColumns.indexOf('action');
+        if (actionIndex !== -1) {
+          this.displayedColumns.splice(actionIndex, 1);
+        }
+      }
     });
   }
 

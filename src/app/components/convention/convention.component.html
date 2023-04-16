@@ -69,12 +69,16 @@
           </div>
         </div>
         <nav class="navbar navbar-light bg-faded m-b-10 p-10">
+          
           <div class="col-sm-4">
+            <ng-container *ngIf="role ==='Administrateur'">
             <button (click)="openDialog()" type="button" class="btn btn-sm btn-primary waves-light m-r-10 ripple"
               style="font-size:inherit;">
               <em class="icofont icofont-plus"></em> Convention
             </button>
+          </ng-container>
           </div>
+        
           <div class="col-sm-8">
     
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
@@ -137,8 +141,7 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>User Ajout</mat-header-cell>
       <mat-cell *matCellDef="let convention">  {{convention.userAjout}} </mat-cell>
     </ng-container>
-
-    <ng-container matColumnDef="action">
+    <ng-container matColumnDef="action" *ngIf="role ==='Administrateur'">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let row">
         <!--<button class="btn btn-mini btn-primary m-r-5 ripple light f-right" type="button" matTooltip="Approve"

@@ -8,10 +8,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Site } from 'app/models/shared/site.model';
-import { DateTimeService, NotificationService } from 'app/services/shared';
+import { AuthenticationService, DateTimeService, NotificationService } from 'app/services/shared';
 import swal from 'sweetalert2';
 import { ApiService } from 'app/services/shared/api.service';
 import { DialogDescriptionNouvComponent } from './dialog-description-nouv/dialog-description-nouv.component';
+import { UserStoreService } from 'app/services/shared/user-store.service';
 
 @Component({
   selector: 'app-nouveaute',
@@ -26,7 +27,9 @@ export class NouveauteComponent implements OnInit {
               private router: Router, 
               public dialog: MatDialog,
               private dateTimeService: DateTimeService, 
-              private notificationService: NotificationService){}
+              private notificationService: NotificationService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   Nouveautes!: Nouveauté[];
   nouveaute: Nouveauté = new Nouveauté();
@@ -42,12 +45,23 @@ export class NouveauteComponent implements OnInit {
   selectedSite: Site;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  role!: string;
 
 
   ngOnInit() : void{
     this.getNouveautés();
     this.getSites();
     this.onResetAllFilters();
+    this.userStore.getRoleFromStore().subscribe(val => {
+      const roleFromToken = this.authenticationService.getRoleFromToken();
+      this.role = val || roleFromToken;
+      if (this.role !== 'Administrateur') {
+        const actionIndex = this.displayedColumns.indexOf('action');
+        if (actionIndex !== -1) {
+          this.displayedColumns.splice(actionIndex, 1);
+        }
+      }
+    });
   }
 
   openDialog() {

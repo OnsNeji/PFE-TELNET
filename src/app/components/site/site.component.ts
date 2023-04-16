@@ -12,6 +12,8 @@ import { Subscription } from 'rxjs';
 import { DialogSiteComponent } from './dialog-site/dialog-site.component';
 import swal from 'sweetalert2';
 import { ReferenceSearch } from 'app/models/project-management/project';
+import { UserStoreService } from 'app/services/shared/user-store.service';
+import { AuthenticationService } from 'app/services/shared/authentication.service';
 
 @Component({
   selector: 'app-site',
@@ -25,7 +27,9 @@ export class SiteComponent implements OnInit {
               private router: Router, 
               public dialog: MatDialog, 
               private notificationService: NotificationService,
-              private searchFilterService: SearchFilterService,){}
+              private searchFilterService: SearchFilterService,
+              private userStore: UserStoreService,
+              private authenticationService: AuthenticationService){}
 
   ListeSite!: Site[];
   site: Site = new Site();
@@ -40,6 +44,7 @@ export class SiteComponent implements OnInit {
   Tel='';
   lengthSites: number;
   listView = false;
+  role!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -54,6 +59,16 @@ export class SiteComponent implements OnInit {
         this.Tel = siteSearch.Tel;
       }
 
+      this.userStore.getRoleFromStore().subscribe(val => {
+        const roleFromToken = this.authenticationService.getRoleFromToken();
+        this.role = val || roleFromToken;
+        if (this.role !== 'RH') {
+          const actionIndex = this.displayedColumns.indexOf('action');
+          if (actionIndex !== -1) {
+            this.displayedColumns.splice(actionIndex, 1);
+          }
+        }
+      });
   }
 
   openDialog() {

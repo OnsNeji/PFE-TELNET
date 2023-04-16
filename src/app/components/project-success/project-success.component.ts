@@ -39,20 +39,19 @@ export class ProjectSuccessComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    this.getProjectSuccesses();
-    this.onResetAllFilters();
-
     this.userStore.getRoleFromStore().subscribe(val => {
       const roleFromToken = this.authenticationService.getRoleFromToken();
       this.role = val || roleFromToken;
 
-      if (this.role !== 'RH') {
+      if (this.role !== 'Administrateur' && this.role !== 'Gestionnaire') {
         const actionIndex = this.displayedColumns.indexOf('action');
         if (actionIndex !== -1) {
           this.displayedColumns.splice(actionIndex, 1);
         }
       }
     });
+    this.getProjectSuccesses();
+    this.onResetAllFilters();
     
   }
 

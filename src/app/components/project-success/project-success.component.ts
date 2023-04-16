@@ -46,13 +46,14 @@ export class ProjectSuccessComponent implements OnInit {
       const roleFromToken = this.authenticationService.getRoleFromToken();
       this.role = val || roleFromToken;
 
-      if (this.role !== 'Gestionnaire') {
+      if (this.role !== 'RH') {
         const actionIndex = this.displayedColumns.indexOf('action');
         if (actionIndex !== -1) {
           this.displayedColumns.splice(actionIndex, 1);
         }
       }
     });
+    
   }
 
   openDialog() {

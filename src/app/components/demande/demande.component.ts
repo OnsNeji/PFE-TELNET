@@ -59,20 +59,19 @@ id: number;
 ngOnInit() : void{
   this.route.params.subscribe(params => {
     if (params.id) {
-        this.id = params.id;
-        this.getDemandesByUtilisateur(this.id);
-        const columnsToRemove = ['utilisateurId', 'action'];
-        for (const col of columnsToRemove) {
-          const colIndex = this.displayedColumns.indexOf(col);
-          if (colIndex !== -1) {
-            this.displayedColumns.splice(colIndex, 1);
-          }
+      this.id = params.id;
+      this.getDemandesByUtilisateur(this.id);
+      const columnsToRemove = ['utilisateurId'];
+      for (const col of columnsToRemove) {
+        const colIndex = this.displayedColumns.indexOf(col);
+        if (colIndex !== -1) {
+          this.displayedColumns.splice(colIndex, 1);
         }
-        
+      }
     } else {
-        this.getDemandes();
+      this.getDemandes();
     }
-});
+  });
   // this.getDemandes();
   // this.getDemandesByUtilisateur();
   this.getUtilisateurs();
@@ -84,16 +83,6 @@ ngOnInit() : void{
     this.filterUsers();
   });
   
-  this.userStore.getRoleFromStore().subscribe(val => {
-    const roleFromToken = this.authenticationService.getRoleFromToken();
-    this.role = val || roleFromToken;
-    if (this.role !== 'Gestionnaire') {
-      const actionIndex = this.displayedColumns.indexOf('action');
-      if (actionIndex !== -1) {
-        this.displayedColumns.splice(actionIndex, 1);
-      }
-    }
-  });
 }
 
 getDemandesByUtilisateur(id: number): void {

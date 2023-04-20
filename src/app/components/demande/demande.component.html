@@ -87,7 +87,12 @@
     <nav class="navbar navbar-light bg-faded m-b-10 p-10">
       
       <div class="col-sm-4">
-
+        <ng-container *ngIf="!id">
+        <button (click)="exportToExcel()" type="button" class="btn btn-sm btn-primary waves-light m-r-10 ripple"
+        style="font-size:inherit;">
+        <em class="fa fa-file-excel-o"></em> Export
+      </button>
+    </ng-container>
         <button (click)="openDialog()" type="button" class="btn btn-sm btn-primary waves-light m-r-10 ripple"
           style="font-size:inherit;">
           <em class="icofont icofont-plus"></em> Demande
@@ -132,7 +137,7 @@
 
     <ng-container matColumnDef="description" class=" table-hover table-striped table-styling">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
-        <mat-cell *matCellDef="let demande">
+        <mat-cell *matCellDef="let demande" (click)="openDescriptionDialog(demande)">
           {{demande.description | slice:0:40:'...'}}{{demande.description.length > 40 ? '...' : ''}}
         </mat-cell>
       </ng-container>

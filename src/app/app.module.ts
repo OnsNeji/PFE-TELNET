@@ -98,6 +98,7 @@ import { MessageInputComponent } from './components/chat/message-input/message-i
 import { DemandeComponent } from './components/demande/demande.component';
 import { DialogDemandeComponent } from './components/demande/dialog-demande/dialog-demande.component';
 import { DemandeGuard } from './guards/demande.guard';
+import { DialogDescDemandeComponent } from './components/demande/dialog-desc-demande/dialog-desc-demande.component';
 
 
 
@@ -161,6 +162,7 @@ export const CUSTOM_DT_FORMATS = {
         MessageInputComponent,
         DemandeComponent,
         DialogDemandeComponent,
+        DialogDescDemandeComponent,
 
         
     ],

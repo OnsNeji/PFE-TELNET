@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Demande } from 'app/models/shared/demande.model';
 import { Utilisateur } from 'app/models/shared/utilisateur.model';
-import { DateTimeService, NotificationService, AuthenticationService } from 'app/services/shared';
+import { DateTimeService, NotificationService, AuthenticationService, ExcelService } from 'app/services/shared';
 import { ApiService } from 'app/services/shared/api.service';
 import { DemandeService } from 'app/services/shared/demande.service';
 import { UserStoreService } from 'app/services/shared/user-store.service';
@@ -16,6 +16,8 @@ import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as FileSaver from 'file-saver';
+import * as moment from 'moment';
+import { DialogDescDemandeComponent } from './dialog-desc-demande/dialog-desc-demande.component';
 
 @Component({
   selector: 'app-demande',
@@ -32,8 +34,9 @@ export class DemandeComponent implements OnInit {
     private dateTimeService: DateTimeService, 
     private notificationService: NotificationService,
     private userStore: UserStoreService,
-    private authenticationService: AuthenticationService){
-    
+    private authenticationService: AuthenticationService,
+    injector: Injector){
+      this.excelService = injector.get<ExcelService>(ExcelService);
     }
 
 demandes!: Demande[];
@@ -55,6 +58,7 @@ private _onDestroy = new Subject<void>();
 mesDemandes!: Demande[];
   utilisateurId: number;
 id: number;
+excelService: ExcelService;
 
 ngOnInit() : void{
   this.route.params.subscribe(params => {
@@ -200,6 +204,61 @@ downloadPDF(pieceJointe: string, fileName: string) {
   const byteArray =  new Uint8Array(byteNumbers);
   const blob = new Blob([byteArray], {type: 'application/pdf'});
   FileSaver.saveAs(blob, fileName);
+}
+
+getShortFormatWithDay(date: Date): string {
+  if (this.dateTimeService.isNullDate(date)) {
+    return '';
+  } else {
+    const d = moment(date).locale('ang');
+    return d.format('ddd') + ' ' + d.format('L');
+  }
+}
+
+exportToExcel() {
+  if (this.demandes !== undefined && this.demandes.length !== 0) {
+    const header: any[] = [
+      { header: 'Titre', key: 'titre', width: 10 },
+      { header: 'Description', key: 'description', width: 30 },
+      { header: 'Date', key: 'date', width: 15 },
+      { header: 'Utilisateur', key: 'utilisateurId', width: 10 },
+      { header: 'Document', key: 'document', width: 15 },
+      { header: 'Status', key: 'status', width: 15 }
+    ];
+
+    const rows = [];
+    const merges: string[] = [];
+    const styles = [];
+
+    styles.push(
+      { cell: 'A1', font: { bold: true } },
+      { cell: 'B1', font: { bold: true } },
+      { cell: 'C1', font: { bold: true } },
+      { cell: 'D1', font: { bold: true } },
+      { cell: 'E1', font: { bold: true } },
+      { cell: 'F1', font: { bold: true } },
+    );
+
+    this.demandes.forEach(demande => {
+      const row = [];
+      row.push(demande.titre);
+      row.push(demande.description);
+      row.push(this.getShortFormatWithDay(demande.date));
+      row.push(this.getUserNom(demande.utilisateurId));
+      row.push(demande.document);
+      row.push(demande.status);
+      rows.push(row);
+    });
+
+    this.excelService.generateExcel(header, rows, merges, styles, 'Demandes des documents');
+  }
+}
+
+openDescriptionDialog(demande: any): void {
+  const dialogRef = this.dialog.open(DialogDescDemandeComponent, {
+    width: '500px',
+    data: { description: demande.description },
+  });
 }
 
 updateDemande(row: any) {

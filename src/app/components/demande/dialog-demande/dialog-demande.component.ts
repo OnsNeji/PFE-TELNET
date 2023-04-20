@@ -79,11 +79,11 @@ export class DialogDemandeComponent implements OnInit {
           this.demandeService.AddDemande({ ...this.demandeForm.value, utilisateurId, date }).subscribe(()=>{
             this.demandeForm.reset();
             this.dialogRef.close('ajouter');
-            this.notificationService.success('Demande added successfully !');
+            this.notificationService.success('Request added successfully !');
   
           },
           ()=>{
-            this.notificationService.danger('Error when adding a Demande.');
+            this.notificationService.danger('Error when adding a request.');
           })
         }
       } else {
@@ -102,10 +102,10 @@ export class DialogDemandeComponent implements OnInit {
       this.demandeService.UpdateDemande(this.editData.id, { ...this.demandeForm.value }).subscribe(()=>{
         this.demandeForm.reset();
         this.dialogRef.close('modifier');
-        this.notificationService.success('Demande modified successfully !');
+        this.notificationService.success('Request modified successfully !');
       },
       ()=>{
-        this.notificationService.danger('Error when modifying a Demande.');
+        this.notificationService.danger('Error when modifying a request.');
       });
     }
     }

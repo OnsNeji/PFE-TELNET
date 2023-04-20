@@ -135,7 +135,7 @@ openDialog() {
 
 deleteDemande(id: number): void {
   swal.fire({
-    text: `Are you sure to delete this Demande ?`,
+    text: `Are you sure to delete this request ?`,
     icon: 'error',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -147,13 +147,13 @@ deleteDemande(id: number): void {
         .subscribe(()=>
           {
             this.getDemandes();
-            this.notificationService.success('Demande deleted successfully');
+            this.notificationService.success('Request deleted successfully');
             setTimeout(() => {
               window.location.reload();
             }, 500);
           },
           () => {
-            this.notificationService.danger('Delete Demande failed');
+            this.notificationService.danger('Delete request failed');
           }
         );
     }
@@ -162,7 +162,7 @@ deleteDemande(id: number): void {
 
 rejectDemande(id: number) : void{
   swal.fire({
-    text: `Are you sure to reject this Demande ?`,
+    text: `Are you sure to reject this request ?`,
     icon: 'error',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -175,16 +175,16 @@ rejectDemande(id: number) : void{
         .subscribe(
           data => {
             if (data !== 0) {
-              this.notificationService.success('This Demande is rejected');
+              this.notificationService.success('This request is rejected');
               setTimeout(() => {
                 window.location.reload();
               }, 500);
             } else {
-              this.notificationService.danger('Reject Demande failed');
+              this.notificationService.danger('Reject request failed');
             }
           },
           () => {
-            this.notificationService.danger('Reject Demande failed');
+            this.notificationService.danger('Reject request failed');
           }
         );
     }

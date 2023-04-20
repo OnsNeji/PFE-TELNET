@@ -143,14 +143,6 @@
     <ng-container matColumnDef="action" *ngIf="role ==='Administrateur' || role ==='Gestionnaire'">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <!--<button class="btn btn-mini btn-primary m-r-5 ripple light f-right" type="button" matTooltip="Approve"
-          (click)="approveWorkFromHomeRequest(workFromHomeRequest)" [disabled]="forbiddenRejecteValidate || isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest) 
-          || isMyWorkFromHomeRequestInProgress(workFromHomeRequest) || isApproved(workFromHomeRequest) || isRejected(workFromHomeRequest)">
-          <em class="material-icons">done</em></button>
-        <button class="btn btn-mini btn-danger m-r-5 ripple light" type="button" matTooltip="Reject"
-          (click)="rejectWorkFromHomeRequest(workFromHomeRequest)"
-          [disabled]="forbiddenRejectValidate || isMyWorkFromHomeRequestApprovedAndRejected(workFromHomeRequest) || isMyWorkFromHomeRequestInProgress(workFromHomeRequest) || isRejected(workFromHomeRequest)">
-          <em class="material-icons">cancel</em></button>-->
         <button class="btn btn-mini btn-primary m-r-5 ripple light" type="button"
         (click)="updateEvenement(row)" matTooltip="Edit">
           <em class="material-icons">edit</em>
@@ -164,9 +156,6 @@
     <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class=" table-primary table-*"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-    </tr> 
   </mat-table>
 
   

@@ -33,7 +33,7 @@ export class DemandeComponent implements OnInit {
     private notificationService: NotificationService,
     private userStore: UserStoreService,
     private authenticationService: AuthenticationService){
-      this.id = this.route.snapshot.params['id'];
+    
     }
 
 demandes!: Demande[];
@@ -61,6 +61,14 @@ ngOnInit() : void{
     if (params.id) {
         this.id = params.id;
         this.getDemandesByUtilisateur(this.id);
+        const columnsToRemove = ['utilisateurId', 'action'];
+        for (const col of columnsToRemove) {
+          const colIndex = this.displayedColumns.indexOf(col);
+          if (colIndex !== -1) {
+            this.displayedColumns.splice(colIndex, 1);
+          }
+        }
+        
     } else {
         this.getDemandes();
     }

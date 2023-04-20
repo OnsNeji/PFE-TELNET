@@ -80,9 +80,6 @@ export class DialogDemandeComponent implements OnInit {
             this.demandeForm.reset();
             this.dialogRef.close('ajouter');
             this.notificationService.success('Demande added successfully !');
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
   
           },
           ()=>{

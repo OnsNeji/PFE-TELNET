@@ -15,9 +15,9 @@
         <div class="row m-b-6">
 
 
-            <mat-form-field class="col-sm-12" *ngIf="!editData">
+            <mat-form-field class="col-sm-12">
                 <mat-label>Titre</mat-label>
-                <mat-select formControlName="titre" class="login-input-style">
+                <mat-select formControlName="titre" class="login-input-style" [disabled]="editData">
                   <mat-option value="Attestation de travail">Attestation de travail</mat-option>
                   <mat-option value="Fiche de paie">Fiche de paie</mat-option>
                   <mat-option value="Autorisation de sortie">Autorisation de sortie</mat-option>
@@ -27,9 +27,9 @@
               </mat-form-field>
 
             
-            <mat-form-field class="col-sm-12" *ngIf="!editData">
+              <mat-form-field class="col-sm-12">
                 <mat-label>Description</mat-label>
-                <input formControlName="description" matInput class="login-input-style">
+                <input formControlName="description" matInput class="login-input-style" [readonly]="editData">
               </mat-form-field>
   
               <div class="col-sm-12" *ngIf="editData">

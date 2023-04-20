@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -90,6 +90,14 @@ import { AgendaComponent } from './components/agenda/agenda.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { DialogDescriptionMariageComponent } from './components/mariage/dialog-description-mariage/dialog-description-mariage.component';
 import { DialogInformationComponent } from './components/dialog-information/dialog-information.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { ConversationComponent } from './components/chat/conversation/conversation.component';
+import { UserListComponent } from './components/chat/user-list/user-list.component';
+import { MessageListComponent } from './components/chat/message-list/message-list.component';
+import { MessageInputComponent } from './components/chat/message-input/message-input.component';
+import { DemandeComponent } from './components/demande/demande.component';
+import { DialogDemandeComponent } from './components/demande/dialog-demande/dialog-demande.component';
+import { DemandeGuard } from './guards/demande.guard';
 
 
 
@@ -106,6 +114,7 @@ export const CUSTOM_DT_FORMATS = {
 };
 
 @NgModule({
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     declarations: [
         AppComponent,
         AdminComponent,
@@ -145,6 +154,13 @@ export const CUSTOM_DT_FORMATS = {
         UserCardComponent,
         DialogDescriptionMariageComponent,
         DialogInformationComponent,
+        ChatComponent,
+        ConversationComponent,
+        UserListComponent,
+        MessageListComponent,
+        MessageInputComponent,
+        DemandeComponent,
+        DialogDemandeComponent,
 
         
     ],
@@ -160,6 +176,7 @@ export const CUSTOM_DT_FORMATS = {
         NotificationService,
         MenuItems,
         AuthGuard,
+        DemandeGuard,
         ShowErrorsService,
         EntityParameterService,
         GenericService,

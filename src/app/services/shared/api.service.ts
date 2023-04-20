@@ -12,6 +12,7 @@ import { Observable, Subject } from 'rxjs';
 export class ApiService {
 
   private baseUrl: string = "";
+  currentUser: Utilisateur;
   public siteRequest = new Subject<any>();
 
   constructor(private http: HttpClient) { }

@@ -18,6 +18,7 @@ import { UserService } from 'app/services/shared/user.service';
 import { FormGroup } from '@angular/forms';
 import { Notification } from 'app/models/shared/Notification.model';
 import { UserStoreService } from 'app/services/shared/user-store.service';
+import { Demande } from 'app/models/shared/demande.model';
 
 declare var require: any;
 const FileSaver = require('file-saver');
@@ -119,6 +120,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   notification: Notification[] = []
   todayCount: number[];
   role!: string;
+  filteredDemandes: Demande[];
+  idd:number;
 
   constructor(injector: Injector,
     private cookieService: CookieService, private userService: UserService, private userStore: UserStoreService) {
@@ -700,6 +703,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   editProfile() {
     this.router.navigate(['/profil', this.id]);
   }
+
+  redirectToMyDemands() {
+    this.router.navigateByUrl(`/demande/${this.id}`);
+}
 
   changePassword() {
     const config: MatDialogConfig = {

@@ -1,0 +1,77 @@
+<div class="modal_header">
+    <div class="modal_title">
+        <span>
+            Demande d'un document
+        </span>
+        <span>
+            <em class="material-icons modal-close" (click)="close()">close</em>
+        </span>
+    </div>
+  </div>
+  <div class="modal_body">
+    <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
+      <form [formGroup]="demandeForm">
+        
+        <div class="row m-b-6">
+
+
+            <mat-form-field class="col-sm-12">
+                <mat-label>Titre</mat-label>
+                <mat-select formControlName="titre" class="login-input-style">
+                  <mat-option value="Attestation de travail">Attestation de travail</mat-option>
+                  <mat-option value="Fiche de paie">Fiche de paie</mat-option>
+                  <mat-option value="Autorisation de sortie">Autorisation de sortie</mat-option>
+                  <mat-option value="Lettre de recommandation">Lettre de recommandation</mat-option>
+                  <mat-option value="Certificat de travail">Certificat de travail</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            
+            <mat-form-field class="col-sm-12">
+                <mat-label>Description</mat-label>
+                <input formControlName="description" matInput class="login-input-style">
+              </mat-form-field>
+  
+              <div class="col-sm-12" *ngIf="editData">
+                <mat-label>Document</mat-label><br>
+                <input type="file" (change)="onPDFSelected($event)" formControlName="document"
+                name="pdf" accept=".pdf" class="login-input-style" >
+             </div>
+
+             <mat-form-field class="col-sm-6" hidden>
+                <mat-label>Utilisateur</mat-label>
+                <mat-select formControlName="utilisateurId" class="login-input-style" disabled hidden> 
+                  <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.id">{{ utilisateur.nom }} {{utilisateur.prenom}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+             <mat-form-field class="col-sm-6" hidden>
+                <mat-label>Status</mat-label>
+                <input matInput formControlName="status" class="login-input-style" disabled hidden>
+              </mat-form-field>
+  
+            <mat-form-field class="col-sm-6" hidden>
+              <mat-label>Date</mat-label>
+              <input matInput formControlName="date" class="login-input-style" disabled hidden>
+            </mat-form-field>
+          </div>
+  
+          
+        <div class="row m-t-20">
+          <div class="col-lg-12">
+              <div class="row f-right">
+                  <div class="col-lg-12">
+                      <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+                      &nbsp; &nbsp;
+                      <button type="submit" class="btn btn-primary ripple light btn-md" (click)="AjouterDemande()">
+                          Save
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+        
+      </form>
+    </div>
+  </div>
+  

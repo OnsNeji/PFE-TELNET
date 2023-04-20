@@ -17,6 +17,10 @@ import { NouveauteComponent } from './components/nouveaute/nouveaute.component';
 import { MariageComponent } from './components/mariage/mariage.component';
 import { ProjectSuccessComponent } from './components/project-success/project-success.component';
 import { AgendaComponent } from './components/agenda/agenda.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { DemandeComponent } from './components/demande/demande.component';
+import { DemandeGuard } from './guards/demande.guard';
+
 
 const routes: Routes = [
 
@@ -74,6 +78,9 @@ const routes: Routes = [
   { path: 'mariage-naissance', component: MariageComponent, canActivate: [AuthGuard] },
   { path: 'project-success', component: ProjectSuccessComponent, canActivate: [AuthGuard] },
   { path: 'agenda/:id', component: AgendaComponent, canActivate: [AuthGuard] },
+  { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: 'demandes', component: DemandeComponent, canActivate: [AuthGuard, DemandeGuard] },
+  { path: 'demande/:id', component: DemandeComponent, canActivate: [AuthGuard] },
 
 
 ];

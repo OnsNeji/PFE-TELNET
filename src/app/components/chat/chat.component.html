@@ -1,0 +1,27 @@
+<div class="chat-container">
+    <div class="users-container">
+      <app-user-list [userList]="userList" (userSelect)="onUserSelect($event)"></app-user-list>
+    </div>
+    <div class="conversation-container">
+      <app-conversation [conversationList]="conversationList" (conversationSelect)="onConversationSelect($event)"></app-conversation>
+    </div>
+    <div class="message-container">
+      <app-message-list [messageList]="messageList" [selectedUser]="selectedUser"></app-message-list>
+    </div>
+
+    <div class="chat-window">
+      <div class="messages">
+        <div class="message" *ngFor="let message of messages">
+          <div class="message-sender">{{ message.sender.nom }}</div>
+          <div class="message-body">{{ message.message }}</div>
+          <div class="message-date">{{ message.date | date }}</div>
+        </div>
+      </div>
+      <form (submit)="sendMessage()">
+        <input type="text" [(ngModel)]="message" />
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+    
+    
+  </div>

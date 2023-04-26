@@ -90,15 +90,11 @@ import { AgendaComponent } from './components/agenda/agenda.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { DialogDescriptionMariageComponent } from './components/mariage/dialog-description-mariage/dialog-description-mariage.component';
 import { DialogInformationComponent } from './components/dialog-information/dialog-information.component';
-import { ChatComponent } from './components/chat/chat.component';
-import { ConversationComponent } from './components/chat/conversation/conversation.component';
-import { UserListComponent } from './components/chat/user-list/user-list.component';
-import { MessageListComponent } from './components/chat/message-list/message-list.component';
-import { MessageInputComponent } from './components/chat/message-input/message-input.component';
 import { DemandeComponent } from './components/demande/demande.component';
 import { DialogDemandeComponent } from './components/demande/dialog-demande/dialog-demande.component';
 import { DemandeGuard } from './guards/demande.guard';
 import { DialogDescDemandeComponent } from './components/demande/dialog-desc-demande/dialog-desc-demande.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 
 
@@ -155,14 +151,10 @@ export const CUSTOM_DT_FORMATS = {
         UserCardComponent,
         DialogDescriptionMariageComponent,
         DialogInformationComponent,
-        ChatComponent,
-        ConversationComponent,
-        UserListComponent,
-        MessageListComponent,
-        MessageInputComponent,
         DemandeComponent,
         DialogDemandeComponent,
         DialogDescDemandeComponent,
+        ChatComponent,
 
         
     ],

@@ -1,4 +1,3 @@
-import { Conversation } from "./Conversation.model";
 import { Utilisateur } from "./utilisateur.model";
 
 export class Message {
@@ -7,6 +6,4 @@ export class Message {
     date: Date = new Date();
     senderId!: number;
     sender: Utilisateur[] = [];
-    conversationId!: number;
-    conversation: Conversation[] = [];
 }

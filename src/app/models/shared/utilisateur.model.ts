@@ -1,7 +1,6 @@
 import { Departement } from "./departement.model";
 import { Message } from "./Messages.model";
 import { Poste } from "./poste.model";
-import { UserConversation } from "./userConversation.model";
 
 export class Utilisateur {
     id: number = 0;
@@ -28,6 +27,5 @@ export class Utilisateur {
     userModif!: string;
     userAjout!: string;
     messages: Message[] = [];
-    userConversations: UserConversation[] = [];
 
 }

@@ -26,7 +26,7 @@ export class DemandeGuard implements CanActivate {
         return true; // l'utilisateur est autorisé à accéder à la page
       } else {
         // rediriger l'utilisateur vers une page d'erreur ou une autre page appropriée
-        this.router.navigate(['/error']);
+        this.router.navigate(['/pages/page-not-found']);
         return false;
       }
     }

@@ -1,3 +1,5 @@
+import { Connection } from "./Connection.model";
+import { Demande } from "./demande.model";
 import { Departement } from "./departement.model";
 import { Message } from "./Messages.model";
 import { Poste } from "./poste.model";
@@ -27,5 +29,7 @@ export class Utilisateur {
     userModif!: string;
     userAjout!: string;
     messages: Message[] = [];
+    demandes: Demande[] = [];
+    connections: Connection[] = [];
 
 }

@@ -245,7 +245,13 @@ exportToExcel() {
       row.push(demande.description);
       row.push(this.getShortFormatWithDay(demande.date));
       row.push(this.getUserNom(demande.utilisateurId));
-      row.push(demande.document);
+      if (demande.document !== null) 
+      {
+        row.push(demande.titre + '.pdf');
+      }else 
+      {
+        row.push('');
+      }
       row.push(demande.status);
       rows.push(row);
     });

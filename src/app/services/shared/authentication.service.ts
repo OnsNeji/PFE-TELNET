@@ -42,6 +42,22 @@ export class AuthenticationService {
         this.resetProfile();
     }
 
+    // logout() {
+    //     this.connectionService.DeleteConnection(this.connectionId.toString()).subscribe({
+    //       next: () => {
+    //         localStorage.clear();
+    //         // Supprime les cookies utilisateur
+    //         this.cookieService.delete('userLogin');
+    //         this.cookieService.delete('passwordStrength');
+    //         // Réinitialise le profil
+    //         this.resetProfile();
+    //       },
+    //       error: (err) => {
+    //         console.error(err);
+    //       }
+    //     });
+    //   }
+
     sendResetPasswordLink(email: string){
         return this.httpClient.post<any>(`${this.baseUrl}send-reset-email/${email}`, {});
       }

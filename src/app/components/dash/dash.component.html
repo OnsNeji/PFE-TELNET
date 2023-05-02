@@ -1,14 +1,8 @@
 <app-admin></app-admin>
 
 <main id="main" class="main">
-    <div class="example-container mat-elevation-z8">
+    <!--<div class="example-container mat-elevation-z8">
         <h1>Total Conventions: {{ totalConventions }}</h1>
-
-        <ul>
-            <li *ngFor="let month of conventionsPerMonth">
-              {{ month.month}}, {{ month.year}} : {{ month.count}}
-            </li>
-          </ul>
 
           <h2>Dernière convention</h2>
             <div *ngIf="lastConvention">
@@ -19,15 +13,16 @@
             <div *ngIf="!lastConvention">
             <p>Aucune convention trouvée.</p>
             </div>
-
-            <h2>Durée de chaque convention</h2>
-            <div  *ngFor="let convention of conventionDurations">
-            <p><strong>Nom : </strong>{{ convention.titre }}, <strong>Durée : </strong>{{ convention.duration }}</p>
+        </div>-->
+        <div class="graph-container">
+            <div class="graph">
+              <canvas #chart></canvas>
             </div>
-        </div>
-            <div style="width: 50%;">
-            <canvas #chart></canvas>
+            <div class="graph">
+              <canvas #Hchart></canvas>
+            </div>
           </div>
+          
 
      
     </main>

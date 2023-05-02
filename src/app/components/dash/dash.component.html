@@ -1,0 +1,34 @@
+<app-admin></app-admin>
+
+<main id="main" class="main">
+    <div class="example-container mat-elevation-z8">
+        <h1>Total Conventions: {{ totalConventions }}</h1>
+
+        <ul>
+            <li *ngFor="let month of conventionsPerMonth">
+              {{ month.month}}, {{ month.year}} : {{ month.count}}
+            </li>
+          </ul>
+
+          <h2>Dernière convention</h2>
+            <div *ngIf="lastConvention">
+            <p><strong>Nom : </strong>{{ lastConvention.titre }}</p>
+            <p><strong>Date de début : </strong>{{ lastConvention.dateDebut }}</p>
+            <p><strong>Date de fin : </strong>{{ lastConvention.dateFin }}</p>
+            </div>
+            <div *ngIf="!lastConvention">
+            <p>Aucune convention trouvée.</p>
+            </div>
+
+            <h2>Durée de chaque convention</h2>
+            <div  *ngFor="let convention of conventionDurations">
+            <p><strong>Nom : </strong>{{ convention.titre }}, <strong>Durée : </strong>{{ convention.duration }}</p>
+            </div>
+        </div>
+            <div style="width: 50%;">
+            <canvas #chart></canvas>
+          </div>
+
+     
+    </main>
+

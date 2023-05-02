@@ -10,6 +10,7 @@ export class ConventionService {
 
   private baseUrl: string = "";
   public conventionRequest = new Subject<any>();
+  public totalConventions: number;
   
   constructor(private http: HttpClient) { }
 
@@ -31,6 +32,22 @@ export class ConventionService {
 }
   DeleteConvention(id: number): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}Convention/${id}`);
+  }
+
+  getTotalConventions(): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}Convention/stats/total`);
+  }
+
+  getMonthlyStatistics(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Convention/stats/monthly`);
+  }
+
+  getLastConvention(): Observable<Convention> {
+    return this.http.get<Convention>(`${this.baseUrl}Convention/stats/last`);
+  }
+
+  getConventionDurations(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Convention/stats/durations`);
   }
 
 }

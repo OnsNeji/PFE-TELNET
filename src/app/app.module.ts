@@ -95,6 +95,8 @@ import { DialogDemandeComponent } from './components/demande/dialog-demande/dial
 import { DemandeGuard } from './guards/demande.guard';
 import { DialogDescDemandeComponent } from './components/demande/dialog-desc-demande/dialog-desc-demande.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { DashComponent } from './components/dash/dash.component';
+import { ChartjsModule } from '@ctrl/ngx-chartjs';
 
 
 
@@ -155,6 +157,7 @@ export const CUSTOM_DT_FORMATS = {
         DialogDemandeComponent,
         DialogDescDemandeComponent,
         ChatComponent,
+        DashComponent,
 
         
     ],
@@ -200,6 +203,7 @@ export const CUSTOM_DT_FORMATS = {
     imports: [
         CommonModule,
         BrowserModule,
+        ChartjsModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,

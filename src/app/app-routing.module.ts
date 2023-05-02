@@ -20,6 +20,7 @@ import { AgendaComponent } from './components/agenda/agenda.component';
 import { DemandeComponent } from './components/demande/demande.component';
 import { DemandeGuard } from './guards/demande.guard';
 import { ChatComponent } from './components/chat/chat.component';
+import { DashComponent } from './components/dash/dash.component';
 
 
 const routes: Routes = [
@@ -81,6 +82,7 @@ const routes: Routes = [
   { path: 'chatHub', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'demandes', component: DemandeComponent, canActivate: [AuthGuard, DemandeGuard] },
   { path: 'demande/:id', component: DemandeComponent, canActivate: [AuthGuard] },
+  { path: 'dash', component: DashComponent, canActivate: [AuthGuard] },
 
 
 ];

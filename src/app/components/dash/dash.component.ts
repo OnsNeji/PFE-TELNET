@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Convention } from 'app/models/shared/convention.model';
 import { ConventionService } from 'app/services/shared/convention.service';
+import { DemandeService } from 'app/services/shared/demande.service';
 import Chart from 'chart.js/auto';
 
 
@@ -18,7 +19,7 @@ export class DashComponent implements OnInit,AfterViewInit {
 
   barChartData = [{ 
     data: [], 
-    label: 'Conventions',
+    label: 'Nombre de conventions / Mois',
     backgroundColor: ['#1f77b4', '#aec7e8', '#778899', '#f0f8ff', '#87cefa', '#e6e6fa', '#4682b4', '#f8f8ff', '#778899', '#b0c4de','#f0ffff', '#f5f5f5'], // set different colors for each bar in the chart
     borderWidth: 1 // set border width for the bars }];
   }];
@@ -32,12 +33,21 @@ export class DashComponent implements OnInit,AfterViewInit {
   }];
   HbarChartLabels: string[] = [];
 
-  constructor(private conventionService: ConventionService) { }
+  doughnutChartData = [{   data: [], 
+    backgroundColor: ['lightgreen', 'yellow', '#FF2E2E', ],
+    label: 'Status'
+  }];
+  doughnutChartLabels: string[] = [];
+
+  constructor(private conventionService: ConventionService,
+    private demandeService: DemandeService) { }
 
   @ViewChild('chart') private chartRef!: ElementRef;
   private chart: any;
   @ViewChild('Hchart') private HchartRef!: ElementRef;
   private Hchart: any;
+  @ViewChild('doughnutChart') private doughnutChartRef!: ElementRef;
+  private doughnutChart: any;
 
   ngOnInit(): void {
     this.conventionService.getTotalConventions().subscribe(data => {
@@ -72,6 +82,18 @@ export class DashComponent implements OnInit,AfterViewInit {
         this.Hchart.update();
       }
     });
+
+    this.demandeService.getDemandesStatus().subscribe(data => {
+      const countData = data.map(c => c.count);
+      const statusLabels = data.map(c => c.status);
+
+      this.doughnutChartData[0].data.push(...countData);
+      this.doughnutChartLabels.push(...statusLabels);
+
+      if (this.doughnutChart) {
+          this.doughnutChart.update();
+      }
+  });
   }
 
   ngAfterViewInit() {
@@ -113,7 +135,21 @@ export class DashComponent implements OnInit,AfterViewInit {
       },
     };
 
+    const doughnutChartConfig: any = {
+      type: 'doughnut',
+      data: {
+          labels: this.doughnutChartLabels,
+          datasets: this.doughnutChartData,
+      },
+      options: {
+          responsive: true,
+      },
+      legend: {
+          display: true,
+      },
+  };
     
+  this.doughnutChart = new Chart(this.doughnutChartRef.nativeElement, doughnutChartConfig);
     this.Hchart = new Chart(this.HchartRef.nativeElement, HchartConfig);
     this.chart = new Chart(this.chartRef.nativeElement, chartConfig);
   }

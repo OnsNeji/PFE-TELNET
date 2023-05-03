@@ -47,4 +47,12 @@ export class DemandeService {
   DeleteDemande(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}Demande/${id}`);
   }
+
+  getTotalDemandes(): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}Demande/stats/count`);
+  }
+
+  getDemandesStatus(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Demande/stats/status`);
+  }
 }

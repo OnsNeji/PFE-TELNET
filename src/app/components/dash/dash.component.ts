@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Convention } from 'app/models/shared/convention.model';
+import { ApiService } from 'app/services/shared/api.service';
 import { ConventionService } from 'app/services/shared/convention.service';
 import { DemandeService } from 'app/services/shared/demande.service';
 import Chart from 'chart.js/auto';
@@ -48,8 +49,25 @@ export class DashComponent implements OnInit,AfterViewInit {
   }];
   lineChartLabels: string[] = [];
 
+  roleChartData = [{   data: [], 
+    backgroundColor: ['lightgreen', 'yellow', '#FF2E2E', ],
+    label: 'Utilisateur par role',
+  }];
+  roleChartLabels: string[] = [];
+
+  userBarChartData = [{ 
+    data: [], 
+    label: 'Nouvelles recrues',
+    borderColor: '#87cefa',
+    backgroundColor: '#87cefa',
+    tension: 0.5, // set different colors for each bar in the chart
+
+  }];
+  userBarChartLabels: string[] = [];
+
   constructor(private conventionService: ConventionService,
-    private demandeService: DemandeService) { }
+              private demandeService: DemandeService,
+              private userService: ApiService) { }
 
   @ViewChild('chart') private chartRef!: ElementRef;
   private chart: any;
@@ -59,6 +77,10 @@ export class DashComponent implements OnInit,AfterViewInit {
   private doughnutChart: any;
   @ViewChild('lineChart') private lineChartRef!: ElementRef;
   private lineChart: any;
+  @ViewChild('roleChart') private roleChartRef!: ElementRef;
+  private roleChart: any;
+  @ViewChild('userChart') private userChartRef!: ElementRef;
+  private userChart: any;
 
   ngOnInit(): void {
     this.conventionService.getMonthlyStatistics().subscribe(data => {
@@ -117,6 +139,40 @@ export class DashComponent implements OnInit,AfterViewInit {
         this.chart.update();
       }
     });
+
+    this.userService.getUtilisateurByDepartement().subscribe(data => {
+      const countData = data.map(c => c.count);
+      const roleLabels = data.map(c => c.nom);
+
+      this.roleChartData[0].data.push(...countData);
+      this.roleChartLabels.push(...roleLabels);
+
+      if (this.roleChart) {
+          this.roleChart.update();
+      }
+    });
+
+    this.userService.getMonthlyUsers().subscribe(data => {
+      const sortedData = data.sort((a, b) => {
+        if (a.year !== b.year) {
+          return a.year - b.year;
+        } else {
+          const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);
+        }
+      });
+      
+      const countData = sortedData.map(c => c.count);
+      const monthLabels = sortedData.map(c => c.month + ' ' + c.year);
+
+      this.userBarChartData[0].data.push(...countData);
+      this.userBarChartLabels.push(...monthLabels);
+
+      if (this.userChart) {
+        this.userChart.update();
+      }
+    });
+
   }
 
   ngAfterViewInit() {
@@ -194,7 +250,46 @@ export class DashComponent implements OnInit,AfterViewInit {
         display: true,
       },
     };
+
+    const roleChartConfig: any = {
+      type: 'polarArea',
+      data: {
+          labels: this.roleChartLabels,
+          datasets: this.roleChartData,
+      },
+      options: {
+        responsive: true,
+        legend: {
+          display: true
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+          },
+        },
+      }
+    };
+
+    const userChartConfig: any = {
+      type: 'line',
+      data: {
+        labels: this.userBarChartLabels,
+        datasets: this.userBarChartData,
+      },
+      options: {
+        responsive: true,
+        scales: {
+          yAxes: [{ ticks: { 
+            beginAtZero: true, } }],
+        },
+      },
+      legend: {
+        display: true,
+      },
+    };
     
+    this.userChart = new Chart(this.userChartRef.nativeElement, userChartConfig);
+    this.roleChart = new Chart(this.roleChartRef.nativeElement, roleChartConfig);
     this.lineChart = new Chart(this.lineChartRef.nativeElement, lineChartConfig);
     this.doughnutChart = new Chart(this.doughnutChartRef.nativeElement, doughnutChartConfig);
     this.Hchart = new Chart(this.HchartRef.nativeElement, HchartConfig);

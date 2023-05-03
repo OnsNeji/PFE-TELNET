@@ -106,4 +106,11 @@ export class ApiService {
   DeleteUtilisateur(id: number): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}Utilisateur/${id}`);
   }
+  getUtilisateurByDepartement(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Utilisateur/stats/departement`);
+  }
+
+  getMonthlyUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Utilisateur/stats/DateEmbauche`);
+  }
 }

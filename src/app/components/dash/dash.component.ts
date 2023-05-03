@@ -35,9 +35,18 @@ export class DashComponent implements OnInit,AfterViewInit {
 
   doughnutChartData = [{   data: [], 
     backgroundColor: ['lightgreen', 'yellow', '#FF2E2E', ],
-    label: 'Status'
+    label: 'Status',
   }];
   doughnutChartLabels: string[] = [];
+
+  lineChartData = [{   data: [], 
+    borderColor: 'lightgreen',
+    backgroundColor: 'lightgreen',
+    tension: 0.5,
+    fill: false,
+    label: 'Demandes par documents',
+  }];
+  lineChartLabels: string[] = [];
 
   constructor(private conventionService: ConventionService,
     private demandeService: DemandeService) { }
@@ -48,15 +57,22 @@ export class DashComponent implements OnInit,AfterViewInit {
   private Hchart: any;
   @ViewChild('doughnutChart') private doughnutChartRef!: ElementRef;
   private doughnutChart: any;
+  @ViewChild('lineChart') private lineChartRef!: ElementRef;
+  private lineChart: any;
 
   ngOnInit(): void {
-    this.conventionService.getTotalConventions().subscribe(data => {
-      this.totalConventions = data
-    });
-
     this.conventionService.getMonthlyStatistics().subscribe(data => {
-      const countData = data.map(c => c.count);
-      const monthLabels = data.map(c => c.month);
+      const sortedData = data.sort((a, b) => {
+        if (a.year !== b.year) {
+          return a.year - b.year;
+        } else {
+          const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);
+        }
+      });
+      
+      const countData = sortedData.map(c => c.count);
+      const monthLabels = sortedData.map(c => c.month + ' ' + c.year);
 
       this.barChartData[0].data.push(...countData);
       this.barChartLabels.push(...monthLabels);
@@ -65,11 +81,6 @@ export class DashComponent implements OnInit,AfterViewInit {
         this.chart.update();
       }
     });
-
-    this.conventionService.getLastConvention().subscribe((data) => {
-      this.lastConvention = data
-    });
-
     this.conventionService.getConventionDurations().subscribe(data => {
       const durationsData = data.map(x => x.duration);
       const conventionLabels = data.map(x => x.titre);
@@ -93,7 +104,19 @@ export class DashComponent implements OnInit,AfterViewInit {
       if (this.doughnutChart) {
           this.doughnutChart.update();
       }
-  });
+    });
+
+    this.demandeService.getDemandesByTitre().subscribe(data => {
+      const countData = data.map(d => d.count);
+      const titreLabels = data.map(d => d.titre);
+
+      this.lineChartData[0].data.push(...countData);
+      this.lineChartLabels.push(...titreLabels);
+
+      if (this.chart) {
+        this.chart.update();
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -143,13 +166,37 @@ export class DashComponent implements OnInit,AfterViewInit {
       },
       options: {
           responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+          },
       },
       legend: {
           display: true,
       },
-  };
+    };
+
+    const lineChartConfig: any = {
+      type: 'line',
+      data: {
+        labels: this.lineChartLabels,
+        datasets: this.lineChartData,
+      },
+      options: {
+        responsive: true,
+        scales: {
+          yAxes: [{ ticks: { 
+            beginAtZero: true, } }],
+        },
+      },
+      legend: {
+        display: true,
+      },
+    };
     
-  this.doughnutChart = new Chart(this.doughnutChartRef.nativeElement, doughnutChartConfig);
+    this.lineChart = new Chart(this.lineChartRef.nativeElement, lineChartConfig);
+    this.doughnutChart = new Chart(this.doughnutChartRef.nativeElement, doughnutChartConfig);
     this.Hchart = new Chart(this.HchartRef.nativeElement, HchartConfig);
     this.chart = new Chart(this.chartRef.nativeElement, chartConfig);
   }

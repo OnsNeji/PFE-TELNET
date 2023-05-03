@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
             this.authenticationService.storeToken(res.token);
             const tokenPayload = this.authenticationService.decodedToken();
             this.userStore.setRoleFromStore(tokenPayload.role);
-            this.router.navigateByUrl('/dashboard');
+            this.router.navigateByUrl('/dash');
           },
           error: (err) => {
             this.notificationService.danger('User not found.');

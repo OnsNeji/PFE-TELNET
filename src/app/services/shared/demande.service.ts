@@ -55,4 +55,8 @@ export class DemandeService {
   getDemandesStatus(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}Demande/stats/status`);
   }
+
+  getDemandesByTitre(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Demande/stats/titre`);
+  }
 }

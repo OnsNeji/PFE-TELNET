@@ -50,4 +50,8 @@ export class ConventionService {
     return this.http.get<any[]>(`${this.baseUrl}Convention/stats/durations`);
   }
 
+  getConventionDurationLeft(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Convention/stats/DaysLeft`);
+  }
+
 }

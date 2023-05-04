@@ -23,11 +23,6 @@ export class EvenementService {
   getLatestEvenements(): Observable<Evenement[]> {
     return this.http.get<Evenement[]>(`${this.baseUrl}Evenement/latest`);
   }
-  // AddEvenement(event:Evenement): Observable<Evenement> {
-  //   const url = `${this.baseUrl}Evenement`;
-  //   const eventData = { ...event, userAjout: event.userAjout };
-  //   return this.http.post<Evenement>(url, eventData);
-  // }
 
   AddEvenement(evenement: Evenement, mediaEvents: FileList): Observable<Evenement> {
     const url = `${this.baseUrl}Evenement`;
@@ -48,22 +43,21 @@ export class EvenementService {
     return this.http.put<any>(url, eventData);
 }
 
-//   UpdateEvenement(id: number, event:Evenement, mediaEvents: FileList): Observable<any> {
-//     const url = `${this.baseUrl}Evenement/${id}`;
-//     const formData = new FormData();
-//     for (let i = 0; i < mediaEvents.length; i++) {
-//       formData.append('mediaEvents', mediaEvents[i], mediaEvents[i].name);
-//     }
-//     formData.append('id', id.toString());
-//     formData.append('titre', event.titre);
-//     formData.append('description', event.description);
-//     formData.append('dateEvent', event.dateEvent.toISOString());
-//     formData.append('userAjout', event.userAjout);
-//     return this.http.put<any>(url, formData);
-// }
-
   DeleteEvenement(id: number): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}Evenement/${id}`);
   }
+
+  getTotalEvenements(): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}Evenement/stats/count`);
+  }
+
+  getEvenementByDate(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Evenement/stats/DateEvent`);
+  }
+
+  getStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}Evenement/statsCombine`);
+  }
+
 
 }

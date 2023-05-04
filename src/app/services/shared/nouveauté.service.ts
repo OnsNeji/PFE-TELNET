@@ -40,4 +40,8 @@ export class NouveautéService {
   DeleteNouveauté(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}Nouveauté/${id}`);
   }
+
+  getNouveautéByDate(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}Nouveauté/stats/DatePublication`);
+  }
 }

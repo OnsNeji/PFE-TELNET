@@ -2,19 +2,56 @@
 <main id="main" class="main">
 
   <div class="graph-container">
+    <div class="graph" *ngIf="projectSuccess">
+        <div class="numbers">Project Success</div>
+        <div class="cardName">{{projectSuccess.titre}}</div>
+        <div class="icon-wrapper">
+          <i class="fa fa-sharp fa-solid fa-trophy" style="color: #ffd500;"></i>
+        </div>
+    </div>
+    <div class="graph" *ngIf="latestEmployee">
+      <div class="numbers">Employé du Mois</div>
+        <div class="cardName">{{getUtilisateurNom(latestEmployee.utilisateurId)}}</div>
+        <div class="img-wrapper">
+          <img [src]="latestEmployee.image" class="testimonial-img" alt="">
+        </div>
+    </div>
+  </div>
+
+  <div class="graph-container">
+
+    <div class="graph">
+      <section class="menu">
+        <div class="container">
+          <div class="section-title">
+            <h4><span>Nouvelles Recrues</span></h4>
+          </div>
+          <div class="menu-containerr">
+            <div class="col-lg-12 menu-item" *ngFor="let utilisateur of latestUtilisateurs">
+              <div class="menu-content">
+                <a><img [src]="utilisateur.image" alt="" width="25%" style="border-radius: 50%; margin-right:4%">{{utilisateur.prenom}} {{utilisateur.nom}}</a><span>{{utilisateur.dateEmbauche | date:'dd/MM/yyyy'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
     <div class="graph merged-graph">
       <canvas #userChart></canvas>
     </div>
-    <div class="graph">
-      <h6>Utilisateurs par département</h6>
-      <canvas #roleChart></canvas>
-    </div>
+
   </div>
+
 
   <div class="graph-container">
     <div class="graph merged-graph">
       <canvas #ENChart></canvas>
     </div>
+    <div class="graph">
+      <h6>Utilisateurs par département</h6>
+      <canvas #roleChart></canvas>
+    </div>
+
   </div>
 
   <div class="graph-container">
@@ -28,7 +65,8 @@
 
   <div class="graph-container">
     <div class="graph">
-      <h6>Demandes par statut</h6>
+      <h6>Demandes</h6>
+      <h3><strong>{{totalDemandes}}</strong></h3>
       <canvas #doughnutChart></canvas>
     </div>
     <div class="graph merged-graph">

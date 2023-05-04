@@ -1,10 +1,15 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Convention } from 'app/models/shared/convention.model';
+import { EmployéMois } from 'app/models/shared/employeMois.model';
+import { ProjectSuccess } from 'app/models/shared/projectSuccess.model';
+import { Utilisateur } from 'app/models/shared/utilisateur.model';
 import { ApiService } from 'app/services/shared/api.service';
 import { ConventionService } from 'app/services/shared/convention.service';
 import { DemandeService } from 'app/services/shared/demande.service';
+import { EmployeMoisService } from 'app/services/shared/employe-mois.service';
 import { EvenementService } from 'app/services/shared/evenement.service';
 import { NouveautéService } from 'app/services/shared/nouveauté.service';
+import { ProjectSuccessService } from 'app/services/shared/project-success.service';
 import Chart from 'chart.js/auto';
 
 
@@ -15,15 +20,17 @@ import Chart from 'chart.js/auto';
 })
 export class DashComponent implements OnInit,AfterViewInit {
 
-  public totalConventions: number;
-  conventionsPerMonth: any[];
-  lastConvention: Convention;
-  conventionDurations: any[];
+  totalDemandes: number;
+  projectSuccesses: ProjectSuccess[] = [];
+  projectSuccess: ProjectSuccess;
+  latestEmployee: EmployéMois;
+  utilisateurs!: Utilisateur[];
+  latestUtilisateurs!: Utilisateur[];
 
   barChartData = [{ 
     data: [], 
     label: 'Nombre de conventions ( / Mois)',
-    backgroundColor: ['#1f77b4', '#aec7e8', '#778899', '#f0f8ff', '#87cefa', '#e6e6fa', '#4682b4', '#f8f8ff', '#778899', '#b0c4de','#f0ffff', '#f5f5f5'], // set different colors for each bar in the chart
+    backgroundColor: ['gray', '#a5d6a7', '#87cefa', '#3f629d','rgba(255, 255, 255, 0.5)', 'gray', '#4682b4', '#f8f8ff', '#778899', '#b0c4de','#f0ffff', '#f5f5f5'], // set different colors for each bar in the chart
     borderWidth: 1 // set border width for the bars }];
   }];
   barChartLabels: string[] = [];
@@ -31,20 +38,20 @@ export class DashComponent implements OnInit,AfterViewInit {
   HbarChartData = [{ 
     data: [], 
     label: 'Durée restante de la convention ( / jours)',
-    backgroundColor: ['#1f77b4', '#aec7e8', '#778899', '#b0c4de', '#87cefa', '#e6e6fa', '#4682b4', '#f8f8ff', '#778899', '#b0c4de','#f0ffff', '#f5f5f5'], // set different colors for each bar in the chart
+    backgroundColor: ['gray', '#ffa500', '#a5d6a7',  '#87cefa', '#e6e6fa', '#4682b4', '#f8f8ff', '#778899', '#b0c4de','#f0ffff', '#f5f5f5'], // set different colors for each bar in the chart
     borderWidth: 1 // set border width for the bars }];
   }];
   HbarChartLabels: string[] = [];
 
   doughnutChartData = [{   data: [], 
-    backgroundColor: ['lightgreen', 'yellow', '#FF2E2E', ],
+    backgroundColor: ['#a5d6a7', 'yellow', '#FF2E2E', ],
     label: 'Status',
   }];
   doughnutChartLabels: string[] = [];
 
   lineChartData = [{   data: [], 
-    borderColor: 'lightgreen',
-    backgroundColor: 'lightgreen',
+    borderColor: '#3f629d',
+    backgroundColor: '#3f629d',
     tension: 0.5,
     fill: false,
     label: 'Demandes par documents',
@@ -52,20 +59,50 @@ export class DashComponent implements OnInit,AfterViewInit {
   lineChartLabels: string[] = [];
 
   roleChartData = [{   data: [], 
-    backgroundColor: ['lightgreen', 'yellow', '#FF2E2E', ],
-    label: 'Utilisateur par role',
+    backgroundColor: ['#a5d6a7', 'yellow', '#ffa500', '#d5d6d2' ],
+    label: 'Utilisateur par departement',
   }];
   roleChartLabels: string[] = [];
 
-  userBarChartData = [{ 
-    data: [], 
-    label: 'Nouvelles recrues',
-    borderColor: '#87cefa',
-    backgroundColor: '#87cefa',
-    fill: false,
-    tension: 0.5, // set different colors for each bar in the chart
+  userBarChartData = [
+    { 
+      data: [], 
+      label: 'Utilisateurs',
+      borderColor: '#3f629d',
+      backgroundColor: '#3f629d',
+      fill: false,
+      tension: 0.5, // set different colors for each bar in the chart
 
-  }];
+    },
+
+    { 
+      data: [], 
+      label: 'Mariés',
+      borderColor: 'yellow',
+      backgroundColor: 'yellow',
+      fill: false,
+      tension: 0.5, // set different colors for each bar in the chart
+
+    },
+    { 
+      data: [], 
+      label: 'Parents',
+      borderColor: 'red',
+      backgroundColor: 'red',
+      fill: false,
+      tension: 0.5, // set different colors for each bar in the chart
+
+    },
+    { 
+      data: [], 
+      label: 'Célibataires',
+      borderColor: 'green',
+      backgroundColor: 'green',
+      fill: false,
+      tension: 0.5, // set different colors for each bar in the chart
+
+    },
+  ];
   userBarChartLabels: string[] = [];
 
   ENLineChartData = [
@@ -80,8 +117,8 @@ export class DashComponent implements OnInit,AfterViewInit {
     { 
       data: [], 
       label: 'Nouveauté',
-      backgroundColor:'red',
-      borderColor: 'red',
+      backgroundColor:'#FF2E2E',
+      borderColor: '#FF2E2E',
       fill: false,
       tension: 0.5,
     }
@@ -92,7 +129,9 @@ export class DashComponent implements OnInit,AfterViewInit {
               private demandeService: DemandeService,
               private userService: ApiService,
               private evenementService: EvenementService,
-              private nouveautéService: NouveautéService) { }
+              private nouveautéService: NouveautéService,
+              private projectSuccessService: ProjectSuccessService,
+              private employeMoisService: EmployeMoisService, ) { }
 
   @ViewChild('chart') private chartRef!: ElementRef;
   private chart: any;
@@ -110,6 +149,10 @@ export class DashComponent implements OnInit,AfterViewInit {
   private ENChart: any;
 
   ngOnInit(): void {
+    this.getProjectSuccesses();
+    this.getEmployéMois();
+    this.getUtilisateurs();
+    this.getLatestUtilisateurs();
     this.conventionService.getMonthlyStatistics().subscribe(data => {
       const sortedData = data.sort((a, b) => {
         if (a.year !== b.year) {
@@ -143,6 +186,9 @@ export class DashComponent implements OnInit,AfterViewInit {
       }
     });
 
+    this.demandeService.getTotalDemandes().subscribe(total => {
+      this.totalDemandes = total;
+    });
     this.demandeService.getDemandesStatus().subscribe(data => {
       const countData = data.map(c => c.count);
       const statusLabels = data.map(c => c.status);
@@ -179,26 +225,26 @@ export class DashComponent implements OnInit,AfterViewInit {
       }
     });
 
-    this.userService.getMonthlyUsers().subscribe(data => {
-      const sortedData = data.sort((a, b) => {
-        if (a.year !== b.year) {
-          return a.year - b.year;
-        } else {
-          const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-          return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);
-        }
-      });
+    // this.userService.getMonthlyUsers().subscribe(data => {
+    //   const sortedData = data.sort((a, b) => {
+    //     if (a.year !== b.year) {
+    //       return a.year - b.year;
+    //     } else {
+    //       const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    //       return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);
+    //     }
+    //   });
       
-      const countData = sortedData.map(c => c.count);
-      const monthLabels = sortedData.map(c => c.month + ' ' + c.year);
+    //   const countData = sortedData.map(c => c.count);
+    //   const monthLabels = sortedData.map(c => c.month + ' ' + c.year);
 
-      this.userBarChartData[0].data.push(...countData);
-      this.userBarChartLabels.push(...monthLabels);
+    //   this.userBarChartData[0].data.push(...countData);
+    //   this.userBarChartLabels.push(...monthLabels);
 
-      if (this.userChart) {
-        this.userChart.update();
-      }
-    });  
+    //   if (this.userChart) {
+    //     this.userChart.update();
+    //   }
+    // });  
     this.evenementService.getStats().subscribe(data => {
       const sortedData = data.sort((a, b) => {
         const aMonthYear = a.monthYear.split(' ');
@@ -225,6 +271,39 @@ export class DashComponent implements OnInit,AfterViewInit {
 
       if (this.ENChart) {
         this.ENChart.update();
+      }
+    });
+
+    this.userService.getStats().subscribe(data => {
+      const sortedData = data.sort((a, b) => {
+        const aMonthYear = a.monthYear.split(' ');
+        const bMonthYear = b.monthYear.split(' ');
+        const aYear = parseInt(aMonthYear[1]);
+        const bYear = parseInt(bMonthYear[1]);
+        if (aYear !== bYear) {
+          return aYear - bYear;
+        } else {
+          const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          const aMonthIndex = monthOrder.indexOf(aMonthYear[0]);
+          const bMonthIndex = monthOrder.indexOf(bMonthYear[0]);
+          return aMonthIndex - bMonthIndex;
+        }
+      });
+
+      const countUsersData = sortedData.map(c => c.countUsers);
+      const countMariéesData = sortedData.map(c => c.countMariées);
+      const countParentsData = sortedData.map(c => c.countParents);
+      const countCélibatairesData = sortedData.map(c => c.countCélibataires);
+      const monthYearLabels = sortedData.map(c => c.monthYear);
+
+      this.userBarChartData[0].data.push(...countUsersData);
+      this.userBarChartData[1].data.push(...countMariéesData);
+      this.userBarChartData[2].data.push(...countParentsData);
+      this.userBarChartData[3].data.push(...countCélibatairesData);
+      this.userBarChartLabels.push(...monthYearLabels);
+
+      if (this.userChart) {
+        this.userChart.update();
       }
     });
   }
@@ -343,7 +422,7 @@ export class DashComponent implements OnInit,AfterViewInit {
     };
 
     const ENLineChartConfig: any = {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: this.ENLineChartLabels,
         datasets: this.ENLineChartData,
@@ -363,6 +442,46 @@ export class DashComponent implements OnInit,AfterViewInit {
     this.doughnutChart = new Chart(this.doughnutChartRef.nativeElement, doughnutChartConfig);
     this.Hchart = new Chart(this.HchartRef.nativeElement, HchartConfig);
     this.chart = new Chart(this.chartRef.nativeElement, chartConfig);
+  }
+
+  getProjectSuccesses(){
+    this.projectSuccessService.GetProjectSuccesses().subscribe(
+      (data: ProjectSuccess[]) => {
+        if (data.length > 0) {
+          this.projectSuccess = data[data.length - 1];
+          console.log(this.projectSuccess);
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+  getLatestUtilisateurs(): void{
+    this.userService.getLatestUtilisateurs().subscribe(utilisateurs => {
+      this.latestUtilisateurs = utilisateurs;
+      this.latestUtilisateurs.sort((a, b) => new Date(b.dateEmbauche).getTime() - new Date(a.dateEmbauche).getTime());
+    })
+  }
+
+  getEmployéMois(){
+    this.employeMoisService.GetEmployesMois().subscribe(
+      (data: EmployéMois[]) => {
+        if (data.length > 0) {
+          this.latestEmployee = data[data.length - 1];
+          console.log(data);
+        }
+      },
+      error => console.log(error)
+    );
+  }
+  getUtilisateurs(): void {
+    this.userService.GetUtilisateurs().subscribe(utilisateurs => {
+      this.utilisateurs = utilisateurs;
+    });
+  }
+  getUtilisateurNom(id: number): string {
+    const utilisateur = this.utilisateurs.find(s => s.id === id);
+    return utilisateur ? (utilisateur.nom + ' ' + utilisateur.prenom) : '';
   }
 
 }

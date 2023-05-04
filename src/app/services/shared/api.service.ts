@@ -113,4 +113,8 @@ export class ApiService {
   getMonthlyUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}Utilisateur/stats/DateEmbauche`);
   }
+
+  getStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}Utilisateur/statsCombine`);
+  }
 }

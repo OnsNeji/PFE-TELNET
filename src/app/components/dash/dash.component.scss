@@ -36,6 +36,91 @@
   }
 
   h6{
+    float: left;
+  }
+
+  h3{
+    float: right;
     padding-bottom: 2%;
   }
+
+  .icon-wrapper {
+    font-size: 7em;
+    align-items: center;
+    text-align: right;
+    margin-top: -17.5%;
+    line-height: 1;
+  }
+
+  .img-wrapper img{
+    width: 20%;
+    align-items: center;
+    float: right;
+    margin-top: -15%;
+    line-height: 1;
+    border-radius: 50%;
+  }
+
+  .graph .numbers {
+    position: relative;
+    font-weight: 500;
+    font-size: 2.5em;
+    color: var(--black1);
+  }
+
+  .graph .cardName {
+    margin-top: 5px;
+    font-size: 1.1em;
+    color: var(--black2);
+  }
+
+  .graph .cardName img {
+    width: 50px;
+    margin-right: 1rem;
+    vertical-align: middle;
+  }
+
+  .graph .iconBx {
+    margin-left: 80%;
+    margin-top: -20%;
+    font-size: 2.5em;
+    color: var(--black2);
+  }
+
+  .menu-containerr {
+    max-height: 350px;
+    overflow-y: scroll;
+  }
+
+  .menu-containerr::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent; /* pour rendre le fond du scroll transparent */
+  }  
+  .menu .menu-content {
+    margin-top: 30px;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  }
+  
+  .menu .menu-content a {
+    background: #fff;
+    position: relative;
+    z-index: 3;
+    font-weight: 700;
+    color: #1ba3dd;
+  }
+  
+  .menu .menu-content span {
+    background: #fff;
+    position: relative;
+    z-index: 3;
+    font-weight: 700;
+    margin-top: 7.5%;
+    float: right;
+  }
+  
+  
+
   

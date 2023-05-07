@@ -13,13 +13,23 @@
       <form [formGroup]="eventForm">
         
         <div class="row m-b-6">
+
+          <mat-form-field class="col-sm-4">
+            <mat-label>Catégorie</mat-label>
+            <mat-select formControlName="categorie" class="login-input-style">
+              <mat-option value="Événements professionnels">Événements professionnels</mat-option>
+              <mat-option value="Événements de réseautage">Événements de réseautage</mat-option>
+              <mat-option value="Événements d'entreprise">Événements d'entreprise</mat-option>
+              <mat-option value="Événements caritatifs">Événements caritatifs</mat-option>
+            </mat-select>
+          </mat-form-field>
   
-            <mat-form-field class="col-sm-6">
+            <mat-form-field class="col-sm-4">
               <mat-label>Titre</mat-label>
               <input formControlName="titre" matInput class="login-input-style">
             </mat-form-field>
   
-            <mat-form-field class="date-field col-sm-6">
+            <mat-form-field class="date-field col-sm-4">
               <input matInput [matDatepicker]="picker2200" formControlName="dateEvent" class="login-input-style" placeholder="Date d'événement'">
               <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
               <mat-datepicker #picker2200></mat-datepicker>

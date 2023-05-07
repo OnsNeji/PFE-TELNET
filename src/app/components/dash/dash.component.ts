@@ -21,6 +21,7 @@ import Chart from 'chart.js/auto';
 export class DashComponent implements OnInit,AfterViewInit {
 
   totalDemandes: number;
+  totalEvenements: number;
   projectSuccesses: ProjectSuccess[] = [];
   projectSuccess: ProjectSuccess;
   latestEmployee: EmployéMois;
@@ -30,28 +31,27 @@ export class DashComponent implements OnInit,AfterViewInit {
   barChartData = [{ 
     data: [], 
     label: 'Nombre de conventions ( / Mois)',
-    backgroundColor: ['gray', '#a5d6a7', '#87cefa', '#3f629d','rgba(255, 255, 255, 0.5)', 'gray', '#4682b4', '#f8f8ff', '#778899', '#b0c4de','#f0ffff', '#f5f5f5'], // set different colors for each bar in the chart
+    backgroundColor: ['gray','#3f629d', '#C9798E','#1ba3dd','#8FB2C9', '#5F7FAB', '#3F629D', '#C9798E', '#9F496E',  '#6B5C7E','gray',  ],  // set different colors for each bar in the chart
     borderWidth: 1 // set border width for the bars }];
   }];
-  barChartLabels: string[] = [];
+  barChartLabels: string[] = [];  
 
   HbarChartData = [{ 
     data: [], 
     label: 'Durée restante de la convention ( / jours)',
-    backgroundColor: ['gray', '#ffa500', '#a5d6a7',  '#87cefa', '#e6e6fa', '#4682b4', '#f8f8ff', '#778899', '#b0c4de','#f0ffff', '#f5f5f5'], // set different colors for each bar in the chart
+    backgroundColor:  ['gray','#3f629d', '#C9798E','#1ba3dd','#8FB2C9', '#5F7FAB', '#3F629D', '#C9798E', '#9F496E',  '#6B5C7E','gray',  ],    // set different colors for each bar in the chart
     borderWidth: 1 // set border width for the bars }];
   }];
   HbarChartLabels: string[] = [];
 
   doughnutChartData = [{   data: [], 
-    backgroundColor: ['#a5d6a7', 'yellow', '#FF2E2E', ],
+    backgroundColor: ['#1ba3dd', '#3f629d','#C9798E'],
     label: 'Status',
   }];
   doughnutChartLabels: string[] = [];
 
   lineChartData = [{   data: [], 
-    borderColor: '#3f629d',
-    backgroundColor: '#3f629d',
+    backgroundColor: ['gray','#3f629d', '#C9798E','#1ba3dd','#8FB2C9', '#5F7FAB', '#3F629D', '#C9798E', '#9F496E',  '#6B5C7E','gray',  ],
     tension: 0.5,
     fill: false,
     label: 'Demandes par documents',
@@ -59,7 +59,7 @@ export class DashComponent implements OnInit,AfterViewInit {
   lineChartLabels: string[] = [];
 
   roleChartData = [{   data: [], 
-    backgroundColor: ['#a5d6a7', 'yellow', '#ffa500', '#d5d6d2' ],
+    backgroundColor: ['gray', '#C9798E', '#3f629d','#1ba3dd'],
     label: 'Utilisateur par departement',
   }];
   roleChartLabels: string[] = [];
@@ -68,39 +68,34 @@ export class DashComponent implements OnInit,AfterViewInit {
     { 
       data: [], 
       label: 'Utilisateurs',
-      borderColor: '#3f629d',
-      backgroundColor: '#3f629d',
+      borderColor: 'gray',
+      backgroundColor: 'gray',
       fill: false,
       tension: 0.5, // set different colors for each bar in the chart
-
     },
-
     { 
       data: [], 
       label: 'Mariés',
-      borderColor: 'yellow',
-      backgroundColor: 'yellow',
+      borderColor: '#C9798E',
+      backgroundColor: '#C9798E',
       fill: false,
       tension: 0.5, // set different colors for each bar in the chart
-
     },
     { 
       data: [], 
       label: 'Parents',
-      borderColor: 'red',
-      backgroundColor: 'red',
+      borderColor: '#3f629d',
+      backgroundColor: '#3f629d',
       fill: false,
       tension: 0.5, // set different colors for each bar in the chart
-
     },
     { 
       data: [], 
       label: 'Célibataires',
-      borderColor: 'green',
-      backgroundColor: 'green',
+      borderColor: '#1ba3dd',
+      backgroundColor: '#1ba3dd',
       fill: false,
-      tension: 0.5, // set different colors for each bar in the chart
-
+      tension: 0.3, // set different colors for each bar in the chart
     },
   ];
   userBarChartLabels: string[] = [];
@@ -109,21 +104,33 @@ export class DashComponent implements OnInit,AfterViewInit {
     { 
       data: [], 
       label: 'Evenement',
-      backgroundColor: '#1f77b4',
-      borderColor: '#1f77b4',
+      backgroundColor: '#3F629D',
       fill: false,
       tension: 0.5,
     },
     { 
       data: [], 
       label: 'Nouveauté',
-      backgroundColor:'#FF2E2E',
-      borderColor: '#FF2E2E',
+      backgroundColor:'#1ba3dd',
       fill: false,
       tension: 0.5,
     }
   ];
   ENLineChartLabels: string[] =  [];
+
+  eventChartData = [{   data: [], 
+    backgroundColor: ['gray', '#C9798E ', '#3f629d','#1ba3dd'],
+    label: 'Catégorie',
+  }];
+  eventChartLabels: string[] = [];
+
+
+  dataChartData = [{   data: [], 
+    backgroundColor: '#C9798E',
+    label: 'Age & Salaire',
+    pointRadius: 6,
+  }];
+  dataChartLabels: string[] = [];
 
   constructor(private conventionService: ConventionService,
               private demandeService: DemandeService,
@@ -147,6 +154,10 @@ export class DashComponent implements OnInit,AfterViewInit {
   private userChart: any;
   @ViewChild('ENChart') private ENChartRef!: ElementRef;
   private ENChart: any;
+  @ViewChild('eventChart') private eventChartRef!: ElementRef;
+  private eventChart: any;
+  @ViewChild('dataChart') private dataChartRef!: ElementRef;
+  private dataChart: any;
 
   ngOnInit(): void {
     this.getProjectSuccesses();
@@ -225,26 +236,22 @@ export class DashComponent implements OnInit,AfterViewInit {
       }
     });
 
-    // this.userService.getMonthlyUsers().subscribe(data => {
-    //   const sortedData = data.sort((a, b) => {
-    //     if (a.year !== b.year) {
-    //       return a.year - b.year;
-    //     } else {
-    //       const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    //       return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);
-    //     }
-    //   });
-      
-    //   const countData = sortedData.map(c => c.count);
-    //   const monthLabels = sortedData.map(c => c.month + ' ' + c.year);
+    this.evenementService.getTotalEvenements().subscribe(total => {
+      this.totalEvenements = total;
+    });
 
-    //   this.userBarChartData[0].data.push(...countData);
-    //   this.userBarChartLabels.push(...monthLabels);
+    this.evenementService.getCategoryEvent().subscribe(data => {
 
-    //   if (this.userChart) {
-    //     this.userChart.update();
-    //   }
-    // });  
+      const countData = data.map(c => c.count);
+      const categorieLabels = data.map(c => c.categorie);
+
+      this.eventChartData[0].data.push(...countData);
+      this.eventChartLabels.push(...categorieLabels);
+
+      if (this.eventChart) {
+          this.eventChart.update();
+      }
+    });
     this.evenementService.getStats().subscribe(data => {
       const sortedData = data.sort((a, b) => {
         const aMonthYear = a.monthYear.split(' ');
@@ -304,6 +311,16 @@ export class DashComponent implements OnInit,AfterViewInit {
 
       if (this.userChart) {
         this.userChart.update();
+      }
+    });
+
+    this.userService.getData().subscribe(data => {
+      const chartData = data.map(d => ({ x: d.age , y: d.salaire }));
+    
+      this.dataChartData[0].data = chartData;
+    
+      if (this.dataChart) {
+        this.dataChart.update();
       }
     });
   }
@@ -367,12 +384,13 @@ export class DashComponent implements OnInit,AfterViewInit {
     };
 
     const lineChartConfig: any = {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: this.lineChartLabels,
         datasets: this.lineChartData,
       },
       options: {
+        indexAxis:'y',
         responsive: true,
         scales: {
           yAxes: [{ ticks: { 
@@ -422,7 +440,7 @@ export class DashComponent implements OnInit,AfterViewInit {
     };
 
     const ENLineChartConfig: any = {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: this.ENLineChartLabels,
         datasets: this.ENLineChartData,
@@ -434,7 +452,54 @@ export class DashComponent implements OnInit,AfterViewInit {
         display: true,
       },
     };
+
+    const eventChartConfig: any = {
+      type: 'pie',
+      data: {
+          labels: this.eventChartLabels,
+          datasets: this.eventChartData,
+      },
+      options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+          },
+      },
+      legend: {
+          display: true,
+      },
+    };
       
+    const dataChartConfig: any = {
+      type: 'scatter',
+      data: {
+        datasets: this.dataChartData,
+      },
+      options: {
+        scales: {
+          x: {
+            scaleLabel: {
+              display: true,
+              labelString: 'Age'
+            }
+          },
+          y: {
+            scaleLabel: {
+              display: true,
+              labelString: 'Salaire'
+            }
+          }
+        },
+      },
+      legend: {
+        display: true,
+      },
+    };
+    
+    this.dataChart = new Chart(this.dataChartRef.nativeElement, dataChartConfig);
+    this.eventChart = new Chart(this.eventChartRef.nativeElement, eventChartConfig);
     this.ENChart = new Chart(this.ENChartRef.nativeElement, ENLineChartConfig);
     this.userChart = new Chart(this.userChartRef.nativeElement, userChartConfig);
     this.roleChart = new Chart(this.roleChartRef.nativeElement, roleChartConfig);

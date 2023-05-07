@@ -34,6 +34,7 @@ export class DialogEventComponent implements OnInit {
       dateEvent : ['', [Validators.required, this.validDate]],
       description : ['', Validators.required],
       titre : ['', Validators.required],
+      categorie : ['', Validators.required],
       userAjout: [''],
       mediaEvents: [''],
     });
@@ -45,6 +46,7 @@ export class DialogEventComponent implements OnInit {
         dateEvent: this.editData.dateEvent,
         description: this.editData.description,
         titre: this.editData.titre,
+        categorie: this.editData.categorie,
         userAjout : this.editData.userAjout,
         mediaEvents : this.editData.mediaEvents,
       });

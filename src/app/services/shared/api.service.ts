@@ -117,4 +117,8 @@ export class ApiService {
   getStats(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}Utilisateur/statsCombine`);
   }
+
+  getData(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}Utilisateur/stats/data`);
+  }
 }

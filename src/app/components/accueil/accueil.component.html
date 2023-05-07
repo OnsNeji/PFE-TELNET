@@ -83,7 +83,15 @@
                       </ol>
                       <div class="carousel-inner">
                         <div class="carousel-item" *ngFor="let media of swiperEvenement.mediaEvents; let i = index" [class.active]="i == 0">
-                          <img [src]="media.pieceJointe" class="d-block w-100" alt="...">
+                          <ng-container *ngIf="media.pieceJointe.startsWith('data:image/')">
+                            <img [src]="media.pieceJointe" class="d-block w-100" alt="...">
+                          </ng-container>
+                          <ng-container *ngIf="media.pieceJointe.startsWith('data:video/')">
+                            <video class="d-block w-100" controls>
+                              <source [src]="media.pieceJointe" type="video/mp4">
+                            </video>
+                          </ng-container>
+                          
                         </div>
                       </div>
                       <a class="carousel-control-prev" href="#heroCarousel{{swiperEvenement.id}}" role="button" data-bs-slide="prev">

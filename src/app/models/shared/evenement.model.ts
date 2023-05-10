@@ -1,3 +1,4 @@
+import { SiteEvenements } from "./SiteEvenements.model";
 import { MediaEvent } from "./mediaEvent.model";
 
 export class Evenement {
@@ -8,4 +9,5 @@ export class Evenement {
     categorie!: string;
     dateEvent: Date = new Date();
     mediaEvents: MediaEvent[] = [];
+    siteEvenements: SiteEvenements[] = [];
 }

@@ -52,6 +52,7 @@ export default class DialogUserComponent implements OnInit {
       // id: [''],
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
+      sexe: ['', Validators.required],
       matricule: ['', Validators.required],
       dateEmbauche: ['', [Validators.required, this.validDate]],
       email: ['', Validators.required],

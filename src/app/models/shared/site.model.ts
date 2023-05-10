@@ -1,3 +1,4 @@
+import { SiteEvenements } from "./SiteEvenements.model";
 import { Departement } from "./departement.model";
 import { Nouveauté } from "./nouveauté.model";
 import { Poste } from "./poste.model";
@@ -15,4 +16,5 @@ export class Site {
     dateModif: Date = new Date();
     userModif!: string;
     userAjout!: string;
+    siteEvenements: SiteEvenements[] = [];
   }

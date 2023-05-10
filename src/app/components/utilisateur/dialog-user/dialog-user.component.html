@@ -13,14 +13,22 @@
     <form [formGroup]="userForm">
       
       <div class="row m-b-6">
-        <mat-form-field class="col-sm-3">
+        <mat-form-field class="col-sm-2">
             <mat-label>Nom</mat-label>
             <input formControlName="nom" matInput class="login-input-style">
           </mat-form-field>
 
-          <mat-form-field class="col-sm-3">
+          <mat-form-field class="col-sm-2">
             <mat-label>Prénom</mat-label>
             <input formControlName="prenom" matInput class="login-input-style">
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-2">
+            <mat-label>Sexe</mat-label>
+            <mat-select formControlName="sexe" class="login-input-style">
+              <mat-option value="Homme">Homme</mat-option>
+              <mat-option value="Femme">Femme</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field class="col-sm-3">

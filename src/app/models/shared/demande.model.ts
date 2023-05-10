@@ -8,6 +8,10 @@ export class Demande {
     date: Date = new Date();
     status: string; 
     document: string;
+    mois: Date = new Date();
+    motif: string; 
+    destinataire: string;
+    dateSortie: Date = new Date();
     utilisateurId: number;
     utilisateurs: Utilisateur[] = [];
 }

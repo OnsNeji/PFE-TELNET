@@ -75,6 +75,7 @@ export class DialogEventComponent implements OnInit {
       const mediaEvents = evenement.mediaEvents; 
       console.log(mediaEvents);
       if (this.eventForm.valid) {
+        console.log(this.eventForm.value)
         this.eventForm.value.userAjout = this.matricule;
         const userAjout = this.eventForm.value.userAjout;
         const dateEvent = new Date(this.eventForm.value.dateEvent);

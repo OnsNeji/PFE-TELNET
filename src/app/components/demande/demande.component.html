@@ -104,7 +104,7 @@
 
       <div class="col-sm-8">
 
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of users"></mat-paginator>
       </div>
     </nav>
     <div *ngIf="lengthDemandes === 0">
@@ -157,7 +157,7 @@
     <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
         <mat-cell *matCellDef="let demande" >
-          <span [ngClass]="{'status-en-cours': demande.status === 'En cours', 'status-approuve': demande.status === 'Approuvé', 'status-rejete': demande.status === 'Rejeté'}">{{demande.status}}</span></mat-cell>
+          <span [ngClass]="{'status-en-attente': demande.status === 'En attente', 'status-approuve': demande.status === 'Approuvé', 'status-rejete': demande.status === 'Rejeté'}">{{demande.status}}</span></mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="document">

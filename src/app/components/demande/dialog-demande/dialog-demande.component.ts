@@ -29,6 +29,10 @@ export class DialogDemandeComponent implements OnInit {
   private _onDestroy = new Subject<void>();
   filteredUsers: Utilisateur[];
   pdfUrl: string; 
+  afficherMois: boolean;
+  afficherMotif: boolean;
+  afficherDestinataire: boolean;
+  afficherDateSortie: boolean;
 
   constructor(private builder: FormBuilder, 
     private service: ApiService, 
@@ -47,6 +51,10 @@ export class DialogDemandeComponent implements OnInit {
         document : [''],
         status: [''],
         date: [''],
+        mois: [new Date(), Validators.required],
+        motif: [''],
+        destinataire: [''],
+        dateSortie:[new Date(), Validators.required],
         
       });
       this.getUtilisateurs();
@@ -72,7 +80,13 @@ export class DialogDemandeComponent implements OnInit {
         this.demandeForm.value.document = this.pdfUrl;
         console.log(this.demandeForm.valid)
         if(this.demandeForm.valid){
+          const mois = new Date(this.demandeForm.value.mois);
+          mois.setDate(mois.getDate() + 1);
+          const dateSortie = new Date(this.demandeForm.value.dateSortie);
+          dateSortie.setDate(dateSortie.getDate() + 1);
+
           this.demandeForm.value.utilisateurId = this.id;
+
           const utilisateurId = parseInt(this.demandeForm.value.utilisateurId);
 
           const date= new Date();
@@ -108,6 +122,14 @@ export class DialogDemandeComponent implements OnInit {
         this.notificationService.danger('Error when modifying a request.');
       });
     }
+    }
+
+    onTitreChange(event: any) {
+      const titre = event.value;
+      this.afficherMois = titre === 'Fiche de paie';
+      this.afficherMotif = titre === 'Fiche de paie';
+      this.afficherDestinataire = titre === 'Lettre de recommandation';
+      this.afficherDateSortie = titre === 'Autorisation de sortie';
     }
   onPDFSelected(event: any): void {
     const file = event.target.files[0];

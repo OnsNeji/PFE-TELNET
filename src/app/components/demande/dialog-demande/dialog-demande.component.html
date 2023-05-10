@@ -15,25 +15,48 @@
         <div class="row m-b-6">
 
 
-            <mat-form-field class="col-sm-12">
+            <mat-form-field class="col-sm-6">
                 <mat-label>Titre</mat-label>
-                <mat-select formControlName="titre" class="login-input-style" [disabled]="editData">
+                <mat-select formControlName="titre" class="login-input-style" [disabled]="editData" (selectionChange)="onTitreChange($event)">
                   <mat-option value="Attestation de travail">Attestation de travail</mat-option>
-                  <mat-option value="Demande de Congé">Demande de Congé</mat-option>
                   <mat-option value="Fiche de paie">Fiche de paie</mat-option>
                   <mat-option value="Autorisation de sortie">Autorisation de sortie</mat-option>
                   <mat-option value="Lettre de recommandation">Lettre de recommandation</mat-option>
-                  <mat-option value="Certificat de travail">Certificat de travail</mat-option>
                 </mat-select>
               </mat-form-field>
-
             
-              <mat-form-field class="col-sm-12">
+              <mat-form-field class="col-sm-6">
                 <mat-label>Description</mat-label>
                 <input formControlName="description" matInput class="login-input-style" [readonly]="editData">
               </mat-form-field>
+
+              <mat-form-field class="date-field col-sm-6" *ngIf="afficherMois">
+                <input matInput [matDatepicker]="picker2200" formControlName="mois" class="login-input-style" placeholder="Mois">
+                <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
+                <mat-datepicker #picker2200></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6" *ngIf="afficherMotif">
+                <mat-label>Motif</mat-label>
+                <mat-select formControlName="motif" class="login-input-style" [disabled]="editData">
+                  <mat-option value="Demande de crédit">Demande de crédit</mat-option>
+                  <mat-option value="Demande de visa">Demande de visa</mat-option>
+                  <mat-option value="Demande de carte de crédit">Demande de carte de crédit</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-12" *ngIf="afficherDestinataire">
+                <mat-label>Destinataire</mat-label>
+                <input formControlName="destinataire" matInput class="login-input-style" [readonly]="editData">
+              </mat-form-field>
+
+              <mat-form-field class="date-field col-sm-12" *ngIf="afficherDateSortie">
+                <input matInput [matDatepicker]="picker2300" formControlName="dateSortie" class="login-input-style" placeholder="Date de sortie">
+                <mat-datepicker-toggle matSuffix [for]="picker2300"></mat-datepicker-toggle>
+                <mat-datepicker #picker2300></mat-datepicker>
+              </mat-form-field>
   
-              <div class="col-sm-12" *ngIf="editData">
+              <div class="col-sm-6" *ngIf="editData">
                 <mat-label>Document</mat-label><br>
                 <input type="file" (change)="onPDFSelected($event)" formControlName="document"
                 name="pdf" accept=".pdf" class="login-input-style" >

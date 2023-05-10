@@ -8,6 +8,7 @@ export class Utilisateur {
     id: number = 0;
     nom!: string;
     prenom!: string;
+    sexe!: string;
     matricule!: string;
     dateEmbauche: Date = new Date();
     email!: string;

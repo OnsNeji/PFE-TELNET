@@ -70,7 +70,7 @@
              </div>
 
              <mat-form-field class="col-sm-6" hidden>
-                <mat-label>Utilisateur</mat-label>
+                <mat-label>Employé</mat-label>
                 <mat-select formControlName="utilisateurId" class="login-input-style" disabled hidden> 
                   <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.id">{{ utilisateur.nom }} {{utilisateur.prenom}}</mat-option>
                 </mat-select>

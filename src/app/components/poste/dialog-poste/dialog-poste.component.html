@@ -23,7 +23,7 @@
           </mat-form-field>
 
           <mat-form-field class="col-sm-4">
-            <mat-label>Utilisateur</mat-label>
+            <mat-label>Employé</mat-label>
             <mat-select formControlName="utilisateurId" class="login-input-style">
               <ng-container *ngFor="let utilisateur of utilisateurs">
               <mat-option *ngIf="utilisateur.poste === null" [value]="utilisateur.id">{{ utilisateur.prenom }} {{utilisateur.nom}}</mat-option>

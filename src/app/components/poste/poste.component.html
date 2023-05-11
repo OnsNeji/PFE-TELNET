@@ -22,7 +22,7 @@
 
             <mat-list>
               <mat-list-item>
-                <h3 class="mat-subheader col-sm-2">Site.</h3>
+                <h3 class="mat-subheader col-sm-2">Utili.</h3>
                 <mat-form-field class="search-input col-sm-8">
                   <mat-select placeholder="Select a user" [(ngModel)]="selectedUser" (selectionChange)="onSearchClick()">
                     <mat-option>
@@ -100,7 +100,7 @@
     </ng-container>
 
     <ng-container matColumnDef="utilisateurId">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Utilisateur</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Employé</mat-header-cell>
       <mat-cell *matCellDef="let poste">  {{getUtilisateurNom(poste.utilisateurId)}}  </mat-cell>
     </ng-container>
 

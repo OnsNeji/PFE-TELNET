@@ -43,6 +43,7 @@ export class DialogConventionComponent implements OnInit {
       pieceJointe: [''],
       logo: [''],
       userAjout: [''],
+      status: [''],
     });
 
     console.log(this.editData)

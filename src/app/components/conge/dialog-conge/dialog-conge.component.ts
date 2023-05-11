@@ -71,6 +71,7 @@ export class DialogCongeComponent implements OnInit {
       this.id = decodedToken.nameid;
       this.sexe = decodedToken.gender;  
     }
+    
   }
 
   AjouterConge(){

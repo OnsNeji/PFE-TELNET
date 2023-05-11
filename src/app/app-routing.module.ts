@@ -21,6 +21,8 @@ import { DemandeComponent } from './components/demande/demande.component';
 import { DemandeGuard } from './guards/demande.guard';
 import { ChatComponent } from './components/chat/chat.component';
 import { DashComponent } from './components/dash/dash.component';
+import { CongeComponent } from './components/conge/conge.component';
+import { CongéGuard } from './guards/congé.guard';
 
 
 const routes: Routes = [
@@ -83,6 +85,8 @@ const routes: Routes = [
   { path: 'demandes', component: DemandeComponent, canActivate: [AuthGuard, DemandeGuard] },
   { path: 'demande/:id', component: DemandeComponent, canActivate: [AuthGuard] },
   { path: 'dash', component: DashComponent, canActivate: [AuthGuard] },
+  { path: 'conges', component: CongeComponent, canActivate: [AuthGuard, CongéGuard] },
+  { path: 'conge/:id', component: CongeComponent, canActivate: [AuthGuard] },
 
 
 ];

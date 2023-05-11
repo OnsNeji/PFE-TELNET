@@ -14,7 +14,7 @@ export class DemandeService {
   constructor(private http: HttpClient) { }
 
   GetDemandes(): Observable<Demande[]> {
-    return this.http.get<Demande[]>(`${this.baseUrl}Demande`);;
+    return this.http.get<Demande[]>(`${this.baseUrl}Demande`);
   }
 
   GetDemande(id: number): Observable<Demande> {

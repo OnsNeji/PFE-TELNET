@@ -14,7 +14,6 @@
         
         <div class="row m-b-6">
 
-
             <mat-form-field class="col-sm-6">
                 <mat-label>Titre</mat-label>
                 <mat-select formControlName="titre" class="login-input-style" [disabled]="editData" (selectionChange)="onTitreChange($event)">
@@ -31,7 +30,7 @@
               </mat-form-field>
 
               <mat-form-field class="date-field col-sm-6" *ngIf="afficherMois">
-                <input matInput [matDatepicker]="picker2200" formControlName="mois" class="login-input-style" placeholder="Mois">
+                <input matInput [matDatepicker]="picker2200" formControlName="mois" class="login-input-style" placeholder="Mois"  [disabled]="editData">
                 <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
                 <mat-datepicker #picker2200></mat-datepicker>
               </mat-form-field>
@@ -50,11 +49,19 @@
                 <input formControlName="destinataire" matInput class="login-input-style" [readonly]="editData">
               </mat-form-field>
 
-              <mat-form-field class="date-field col-sm-12" *ngIf="afficherDateSortie">
+              <!--<mat-form-field class="date-field col-sm-12" *ngIf="afficherDateSortie">
                 <input matInput [matDatepicker]="picker2300" formControlName="dateSortie" class="login-input-style" placeholder="Date de sortie">
                 <mat-datepicker-toggle matSuffix [for]="picker2300"></mat-datepicker-toggle>
                 <mat-datepicker #picker2300></mat-datepicker>
+              </mat-form-field>-->
+
+              <mat-form-field class="date-field col-sm-12" *ngIf="afficherDateSortie">
+                <input matInput [matDatetimepicker]="picker2300" formControlName="dateSortie" class="login-input-style" placeholder="Date et heure de sortie" [disabled]="editData">
+                <mat-datepicker-toggle matSuffix [for]="picker2300"></mat-datepicker-toggle>
+                <mat-datetimepicker #picker2300></mat-datetimepicker>
               </mat-form-field>
+              
+              
   
               <div class="col-sm-6" *ngIf="editData">
                 <mat-label>Document</mat-label><br>

@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as FileSaver from 'file-saver';
 import * as moment from 'moment';
-import { DialogDescDemandeComponent } from './dialog-desc-demande/dialog-desc-demande.component';
+import { DemandeCardComponent } from './demande-card/demande-card.component';
 
 @Component({
   selector: 'app-demande',
@@ -47,7 +47,7 @@ formTitle: string = '';
 buttonLabel: string = '';
 lengthDemandes: number;
 isLoading: boolean;
-displayedColumns: string[] = ['titre', 'description', 'date', 'utilisateurId', 'status', 'document', 'action'];
+displayedColumns: string[] = ['titre', 'utilisateurId', 'date', 'status', 'document', 'action'];
 dataSource!: MatTableDataSource<Demande>;
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
@@ -219,7 +219,6 @@ exportToExcel() {
   if (this.demandes !== undefined && this.demandes.length !== 0) {
     const header: any[] = [
       { header: 'Titre', key: 'titre', width: 10 },
-      { header: 'Description', key: 'description', width: 30 },
       { header: 'Date', key: 'date', width: 15 },
       { header: 'Utilisateur', key: 'utilisateurId', width: 10 },
       { header: 'Document', key: 'document', width: 15 },
@@ -260,12 +259,6 @@ exportToExcel() {
   }
 }
 
-openDescriptionDialog(demande: any): void {
-  const dialogRef = this.dialog.open(DialogDescDemandeComponent, {
-    width: '500px',
-    data: { description: demande.description },
-  });
-}
 
 updateDemande(row: any) {
   this.dialog.open(DialogDemandeComponent, {
@@ -275,6 +268,20 @@ updateDemande(row: any) {
       this.getDemandes();
     }
   })
+  }
+
+  getDemande(id: number) {
+    this.service.GetDemande(id).subscribe(
+      (data) => {
+        const dialogRef = this.dialog.open(DemandeCardComponent, {
+          data: data,
+        });
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
 getUtilisateurs(): void {

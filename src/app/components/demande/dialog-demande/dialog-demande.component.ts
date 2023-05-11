@@ -9,7 +9,6 @@ import { NotificationService } from 'app/services/shared';
 import { ApiService } from 'app/services/shared/api.service';
 import { DemandeService } from 'app/services/shared/demande.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-demande',
@@ -51,10 +50,10 @@ export class DialogDemandeComponent implements OnInit {
         document : [''],
         status: [''],
         date: [''],
-        mois: [new Date(), Validators.required],
+        mois: [],
         motif: [''],
         destinataire: [''],
-        dateSortie:[new Date(), Validators.required],
+        dateSortie:[],
         
       });
       this.getUtilisateurs();
@@ -83,14 +82,15 @@ export class DialogDemandeComponent implements OnInit {
           const mois = new Date(this.demandeForm.value.mois);
           mois.setDate(mois.getDate() + 1);
           const dateSortie = new Date(this.demandeForm.value.dateSortie);
+          dateSortie.setHours(dateSortie.getHours() + 1);
           dateSortie.setDate(dateSortie.getDate() + 1);
-
+          
           this.demandeForm.value.utilisateurId = this.id;
 
           const utilisateurId = parseInt(this.demandeForm.value.utilisateurId);
 
           const date= new Date();
-          this.demandeService.AddDemande({ ...this.demandeForm.value, utilisateurId, date }).subscribe(()=>{
+          this.demandeService.AddDemande({ ...this.demandeForm.value, utilisateurId, date, mois, dateSortie }).subscribe(()=>{
             this.demandeForm.reset();
             this.dialogRef.close('ajouter');
             this.notificationService.success('Request added successfully !');
@@ -116,10 +116,10 @@ export class DialogDemandeComponent implements OnInit {
       this.demandeService.UpdateDemande(this.editData.id, { ...this.demandeForm.value }).subscribe(()=>{
         this.demandeForm.reset();
         this.dialogRef.close('modifier');
-        this.notificationService.success('Request modified successfully !');
+        this.notificationService.success('Request approuved successfully !');
       },
       ()=>{
-        this.notificationService.danger('Error when modifying a request.');
+        this.notificationService.danger('Error when approuving a request.');
       });
     }
     }
@@ -131,6 +131,7 @@ export class DialogDemandeComponent implements OnInit {
       this.afficherDestinataire = titre === 'Lettre de recommandation';
       this.afficherDateSortie = titre === 'Autorisation de sortie';
     }
+    
   onPDFSelected(event: any): void {
     const file = event.target.files[0];
     const reader = new FileReader();

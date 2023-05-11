@@ -708,6 +708,10 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/demande/${this.id}`);
 }
 
+redirectToMyConges() {
+  this.router.navigateByUrl(`/conge/${this.id}`);
+}
+
   changePassword() {
     const config: MatDialogConfig = {
       disableClose: false,

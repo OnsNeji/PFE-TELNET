@@ -121,4 +121,5 @@ export class ApiService {
   getData(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}Utilisateur/stats/data`);
   }
+
 }

@@ -1,0 +1,100 @@
+<div class="modal_header">
+    <div class="modal_title">
+        <span>
+            Demande d'un congé
+        </span>
+        <span>
+            <em class="material-icons modal-close" (click)="close()">close</em>
+        </span>
+    </div>
+  </div>
+  <div class="modal_body">
+    <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
+      <form [formGroup]="congeForm">
+        
+        <div class="row m-b-6">
+
+          <mat-form-field class="col-sm-6">
+            <mat-label>Type de congé</mat-label>
+            <mat-select formControlName="type" class="login-input-style" [disabled]="editData">
+                <ng-container *ngIf="sexe === 'Homme'">
+                    <mat-option value="Congé de paternité">Congé de paternité</mat-option>
+                    <mat-option value="Congé de maladie">Congé de maladie</mat-option>
+                    <mat-option value="Congé pour soins familiaux">Congé pour soins familiaux</mat-option>
+                    <mat-option value="Congé de deuil">Congé de deuil</mat-option>
+                </ng-container>
+                <ng-container *ngIf="sexe === 'Femme'">
+                    <mat-option value="Congé de maternité">Congé de maternité</mat-option>
+                    <mat-option value="Congé de maladie">Congé de maladie</mat-option>
+                    <mat-option value="Congé pour soins familiaux">Congé pour soins familiaux</mat-option>
+                    <mat-option value="Congé de deuil">Congé de deuil</mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+        
+            
+              <mat-form-field class="col-sm-6">
+                <mat-label>Description</mat-label>
+                <input formControlName="description" matInput class="login-input-style" [readonly]="editData">
+              </mat-form-field>
+
+              <mat-form-field class="date-field col-sm-6">
+                <input matInput [matDatepicker]="picker2200" formControlName="dateDebut" class="login-input-style" placeholder="Date Début"  [disabled]="editData">
+                <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
+                <mat-datepicker #picker2200></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6">
+                <mat-label>Durée de congé</mat-label>
+                <input formControlName="duree" matInput class="login-input-style" [readonly]="editData">
+              </mat-form-field>
+
+              <div class="col-sm-6"  *ngIf="!editData">
+                <mat-label>Justificatif</mat-label><br>
+                <input type="file" (change)="onPDFJSelected($event)" formControlName="justificatif"
+                name="pdf" accept=".pdf" class="login-input-style">
+             </div>
+
+
+              <div class="col-sm-6" *ngIf="editData">
+                <mat-label>Document</mat-label><br>
+                <input type="file" (change)="onPDFDSelected($event)" formControlName="document"
+                name="pdf" accept=".pdf" class="login-input-style" >
+             </div>
+
+             <mat-form-field class="col-sm-6" hidden>
+                <mat-label>Utilisateur</mat-label>
+                <mat-select formControlName="utilisateurId" class="login-input-style" disabled hidden> 
+                  <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.id">{{ utilisateur.nom }} {{utilisateur.prenom}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+             <mat-form-field class="col-sm-6" hidden>
+                <mat-label>Status</mat-label>
+                <input matInput formControlName="status" class="login-input-style" disabled hidden>
+              </mat-form-field>
+  
+            <mat-form-field class="col-sm-6" hidden>
+              <mat-label>Date</mat-label>
+              <input matInput formControlName="date" class="login-input-style" disabled hidden>
+            </mat-form-field>
+          </div>
+  
+          
+        <div class="row m-t-20">
+          <div class="col-lg-12">
+              <div class="row f-right">
+                  <div class="col-lg-12">
+                      <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+                      &nbsp; &nbsp;
+                      <button type="submit" class="btn btn-primary ripple light btn-md" (click)="AjouterConge()">
+                          Save
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+        
+      </form>
+    </div>
+  </div>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogDescDemandeComponent } from './dialog-desc-demande.component';
+import { CongeComponent } from './conge.component';
 
-describe('DialogDescDemandeComponent', () => {
-  let component: DialogDescDemandeComponent;
-  let fixture: ComponentFixture<DialogDescDemandeComponent>;
+describe('CongeComponent', () => {
+  let component: CongeComponent;
+  let fixture: ComponentFixture<CongeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogDescDemandeComponent ]
+      declarations: [ CongeComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DialogDescDemandeComponent);
+    fixture = TestBed.createComponent(CongeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

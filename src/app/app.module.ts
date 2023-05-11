@@ -93,10 +93,14 @@ import { DialogInformationComponent } from './components/dialog-information/dial
 import { DemandeComponent } from './components/demande/demande.component';
 import { DialogDemandeComponent } from './components/demande/dialog-demande/dialog-demande.component';
 import { DemandeGuard } from './guards/demande.guard';
-import { DialogDescDemandeComponent } from './components/demande/dialog-desc-demande/dialog-desc-demande.component';
+import { CongéGuard } from './guards/congé.guard';
 import { ChatComponent } from './components/chat/chat.component';
 import { DashComponent } from './components/dash/dash.component';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
+import { DemandeCardComponent } from './components/demande/demande-card/demande-card.component';
+import { CongeComponent } from './components/conge/conge.component';
+import { CongeCardComponent } from './components/conge/conge-card/conge-card.component';
+import { DialogCongeComponent } from './components/conge/dialog-conge/dialog-conge.component';
 
 
 
@@ -155,9 +159,12 @@ export const CUSTOM_DT_FORMATS = {
         DialogInformationComponent,
         DemandeComponent,
         DialogDemandeComponent,
-        DialogDescDemandeComponent,
         ChatComponent,
         DashComponent,
+        DemandeCardComponent,
+        CongeComponent,
+        CongeCardComponent,
+        DialogCongeComponent,
 
         
     ],
@@ -174,6 +181,7 @@ export const CUSTOM_DT_FORMATS = {
         MenuItems,
         AuthGuard,
         DemandeGuard,
+        CongéGuard,
         ShowErrorsService,
         EntityParameterService,
         GenericService,

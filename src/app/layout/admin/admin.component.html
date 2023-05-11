@@ -82,6 +82,11 @@
                     <i class="icon-file"></i> Mes demandes
                   </a>
               </li>
+              <li *ngIf="!idd">
+                <a (click)="redirectToMyConges()" target="_blank" class="pointer">
+                  <i class="icon-time"></i> Mes congés
+                </a>
+            </li>
                 <li>
                   <a (click)="changePassword()" target="_blank" class="pointer">
                     <em class="icon-key"></em> Change Password
@@ -142,6 +147,11 @@
                       <a routerLink="/demandes" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">assignment</em>Demandes</span></a>
                     </li>
                     </ng-container>
+                    <ng-container *ngIf="role ==='Gestionnaire'">
+                      <li>
+                        <a routerLink="/conges" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">timer_off</em>Congés</span></a>
+                      </li>
+                      </ng-container>
                     <li>
                       <a routerLink="/employeMois" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">accessibility</em>Employé du Mois</span></a>
                     </li>

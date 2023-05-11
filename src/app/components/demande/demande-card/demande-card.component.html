@@ -1,0 +1,28 @@
+
+<body>
+			
+    <div class="row">
+            
+                <div class="profile-card card rounded-lg shadow p-4 p-xl-5 mb-4 text-center position-relative overflow-hidden" >
+                    <div class="banner">
+                        <span>
+                            <em class="material-icons modal-close" (click)="close()">close</em>
+                        </span>
+                    </div>
+
+                    <h3 class="mb-4">{{data.titre}} <br>
+                    <span [ngClass]="{'status-en-attente': data.status === 'En attente', 'status-approuve': data.status === 'Approuvé', 'status-rejete': data.status === 'Rejeté'}">{{data.status}}</span> </h3> 
+                    <div class="text-center">
+                        
+                        <p class="mb-2"><strong>Employé: </strong>{{getUserNom(data.utilisateurId)}}</p>
+                        <p class="mb-2"><strong>Date de la demande: </strong>{{data.date | date}}</p>
+                        <p class="mb-2"><strong>Description: </strong>{{data.description}}</p>
+                        <p class="mb-2" *ngIf="data.titre === 'Fiche de paie'"><strong>Motif: </strong>{{data.motif}}</p>
+                        <p class="mb-2" *ngIf="data.titre === 'Fiche de paie'"><strong>Date: </strong>{{data.mois | date: 'MM/yyyy'}}</p>
+                        <p class="mb-2" *ngIf="data.titre === 'Lettre de recommandation'"><strong>Destinataire: </strong>{{data.destinataire}}</p>
+                        <p class="mb-2" *ngIf="data.titre === 'Autorisation de sortie'"><strong>Date et Heure de sortie: </strong>{{data.dateSortie | date: 'dd/MM/yyyy HH:mm'}}</p>
+                    </div>
+                </div>
+           
+  </div>
+</body>

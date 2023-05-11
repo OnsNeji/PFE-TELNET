@@ -130,6 +130,11 @@
       <mat-cell *matCellDef="let convention">  {{convention.dateFin | date}} </mat-cell>
     </ng-container> 
 
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Statut</mat-header-cell>
+      <mat-cell *matCellDef="let convention"> <span [ngClass]="{'status-active': convention.status === 'Active', 'status-expiré': convention.status === 'Expiré'}">{{convention.status}}</span> </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="pieceJointe">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Piece Jointe</mat-header-cell>
       <mat-cell *matCellDef="let convention" (click)="downloadPDF(convention.pieceJointe, convention.titre)">
@@ -141,6 +146,7 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>User Ajout</mat-header-cell>
       <mat-cell *matCellDef="let convention">  {{convention.userAjout}} </mat-cell>
     </ng-container>
+
     <ng-container matColumnDef="action" *ngIf="role ==='Administrateur' || role ==='Gestionnaire'">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let row">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, Injector} from '@angular/core';
 import GLightbox from 'glightbox';
 import 'glightbox/dist/css/glightbox.min.css';
 import Swiper from 'swiper';
@@ -28,6 +28,8 @@ import { Router } from '@angular/router';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInformationComponent } from '../dialog-information/dialog-information.component';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthenticationService } from 'app/services/shared';
 
 
 @Component({
@@ -58,6 +60,8 @@ export class AccueilComponent implements OnInit {
   anniversaires!: Utilisateur[];
   id: number;
   type: string
+  private jwtHelper = new JwtHelperService();
+  authenticationService: AuthenticationService;
 
   constructor(private service: EvenementService, 
               private siteService: ApiService,
@@ -69,7 +73,10 @@ export class AccueilComponent implements OnInit {
               private convService: ConventionService,
               private MNService: MariageNaissanceService,
               private router: Router,
-              public dialog: MatDialog, ) {}
+              public dialog: MatDialog,
+              injector: Injector, ) {
+                this.authenticationService = injector.get<AuthenticationService>(AuthenticationService);
+              }
 
   ngOnInit(): void {
 
@@ -84,6 +91,13 @@ export class AccueilComponent implements OnInit {
     this.getAnniversaires();
     this.getMariageNaissances();
     this.getSites();
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      this.id = decodedToken.nameid;  
+      console.log(this.id);
+    }
   const select = (el, all = false) => {
     el = el.trim()
     if (all) {
@@ -290,6 +304,11 @@ new Swiper(".mySwipeeer", {
   });
   }
 
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/auth/login']);
+  }
+
   selectConvention(index: number): void {
     this.selectedConventionIndex = index;
   }
@@ -364,7 +383,7 @@ new Swiper(".mySwipeeer", {
   }
   
   getConventions(){
-    this.convService.GetConventions().subscribe(data => {
+    this.convService.GetConventionsActives().subscribe(data => {
       this.conventions = data;
     })
   }

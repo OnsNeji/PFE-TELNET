@@ -32,7 +32,7 @@ export class ConventionComponent implements OnInit {
 
 ListeConventions!: Convention[];
 convention: Convention = new Convention();
-displayedColumns: string[] = ['logo', 'titre', 'dateDebut', 'dateFin', 'pieceJointe', 'action'];
+displayedColumns: string[] = ['logo', 'titre', 'dateDebut', 'dateFin', 'status', 'pieceJointe', 'action'];
 dataSource!: MatTableDataSource<Convention>;
 lengthConventions: number;
 isLoading: boolean;

@@ -20,6 +20,10 @@ export class ConventionService {
   GetConvention(id: number):Observable<Convention>{
     return this.http.get<Convention>(`${this.baseUrl}Convention/${id}`);
   }
+
+  GetConventionsActives():Observable<Convention[]>{
+    return this.http.get<Convention[]>(`${this.baseUrl}Convention/active`);
+  }
   AddConvention(convention:Convention): Observable<Convention> {
     const url = `${this.baseUrl}Convention`;
     const conventionData = { ...convention, userAjout: convention.userAjout };

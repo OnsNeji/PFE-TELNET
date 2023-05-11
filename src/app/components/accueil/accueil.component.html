@@ -26,7 +26,12 @@
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
         <!-- .navbar -->
-        <a routerLink="/login" class="book-a-table-btn scrollto">S'identifier</a>
+        <ng-container *ngIf="!id">
+          <a routerLink="/login" class="book-a-table-btn scrollto" >S'identifier</a>
+      </ng-container>
+      <ng-container *ngIf="id">
+        <a (click)='logout()' class="book-a-table-btn scrollto" >Logout</a>
+    </ng-container>
       </div>
     </header>
     <!-- End Header -->

@@ -40,7 +40,6 @@ import {
   FileService, GroupsService, AuthenticationService, CoreDataService, MailService, SortService
 } from './services/shared';
 import { NumberFormatter } from './helpers';
-import { TestComponent } from './components/test/test.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SiteComponent } from './components/site/site.component';
 import { PosteComponent } from './components/poste/poste.component';
@@ -124,7 +123,6 @@ export const CUSTOM_DT_FORMATS = {
         AuthComponent,
         BreadcrumbsComponent,
         ExpirationSessionComponent,
-        TestComponent,
         ProfileComponent,
         SiteComponent,
         PosteComponent,

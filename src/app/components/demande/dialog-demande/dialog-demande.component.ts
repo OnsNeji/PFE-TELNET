@@ -46,14 +46,16 @@ export class DialogDemandeComponent implements OnInit {
         // id : [''],
         titre : ['', Validators.required],
         description : ['', Validators.required],
+        priorite : ['', Validators.required],
         utilisateurId : [''],
-        document : [''],
+        document : [],
         status: [''],
         date: [''],
         mois: [],
         motif: [''],
         destinataire: [''],
         dateSortie:[],
+        adminId : [],
         
       });
       this.getUtilisateurs();
@@ -86,7 +88,6 @@ export class DialogDemandeComponent implements OnInit {
           dateSortie.setDate(dateSortie.getDate() + 1);
           
           this.demandeForm.value.utilisateurId = this.id;
-
           const utilisateurId = parseInt(this.demandeForm.value.utilisateurId);
 
           const date= new Date();

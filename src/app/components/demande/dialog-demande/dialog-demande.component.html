@@ -29,6 +29,15 @@
                 <input formControlName="description" matInput class="login-input-style" [readonly]="editData">
               </mat-form-field>
 
+              <mat-form-field class="col-sm-6">
+                <mat-label>Priorité</mat-label>
+                <mat-select formControlName="priorite" class="login-input-style" [disabled]="editData">
+                  <mat-option value="Mineur">Mineur</mat-option>
+                  <mat-option value="Majeur">Majeur</mat-option>
+                  <mat-option value="Critique">Critique</mat-option>
+                </mat-select>
+              </mat-form-field>
+
               <mat-form-field class="date-field col-sm-6" *ngIf="afficherMois">
                 <input matInput [matDatepicker]="picker2200" formControlName="mois" class="login-input-style" placeholder="Mois"  [disabled]="editData">
                 <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
@@ -72,6 +81,13 @@
              <mat-form-field class="col-sm-6" hidden>
                 <mat-label>Employé</mat-label>
                 <mat-select formControlName="utilisateurId" class="login-input-style" disabled hidden> 
+                  <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.id">{{ utilisateur.nom }} {{utilisateur.prenom}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6" hidden>
+                <mat-label>Admin</mat-label>
+                <mat-select formControlName="adminId" class="login-input-style" disabled hidden> 
                   <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.id">{{ utilisateur.nom }} {{utilisateur.prenom}}</mat-option>
                 </mat-select>
               </mat-form-field>

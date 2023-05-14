@@ -17,6 +17,10 @@ export class DemandeService {
     return this.http.get<Demande[]>(`${this.baseUrl}Demande`);
   }
 
+  GetDemandesAdmin(): Observable<Demande[]> {
+    return this.http.get<Demande[]>(`${this.baseUrl}Demande/admin`);
+  }
+
   GetDemande(id: number): Observable<Demande> {
     return this.http.get<Demande>(`${this.baseUrl}Demande/${id}`);
   }
@@ -29,8 +33,17 @@ export class DemandeService {
   AddDemande(demande:Demande): Observable<Demande> {
     const url = `${this.baseUrl}Demande`;
     const date = new Date(); 
-    const demandeData = { ...demande, utilisateurId: demande.utilisateurId, date };
+    const demandeData = { ...demande, utilisateurId: demande.utilisateurId, date, adminId: null };
     return this.http.post<Demande>(url, demandeData);
+  }
+
+  CreateDemande(id: number): Observable<any> {
+    const url = `${this.baseUrl}Demande/new/${id}`;
+    return this.http.post(url, {});
+  }
+
+  PrisEnCharge(id: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}Demande/pris/${id}`, {});
   }
 
   UpdateDemande(id: number, demande: Demande): Observable<any> {

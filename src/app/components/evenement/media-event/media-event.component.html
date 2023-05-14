@@ -43,7 +43,7 @@
       <div class="col-sm-4">
         <button (click)="openDialog()" type="button" class="btn btn-sm btn-primary waves-light m-r-10 ripple"
           style="font-size:inherit;">
-          <em class="icofont icofont-plus"></em> Média Evénement
+          <em class="icofont icofont-plus"></em> Média
         </button>
       </div>
       <div class="col-sm-8">
@@ -76,7 +76,14 @@
     <ng-container matColumnDef="pieceJointe">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Image</mat-header-cell>
         <mat-cell *matCellDef="let mediaEvent">
-          <img [src]="mediaEvent.pieceJointe" style="width: 50px; height: 50px;">
+            <ng-container *ngIf="mediaEvent.pieceJointe.startsWith('data:image/')">
+            <img [src]="mediaEvent.pieceJointe" alt="..." style="width: 50px; height: 50px;">
+          </ng-container>
+          <ng-container *ngIf="mediaEvent.pieceJointe.startsWith('data:video/')">
+            <video controls style="width: 50px; height: 50px;">
+              <source [src]="mediaEvent.pieceJointe" type="video/mp4" >
+            </video>
+          </ng-container>
         </mat-cell>
       </ng-container>
 

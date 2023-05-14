@@ -43,85 +43,82 @@ role!: string;
 @ViewChild(MatSort) sort!: MatSort;
 
 ngOnInit(): void {
-this.getConventions();
-this.onResetAllFilters();
+  this.getConventions();
+  this.onResetAllFilters();
 
-this.userStore.getRoleFromStore().subscribe(val => {
-  const roleFromToken = this.authenticationService.getRoleFromToken();
-  this.role = val || roleFromToken;
-  if (this.role !== 'Administrateur' && this.role !== 'Gestionnaire') {
-    const actionIndex = this.displayedColumns.indexOf('action');
-    if (actionIndex !== -1) {
-      this.displayedColumns.splice(actionIndex, 1);
+  this.userStore.getRoleFromStore().subscribe(val => {
+    const roleFromToken = this.authenticationService.getRoleFromToken();
+    this.role = val || roleFromToken;
+    if (this.role !== 'Administrateur' && this.role !== 'Gestionnaire') {
+      const actionIndex = this.displayedColumns.indexOf('action');
+      if (actionIndex !== -1) {
+        this.displayedColumns.splice(actionIndex, 1);
+      }
     }
-  }
-});
+  });
 }
 
 openDialog() {
-const dialogRef = this.dialog.open(DialogConventionComponent, {
-});
+  const dialogRef = this.dialog.open(DialogConventionComponent, {});
 
-dialogRef.afterClosed().subscribe(result => {
-if(result === "ajouter"){
-this.getConventions();
-}
-});
+  dialogRef.afterClosed().subscribe(result => {
+    if(result === "ajouter"){
+      this.getConventions();
+    }
+  });
 }
 
 
 getConventions(){
-this.service.GetConventions().subscribe({
-next:(res)=>{
-this.dataSource = new MatTableDataSource(res);
-this.dataSource.paginator = this.paginator;
-this.dataSource.sort = this.sort;
-},
-error:()=>{
+  this.service.GetConventions().subscribe({
+    next:(res)=>{
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    },
+    error:()=>{
 
-}
-})
+    }
+  })
 }
 
 deleteConvention(id: number): void {
-swal.fire({
-text: `Are you sure to delete this Agreement ?`,
-icon: 'error',
-showCancelButton: true,
-confirmButtonColor: '#3085d6',
-cancelButtonColor: '#d33',
-confirmButtonText: 'Yes, delete it!',
-showLoaderOnConfirm: true,
-preConfirm: () => {
-this.service.DeleteConvention(id)
-.subscribe(()=>
-  {
-    this.getConventions();
-    this.notificationService.success('Agreement deleted successfully');
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-  },
-  () => {
-    this.notificationService.danger('Delete Agreement failed');
-  }
-);
-}
-});
+  swal.fire({
+    text: `Are you sure to delete this Agreement ?`,
+    icon: 'error',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    showLoaderOnConfirm: true,
+    preConfirm: () => {
+      this.service.DeleteConvention(id)
+      .subscribe(()=>
+        {
+          this.getConventions();
+          this.notificationService.success('Agreement deleted successfully');
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+        },
+        () => {
+          this.notificationService.danger('Delete Agreement failed');
+        }
+      );
+    }
+  });
 }
 
 onSortData(sort) {
-this.service.conventionRequest.next(sort);
+  this.service.conventionRequest.next(sort);
 }
 
 updateConvention(row: any) {
-this.dialog.open(DialogConventionComponent, {
-data: row,
-}).afterClosed().subscribe(result=>{
-if(result === "modifier"){
-this.getConventions();
-}
-})
+  this.dialog.open(DialogConventionComponent, {data: row}).afterClosed().subscribe(result=>{
+    if(result === "modifier"){
+      this.getConventions();
+    }
+  })
 }
 
 downloadPDF(pieceJointe: string, fileName: string) {
@@ -136,50 +133,50 @@ downloadPDF(pieceJointe: string, fileName: string) {
 }
 
 dateOnly(event): boolean {
-return this.dateTimeService.dateOnly(event);
+  return this.dateTimeService.dateOnly(event);
 }
 
 onClickingEnter(event) {
-if (event.key === 'Enter') {
-this.onSearchClick();
-}
+  if (event.key === 'Enter') {
+    this.onSearchClick();
+  }
 }
 
 onSearchClick() {
-const filterDateD = document.getElementById('dateDebut') as HTMLInputElement;
-const filterTitre = document.getElementById('titre') as HTMLInputElement;
-const filterDateF = document.getElementById('dateFin') as HTMLInputElement;
+  const filterDateD = document.getElementById('dateDebut') as HTMLInputElement;
+  const filterTitre = document.getElementById('titre') as HTMLInputElement;
+  const filterDateF = document.getElementById('dateFin') as HTMLInputElement;
 
-const filterTitreValue = filterTitre.value.trim().toLowerCase();
-const filterDateDValue = filterDateD.value.trim().toLowerCase();
-const filterDateFValue = filterDateF.value.trim().toLowerCase();
+  const filterTitreValue = filterTitre.value.trim().toLowerCase();
+  const filterDateDValue = filterDateD.value.trim().toLowerCase();
+  const filterDateFValue = filterDateF.value.trim().toLowerCase();
 
-if (filterTitreValue !== '') {
-this.dataSource.filterPredicate = (data: Convention, filter: string) =>
-data.titre.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-this.dataSource.filter = filterTitreValue;
-}else if (filterDateDValue !== '') {
-this.dataSource.filterPredicate = (data: Convention, filter: string) => {
-const formattedDate = new Date(data.dateDebut).toLocaleDateString(); // format the date as a string
-return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-};
-this.dataSource.filter = filterDateDValue;
-}else if (filterDateFValue !== '') {
-  this.dataSource.filterPredicate = (data: Convention, filter: string) => {
-  const formattedDate = new Date(data.dateFin).toLocaleDateString(); // format the date as a string
-  return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-  };
-  this.dataSource.filter = filterDateFValue;
+  if (filterTitreValue !== '') {
+    this.dataSource.filterPredicate = (data: Convention, filter: string) =>
+    data.titre.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterTitreValue;
+  } else if (filterDateDValue !== '') {
+      this.dataSource.filterPredicate = (data: Convention, filter: string) => {
+        const formattedDate = new Date(data.dateDebut).toLocaleDateString(); // format the date as a string
+        return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      };
+      this.dataSource.filter = filterDateDValue;
+  } else if (filterDateFValue !== '') {
+      this.dataSource.filterPredicate = (data: Convention, filter: string) => {
+        const formattedDate = new Date(data.dateFin).toLocaleDateString(); // format the date as a string
+        return formattedDate.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      };
+      this.dataSource.filter = filterDateFValue;
   }
 }
 
 onResetAllFilters() {
-this.convention.description = ''; // réinitialisation des filtres
-this.convention.titre = ''; 
-this.convention.dateDebut = null; 
-this.convention.dateFin = null; 
-this.getConventions();
-this.onSearchClick(); // lancement d'une nouvelle recherche
+  this.convention.description = ''; // réinitialisation des filtres
+  this.convention.titre = ''; 
+  this.convention.dateDebut = null; 
+  this.convention.dateFin = null; 
+  this.getConventions();
+  this.onSearchClick(); // lancement d'une nouvelle recherche
 }
 
 }

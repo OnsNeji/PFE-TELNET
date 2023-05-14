@@ -148,11 +148,6 @@
       <mat-cell *matCellDef="let user"> {{getDepNom(user.departementId)}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="dateModif">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Date modif.</mat-header-cell>
-      <mat-cell *matCellDef="let user"> {{user.dateModif | date}} </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="action" *ngIf="role ==='RH' || role ==='Gestionnaire'">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let row">

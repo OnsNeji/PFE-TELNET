@@ -45,7 +45,7 @@ export class DashComponent implements OnInit,AfterViewInit {
   HbarChartLabels: string[] = [];
 
   doughnutChartData = [{   data: [], 
-    backgroundColor: ['#1ba3dd', '#3f629d','#C9798E'],
+    backgroundColor: ['lightgreen', 'yellow','#FF2E2E'],
     label: 'Status',
   }];
   doughnutChartLabels: string[] = [];
@@ -59,7 +59,7 @@ export class DashComponent implements OnInit,AfterViewInit {
   lineChartLabels: string[] = [];
 
   roleChartData = [{   data: [], 
-    backgroundColor: ['gray', '#C9798E', '#3f629d','#1ba3dd'],
+    backgroundColor: ['gray','#3f629d', '#C9798E','#1ba3dd','#8FB2C9', '#5F7FAB', '#3F629D', '#C9798E', '#9F496E',  '#6B5C7E','gray',],
     label: 'Utilisateur par departement',
   }];
   roleChartLabels: string[] = [];

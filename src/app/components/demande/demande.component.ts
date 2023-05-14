@@ -18,6 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 import * as FileSaver from 'file-saver';
 import * as moment from 'moment';
 import { DemandeCardComponent } from './demande-card/demande-card.component';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-demande',
@@ -47,7 +48,7 @@ formTitle: string = '';
 buttonLabel: string = '';
 lengthDemandes: number;
 isLoading: boolean;
-displayedColumns: string[] = ['titre', 'utilisateurId', 'date', 'status', 'document', 'action'];
+displayedColumns: string[] = ['titre', 'utilisateurId', 'adminId', 'date', 'status', 'priorite', 'document', 'action'];
 dataSource!: MatTableDataSource<Demande>;
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
@@ -56,7 +57,9 @@ selectedUser: Utilisateur;
 public userFilterCtrl: FormControl = new FormControl();
 private _onDestroy = new Subject<void>();
 mesDemandes!: Demande[];
-  utilisateurId: number;
+utilisateurId: number;
+adminId: number;
+private jwtHelper = new JwtHelperService();
 id: number;
 excelService: ExcelService;
 
@@ -76,8 +79,7 @@ ngOnInit() : void{
       this.getDemandes();
     }
   });
-  // this.getDemandes();
-  // this.getDemandesByUtilisateur();
+
   this.getUtilisateurs();
   this.onResetAllFilters();
 
@@ -86,7 +88,10 @@ ngOnInit() : void{
   .subscribe(() => {
     this.filterUsers();
   });
-  
+
+
+
+
 }
 
 getDemandesByUtilisateur(id: number): void {
@@ -116,7 +121,7 @@ getDemandes() {
           this.dataSource.sort = this.sort;
       });
   } else {
-      this.service.GetDemandes().subscribe((data: Demande[]) => {
+      this.service.GetDemandesAdmin().subscribe((data: Demande[]) => {
           this.demandes = data;
           this.dataSource = new MatTableDataSource<Demande>(this.demandes);
           this.dataSource.paginator = this.paginator;
@@ -162,6 +167,36 @@ deleteDemande(id: number): void {
         );
     }
   });
+}
+
+CreateDemande(id: number): void {
+  this.service.CreateDemande(id).subscribe(() =>{
+    this.notificationService.success('Request added successfully !');
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  },
+  ()=>{
+    this.notificationService.danger('Error when making a request.');
+  });
+}
+
+PrisEnCharge(id: number):void {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    this.adminId = decodedToken.nameid;
+ 
+      this.service.PrisEnCharge(id).subscribe(() =>{
+      this.notificationService.success('Request taken in charge !');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    },
+    ()=>{
+      this.notificationService.danger('Error when taking a request.');
+    });
+  }
 }
 
 rejectDemande(id: number) : void{

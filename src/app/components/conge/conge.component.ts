@@ -109,25 +109,24 @@ export class CongeComponent implements OnInit {
 
   getConges() {
     if (this.id) {
-        this.service.GetCongésByUtilisateur(this.id).subscribe((data: Congé[]) => {
-            this.conges = data;
-            this.dataSource = new MatTableDataSource<Congé>(this.conges);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-        });
+      this.service.GetCongésByUtilisateur(this.id).subscribe((data: Congé[]) => {
+        this.conges = data;
+        this.dataSource = new MatTableDataSource<Congé>(this.conges);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
     } else {
-        this.service.GetCongés().subscribe((data: Congé[]) => {
-            this.conges = data;
-            this.dataSource = new MatTableDataSource<Congé>(this.conges);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-        });
+      this.service.GetCongés().subscribe((data: Congé[]) => {
+        this.conges = data;
+        this.dataSource = new MatTableDataSource<Congé>(this.conges);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
     }
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogCongeComponent, {
-    });
+    const dialogRef = this.dialog.open(DialogCongeComponent, {});
   
     dialogRef.afterClosed().subscribe(result => {
       if(result === "ajouter"){

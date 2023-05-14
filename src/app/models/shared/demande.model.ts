@@ -5,6 +5,7 @@ export class Demande {
     id: number =0;
     titre: string;
     description: string;
+    priorite: string;
     date: Date = new Date();
     status: string; 
     document: string;
@@ -14,4 +15,6 @@ export class Demande {
     dateSortie: Date = new Date();
     utilisateurId: number;
     utilisateurs: Utilisateur[] = [];
+    adminId: number;
+    admins: Utilisateur[] = [];
 }

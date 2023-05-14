@@ -28,7 +28,7 @@
   .mat-table {
   overflow: auto;
   border-radius: 4px;
-  max-height: calc(100vh - 392px);
+  max-height: calc(100vh - 200px);
   }
   
   .mat-row{
@@ -144,7 +144,7 @@
   width: 175px;
   }
 
-  .status-en-attente {
+  .status-draft {
     background-color: yellow;
     padding: 3%;
     border-radius: 15%;

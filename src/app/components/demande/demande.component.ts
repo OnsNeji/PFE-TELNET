@@ -376,10 +376,12 @@ onClickingEnter(event) {
 onSearchClick() {
   const filterTitre = document.getElementById('titre') as HTMLInputElement;
   const filterStatus = document.getElementById('status') as HTMLInputElement;
+  const filterPriorite = document.getElementById('priorite') as HTMLInputElement;
   const filterDate = document.getElementById('date') as HTMLInputElement;
 
   const filterTitreValue = filterTitre.value.trim().toLowerCase();
   const filterStatusValue = filterStatus.value.trim().toLowerCase();
+  const filterPrioriteValue = filterPriorite.value.trim().toLowerCase();
   const filterDateValue = filterDate.value.trim().toLowerCase();
   const filterUserValue = this.selectedUser ? (this.selectedUser.nom + ' ' + this.selectedUser.prenom).toLowerCase() : '';
 
@@ -395,6 +397,10 @@ onSearchClick() {
     this.dataSource.filterPredicate = (data: Demande, filter: string) =>
       data.status.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
     this.dataSource.filter = filterStatusValue;
+  }else if (filterPrioriteValue !== '') {
+    this.dataSource.filterPredicate = (data: Demande, filter: string) =>
+      data.priorite.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    this.dataSource.filter = filterPrioriteValue;
   }else if (filterDateValue !== '') {
       this.dataSource.filterPredicate = (data: Demande, filter: string) => {
         const formattedDate = new Date(data.date).toLocaleDateString(); // format the date as a string

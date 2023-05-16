@@ -10,11 +10,11 @@
       <div class="card-body p-t-10">
         <div class='row'>
 
-          <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
+          <div class="col-xl-4 col-lg-4" style="margin-right: 10%;">
             <mat-list>
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Titre</h3>
-                <mat-form-field class="search-input col-sm-8">
+                <mat-form-field class="search-input col-sm-12">
                   <input placeholder="Search here..." matInput name="searchInput" id="titre" [(ngModel)]="demande.titre"
                   (keydown)="onClickingEnter($event)" />
                 </mat-form-field>
@@ -22,12 +22,12 @@
             </mat-list>
           </div>
 
-            <div class="col-xl-4 col-lg-6" style="margin-right: -10%;">
+            <div class="col-xl-4 col-lg-4" style="margin-right: 10%;">
 
               <mat-list>
                 <mat-list-item>
                   <h3 class="mat-subheader col-sm-2">Date</h3>
-                  <mat-form-field class="date-field col-sm-8">
+                  <mat-form-field class="date-field col-sm-12">
                     <input placeholder="Search here..." matInput [matDatepicker]="picker11" id="date" name="searchInput"
                       (keypress)="dateOnly($event)" [(ngModel)]="demande.date" (keydown)="onClickingEnter($event)">
                     <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
@@ -37,48 +37,36 @@
               </mat-list>
             
           </div>
-
-          <!--<div class="col-xl-4 col-lg-6"  style="margin-right: -10%;">
-            <mat-list>
-              <mat-list-item>
-                <h3 class="mat-subheader col-sm-2">Util.</h3>
-                <mat-form-field class="search-input col-sm-8">
-                  <mat-select placeholder="Select a site" [(ngModel)]="selectedUser" (selectionChange)="onSearchClick()">
-                    <mat-option>
-                      <ngx-mat-select-search  [placeholderLabel]="'Search'" aria-label="Recherche" matInput [formControl]="userFilterCtrl"
-                        [noEntriesFoundLabel]="'No options found'">
-                        <mat-icon ngxMatSelectSearchClear>close</mat-icon>
-                      </ngx-mat-select-search>
-                    </mat-option>
-                    <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur">{{utilisateur.nom}} {{utilisateur.prenom}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </mat-list-item>
-            </mat-list>
-          </div>-->
           
-          <div class="col-xl-4 col-lg-6">
+          <div class="col-xl-4 col-lg-4" style="margin-right: 10%;">
             <mat-list>
               <mat-list-item>
                 <h3 class="mat-subheader col-sm-2">Stat.</h3>
-                <mat-form-field class="search-input col-sm-8">
+                <mat-form-field class="search-input col-sm-12">
                   <input placeholder="Search here..." matInput name="searchInput" id="status" [(ngModel)]="demande.status"
                   (keydown)="onClickingEnter($event)" />
                 </mat-form-field>
               </mat-list-item>
             </mat-list>
           </div>
-      
-          <div class="col-xl-1 col-lg-6">
-            <div class="text-center">
-              <button class="btn btn-md btn-default ripple light m-t-10" (click)="onResetAllFilters()">Reset</button>
-            </div>
-          </div>
 
-          <div class="col-xl-1 col-lg-6">
-            <div class="text-center">
-              <button (click)="onSearchClick()" class="btn btn-md btn-primary ripple light m-t-5">Search</button>
-              
+          <div class="col-xl-4 col-lg-4">
+            <mat-list>
+              <mat-list-item>
+                <h3 class="mat-subheader col-sm-2">Prior.</h3>
+                <mat-form-field class="search-input col-sm-12">
+                  <input placeholder="Search here..." matInput name="searchInput" id="priorite" [(ngModel)]="demande.priorite"
+                  (keydown)="onClickingEnter($event)" />
+                </mat-form-field>
+              </mat-list-item>
+            </mat-list>
+          </div>
+      
+          <div class="col-xl-1 col-lg-6" style="margin-left: 10%; margin-top: -4%;" >
+            <div class="text-center" >
+
+              <button (click)="onSearchClick()"  class="btn btn-md btn-primary ripple light m-t-5">Search</button>
+              <button class="btn btn-md btn-default ripple light m-t-10" (click)="onResetAllFilters()">Reset</button>
             </div>
           </div>
         </div>

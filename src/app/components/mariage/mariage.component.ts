@@ -36,7 +36,7 @@ export class MariageComponent implements OnInit {
   MariageNaissances!: MariageNaissance[];
   MariageNaissance: MariageNaissance = new MariageNaissance();
   utilisateurs! : Utilisateur[];
-  displayedColumns: string[] = ['utilisateurId', 'titre', 'messageVoeux','date', 'userAjout', 'action'];
+  displayedColumns: string[] = ['utilisateurId', 'titre', 'messageVoeux','date', 'action'];
   dataSource!: MatTableDataSource<MariageNaissance>;
   lengthMN: number;
   isLoading: boolean;

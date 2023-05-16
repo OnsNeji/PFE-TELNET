@@ -33,7 +33,6 @@ export class DialogCongeComponent implements OnInit {
   pdfUrlD: string; 
   pdfUrlJ: string;
   sexe: string; 
-  idd: string;
 
   constructor(private builder: FormBuilder, 
     private service: ApiService, 

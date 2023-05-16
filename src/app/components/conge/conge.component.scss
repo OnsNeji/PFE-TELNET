@@ -35,6 +35,13 @@
     padding: 25px 0;
   }
   
+  .mat-cell,
+  .mat-header-cell {
+    display: flex;
+    justify-content: center;
+  }
+  
+  
   .mat-elevation-z8{
   width: 98%;
   margin-left: 1%;
@@ -145,7 +152,7 @@
   }
 
   .status-en-attente {
-    background-color: yellow;
+    background-color: #FFF9C4;
     padding: 3%;
     border-radius: 15%;
     width: 55%;
@@ -154,7 +161,7 @@
   }
   
   .status-approuve {
-    background-color: lightgreen;
+    background-color: #C8E6C9;
     padding: 3%;
     border-radius: 15%;
     width: 55%;
@@ -163,7 +170,7 @@
   }
   
   .status-rejete {
-    background-color: #FF2E2E;
+    background-color: #F44336;
     padding: 3%;
     border-radius: 15%;
     width: 55%;

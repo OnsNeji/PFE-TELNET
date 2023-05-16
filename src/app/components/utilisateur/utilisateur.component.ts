@@ -49,7 +49,7 @@ export class UtilisateurComponent implements OnInit {
   selectedDep: Departement;
   role!: string;
 
-  displayedColumns: string[] = ['image', 'nom && prenom', 'matricule', 'email', 'dateEmbauche', 'departementId', 'action'];
+  displayedColumns: string[] = ['image', 'nom && prenom', 'matricule', 'email', 'dateEmbauche', 'departementId', 'role', 'action'];
   dataSource!: MatTableDataSource<Utilisateur>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

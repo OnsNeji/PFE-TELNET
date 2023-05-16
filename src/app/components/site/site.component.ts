@@ -37,7 +37,7 @@ export class SiteComponent implements OnInit {
   refreshSubscription: Subscription;
   subscription: Subscription;
   isLoading: boolean;
-  displayedColumns: string[] = ['site', 'adresse', 'tel', 'fax', 'userAjout', 'action'];
+  displayedColumns: string[] = ['site', 'adresse', 'tel', 'fax', 'action'];
   dataSource!: MatTableDataSource<Site>;
   Site='';
   Adresse='';

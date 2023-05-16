@@ -34,6 +34,12 @@ max-height: calc(100vh - 200px);
 .mat-row{
   padding: 25px 0;
 }
+.mat-cell,
+.mat-header-cell {
+  display: flex;
+  justify-content: center;
+}
+  
 
 .mat-elevation-z8{
 width: 98%;

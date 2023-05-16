@@ -32,7 +32,7 @@ export class EvenementComponent implements OnInit {
   ListeEvents!: Evenement[];
   evenement: Evenement = new Evenement();
   mediaEvent : MediaEvent = new MediaEvent();
-  displayedColumns: string[] = ['categorie', 'titre', 'description', 'dateEvent', 'mediaEvents', 'userAjout', 'action'];
+  displayedColumns: string[] = ['categorie', 'titre', 'description', 'dateEvent', 'mediaEvents', 'action'];
   dataSource!: MatTableDataSource<Evenement>;
   lengthEvents: number;
   isLoading: boolean;

@@ -132,11 +132,6 @@
       <mat-cell *matCellDef="let MariageNaissance">  {{MariageNaissance.date | date}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="userAjout">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Ajouté par</mat-header-cell>
-      <mat-cell *matCellDef="let MariageNaissance">  {{MariageNaissance.userAjout}} </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="action" *ngIf="role ==='RH' || role ==='Gestionnaire'">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let row">

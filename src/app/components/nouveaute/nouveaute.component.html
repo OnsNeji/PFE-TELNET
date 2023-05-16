@@ -131,13 +131,6 @@
       <mat-cell *matCellDef="let nouveaute">  {{nouveaute.datePublication | date}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="userAjout" class=" table-hover table-striped table-styling">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Ajouté par</mat-header-cell>
-      <mat-cell *matCellDef="let nouveaute">
-        {{nouveaute.userAjout}}
-      </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="siteId">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Site</mat-header-cell>
       <mat-cell *matCellDef="let nouveaute"> {{getSiteNom(nouveaute.siteId)}} </mat-cell>

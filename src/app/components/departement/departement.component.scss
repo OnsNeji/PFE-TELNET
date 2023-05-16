@@ -31,6 +31,12 @@ border-radius: 4px;
 max-height: calc(100vh - 200px);
 }
 
+.mat-cell,
+.mat-header-cell {
+  display: flex;
+  justify-content: center;
+}
+  
 .mat-row{
   padding: 25px 0;
 }

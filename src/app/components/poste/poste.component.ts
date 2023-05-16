@@ -43,7 +43,7 @@ export class PosteComponent implements OnInit {
   lengthPostes: number;
   listView = false;
   isLoading: boolean;
-  displayedColumns: string[] = ['numéro', 'utilisateurId', 'siteId', 'etage', 'dateModif', 'action'];
+  displayedColumns: string[] = ['numéro', 'utilisateurId', 'siteId', 'etage', 'action'];
   dataSource!: MatTableDataSource<Poste>;
   numéro='';
   utilisateurId='';

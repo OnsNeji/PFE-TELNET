@@ -34,6 +34,12 @@
   .mat-row{
     padding: 25px 0;
   }
+
+  .mat-cell,
+.mat-header-cell {
+  display: flex;
+  justify-content: center;
+}
   
   .mat-elevation-z8{
   width: 98%;
@@ -145,28 +151,63 @@
   }
 
   .status-draft {
-    background-color: yellow;
+    background-color: #F0F0F0;
     padding: 3%;
     border-radius: 15%;
-    width: 45%;
+    width: 55%;
     text-align: center;
     font-weight: bold;
   }
   
-  .status-approuve {
-    background-color: lightgreen;
+  .status-emis {
+    background-color: #B3E5FC;
     padding: 3%;
     border-radius: 15%;
-    width: 45%;
+    width: 55%;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .status-pris {
+    background-color: #FFF9C4;
+    padding: 3%;
+    border-radius: 15%;
+    width: 55%;
+    text-align: center;
+    font-weight: bold;
+  }
+  .status-resolu {
+    background-color: #C8E6C9;
+    padding: 3%;
+    border-radius: 15%;
+    width: 55%;
     text-align: center;
     font-weight: bold;
   }
   
   .status-rejete {
-    background-color: #FF2E2E;
+    background-color: #F44336;
     padding: 3%;
     border-radius: 15%;
-    width: 45%;
+    width: 55%;
     text-align: center;
     font-weight: bold;
   }
+  
+  .status-reouvert {
+    background-color: #FFCC80;
+    padding: 3%;
+    border-radius: 15%;
+    width: 55%;
+    text-align: center;
+    font-weight: bold;
+  }
+  .status-cloture {
+    background-color: #9E9E9E;
+    padding: 3%;
+    border-radius: 15%;
+    width: 55%;
+    text-align: center;
+    font-weight: bold;
+  }
+  

@@ -25,6 +25,10 @@ export class DemandeService {
     return this.http.get<Demande>(`${this.baseUrl}Demande/${id}`);
   }
 
+  GetDemandeUser(id: number, userId:number): Observable<Demande> {
+    return this.http.get<Demande>(`${this.baseUrl}Demande/${id}/${userId}`);
+  }
+
   GetDemandesByUtilisateur(id: number): Observable<Demande[]> {
     const url = `${this.baseUrl}Demande/DemandeParUtilisateur/${id}`;
     return this.http.get<Demande[]>(url);
@@ -42,8 +46,8 @@ export class DemandeService {
     return this.http.post(url, {});
   }
 
-  PrisEnCharge(id: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}Demande/pris/${id}`, {});
+  PrisEnCharge(id: number, adminId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}Demande/pris/${id}/${adminId}`, null);
   }
 
   UpdateDemande(id: number, demande: Demande): Observable<any> {
@@ -57,6 +61,17 @@ export class DemandeService {
     return this.http.put(url, null);
   }
 
+  CloturerDemande(id: number): Observable<any> {
+    const url = `${this.baseUrl}Demande/cloturer/${id}`;
+    return this.http.post(url, {});
+  }
+
+
+  ReouvrirDemande(id: number, demande: Demande): Observable<any> {
+    const url = `${this.baseUrl}Demande/reouvrir/${id}`;
+    const demandeData = { ...demande, id: id,}; // inclure l'ID dans le corps de la requête
+    return this.http.put<any>(url, demandeData);
+  }
   DeleteDemande(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}Demande/${id}`);
   }

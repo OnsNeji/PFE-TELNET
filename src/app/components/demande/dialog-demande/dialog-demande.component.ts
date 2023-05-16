@@ -27,11 +27,22 @@ export class DialogDemandeComponent implements OnInit {
   public userFilterCtrl: FormControl = new FormControl();
   private _onDestroy = new Subject<void>();
   filteredUsers: Utilisateur[];
-  pdfUrl: string; 
-  afficherMois: boolean;
-  afficherMotif: boolean;
+  pdfUrlJ: string; 
+  pdfUrlD: string; 
+  afficherMoisFiche: boolean;
+  afficherMoisCert: boolean;
+  afficherMotifFiche: boolean;
+  afficherMotifCert: boolean;
+  afficherMotifAttest: boolean;
   afficherDestinataire: boolean;
   afficherDateSortie: boolean;
+  afficherTypeAss: boolean;
+  afficherTypeCert: boolean;
+  afficherTypeAttest: boolean;
+  afficherDateDebut: boolean;
+  afficherDateFin: boolean;
+  afficherJustificatif: boolean;
+  afficherPolice: boolean;
 
   constructor(private builder: FormBuilder, 
     private service: ApiService, 
@@ -56,14 +67,17 @@ export class DialogDemandeComponent implements OnInit {
         destinataire: [''],
         dateSortie:[],
         adminId : [],
+        dateDebut:[],
+        dateFin:[],
+        type:[''],
+        justificatif:[''],
+        police:[''],
         
       });
       this.getUtilisateurs();
 
-      console.log(this.editData)
-      if(this.editData){
+      if(this.editData ){
         this.ActionBtn = "Modifier";
-        // this.departementForm.patchValue(this.editData);
         this.demandeForm.patchValue(this.editData);
       }
   
@@ -78,7 +92,8 @@ export class DialogDemandeComponent implements OnInit {
     AjouterDemande(){
       if(!this.editData){
         
-        this.demandeForm.value.document = this.pdfUrl;
+        this.demandeForm.value.document = this.pdfUrlJ;
+        this.demandeForm.value.document = this.pdfUrlD;
         console.log(this.demandeForm.valid)
         if(this.demandeForm.valid){
           const mois = new Date(this.demandeForm.value.mois);
@@ -86,12 +101,18 @@ export class DialogDemandeComponent implements OnInit {
           const dateSortie = new Date(this.demandeForm.value.dateSortie);
           dateSortie.setHours(dateSortie.getHours() + 1);
           dateSortie.setDate(dateSortie.getDate() + 1);
+
+          const dateDebut = new Date(this.demandeForm.value.dateDebut);
+          mois.setDate(dateDebut.getDate() + 1);
+
+          const dateFin = new Date(this.demandeForm.value.dateFin);
+          mois.setDate(dateFin.getDate() + 1);
           
           this.demandeForm.value.utilisateurId = this.id;
           const utilisateurId = parseInt(this.demandeForm.value.utilisateurId);
 
           const date= new Date();
-          this.demandeService.AddDemande({ ...this.demandeForm.value, utilisateurId, date, mois, dateSortie }).subscribe(()=>{
+          this.demandeService.AddDemande({ ...this.demandeForm.value, utilisateurId, date, mois, dateDebut, dateFin, dateSortie }).subscribe(()=>{
             this.demandeForm.reset();
             this.dialogRef.close('ajouter');
             this.notificationService.success('Request added successfully !');
@@ -107,10 +128,16 @@ export class DialogDemandeComponent implements OnInit {
     }
   
     updateDemande(){
-      if (!this.pdfUrl) {
+      if (!this.pdfUrlJ) {
+        this.demandeForm.value.justificatif = this.editData.justificatif;
+      } else {
+        this.demandeForm.value.justificatif = this.pdfUrlJ;
+      }
+
+      if (!this.pdfUrlD) {
         this.demandeForm.value.document = this.editData.document;
       } else {
-        this.demandeForm.value.document = this.pdfUrl;
+        this.demandeForm.value.document = this.pdfUrlD;
       }
   
       if (this.demandeForm.valid) {
@@ -118,6 +145,9 @@ export class DialogDemandeComponent implements OnInit {
         this.demandeForm.reset();
         this.dialogRef.close('modifier');
         this.notificationService.success('Request approuved successfully !');
+        setTimeout(() => {
+          window.location.reload();
+        },);
       },
       ()=>{
         this.notificationService.danger('Error when approuving a request.');
@@ -127,17 +157,36 @@ export class DialogDemandeComponent implements OnInit {
 
     onTitreChange(event: any) {
       const titre = event.value;
-      this.afficherMois = titre === 'Fiche de paie';
-      this.afficherMotif = titre === 'Fiche de paie';
+      this.afficherMoisFiche = titre === 'Fiche de paie';
+      this.afficherMoisCert = titre === "Certificat d'impôts";
+      this.afficherMotifFiche = titre === 'Fiche de paie';
+      this.afficherMotifCert = titre === "Certificat d'impôts";
+      this.afficherMotifAttest = titre === "Attestation de travail";
       this.afficherDestinataire = titre === 'Lettre de recommandation';
       this.afficherDateSortie = titre === 'Autorisation de sortie';
+      this.afficherDateDebut = titre === 'Attestation de salaire';
+      this.afficherDateFin = titre === 'Attestation de salaire';
+      this.afficherJustificatif = titre === 'Assurance';
+      this.afficherPolice = titre === 'Assurance';
+      this.afficherTypeAss = titre === 'Assurance';
+      this.afficherTypeCert = titre === "Certificat d'impôts";
+      this.afficherTypeAttest = titre === "Attestation de travail";
     }
     
-  onPDFSelected(event: any): void {
+  onPDFJSelected(event: any): void {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      this.pdfUrl = reader.result as string;
+      this.pdfUrlJ = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  onPDFDSelected(event: any): void {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.pdfUrlD = reader.result as string;
     };
     reader.readAsDataURL(file);
   }

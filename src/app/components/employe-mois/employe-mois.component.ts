@@ -35,7 +35,7 @@ export class EmployeMoisComponent implements OnInit {
   ListeEmployes!: EmployéMois[];
   employeMois: EmployéMois = new EmployéMois();
   utilisateurs! : Utilisateur[];
-  displayedColumns: string[] = ['image', 'utilisateurId', 'description', 'date', 'userAjout', 'action'];
+  displayedColumns: string[] = ['image', 'utilisateurId', 'description', 'date', 'action'];
   dataSource!: MatTableDataSource<EmployéMois>;
   lengthEmployes: number;
   isLoading: boolean;

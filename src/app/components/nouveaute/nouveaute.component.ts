@@ -39,7 +39,7 @@ export class NouveauteComponent implements OnInit {
   buttonLabel: string = '';
   lengthNouv: number;
   isLoading: boolean;
-  displayedColumns: string[] = ['pieceJointe', 'titre', 'description', 'datePublication', 'userAjout', 'siteId', 'action'];
+  displayedColumns: string[] = ['pieceJointe', 'titre', 'description', 'datePublication', 'siteId', 'action'];
   dataSource!: MatTableDataSource<Nouveauté>;
   siteId=0;
   selectedSite: Site;

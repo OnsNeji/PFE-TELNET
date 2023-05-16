@@ -114,11 +114,6 @@
       <mat-cell *matCellDef="let poste">  {{poste.etage}}  </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="dateModif">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Date Modifcation</mat-header-cell>
-      <mat-cell *matCellDef="let poste">  {{poste.dateModif | date}} </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="action" *ngIf="role ==='RH' || role ==='Gestionnaire'">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let row">

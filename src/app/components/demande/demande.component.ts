@@ -19,6 +19,7 @@ import * as FileSaver from 'file-saver';
 import * as moment from 'moment';
 import { DemandeCardComponent } from './demande-card/demande-card.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ReopenDemandeComponent } from './reopen-demande/reopen-demande.component';
 
 @Component({
   selector: 'app-demande',
@@ -48,7 +49,7 @@ formTitle: string = '';
 buttonLabel: string = '';
 lengthDemandes: number;
 isLoading: boolean;
-displayedColumns: string[] = ['titre', 'utilisateurId', 'adminId', 'date', 'status', 'priorite', 'document', 'action'];
+displayedColumns: string[] = ['titre', 'utilisateurId', 'adminId', 'date', 'priorite', 'status', 'document', 'action'];
 dataSource!: MatTableDataSource<Demande>;
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
@@ -62,6 +63,7 @@ adminId: number;
 private jwtHelper = new JwtHelperService();
 id: number;
 excelService: ExcelService;
+reouvert: boolean;
 
 ngOnInit() : void{
   this.route.params.subscribe(params => {
@@ -80,6 +82,8 @@ ngOnInit() : void{
     }
   });
 
+ 
+
   this.getUtilisateurs();
   this.onResetAllFilters();
 
@@ -88,9 +92,6 @@ ngOnInit() : void{
   .subscribe(() => {
     this.filterUsers();
   });
-
-
-
 
 }
 
@@ -116,16 +117,20 @@ getDemandes() {
   if (this.id) {
       this.service.GetDemandesByUtilisateur(this.id).subscribe((data: Demande[]) => {
           this.demandes = data;
+          this.demandes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
           this.dataSource = new MatTableDataSource<Demande>(this.demandes);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
       });
   } else {
       this.service.GetDemandesAdmin().subscribe((data: Demande[]) => {
           this.demandes = data;
+          this.demandes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
           this.dataSource = new MatTableDataSource<Demande>(this.demandes);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
       });
   }
 }
@@ -169,7 +174,7 @@ deleteDemande(id: number): void {
   });
 }
 
-CreateDemande(id: number): void {
+EmettreDemande(id: number): void {
   this.service.CreateDemande(id).subscribe(() =>{
     this.notificationService.success('Request added successfully !');
     setTimeout(() => {
@@ -181,21 +186,21 @@ CreateDemande(id: number): void {
   });
 }
 
-PrisEnCharge(id: number):void {
+PrisEnCharge(id: number): void {
   const token = localStorage.getItem('token');
   if (token) {
     const decodedToken = this.jwtHelper.decodeToken(token);
-    this.adminId = decodedToken.nameid;
- 
-      this.service.PrisEnCharge(id).subscribe(() =>{
+    const adminId = decodedToken.nameid;
+    console.log('adminId:', adminId);
+    this.service.PrisEnCharge(id, adminId).subscribe(() => {
       this.notificationService.success('Request taken in charge !');
       setTimeout(() => {
         window.location.reload();
       }, 500);
     },
-    ()=>{
-      this.notificationService.danger('Error when taking a request.');
-    });
+      () => {
+        this.notificationService.danger('Error when taking a request.');
+      });
   }
 }
 
@@ -228,6 +233,29 @@ rejectDemande(id: number) : void{
         );
     }
   });
+}
+
+CloturerDemande(id: number): void {
+  this.service.CloturerDemande(id).subscribe(() =>{
+    this.notificationService.success('request closed successfully !');
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  },
+  ()=>{
+    this.notificationService.danger('Error when closing a request.');
+  });
+}
+
+ReouvrirDemande(row: any) {
+  this.dialog.open(ReopenDemandeComponent, {
+    data: row,
+   
+  }).afterClosed().subscribe(result=>{
+    if(result === "Réouvrir"){
+      this.getDemandes();
+    }
+  })
 }
 
 downloadPDF(pieceJointe: string, fileName: string) {

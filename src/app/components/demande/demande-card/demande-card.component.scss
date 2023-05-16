@@ -12,6 +12,7 @@ body {
 
 .row{
 	width: 500px;
+
 }
 
 .banner {
@@ -45,21 +46,43 @@ body {
       color: gainsboro;
     }
   }
-
-  .status-en-attente {
-    color: yellow;
+  
+  .status-draft {
+    color: #F0F0F0;
     font-size: 65%;
     text-align: center;
   }
   
-  .status-approuve {
-    color: lightgreen;
+  .status-emis {
+    color: #B3E5FC;
+    font-size: 65%;
+    text-align: center;
+  }
+  
+  .status-pris {
+    color: #FFF9C4;
+    font-size: 65%;
+    text-align: center;
+  }
+  .status-resolu {
+    color: #C8E6C9;
     font-size: 65%;
     text-align: center;
   }
   
   .status-rejete {
-    color: #FF2E2E;
+    color: #F44336;
+    font-size: 65%;
+    text-align: center;
+  }
+  
+  .status-reouvert {
+    color: #FFCC80;
+    font-size: 65%;
+    text-align: center;
+  }
+  .status-cloture {
+    color: #9E9E9E;
     font-size: 65%;
     text-align: center;
   }

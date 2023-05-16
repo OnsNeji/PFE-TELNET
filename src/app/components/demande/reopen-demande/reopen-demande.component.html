@@ -1,0 +1,117 @@
+<div class="modal_header">
+    <div class="modal_title">
+        <span>
+            Demande d'un document
+        </span>
+        <span>
+            <em class="material-icons modal-close" (click)="close()">close</em>
+        </span>
+    </div>
+  </div>
+  <div class="modal_body">
+    <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
+      <form [formGroup]="reopenForm">
+        
+        <div class="row m-b-6">
+
+            <mat-form-field class="col-sm-6">
+                <mat-label>Titre</mat-label>
+                <mat-select formControlName="titre" class="login-input-style" [disabled]="reouvert">
+                  <mat-option value="Attestation de travail">Attestation de travail</mat-option>
+                  <mat-option value="Fiche de paie">Fiche de paie</mat-option>
+                  <mat-option value="Autorisation de sortie">Autorisation de sortie</mat-option>
+                  <mat-option value="Lettre de recommandation">Lettre de recommandation</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6">
+                <mat-label>Priorité</mat-label>
+                <mat-select formControlName="priorite" class="login-input-style"  [disabled]="reouvert">
+                  <mat-option value="Mineur">Mineur</mat-option>
+                  <mat-option value="Majeur">Majeur</mat-option>
+                  <mat-option value="Critique">Critique</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-12">
+                <mat-label>Description</mat-label>
+                <input formControlName="description" matInput class="login-input-style">
+              </mat-form-field>
+
+              <mat-form-field class="date-field col-sm-6" *ngIf="afficherMois">
+                <input matInput [matDatepicker]="picker2200" formControlName="mois" class="login-input-style" placeholder="Mois" >
+                <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
+                <mat-datepicker #picker2200></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6" *ngIf="afficherMotif">
+                <mat-label>Motif</mat-label>
+                <mat-select formControlName="motif" class="login-input-style">
+                  <mat-option value="Demande de crédit">Demande de crédit</mat-option>
+                  <mat-option value="Demande de visa">Demande de visa</mat-option>
+                  <mat-option value="Demande de carte de crédit">Demande de carte de crédit</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-12" *ngIf="afficherDestinataire">
+                <mat-label>Destinataire</mat-label>
+                <input formControlName="destinataire" matInput class="login-input-style" >
+              </mat-form-field>
+
+              <mat-form-field class="date-field col-sm-12" *ngIf="afficherDateSortie">
+                <input matInput [matDatetimepicker]="picker2300" formControlName="dateSortie" class="login-input-style" placeholder="Date et heure de sortie">
+                <mat-datepicker-toggle matSuffix [for]="picker2300"></mat-datepicker-toggle>
+                <mat-datetimepicker #picker2300></mat-datetimepicker>
+              </mat-form-field>
+              
+              <div class="col-sm-6" hidden>
+                <mat-label>Document</mat-label><br>
+                <input type="file" formControlName="document"
+                name="pdf" accept=".pdf" class="login-input-style"disabled hidden >
+             </div>
+
+             <mat-form-field class="col-sm-6" hidden>
+                <mat-label>Employé</mat-label>
+                <mat-select formControlName="utilisateurId" class="login-input-style" disabled hidden> 
+                  <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.id">{{ utilisateur.nom }} {{utilisateur.prenom}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6" hidden>
+                <mat-label>Admin</mat-label>
+                <mat-select formControlName="adminId" class="login-input-style" disabled hidden> 
+                  <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.id">{{ utilisateur.nom }} {{utilisateur.prenom}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+             <mat-form-field class="col-sm-6" hidden>
+                <mat-label>Status</mat-label>
+                <input matInput formControlName="status" class="login-input-style" disabled hidden>
+              </mat-form-field>
+  
+            <mat-form-field class="col-sm-6" hidden>
+              <mat-label>Date</mat-label>
+              <input matInput formControlName="date" class="login-input-style" disabled hidden>
+            </mat-form-field>
+          </div>
+  
+          
+        <div class="row m-t-20">
+          <div class="col-lg-12">
+              <div class="row f-right">
+                  <div class="col-lg-12">
+                      <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+                      &nbsp; &nbsp;
+                      <button type="submit" class="btn btn-primary ripple light btn-md" (click)="reouvrirDemande()">
+                          Save
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+        
+      </form>
+
+    </div>
+  </div>
+  

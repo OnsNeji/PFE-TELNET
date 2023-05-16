@@ -17,4 +17,9 @@ export class Demande {
     utilisateurs: Utilisateur[] = [];
     adminId: number;
     admins: Utilisateur[] = [];
+    type: string; 
+    dateDebut: Date = new Date();
+    dateFin: Date = new Date();
+    justificatif: string; 
+    police: string; 
 }

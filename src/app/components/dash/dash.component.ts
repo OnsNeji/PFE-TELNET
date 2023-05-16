@@ -18,6 +18,7 @@ import Chart from 'chart.js/auto';
   templateUrl: './dash.component.html',
   styleUrls: ['./dash.component.scss']
 })
+
 export class DashComponent implements OnInit,AfterViewInit {
 
   totalDemandes: number;
@@ -31,27 +32,27 @@ export class DashComponent implements OnInit,AfterViewInit {
   barChartData = [{ 
     data: [], 
     label: 'Nombre de conventions ( / Mois)',
-    backgroundColor: ['gray','#3f629d', '#C9798E','#1ba3dd','#8FB2C9', '#5F7FAB', '#3F629D', '#C9798E', '#9F496E',  '#6B5C7E','gray',  ],  // set different colors for each bar in the chart
-    borderWidth: 1 // set border width for the bars }];
+    backgroundColor:  ['#F44336', '#FF6036', '#FF8436', '#FFB736', '#FFCC80', '#FFF480', '#FFF9C4', '#C8E6C9', '#C8FFC9', '#C8FFEE', '#B3E5FC', '#DDE5FC', '#F4E5FC', '#FFE5FC', '#FFE6E6'],
+    borderWidth: 1 
   }];
   barChartLabels: string[] = [];  
 
   HbarChartData = [{ 
     data: [], 
     label: 'Durée restante de la convention ( / jours)',
-    backgroundColor:  ['gray','#3f629d', '#C9798E','#1ba3dd','#8FB2C9', '#5F7FAB', '#3F629D', '#C9798E', '#9F496E',  '#6B5C7E','gray',  ],    // set different colors for each bar in the chart
-    borderWidth: 1 // set border width for the bars }];
+    backgroundColor: ['#FFE6E6', '#FFE5FC', '#F4E5FC', '#DDE5FC', '#B3E5FC', '#C8FFEE', '#C8FFC9', '#C8E6C9', '#FFF9C4', '#FFF480', '#FFCC80', '#FFB736', '#FF8436', '#FF6036', '#F44336', '#9E9E9E'],
+    borderWidth: 1 
   }];
   HbarChartLabels: string[] = [];
 
   doughnutChartData = [{   data: [], 
-    backgroundColor: ['lightgreen', 'yellow','#FF2E2E'],
+    backgroundColor:  ['#9E9E9E','#B3E5FC', '#FFF9C4', '#F44336', '#FFCC80', '#C8E6C9'],
     label: 'Status',
   }];
   doughnutChartLabels: string[] = [];
 
   lineChartData = [{   data: [], 
-    backgroundColor: ['gray','#3f629d', '#C9798E','#1ba3dd','#8FB2C9', '#5F7FAB', '#3F629D', '#C9798E', '#9F496E',  '#6B5C7E','gray',  ],
+    backgroundColor: ['#F44336', '#FFCC80', '#FFF9C4', '#FFF480', '#C8E6C9', '#C8FFEE', '#B3E5FC', '#DDE5FC'  ],
     tension: 0.5,
     fill: false,
     label: 'Demandes par documents',
@@ -59,7 +60,7 @@ export class DashComponent implements OnInit,AfterViewInit {
   lineChartLabels: string[] = [];
 
   roleChartData = [{   data: [], 
-    backgroundColor: ['gray','#3f629d', '#C9798E','#1ba3dd','#8FB2C9', '#5F7FAB', '#3F629D', '#C9798E', '#9F496E',  '#6B5C7E','gray',],
+    backgroundColor: ['#FFE6E6', '#FFE5FC', '#F4E5FC', '#DDE5FC', '#B3E5FC', '#C8FFEE', '#C8FFC9', '#C8E6C9', '#FFF9C4', '#FFF480', '#FFCC80', '#FFB736', '#FF8436', '#FF6036', '#F44336', '#9E9E9E'],
     label: 'Utilisateur par departement',
   }];
   roleChartLabels: string[] = [];
@@ -68,32 +69,32 @@ export class DashComponent implements OnInit,AfterViewInit {
     { 
       data: [], 
       label: 'Utilisateurs',
-      borderColor: 'gray',
-      backgroundColor: 'gray',
+      borderColor: '#B3E5FC',
+      backgroundColor: '#B3E5FC',
       fill: false,
       tension: 0.5, // set different colors for each bar in the chart
     },
     { 
       data: [], 
       label: 'Mariés',
-      borderColor: '#C9798E',
-      backgroundColor: '#C9798E',
+      borderColor: '#FFCC80',
+      backgroundColor: '#FFCC80',
       fill: false,
       tension: 0.5, // set different colors for each bar in the chart
     },
     { 
       data: [], 
       label: 'Parents',
-      borderColor: '#3f629d',
-      backgroundColor: '#3f629d',
+      borderColor: '#F44336',
+      backgroundColor: '#F44336',
       fill: false,
       tension: 0.5, // set different colors for each bar in the chart
     },
     { 
       data: [], 
       label: 'Célibataires',
-      borderColor: '#1ba3dd',
-      backgroundColor: '#1ba3dd',
+      borderColor: '#C8E6C9',
+      backgroundColor: '#C8E6C9',
       fill: false,
       tension: 0.3, // set different colors for each bar in the chart
     },
@@ -104,14 +105,14 @@ export class DashComponent implements OnInit,AfterViewInit {
     { 
       data: [], 
       label: 'Evenement',
-      backgroundColor: '#3F629D',
+      backgroundColor: '#B3E5FC',
       fill: false,
       tension: 0.5,
     },
     { 
       data: [], 
       label: 'Nouveauté',
-      backgroundColor:'#1ba3dd',
+      backgroundColor:'#C8E6C9',
       fill: false,
       tension: 0.5,
     }
@@ -119,14 +120,14 @@ export class DashComponent implements OnInit,AfterViewInit {
   ENLineChartLabels: string[] =  [];
 
   eventChartData = [{   data: [], 
-    backgroundColor: ['gray', '#C9798E ', '#3f629d','#1ba3dd'],
+    backgroundColor: ['#B3E5FC', '#FFF9C4', '#FFCC80', '#C8E6C9'],
     label: 'Catégorie',
   }];
   eventChartLabels: string[] = [];
 
 
   dataChartData = [{   data: [], 
-    backgroundColor: '#C9798E',
+    backgroundColor: '#C8E6C9',
     label: 'Age & Salaire',
     pointRadius: 6,
   }];

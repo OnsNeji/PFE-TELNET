@@ -25,10 +25,6 @@ export class DemandeService {
     return this.http.get<Demande>(`${this.baseUrl}Demande/${id}`);
   }
 
-  GetDemandeUser(id: number, userId:number): Observable<Demande> {
-    return this.http.get<Demande>(`${this.baseUrl}Demande/${id}/${userId}`);
-  }
-
   GetDemandesByUtilisateur(id: number): Observable<Demande[]> {
     const url = `${this.baseUrl}Demande/DemandeParUtilisateur/${id}`;
     return this.http.get<Demande[]>(url);

@@ -131,7 +131,8 @@ namespace TelnetTeamBack.Context
             modelBuilder.Entity<Demande>()
                 .HasMany(d => d.Historiques)
                 .WithOne(h => h.Demande)
-                .HasForeignKey(h => h.DemandeId);
+                .HasForeignKey(h => h.DemandeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
 

@@ -32,6 +32,7 @@ namespace TelnetTeamBack.Controllers
         public async Task<ActionResult<IEnumerable<Demande>>> GetDemandes()
         {
             var demandes = await _context.Demandes
+                .Include(m => m.Historiques)
                 .Include(m => m.Utilisateur)
                 .Where(m => m.Utilisateur.Supprimé == false)
                 .ToListAsync();
@@ -39,11 +40,10 @@ namespace TelnetTeamBack.Controllers
             return demandes;
         }
 
-
         [HttpGet("{id}")]
         public async Task<ActionResult<Demande>> GetDemande(int id)
         {
-            var demande = await _context.Demandes.FindAsync(id);
+            var demande = await _context.Demandes.Include(m => m.Historiques).FirstOrDefaultAsync(e => e.id == id);
 
             if (demande == null)
             {
@@ -65,7 +65,6 @@ namespace TelnetTeamBack.Controllers
             return demandes;
         }
 
-
         [HttpGet("DemandeParUtilisateur/{id}")]
         public async Task<ActionResult<IEnumerable<Demande>>> GetDemandesByUtilisateur(int id)
         {
@@ -80,29 +79,34 @@ namespace TelnetTeamBack.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Demande>> PostDemande(Demande demande)
+        public async Task<ActionResult<Demande>> PostDemande([FromBody] Demande demande)
         {
             demande.Status = "Draft";
             demande.Date = DateTime.Now;
-            if (demande.Titre == "Fiche de paie" || demande.Titre == "Attestation de travail" || demande.Titre == "Lettre de recommandation" || demande.Titre == "Certificat d'impôts" || demande.Titre == "Assurance" || demande.Titre == "Attestation de salaire")
+            if (demande.Titre == "Fiche de paie" || demande.Titre == "Attestation de travail" || demande.Titre == "Lettre de recommandation")
             {
                 demande.DateSortie = null;
             }
-            else if (demande.Titre == "Autorisation de sortie" || demande.Titre == "Attestation de travail" || demande.Titre == "Lettre de recommandation" || demande.Titre == "Assurance" || demande.Titre == "Attestation de salaire")
+            else if (demande.Titre == "Autorisation de sortie" || demande.Titre == "Attestation de travail" || demande.Titre == "Lettre de recommandation")
             {
                 demande.Mois = null;
-            }
-            else if (demande.Titre == "Autorisation de sortie" || demande.Titre == "Attestation de travail" || demande.Titre == "Lettre de recommandation" || demande.Titre == "Certificat d'impôts" || demande.Titre == "Assurance" || demande.Titre == "Fiche de paie")
-            {
-                demande.DateDebut = null;
-                demande.DateSortie = null;
             }
 
             _context.Demandes.Add(demande);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetDemande), new { id = demande.id }, demande);
+            // Create a new Historique entry
+            var historique = new Historique
+            {
+                Etat = "Draft",
+                DateEtat = DateTime.Now,
+                DemandeId = demande.id
+            };
 
+            _context.Historiques.Add(historique);
+            _context.SaveChanges();
+
+            return Ok(demande);
         }
 
         [HttpPost("new/{id}")]
@@ -115,37 +119,21 @@ namespace TelnetTeamBack.Controllers
                 return NotFound();
             }
 
-            // Créez une nouvelle demande avec le statut "emis"
-            var nouvelleDemande = new Demande
+            demande.Status = "Emis";
+
+            // Create a new Historique entry
+            var historique = new Historique
             {
-                // Copiez les propriétés de la demande existante
-                Titre = demande.Titre,
-                Description = demande.Description,
-                Priorite = demande.Priorite,
-                Date = DateTime.Now,
-                Document = demande.Document,
-                Mois = demande.Mois,
-                Motif = demande.Motif,
-                Destinataire = demande.Destinataire,
-                DateSortie = demande.DateSortie,
-                UtilisateurId = demande.UtilisateurId,
-                AdminId = demande.AdminId,
-                Type = demande.Type,
-                DateDebut = demande.DateDebut,
-                DateFin = demande.DateFin,
-                Justificatif = demande.Justificatif,
-                Police = demande.Police,
-                Status = "Emis"
+                Etat = "Emis",
+                DateEtat = DateTime.Now,
+                DemandeId = demande.id
             };
 
-            // Ajoutez la nouvelle demande à la base de données
-            _context.Demandes.Add(nouvelleDemande);
+            _context.Historiques.Add(historique);
             await _context.SaveChangesAsync();
 
             return Ok();
         }
-
-
 
         [HttpPost("pris/{id}/{adminId}")]
         public async Task<IActionResult> PrisEnCharge(int id, int adminId)
@@ -157,108 +145,52 @@ namespace TelnetTeamBack.Controllers
                 return NotFound();
             }
 
-            var nouvelleDemande = new Demande
+            // Update the adminId attribute
+            demande.AdminId = adminId;
+            demande.Status = "Pris en charge";
+
+            // Create a new Historique entry
+            var historique = new Historique
             {
-                // Copiez les propriétés de la demande existante
-                Titre = demande.Titre,
-                Description = demande.Description,
-                Priorite = demande.Priorite,
-                Date = DateTime.Now,
-                Document = demande.Document,
-                Mois = demande.Mois,
-                Motif = demande.Motif,
-                Destinataire = demande.Destinataire,
-                DateSortie = demande.DateSortie,
-                UtilisateurId = demande.UtilisateurId,
-                AdminId = adminId,
-                Type = demande.Type,
-                DateDebut = demande.DateDebut,
-                DateFin = demande.DateFin,
-                Justificatif = demande.Justificatif,
-                Police = demande.Police,
-                Status = "Pris en charge"
+                Etat = "Pris en charge",
+                DateEtat = DateTime.Now,
+                DemandeId = demande.id
             };
 
-            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.UtilisateurId && u.Supprimé == false);
-
-            if (utilisateur != null)
-            {
-                // Composer et envoyer le message
-                var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("TELNET Team", "telnetteam.intranet@gmail.com"));
-                message.To.Add(new MailboxAddress($"{utilisateur.Prenom} {utilisateur.Nom}", utilisateur.Email));
-                message.Subject = "Demande pris en charge";
-                message.Body = new TextPart(TextFormat.Html)
-                {
-                    Text = $"<html><head></head><body width=\"100%\" style=\"margin:0; padding:0!important; mso-line-height-rule:exactly; background-color:#f5f6fa;\"><center style=\"width:100%; background-color:#f5f6fa;\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f5f6fa\"><tr><td style=\"padding:40px 0;\"><table style=\"width:100%; max-width:620px; margin:0 auto; background-color:#ffffff;\"><tbody><tr><td style=\"text-align:center; padding:30px 30px 15px 30px;\"><h2 style=\"font-size:18px; color:#1ba3dd; font-weight:600; margin:0;\">Demande pris en charge</h2></td></tr><tr><td style=\"text-align:center; padding:0 30px 20px\"><p style=\"margin-bottom:10px;\">Bonjour {utilisateur.Nom} {utilisateur.Prenom},</p><p>Nous sommes heureux de vous informer que votre demande de <strong>{demande.Titre}</strong> a été pris en charge.</p><p style=\"margin-bottom:25px;\">Veuillez noter que les informations sont disponibles sur site.</p><a href=\"http://localhost:4200/login\" style=\"background-color:#1ba3dd; border-radius:4px; color:#ffffff; display:inline-block; font-size:13px; font-weight:600; line-height:44px; text-align:center; text-decoration:none; text-transform:uppercase; padding:0 25px\">Accéder au site</a></td></tr><tr><td style=\"text-align:center; padding:20px 30px 40px\"><p style=\"margin:0; font-size:13px; line-height:22px; color:#9ea8bb;\">Ceci est un e-mail généré automatiquement, veuillez ne pas répondre à cet e-mail. Si vous rencontrez des problèmes, veuillez nous contacter à telnetteam.intranet@gmail.com.</p></td></tr></tbody></table><table style=\"width:100%; max-width:620px; margin:0 auto;\"><tbody><tr><td style=\"text-align:center; padding:25px 20px 0;\"><p style=\"padding-top:15px; font-size:12px;\">Cet e-mail vous a été envoyé en tant qu'employé de <a style=\"color:#1ba3dd; text-decoration:none;\" href=\"\">TELNET Team Intranet</a>, pour vous informer de toutes les actualités</p></td></tr></tbody></table></td></tr></table></center></body></html>"
-                };
-
-                using (var client = new SmtpClient())
-                {
-                    try
-                    {
-                        client.Connect(_config["EmailSettings:SmtpServer"], 465, true);
-                        client.Authenticate(_config["EmailSettings:From"], _config["EmailSettings:Password"]);
-                        client.Send(message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw;
-                    }
-                    finally
-                    {
-                        client.Disconnect(true);
-                        client.Dispose();
-                    }
-                }
-            }
-
-            // Ajoutez la nouvelle demande à la base de données
-            _context.Demandes.Add(nouvelleDemande);
+            _context.Historiques.Add(historique);
             await _context.SaveChangesAsync();
 
             return Ok();
         }
 
-
-
         [HttpPut("{id}")]
         public async Task<IActionResult> ApprouverDemande(int id, [FromBody] Demande demande)
         {
+
+            // Récupérez la demande existante à partir de l'ID
             if (id != demande.id)
             {
                 return BadRequest();
             }
 
-            var nouvelleDemande = new Demande
-            {
-                // Copiez les propriétés de la demande existante
-                Titre = demande.Titre,
-                Description = demande.Description,
-                Priorite = demande.Priorite,
-                Date = DateTime.Now,
-                Document = demande.Document,
-                Mois = demande.Mois,
-                Motif = demande.Motif,
-                Destinataire = demande.Destinataire,
-                DateSortie = demande.DateSortie,
-                UtilisateurId = demande.UtilisateurId,
-                AdminId = demande.AdminId,
-                Type = demande.Type,
-                DateDebut = demande.DateDebut,
-                DateFin = demande.DateFin,
-                Justificatif = demande.Justificatif,
-                Police = demande.Police,
-
-            };
-
             if (string.IsNullOrEmpty(demande.Document))
             {
-                nouvelleDemande.Status = "Pris en charge";
+                demande.Status = "Pris en charge";
             }
             else
             {
-                nouvelleDemande.Status = "Résolue";
+
+                demande.Status = "Résolu";
+                // Create a new Historique entry
+                var historique = new Historique
+                {
+                    Etat = "Résolu",
+                    DateEtat = DateTime.Now,
+                    DemandeId = demande.id
+                };
+
+                _context.Historiques.Add(historique);
+                _context.SaveChanges();
 
                 var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.UtilisateurId && u.Supprimé == false);
 
@@ -295,45 +227,50 @@ namespace TelnetTeamBack.Controllers
                 }
             }
 
-            _context.Demandes.Add(nouvelleDemande);
-            await _context.SaveChangesAsync();
 
-            return Ok();
+            _context.Entry(demande).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DemandeExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        [HttpPut("{id}/reject")]
+        [HttpPost("{id}/reject")]
         public async Task<IActionResult> RejectDemande(int id)
         {
+            // Récupérez la demande existante à partir de l'ID
             var demande = await _context.Demandes.FindAsync(id);
-
             if (demande == null)
             {
                 return NotFound();
             }
 
-
-            var nouvelleDemande = new Demande
+            demande.Document = null;
+            demande.Status = "Refusé";
+            // Create a new Historique entry
+            var historique = new Historique
             {
-                // Copiez les propriétés de la demande existante
-                Titre = demande.Titre,
-                Description = demande.Description,
-                Priorite = demande.Priorite,
-                Date = DateTime.Now,
-                Document = demande.Document,
-                Mois = demande.Mois,
-                Motif = demande.Motif,
-                Destinataire = demande.Destinataire,
-                DateSortie = demande.DateSortie,
-                UtilisateurId = demande.UtilisateurId,
-                AdminId = demande.AdminId,
-                Type = demande.Type,
-                DateDebut = demande.DateDebut,
-                DateFin = demande.DateFin,
-                Justificatif = demande.Justificatif,
-                Police = demande.Police,
-                Status = "Refusée",
-        };
+                Etat = "Refusé",
+                DateEtat = DateTime.Now,
+                DemandeId = demande.id
+            };
 
+            _context.Historiques.Add(historique);
+            _context.SaveChanges();
 
             var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.UtilisateurId && u.Supprimé == false);
 
@@ -343,10 +280,10 @@ namespace TelnetTeamBack.Controllers
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("TELNET Team", "telnetteam.intranet@gmail.com"));
                 message.To.Add(new MailboxAddress($"{utilisateur.Prenom} {utilisateur.Nom}", utilisateur.Email));
-                message.Subject = "Demande refusée";
+                message.Subject = "Demande rejetée";
                 message.Body = new TextPart(TextFormat.Html)
                 {
-                    Text = $"<html><head></head><body width=\"100%\" style=\"margin:0; padding:0!important; mso-line-height-rule:exactly; background-color:#f5f6fa;\"><center style=\"width:100%; background-color:#f5f6fa;\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f5f6fa\"><tr><td style=\"padding:40px 0;\"><table style=\"width:100%; max-width:620px; margin:0 auto; background-color:#ffffff;\"><tbody><tr><td style=\"text-align:center; padding:30px 30px 15px 30px;\"><h2 style=\"font-size:18px; color:#1ba3dd; font-weight:600; margin:0;\">Demande refusée</h2></td></tr><tr><td style=\"text-align:center; padding:0 30px 20px\"><p style=\"margin-bottom:10px;\">Bonjour {utilisateur.Nom} {utilisateur.Prenom},</p><p>Nous sommes au regret de vous informer que votre demande de <strong>{demande.Titre}</strong> a été refusée.</p><p style=\"margin-bottom:25px;\">Veuillez noter que toutes les informations sont disponibles sur site.</p><a href=\"http://localhost:4200/login\" style=\"background-color:#1ba3dd; border-radius:4px; color:#ffffff; display:inline-block; font-size:13px; font-weight:600; line-height:44px; text-align:center; text-decoration:none; text-transform:uppercase; padding:0 25px\">Accéder au site</a></td></tr><tr><td style=\"text-align:center; padding:20px 30px 40px\"><p style=\"margin:0; font-size:13px; line-height:22px; color:#9ea8bb;\">Ceci est un e-mail généré automatiquement, veuillez ne pas répondre à cet e-mail. Si vous rencontrez des problèmes, veuillez nous contacter à telnetteam.intranet@gmail.com.</p></td></tr></tbody></table><table style=\"width:100%; max-width:620px; margin:0 auto;\"><tbody><tr><td style=\"text-align:center; padding:25px 20px 0;\"><p style=\"padding-top:15px; font-size:12px;\">Cet e-mail vous a été envoyé en tant qu'employé de <a style=\"color:#1ba3dd; text-decoration:none;\" href=\"\">TELNET Team Intranet</a>, pour vous informer de toutes les actualités</p></td></tr></tbody></table></td></tr></table></center></body></html>"
+                    Text = $"<html><head></head><body width=\"100%\" style=\"margin:0; padding:0!important; mso-line-height-rule:exactly; background-color:#f5f6fa;\"><center style=\"width:100%; background-color:#f5f6fa;\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f5f6fa\"><tr><td style=\"padding:40px 0;\"><table style=\"width:100%; max-width:620px; margin:0 auto; background-color:#ffffff;\"><tbody><tr><td style=\"text-align:center; padding:30px 30px 15px 30px;\"><h2 style=\"font-size:18px; color:#1ba3dd; font-weight:600; margin:0;\">Demande rejetée</h2></td></tr><tr><td style=\"text-align:center; padding:0 30px 20px\"><p style=\"margin-bottom:10px;\">Bonjour {utilisateur.Nom} {utilisateur.Prenom},</p><p>Nous sommes au regret de vous informer que votre demande de <strong>{demande.Titre}</strong> a été rejetée.</p><p style=\"margin-bottom:25px;\">Veuillez noter que toutes les informations sont disponibles sur site.</p><a href=\"http://localhost:4200/login\" style=\"background-color:#1ba3dd; border-radius:4px; color:#ffffff; display:inline-block; font-size:13px; font-weight:600; line-height:44px; text-align:center; text-decoration:none; text-transform:uppercase; padding:0 25px\">Accéder au site</a></td></tr><tr><td style=\"text-align:center; padding:20px 30px 40px\"><p style=\"margin:0; font-size:13px; line-height:22px; color:#9ea8bb;\">Ceci est un e-mail généré automatiquement, veuillez ne pas répondre à cet e-mail. Si vous rencontrez des problèmes, veuillez nous contacter à telnetteam.intranet@gmail.com.</p></td></tr></tbody></table><table style=\"width:100%; max-width:620px; margin:0 auto;\"><tbody><tr><td style=\"text-align:center; padding:25px 20px 0;\"><p style=\"padding-top:15px; font-size:12px;\">Cet e-mail vous a été envoyé en tant qu'employé de <a style=\"color:#1ba3dd; text-decoration:none;\" href=\"\">TELNET Team Intranet</a>, pour vous informer de toutes les actualités</p></td></tr></tbody></table></td></tr></table></center></body></html>"
                 };
 
                 using (var client = new SmtpClient())
@@ -369,12 +306,26 @@ namespace TelnetTeamBack.Controllers
                 }
             }
 
-            _context.Demandes.Add(nouvelleDemande);
-            await _context.SaveChangesAsync();
+            _context.Entry(demande).State = EntityState.Modified;
 
-            return Ok();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DemandeExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
-
 
         [HttpPost("cloturer/{id}")]
         public async Task<IActionResult> CloturerDemande(int id)
@@ -386,28 +337,18 @@ namespace TelnetTeamBack.Controllers
                 return NotFound();
             }
 
-            // Créez une nouvelle demande avec le statut "emis"
-            var nouvelleDemande = new Demande
+
+            demande.Status = "Cloturé";
+            // Create a new Historique entry
+            var historique = new Historique
             {
-                // Copiez les propriétés de la demande existante
-                Titre = demande.Titre,
-                Description = demande.Description,
-                Priorite = demande.Priorite,
-                Date = DateTime.Now,
-                Document = demande.Document,
-                Mois = demande.Mois,
-                Motif = demande.Motif,
-                Destinataire = demande.Destinataire,
-                DateSortie = demande.DateSortie,
-                UtilisateurId = demande.UtilisateurId,
-                AdminId = demande.AdminId,
-                Type = demande.Type,
-                DateDebut = demande.DateDebut,
-                DateFin = demande.DateFin,
-                Justificatif = demande.Justificatif,
-                Police = demande.Police,
-                Status = "Cloturée"
+                Etat = "Cloturé",
+                DateEtat = DateTime.Now,
+                DemandeId = demande.id
             };
+
+            _context.Historiques.Add(historique);
+            _context.SaveChanges();
 
             var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.AdminId && u.Supprimé == false);
             var user = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.UtilisateurId && u.Supprimé == false);
@@ -445,89 +386,88 @@ namespace TelnetTeamBack.Controllers
 
             }
 
-            // Ajoutez la nouvelle demande à la base de données
-            _context.Demandes.Add(nouvelleDemande);
-            await _context.SaveChangesAsync();
-
             return Ok();
         }
-
 
         [HttpPut("reouvrir/{id}")]
         public async Task<IActionResult> RéouvrirDemande(int id, [FromBody] Demande demande)
         {
+            // Récupérez la demande existante à partir de l'ID
             if (id != demande.id)
             {
                 return BadRequest();
             }
 
-            var nouvelleDemande = new Demande
-            {
-                // Copiez les propriétés de la demande existante
-                Titre = demande.Titre,
-                Description = demande.Description,
-                Priorite = demande.Priorite,
-                Date = DateTime.Now,
-                Document = demande.Document,
-                Mois = demande.Mois,
-                Motif = demande.Motif,
-                Destinataire = demande.Destinataire,
-                DateSortie = demande.DateSortie,
-                UtilisateurId = demande.UtilisateurId,
-                AdminId = demande.AdminId,
-                Type = demande.Type,
-                DateDebut = demande.DateDebut,
-                DateFin = demande.DateFin,
-                Justificatif = demande.Justificatif,
-                Police = demande.Police,
 
+            demande.Status = "Réouvert";
+            // Create a new Historique entry
+            var historique = new Historique
+            {
+                Etat = "Réouvert",
+                DateEtat = DateTime.Now,
+                DemandeId = demande.id
             };
 
-                nouvelleDemande.Status = "Réouvert";
+            _context.Historiques.Add(historique);
+            _context.SaveChanges();
 
-                var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.AdminId && u.Supprimé == false);
-                var user = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.UtilisateurId && u.Supprimé == false);
+            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.AdminId && u.Supprimé == false);
+            var user = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.UtilisateurId && u.Supprimé == false);
 
             if (utilisateur != null)
+            {
+                // Composer et envoyer le message
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("TELNET Team", "telnetteam.intranet@gmail.com"));
+                message.To.Add(new MailboxAddress($"{utilisateur.Prenom} {utilisateur.Nom}", utilisateur.Email));
+                message.Subject = "Demande réouverte";
+                message.Body = new TextPart(TextFormat.Html)
                 {
-                    // Composer et envoyer le message
-                    var message = new MimeMessage();
-                    message.From.Add(new MailboxAddress("TELNET Team", "telnetteam.intranet@gmail.com"));
-                    message.To.Add(new MailboxAddress($"{utilisateur.Prenom} {utilisateur.Nom}", utilisateur.Email));
-                    message.Subject = "Demande réouverte";
-                    message.Body = new TextPart(TextFormat.Html)
-                    {
-                        Text = $"<html><head></head><body width=\"100%\" style=\"margin:0; padding:0!important; mso-line-height-rule:exactly; background-color:#f5f6fa;\"><center style=\"width:100%; background-color:#f5f6fa;\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f5f6fa\"><tr><td style=\"padding:40px 0;\"><table style=\"width:100%; max-width:620px; margin:0 auto; background-color:#ffffff;\"><tbody><tr><td style=\"text-align:center; padding:30px 30px 15px 30px;\"><h2 style=\"font-size:18px; color:#1ba3dd; font-weight:600; margin:0;\">Demande réouverte</h2></td></tr><tr><td style=\"text-align:center; padding:0 30px 20px\"><p style=\"margin-bottom:10px;\">Bonjour {utilisateur.Nom} {utilisateur.Prenom},</p><p>Nous vous informons que la demande de <strong> {user.Nom} {user.Prenom} ( {demande.Titre} )</strong> a été réouverte.</p><p style=\"margin-bottom:25px;\">Veuillez noter que les informations sont disponibles sur site.</p><a href=\"http://localhost:4200/login\" style=\"background-color:#1ba3dd; border-radius:4px; color:#ffffff; display:inline-block; font-size:13px; font-weight:600; line-height:44px; text-align:center; text-decoration:none; text-transform:uppercase; padding:0 25px\">Accéder au site</a></td></tr><tr><td style=\"text-align:center; padding:20px 30px 40px\"><p style=\"margin:0; font-size:13px; line-height:22px; color:#9ea8bb;\">Ceci est un e-mail généré automatiquement, veuillez ne pas répondre à cet e-mail. Si vous rencontrez des problèmes, veuillez nous contacter à telnetteam.intranet@gmail.com.</p></td></tr></tbody></table><table style=\"width:100%; max-width:620px; margin:0 auto;\"><tbody><tr><td style=\"text-align:center; padding:25px 20px 0;\"><p style=\"padding-top:15px; font-size:12px;\">Cet e-mail vous a été envoyé en tant qu'employé de <a style=\"color:#1ba3dd; text-decoration:none;\" href=\"\">TELNET Team Intranet</a>, pour vous informer de toutes les actualités</p></td></tr></tbody></table></td></tr></table></center></body></html>"
-                    };
+                    Text = $"<html><head></head><body width=\"100%\" style=\"margin:0; padding:0!important; mso-line-height-rule:exactly; background-color:#f5f6fa;\"><center style=\"width:100%; background-color:#f5f6fa;\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f5f6fa\"><tr><td style=\"padding:40px 0;\"><table style=\"width:100%; max-width:620px; margin:0 auto; background-color:#ffffff;\"><tbody><tr><td style=\"text-align:center; padding:30px 30px 15px 30px;\"><h2 style=\"font-size:18px; color:#1ba3dd; font-weight:600; margin:0;\">Demande réouverte</h2></td></tr><tr><td style=\"text-align:center; padding:0 30px 20px\"><p style=\"margin-bottom:10px;\">Bonjour {utilisateur.Nom} {utilisateur.Prenom},</p><p>Nous vous informons que la demande de <strong> {user.Nom} {user.Prenom} ( {demande.Titre} )</strong> a été réouverte.</p><p style=\"margin-bottom:25px;\">Veuillez noter que les informations sont disponibles sur site.</p><a href=\"http://localhost:4200/login\" style=\"background-color:#1ba3dd; border-radius:4px; color:#ffffff; display:inline-block; font-size:13px; font-weight:600; line-height:44px; text-align:center; text-decoration:none; text-transform:uppercase; padding:0 25px\">Accéder au site</a></td></tr><tr><td style=\"text-align:center; padding:20px 30px 40px\"><p style=\"margin:0; font-size:13px; line-height:22px; color:#9ea8bb;\">Ceci est un e-mail généré automatiquement, veuillez ne pas répondre à cet e-mail. Si vous rencontrez des problèmes, veuillez nous contacter à telnetteam.intranet@gmail.com.</p></td></tr></tbody></table><table style=\"width:100%; max-width:620px; margin:0 auto;\"><tbody><tr><td style=\"text-align:center; padding:25px 20px 0;\"><p style=\"padding-top:15px; font-size:12px;\">Cet e-mail vous a été envoyé en tant qu'employé de <a style=\"color:#1ba3dd; text-decoration:none;\" href=\"\">TELNET Team Intranet</a>, pour vous informer de toutes les actualités</p></td></tr></tbody></table></td></tr></table></center></body></html>"
+                };
 
-                    using (var client = new SmtpClient())
+                using (var client = new SmtpClient())
+                {
+                    try
                     {
-                        try
-                        {
-                            client.Connect(_config["EmailSettings:SmtpServer"], 465, true);
-                            client.Authenticate(_config["EmailSettings:From"], _config["EmailSettings:Password"]);
-                            client.Send(message);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw;
-                        }
-                        finally
-                        {
-                            client.Disconnect(true);
-                            client.Dispose();
-                        }
+                        client.Connect(_config["EmailSettings:SmtpServer"], 465, true);
+                        client.Authenticate(_config["EmailSettings:From"], _config["EmailSettings:Password"]);
+                        client.Send(message);
                     }
-                
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        client.Disconnect(true);
+                        client.Dispose();
+                    }
+                }
+
             }
 
-            _context.Demandes.Add(nouvelleDemande);
-            await _context.SaveChangesAsync();
 
-            return Ok();
+            _context.Entry(demande).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DemandeExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
-
-
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDemande(int id)

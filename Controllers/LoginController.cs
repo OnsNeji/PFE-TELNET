@@ -53,14 +53,6 @@ namespace TelnetTeamBack.Controllers
 
             utilisateur.Token = CreateJwt(utilisateur);
 
-
-            await _authContext.Connections.AddAsync(new Connection
-            {
-                utilisateurId = utilisateur.id,
-                SignalrId = "test",
-                ConnectedAt = DateTime.Now
-            });
-
             await _authContext.SaveChangesAsync();
 
             return Ok(new

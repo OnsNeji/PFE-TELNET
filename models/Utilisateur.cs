@@ -46,10 +46,8 @@ namespace TelnetTeamBack.models
         public string UserModif { get; set; }
         public ICollection<EmployéMois> EmployéMois { get; set; }
         public List<MariageNaissance> MariageNaissances { get; set; }
-        public ICollection<Message> Messages { get; set; }
         public ICollection<Demande> Demandes { get; set; }
         public ICollection<Demande> AdminDemandes { get; set; }
-        public ICollection<Connection> Connections { get; set; }
         public List<Congé> Congés { get; set; }
 
     }

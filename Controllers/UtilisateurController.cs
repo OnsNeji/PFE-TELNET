@@ -170,7 +170,7 @@ namespace TelnetTeamBack.Controllers
         [HttpGet("statsCombine")]
         public IActionResult GetStatsCombine()
         {
-            var startMonth = new DateTime(2022, 5, 1); // choisir une date de début appropriée
+            var startMonth = new DateTime(2022, 1, 1); // choisir une date de début appropriée
             var endMonth = DateTime.Now.Date; // ou choisir une date de fin appropriée
 
             var allMonths = Enumerable.Range(0, (endMonth.Year - startMonth.Year) * 12 + endMonth.Month - startMonth.Month + 1)

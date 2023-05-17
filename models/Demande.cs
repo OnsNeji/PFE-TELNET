@@ -34,5 +34,6 @@ namespace TelnetTeamBack.models
         public int? AdminId { get; set; }
         [JsonIgnore]
         public Utilisateur Admin { get; set; }
+        public ICollection<Historique> Historiques { get; set; }
     }
 }

@@ -26,12 +26,10 @@ namespace TelnetTeamBack.Context
         public DbSet<ProjectSuccess> ProjectSuccesses { get; set; }
         public DbSet<MariageNaissance> MariageNaissances { get; set; }
         public DbSet<Notification> notifications { get; set; }
-        public DbSet<Message> Messages { get; set; }
         public DbSet<Demande> Demandes { get; set; }
-        public DbSet<Connection> Connections { get; set; }
         public DbSet<SiteEvenement> SiteEvenements { get; set; }
         public DbSet<Congé> Congés { get; set; }
-
+        public DbSet<Historique> Historiques { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Utilisateur>()
@@ -101,26 +99,6 @@ namespace TelnetTeamBack.Context
                 .WithMany(s => s.Postes)
                 .HasForeignKey(p => p.SiteId);
 
-            modelBuilder.Entity<Utilisateur>()
-                .HasMany(u => u.Messages)
-                .WithOne(m => m.Sender)
-                .HasForeignKey(m => m.senderId);
-
-            modelBuilder.Entity<Message>()
-                .HasOne(m => m.Sender)
-                .WithMany(u => u.Messages)
-                .HasForeignKey(m => m.senderId);
-
-            modelBuilder.Entity<Utilisateur>()
-                .HasMany(u => u.Connections)
-                .WithOne(m => m.Utilisateur)
-                .HasForeignKey(m => m.utilisateurId);
-
-            modelBuilder.Entity<Connection>()
-                .HasOne(m => m.Utilisateur)
-                .WithMany(u => u.Connections)
-                .HasForeignKey(m => m.utilisateurId);
-
             modelBuilder.Entity<Demande>()
                 .HasOne(d => d.Utilisateur)
                 .WithMany(u => u.Demandes)
@@ -149,6 +127,11 @@ namespace TelnetTeamBack.Context
                 .WithMany(u => u.Congés)
                 .HasForeignKey(d => d.UtilisateurId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Demande>()
+                .HasMany(d => d.Historiques)
+                .WithOne(h => h.Demande)
+                .HasForeignKey(h => h.DemandeId);
 
         }
 

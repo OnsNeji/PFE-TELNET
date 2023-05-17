@@ -10,8 +10,8 @@
                         </span>
                     </div>
 
-                    <h3 class="mb-4">{{data.titre}} <br>
-                        <span [ngClass]="{'status-draft': data.status === 'Draft', 'status-emis': data.status === 'Emis', 'status-pris': data.status === 'Pris en charge', 'status-resolu': data.status === 'Résolue', 'status-rejete': data.status === 'Refusée', 'status-reouvert': data.status === 'Réouvert', 'status-cloture': data.status === 'Cloturée'}">{{data.status}}</span></h3> 
+                    <h3 class="mb-4" style="margin-top: 5%;">{{data.titre}} <br>
+                        <span [ngClass]="{'status-draft': data.status === 'Draft', 'status-emis': data.status === 'Emis', 'status-pris': data.status === 'Pris en charge', 'status-resolu': data.status === 'Résolu', 'status-rejete': data.status === 'Refusé', 'status-reouvert': data.status === 'Réouvert', 'status-cloture': data.status === 'Cloturé'}">{{data.status}}</span></h3> 
                     <div class="text-center">
                         
                         <p class="mb-2"><strong>Employé: </strong>{{getUserNom(data.utilisateurId)}}</p>
@@ -31,27 +31,6 @@
                         <p class="mb-2" *ngIf="data.titre === 'Assurance'"><strong>Num de police: </strong>{{data.police}}</p>
                         <p class="mb-2" *ngIf="data.titre === 'Lettre de recommandation'"><strong>Destinataire: </strong>{{data.destinataire}}</p>
                         <p class="mb-2" *ngIf="data.titre === 'Autorisation de sortie'"><strong>Date et Heure de sortie: </strong>{{data.dateSortie | date: 'dd/MM/yyyy HH:mm'}}</p>
-                    </div>
-
-                    <div style="margin-top: 5%; margin-bottom: -3%;">
-                        <ng-container *ngIf="data.status === 'Pris en charge' || data.status === 'Réouvert'">
-                            <button class="btn btn-mini btn-primary m-r-5 ripple light" type="button"
-                            (click)="updateDemande(data)" matTooltip="Approuver">
-                            <em class="material-icons">done</em>
-                            </button>
-                        
-                            <button class="btn btn-mini btn-danger ripple light" type="button" matTooltip="Rejeter"
-                            (click)="rejectDemande(data.id)">
-                            <em class="material-icons">cancel</em>
-                            </button>
-                        </ng-container>
-    
-                        <ng-container *ngIf="data.status === 'Emis'">
-                            <button class="btn btn-mini btn-danger ripple light" type="button" matTooltip="Prendre en charge"
-                            (click)="PrisEnCharge(data.id)">
-                            <em class="material-icons">assignment_ind</em>
-                            </button>
-                        </ng-container>
                     </div>
                 </div>
            

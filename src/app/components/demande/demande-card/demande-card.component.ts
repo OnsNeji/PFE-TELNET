@@ -113,7 +113,7 @@ export class DemandeCardComponent implements OnInit {
     });
   }
 
-  updateDemande(row: any) {
+  approuverDemande(row: any) {
     this.dialog.open(DialogDemandeComponent, {
       data: row,
     }).afterClosed().subscribe(result=>{

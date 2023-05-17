@@ -154,6 +154,9 @@
                     <div class="col-lg-8 details order-2 order-lg-1">
                       <h4>{{conventions[selectedConventionIndex]?.dateDebut | date}} - {{conventions[selectedConventionIndex]?.dateFin | date}}</h4>
                       <hr>
+                      <h5>{{'Convention ' + convention.titre}}</h5>
+                      <br>
+                      
                       <p class="fst-italic">{{conventions[selectedConventionIndex]?.description}}</p>
                       <p>
                         <a (click)="downloadPDF(conventions[selectedConventionIndex]?.pieceJointe, conventions[selectedConventionIndex]?.titre)">Download PDF</a>

@@ -81,7 +81,7 @@ export class ReopenDemandeComponent implements OnInit {
       }
   
       if (this.reopenForm.valid) {
-      this.demandeService.ReouvrirDemande(this.reouvert.id, { ...this.reopenForm.value }).subscribe(()=>{
+      this.demandeService.ReouvrirDemande(this.reouvert.id, {...this.reopenForm.value}).subscribe(()=>{
         this.reopenForm.reset();
         this.dialogRef.close('modifier');
         this.notificationService.success('Request reopened successfully !');

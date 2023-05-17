@@ -123,11 +123,11 @@ export class DialogDemandeComponent implements OnInit {
           })
         }
       } else {
-        this.updateDemande();
+        this.approuverDemande();
       }
     }
   
-    updateDemande(){
+    approuverDemande(){
       if (!this.pdfUrlJ) {
         this.demandeForm.value.justificatif = this.editData.justificatif;
       } else {
@@ -141,7 +141,7 @@ export class DialogDemandeComponent implements OnInit {
       }
   
       if (this.demandeForm.valid) {
-      this.demandeService.UpdateDemande(this.editData.id, { ...this.demandeForm.value }).subscribe(()=>{
+      this.demandeService.ApprouverDemande(this.editData.id, {...this.demandeForm.value}).subscribe(()=>{
         this.demandeForm.reset();
         this.dialogRef.close('modifier');
         this.notificationService.success('Request approuved successfully !');

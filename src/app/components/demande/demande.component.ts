@@ -20,6 +20,7 @@ import * as moment from 'moment';
 import { DemandeCardComponent } from './demande-card/demande-card.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ReopenDemandeComponent } from './reopen-demande/reopen-demande.component';
+import { HistoriqueComponent } from './historique/historique.component';
 
 @Component({
   selector: 'app-demande',
@@ -323,7 +324,7 @@ exportToExcel() {
 }
 
 
-updateDemande(row: any) {
+approuverDemande(row: any) {
   this.dialog.open(DialogDemandeComponent, {
     data: row,
   }).afterClosed().subscribe(result=>{
@@ -357,6 +358,22 @@ getUserNom(id: number): string {
   const user = this.utilisateurs.find(s => s.id === id);
   return user ? (user.nom + ' ' + user.prenom) : '';
 }
+
+
+HistoriqueDialog(id: number) {
+  this.service.GetDemande(id).subscribe(
+    (data) => {
+      const dialogRef = this.dialog.open(HistoriqueComponent, {
+        data: data,
+      });
+      console.log(data);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
 
 onSortData(sort) {
   this.service.demandeRequest.next(sort);

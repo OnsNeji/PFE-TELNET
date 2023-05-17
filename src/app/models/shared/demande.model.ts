@@ -22,4 +22,5 @@ export class Demande {
     dateFin: Date = new Date();
     justificatif: string; 
     police: string; 
+    historiques: Demande[] = [];
 }

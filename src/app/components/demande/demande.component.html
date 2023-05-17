@@ -118,11 +118,13 @@
     matSortDisableClear>
 
     <ng-container matColumnDef="titre" >
-        <mat-header-cell *matHeaderCellDef mat-sort-header >Titre</mat-header-cell>
-        <mat-cell *matCellDef="let demande">
-            {{demande.titre}}
-        </mat-cell>
-      </ng-container>
+      <mat-header-cell *matHeaderCellDef mat-sort-header >Titre</mat-header-cell>
+      <mat-cell *matCellDef="let demande" (click)="HistoriqueDialog(demande.id)">
+        {{ demande.titre }}
+      </mat-cell>
+    </ng-container>
+    
+    
 
     <ng-container matColumnDef="utilisateurId">
       <mat-header-cell *matHeaderCellDef mat-sort-header >Employé</mat-header-cell>
@@ -149,7 +151,7 @@
       <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef mat-sort-header >Statut</mat-header-cell>
         <mat-cell *matCellDef="let demande" >
-          <span [ngClass]="{'status-draft': demande.status === 'Draft', 'status-emis': demande.status === 'Emis', 'status-pris': demande.status === 'Pris en charge', 'status-resolu': demande.status === 'Résolue', 'status-rejete': demande.status === 'Refusée', 'status-reouvert': demande.status === 'Réouvert', 'status-cloture': demande.status === 'Cloturée'}">{{demande.status}}</span></mat-cell>
+          <span [ngClass]="{'status-draft': demande.status === 'Draft', 'status-emis': demande.status === 'Emis', 'status-pris': demande.status === 'Pris en charge', 'status-resolu': demande.status === 'Résolu', 'status-rejete': demande.status === 'Refusé', 'status-reouvert': demande.status === 'Réouvert', 'status-cloture': demande.status === 'Cloturé'}">{{demande.status}}</span></mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="document">
@@ -165,20 +167,26 @@
       <mat-header-cell *matHeaderCellDef >Actions</mat-header-cell>
       <mat-cell *matCellDef="let row" >
         <ng-container *ngIf="id" >
+          <button class="btn btn-mini btn-secondary m-r-5 ripple light" type="button"
+          (click)="getDemande(row.id)" matTooltip="Details">
+            <em class="material-icons">visibility</em>
+          </button>
 
-          <button class="btn btn-mini btn-danger m-r-5 ripple light" type="button" matTooltip="Supprimer"
+          
+
+          <ng-container *ngIf="row.status === 'Draft'" >
+            <button class="btn btn-mini btn-danger m-r-5 ripple light" type="button" matTooltip="Supprimer"
             (click)="deleteDemande(row.id)">
             <em class="material-icons">delete</em>
           </button>
-
-          <ng-container *ngIf="row.status === 'Draft'">
+          
             <button class="btn btn-mini btn-primary m-r-5 ripple light" type="button" matTooltip="Emettre"
             (click)="EmettreDemande(row.id)">
             <em class="material-icons">touch_app</em>
             </button>
-        </ng-container>
-
-        <ng-container *ngIf="row.status === 'Résolue'">
+          </ng-container>
+  
+          <ng-container *ngIf="row.status === 'Résolu'" >
         <button class="btn btn-mini btn-secondary m-r-5 ripple light" type="button" matTooltip="Cloturer"
         (click)="CloturerDemande(row.id)">
             <em class="material-icons">verified_user</em>
@@ -188,7 +196,7 @@
         (click)="ReouvrirDemande(row)">
             <em class="material-icons">refresh</em>
         </button>
-        </ng-container>
+      </ng-container>
          
         </ng-container>
         <ng-container *ngIf="!id">
@@ -196,6 +204,29 @@
           (click)="getDemande(row.id)" matTooltip="Details">
             <em class="material-icons">visibility</em>
           </button>
+
+
+          <ng-container *ngIf="row.status === 'Emis'" >
+          <button class="btn btn-mini btn-danger ripple light" type="button" matTooltip="Prendre en charge"
+            (click)="PrisEnCharge(row.id)">
+                <em class="material-icons">assignment_ind</em>
+           </button>
+
+          </ng-container>
+
+
+          <ng-container *ngIf="row.status === 'Pris en charge' || row.status === 'Réouvert'" >
+          <button class="btn btn-mini btn-primary m-r-5 ripple light" type="button"
+          (click)="approuverDemande(row)" matTooltip="Approuver">
+          <em class="material-icons">done</em>
+          </button>
+
+          <button class="btn btn-mini btn-danger ripple light" type="button" matTooltip="Rejeter"
+            (click)="rejectDemande(row.id)">
+                            <em class="material-icons">cancel</em>
+                            </button>
+                          </ng-container>
+        
 
 
         </ng-container>

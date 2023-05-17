@@ -46,9 +46,9 @@ export class DemandeService {
     return this.http.post(`${this.baseUrl}Demande/pris/${id}/${adminId}`, null);
   }
 
-  UpdateDemande(id: number, demande: Demande): Observable<any> {
+  ApprouverDemande(id: number, demande: Demande): Observable<any> {
     const url = `${this.baseUrl}Demande/${id}`;
-    const demandeData = { ...demande, id: id,}; // inclure l'ID dans le corps de la requête
+    const demandeData = { ...demande, id: id,};
     return this.http.put<any>(url, demandeData);
   }
 
@@ -65,7 +65,7 @@ export class DemandeService {
 
   ReouvrirDemande(id: number, demande: Demande): Observable<any> {
     const url = `${this.baseUrl}Demande/reouvrir/${id}`;
-    const demandeData = { ...demande, id: id,}; // inclure l'ID dans le corps de la requête
+    const demandeData = { ...demande, id: id,};
     return this.http.put<any>(url, demandeData);
   }
   DeleteDemande(id: number): Observable<any> {

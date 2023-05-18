@@ -120,6 +120,7 @@ namespace TelnetTeamBack.Controllers
             }
 
             demande.Status = "Emis";
+            demande.Date = DateTime.Now;
 
             // Create a new Historique entry
             var historique = new Historique
@@ -148,6 +149,7 @@ namespace TelnetTeamBack.Controllers
             // Update the adminId attribute
             demande.AdminId = adminId;
             demande.Status = "Pris en charge";
+            demande.Date = DateTime.Now;
 
             // Create a new Historique entry
             var historique = new Historique
@@ -181,6 +183,7 @@ namespace TelnetTeamBack.Controllers
             {
 
                 demande.Status = "Résolu";
+                demande.Date = DateTime.Now;
                 // Create a new Historique entry
                 var historique = new Historique
                 {
@@ -249,7 +252,7 @@ namespace TelnetTeamBack.Controllers
             return NoContent();
         }
 
-        [HttpPost("{id}/reject")]
+        [HttpPut("{id}/reject")]
         public async Task<IActionResult> RejectDemande(int id)
         {
             // Récupérez la demande existante à partir de l'ID
@@ -261,6 +264,7 @@ namespace TelnetTeamBack.Controllers
 
             demande.Document = null;
             demande.Status = "Refusé";
+            demande.Date = DateTime.Now;
             // Create a new Historique entry
             var historique = new Historique
             {
@@ -306,25 +310,7 @@ namespace TelnetTeamBack.Controllers
                 }
             }
 
-            _context.Entry(demande).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DemandeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost("cloturer/{id}")]
@@ -339,6 +325,7 @@ namespace TelnetTeamBack.Controllers
 
 
             demande.Status = "Cloturé";
+            demande.Date = DateTime.Now;
             // Create a new Historique entry
             var historique = new Historique
             {
@@ -400,6 +387,7 @@ namespace TelnetTeamBack.Controllers
 
 
             demande.Status = "Réouvert";
+            demande.Date = DateTime.Now;
             // Create a new Historique entry
             var historique = new Historique
             {
@@ -493,7 +481,7 @@ namespace TelnetTeamBack.Controllers
         [HttpGet("stats/count")]
         public IActionResult GetDemandeCount()
         {
-            var count = _context.Demandes.Where(d => d.Status == "Emis").Count();
+            var count = _context.Demandes.Where(d => d.Status != "Draft").Count();
             return Ok(count);
         }
 
@@ -516,7 +504,7 @@ namespace TelnetTeamBack.Controllers
         public IActionResult GetDemandesByTitre()
         {
             var demandesByTitre = _context.Demandes
-                .Where(d => d.Status == "Emis")
+                .Where(d => d.Status != "Draft")
                 .GroupBy(d => d.Titre)
                 .Select(g => new { Titre = g.Key, Count = g.Count() })
                 .ToList();

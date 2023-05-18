@@ -191,11 +191,85 @@ namespace TelnetTeamBack.Controllers
         //    return NoContent();
         //}
 
-     
+
+        //[HttpPost]
+        //public async Task<ActionResult<Evenement>> PostEvenement([FromForm]Evenement evenement, [FromForm] List<IFormFile> mediaEvents)
+        //{
+
+        //    List<MédiaEvent> mediaEventList = new List<MédiaEvent>();
+
+        //    foreach (var file in mediaEvents)
+        //    {
+        //        string base64String;
+        //        using (var ms = new MemoryStream())
+        //        {
+        //            await file.CopyToAsync(ms);
+        //            byte[] fileBytes = ms.ToArray();
+        //            base64String = Convert.ToBase64String(fileBytes);
+        //        }
+
+        //        MédiaEvent mediaEvent = new MédiaEvent();
+        //        mediaEvent.PieceJointe = $"data:{file.ContentType};base64,{base64String}";
+        //        mediaEvent.Evenement = evenement;
+        //        mediaEventList.Add(mediaEvent);
+        //    }
+
+        //    evenement.MediaEvents = mediaEventList;
+
+        //    _context.Evenements.Add(evenement);
+        //    // Add notification
+        //    Notification notification = new Notification
+        //    {
+        //        Message = "Nouvel évenement ajouté",
+        //        Date = DateTime.Now,
+        //        UserAjout = evenement.UserAjout,
+        //        Evenement = evenement
+        //    };
+        //    _context.notifications.Add(notification);
+        //    await _context.SaveChangesAsync();
+
+        //    var users = await _context.Utilisateurs.Where(u => u.Supprimé == false).ToListAsync();
+        //    foreach (var user in users)
+        //    {
+        //        var message = new MimeMessage();
+        //        message.From.Add(new MailboxAddress("TELNET Team", "telnetteam.intranet@gmail.com"));
+        //        message.To.Add(new MailboxAddress($"{user.Prenom} {user.Nom}", user.Email));
+        //        message.Subject = "Nouvel événement ajouté";
+        //        message.Body = new TextPart(TextFormat.Html)
+        //        {
+        //            Text = $"<html><head></head><body width=\"100%\" style=\"margin:0; padding:0!important; mso-line-height-rule:exactly; background-color:#f5f6fa;\"><center style=\"width:100%; background-color:#f5f6fa;\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f5f6fa\"><tr><td style=\"padding:40px 0;\"><table style=\"width:100%; max-width:620px; margin:0 auto; background-color:#ffffff;\"><tbody><tr><td style=\"text-align:center; padding:30px 30px 15px 30px;\"><h2 style=\"font-size:18px; color:#1ba3dd; font-weight:600; margin:0;\">Nouvel événement ajouté</h2></td></tr><tr><td style=\"text-align:center; padding:0 30px 20px\"><p style=\"margin-bottom:10px;\">Bonjour {user.Nom} {user.Prenom},</p><p>Nous sommes heureux de vous informer qu'un nouvel événement a été ajouté.</p><p style=\"margin-bottom:25px;\">Veuillez noter que toutes les informations concernant le nouvel événement sont disponibles sur site.</p><a href=\"http://localhost:4200/accueil\" style=\"background-color:#1ba3dd; border-radius:4px; color:#ffffff; display:inline-block; font-size:13px; font-weight:600; line-height:44px; text-align:center; text-decoration:none; text-transform:uppercase; padding:0 25px\">Accéder au site</a></td></tr><tr><td style=\"text-align:center; padding:20px 30px 40px\"><p style=\"margin:0; font-size:13px; line-height:22px; color:#9ea8bb;\">Ceci est un e-mail généré automatiquement, veuillez ne pas répondre à cet e-mail. Si vous rencontrez des problèmes, veuillez nous contacter à telnetteam.intranet@gmail.com.</p></td></tr></tbody></table><table style=\"width:100%; max-width:620px; margin:0 auto;\"><tbody><tr><td style=\"text-align:center; padding:25px 20px 0;\"><p style=\"padding-top:15px; font-size:12px;\">Cet e-mail vous a été envoyé en tant qu'employé de <a style=\"color:#1ba3dd; text-decoration:none;\" href=\"\">TELNET Team Intranet</a>, pour vous informer de toutes les actualités</p></td></tr></tbody></table></td></tr></table></center></body></html>"
+        //        };
+
+
+        //        using (var client = new SmtpClient())
+        //        {
+        //            try
+        //            {
+        //                client.Connect(_config["EmailSettings:SmtpServer"], 465, true);
+        //                client.Authenticate(_config["EmailSettings:From"], _config["EmailSettings:Password"]);
+        //                client.Send(message);
+
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                throw;
+        //            }
+        //            finally
+        //            {
+        //                client.Disconnect(true);
+        //                client.Dispose();
+        //            }
+        //        }
+        //    }
+
+        //    return CreatedAtAction(nameof(GetEvenement), new { id = evenement.id }, evenement);
+        //}
+
+
         [HttpPost]
         public async Task<ActionResult<Evenement>> PostEvenement([FromForm] Evenement evenement, [FromForm] List<IFormFile> mediaEvents)
         {
-
+            // Convertir les fichiers média en chaînes base64
             List<MédiaEvent> mediaEventList = new List<MédiaEvent>();
 
             foreach (var file in mediaEvents)
@@ -210,24 +284,27 @@ namespace TelnetTeamBack.Controllers
 
                 MédiaEvent mediaEvent = new MédiaEvent();
                 mediaEvent.PieceJointe = $"data:{file.ContentType};base64,{base64String}";
-                mediaEvent.Evenement = evenement;
                 mediaEventList.Add(mediaEvent);
             }
 
             evenement.MediaEvents = mediaEventList;
 
+            // Ajouter l'événement à la base de données
             _context.Evenements.Add(evenement);
-            // Add notification
+
+            // Ajouter une notification
             Notification notification = new Notification
             {
-                Message = "Nouvel évenement ajouté",
+                Message = "Nouvel événement ajouté",
                 Date = DateTime.Now,
                 UserAjout = evenement.UserAjout,
                 Evenement = evenement
             };
             _context.notifications.Add(notification);
+
             await _context.SaveChangesAsync();
 
+            // Envoyer des notifications par e-mail aux utilisateurs
             var users = await _context.Utilisateurs.Where(u => u.Supprimé == false).ToListAsync();
             foreach (var user in users)
             {
@@ -240,7 +317,6 @@ namespace TelnetTeamBack.Controllers
                     Text = $"<html><head></head><body width=\"100%\" style=\"margin:0; padding:0!important; mso-line-height-rule:exactly; background-color:#f5f6fa;\"><center style=\"width:100%; background-color:#f5f6fa;\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f5f6fa\"><tr><td style=\"padding:40px 0;\"><table style=\"width:100%; max-width:620px; margin:0 auto; background-color:#ffffff;\"><tbody><tr><td style=\"text-align:center; padding:30px 30px 15px 30px;\"><h2 style=\"font-size:18px; color:#1ba3dd; font-weight:600; margin:0;\">Nouvel événement ajouté</h2></td></tr><tr><td style=\"text-align:center; padding:0 30px 20px\"><p style=\"margin-bottom:10px;\">Bonjour {user.Nom} {user.Prenom},</p><p>Nous sommes heureux de vous informer qu'un nouvel événement a été ajouté.</p><p style=\"margin-bottom:25px;\">Veuillez noter que toutes les informations concernant le nouvel événement sont disponibles sur site.</p><a href=\"http://localhost:4200/accueil\" style=\"background-color:#1ba3dd; border-radius:4px; color:#ffffff; display:inline-block; font-size:13px; font-weight:600; line-height:44px; text-align:center; text-decoration:none; text-transform:uppercase; padding:0 25px\">Accéder au site</a></td></tr><tr><td style=\"text-align:center; padding:20px 30px 40px\"><p style=\"margin:0; font-size:13px; line-height:22px; color:#9ea8bb;\">Ceci est un e-mail généré automatiquement, veuillez ne pas répondre à cet e-mail. Si vous rencontrez des problèmes, veuillez nous contacter à telnetteam.intranet@gmail.com.</p></td></tr></tbody></table><table style=\"width:100%; max-width:620px; margin:0 auto;\"><tbody><tr><td style=\"text-align:center; padding:25px 20px 0;\"><p style=\"padding-top:15px; font-size:12px;\">Cet e-mail vous a été envoyé en tant qu'employé de <a style=\"color:#1ba3dd; text-decoration:none;\" href=\"\">TELNET Team Intranet</a>, pour vous informer de toutes les actualités</p></td></tr></tbody></table></td></tr></table></center></body></html>"
                 };
 
-
                 using (var client = new SmtpClient())
                 {
                     try
@@ -248,10 +324,10 @@ namespace TelnetTeamBack.Controllers
                         client.Connect(_config["EmailSettings:SmtpServer"], 465, true);
                         client.Authenticate(_config["EmailSettings:From"], _config["EmailSettings:Password"]);
                         client.Send(message);
-
                     }
                     catch (Exception ex)
                     {
+                        // Gérer l'exception appropriée
                         throw;
                     }
                     finally
@@ -331,17 +407,17 @@ namespace TelnetTeamBack.Controllers
             return Ok(totalEvenements);
         }
 
-        [HttpGet("stats/categorie")]
-        public IActionResult GetCategoryEvent()
-        {
-            // Get the count of each status
-            var categorieCounts = _context.Evenements
-                .GroupBy(d => d.Categorie)
-                .Select(g => new { Categorie = g.Key, Count = g.Count() })
-                .ToList();
+        //[HttpGet("stats/categorie")]
+        //public IActionResult GetCategoryEvent()
+        //{
+        //    // Get the count of each status
+        //    var categorieCounts = _context.Evenements
+        //        .GroupBy(d => d.Categorie)
+        //        .Select(g => new { Categorie = g.Key, Count = g.Count() })
+        //        .ToList();
 
-            return Ok(categorieCounts);
-        }
+        //    return Ok(categorieCounts);
+        //}
 
         [HttpGet("statsCombine")]
         public IActionResult GetStatsCombine()

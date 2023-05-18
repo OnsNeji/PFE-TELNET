@@ -16,7 +16,6 @@ namespace TelnetTeamBack.models
         public string Description { get; set; }
         public DateTime DateEvent { get; set; }
         public string UserAjout { get; set; }
-        public string Categorie { get; set; }
         public ICollection<MédiaEvent> MediaEvents { get; set; }
         public Notification Notification { get; set; }
         public ICollection<SiteEvenement> SiteEvenements { get; set; }

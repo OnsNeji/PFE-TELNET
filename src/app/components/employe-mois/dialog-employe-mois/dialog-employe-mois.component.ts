@@ -100,10 +100,11 @@ export class DialogEmployeMoisComponent implements OnInit {
         this.service.AddEmployeMois({ ...this.EmployeeForm.value, date, userAjout }).subscribe(() => {
           this.EmployeeForm.reset();
           this.dialogRef.close('ajouter');
-          this.notificationService.success('Employee added successfully !');
           setTimeout(() => {
             window.location.reload();
-          }, 500);
+          }, 100);
+          this.notificationService.success('Employee added successfully !');
+       
         },
           () => {
             this.notificationService.danger('Error when adding an Employee.');

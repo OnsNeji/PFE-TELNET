@@ -32,7 +32,7 @@ export class EvenementComponent implements OnInit {
   ListeEvents!: Evenement[];
   evenement: Evenement = new Evenement();
   mediaEvent : MediaEvent = new MediaEvent();
-  displayedColumns: string[] = ['categorie', 'titre', 'description', 'dateEvent', 'mediaEvents', 'action'];
+  displayedColumns: string[] = ['titre', 'description', 'dateEvent', 'mediaEvents', 'action'];
   dataSource!: MatTableDataSource<Evenement>;
   lengthEvents: number;
   isLoading: boolean;
@@ -104,9 +104,6 @@ this.userStore.getRoleFromStore().subscribe(val => {
             {
               this.getEvenements();
               this.notificationService.success('Event deleted successfully');
-              setTimeout(() => {
-                window.location.reload();
-              }, 500);
             },
             () => {
               this.notificationService.danger('Delete Event failed');

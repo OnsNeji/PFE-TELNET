@@ -34,7 +34,6 @@ export class DialogEventComponent implements OnInit {
       dateEvent : ['', [Validators.required, this.validDate]],
       description : ['', Validators.required],
       titre : ['', Validators.required],
-      categorie : ['', Validators.required],
       userAjout: [''],
       mediaEvents: [''],
     });
@@ -46,7 +45,6 @@ export class DialogEventComponent implements OnInit {
         dateEvent: this.editData.dateEvent,
         description: this.editData.description,
         titre: this.editData.titre,
-        categorie: this.editData.categorie,
         userAjout : this.editData.userAjout,
         mediaEvents : this.editData.mediaEvents,
       });
@@ -83,6 +81,7 @@ export class DialogEventComponent implements OnInit {
 
         const evenement = { ...this.eventForm.value, dateEvent, userAjout };
         this.service.AddEvenement(evenement, mediaEvents).subscribe(() => {
+          console.log(evenement);
           this.eventForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Event added successfully !');

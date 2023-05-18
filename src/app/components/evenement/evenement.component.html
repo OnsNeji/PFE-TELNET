@@ -99,11 +99,6 @@
 
   <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
     matSortDisableClear>
-    
-    <ng-container matColumnDef="categorie">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Catégorie</mat-header-cell>
-      <mat-cell *matCellDef="let evenement"> {{evenement.categorie}} </mat-cell>
-    </ng-container>
   
     <ng-container matColumnDef="titre">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Titre</mat-header-cell>

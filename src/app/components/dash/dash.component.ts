@@ -32,7 +32,7 @@ export class DashComponent implements OnInit,AfterViewInit {
   barChartData = [{ 
     data: [], 
     label: 'Nombre de conventions ( / Mois)',
-    backgroundColor:  ['#F44336', '#FF6036', '#FF8436', '#FFB736', '#FFCC80', '#FFF480', '#FFF9C4', '#C8E6C9', '#C8FFC9', '#C8FFEE', '#B3E5FC', '#DDE5FC', '#F4E5FC', '#FFE5FC', '#FFE6E6'],
+    backgroundColor:  ['#FFE6E6', '#FFE5FC', '#F4E5FC', '#DDE5FC', '#B3E5FC', '#C8FFEE', '#C8FFC9', '#C8E6C9', '#FFF9C4', '#FFF480', '#FFCC80', '#FFB736', '#FF8436', '#FF6036', '#F44336', '#9E9E9E'],
     borderWidth: 1 
   }];
   barChartLabels: string[] = [];  
@@ -52,7 +52,7 @@ export class DashComponent implements OnInit,AfterViewInit {
   doughnutChartLabels: string[] = [];
 
   lineChartData = [{   data: [], 
-    backgroundColor: ['#F44336', '#FFCC80', '#FFF9C4', '#FFF480', '#C8E6C9', '#C8FFEE', '#B3E5FC', '#DDE5FC'  ],
+    backgroundColor: ['#FFE6E6', '#FFE5FC', '#F4E5FC', '#DDE5FC', '#B3E5FC', '#C8FFEE', '#C8FFC9', '#C8E6C9'],
     tension: 0.5,
     fill: false,
     label: 'Demandes par documents',
@@ -119,19 +119,19 @@ export class DashComponent implements OnInit,AfterViewInit {
   ];
   ENLineChartLabels: string[] =  [];
 
-  eventChartData = [{   data: [], 
-    backgroundColor: ['#B3E5FC', '#FFF9C4', '#FFCC80', '#C8E6C9'],
-    label: 'Catégorie',
-  }];
-  eventChartLabels: string[] = [];
+  // eventChartData = [{   data: [], 
+  //   backgroundColor: ['#B3E5FC', '#FFF9C4', '#FFCC80', '#C8E6C9'],
+  //   label: 'Catégorie',
+  // }];
+  // eventChartLabels: string[] = [];
 
 
-  dataChartData = [{   data: [], 
-    backgroundColor: '#C8E6C9',
-    label: 'Age & Salaire',
-    pointRadius: 6,
-  }];
-  dataChartLabels: string[] = [];
+  // dataChartData = [{   data: [], 
+  //   backgroundColor: '#C8E6C9',
+  //   label: 'Age & Salaire',
+  //   pointRadius: 6,
+  // }];
+  // dataChartLabels: string[] = [];
 
   constructor(private conventionService: ConventionService,
               private demandeService: DemandeService,
@@ -241,18 +241,18 @@ export class DashComponent implements OnInit,AfterViewInit {
       this.totalEvenements = total;
     });
 
-    this.evenementService.getCategoryEvent().subscribe(data => {
+    // this.evenementService.getCategoryEvent().subscribe(data => {
 
-      const countData = data.map(c => c.count);
-      const categorieLabels = data.map(c => c.categorie);
+    //   const countData = data.map(c => c.count);
+    //   const categorieLabels = data.map(c => c.categorie);
 
-      this.eventChartData[0].data.push(...countData);
-      this.eventChartLabels.push(...categorieLabels);
+    //   this.eventChartData[0].data.push(...countData);
+    //   this.eventChartLabels.push(...categorieLabels);
 
-      if (this.eventChart) {
-          this.eventChart.update();
-      }
-    });
+    //   if (this.eventChart) {
+    //       this.eventChart.update();
+    //   }
+    // });
     this.evenementService.getStats().subscribe(data => {
       const sortedData = data.sort((a, b) => {
         const aMonthYear = a.monthYear.split(' ');
@@ -315,15 +315,15 @@ export class DashComponent implements OnInit,AfterViewInit {
       }
     });
 
-    this.userService.getData().subscribe(data => {
-      const chartData = data.map(d => ({ x: d.age , y: d.salaire }));
+    // this.userService.getData().subscribe(data => {
+    //   const chartData = data.map(d => ({ x: d.age , y: d.salaire }));
     
-      this.dataChartData[0].data = chartData;
+    //   this.dataChartData[0].data = chartData;
     
-      if (this.dataChart) {
-        this.dataChart.update();
-      }
-    });
+    //   if (this.dataChart) {
+    //     this.dataChart.update();
+    //   }
+    // });
   }
 
   ngAfterViewInit() {
@@ -454,53 +454,53 @@ export class DashComponent implements OnInit,AfterViewInit {
       },
     };
 
-    const eventChartConfig: any = {
-      type: 'pie',
-      data: {
-          labels: this.eventChartLabels,
-          datasets: this.eventChartData,
-      },
-      options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'bottom',
-            },
-          },
-      },
-      legend: {
-          display: true,
-      },
-    };
+    // const eventChartConfig: any = {
+    //   type: 'pie',
+    //   data: {
+    //       labels: this.eventChartLabels,
+    //       datasets: this.eventChartData,
+    //   },
+    //   options: {
+    //       responsive: true,
+    //       plugins: {
+    //         legend: {
+    //           position: 'bottom',
+    //         },
+    //       },
+    //   },
+    //   legend: {
+    //       display: true,
+    //   },
+    // };
       
-    const dataChartConfig: any = {
-      type: 'scatter',
-      data: {
-        datasets: this.dataChartData,
-      },
-      options: {
-        scales: {
-          x: {
-            scaleLabel: {
-              display: true,
-              labelString: 'Age'
-            }
-          },
-          y: {
-            scaleLabel: {
-              display: true,
-              labelString: 'Salaire'
-            }
-          }
-        },
-      },
-      legend: {
-        display: true,
-      },
-    };
+    // const dataChartConfig: any = {
+    //   type: 'scatter',
+    //   data: {
+    //     datasets: this.dataChartData,
+    //   },
+    //   options: {
+    //     scales: {
+    //       x: {
+    //         scaleLabel: {
+    //           display: true,
+    //           labelString: 'Age'
+    //         }
+    //       },
+    //       y: {
+    //         scaleLabel: {
+    //           display: true,
+    //           labelString: 'Salaire'
+    //         }
+    //       }
+    //     },
+    //   },
+    //   legend: {
+    //     display: true,
+    //   },
+    // };
     
-    this.dataChart = new Chart(this.dataChartRef.nativeElement, dataChartConfig);
-    this.eventChart = new Chart(this.eventChartRef.nativeElement, eventChartConfig);
+    // this.dataChart = new Chart(this.dataChartRef.nativeElement, dataChartConfig);
+    // this.eventChart = new Chart(this.eventChartRef.nativeElement, eventChartConfig);
     this.ENChart = new Chart(this.ENChartRef.nativeElement, ENLineChartConfig);
     this.userChart = new Chart(this.userChartRef.nativeElement, userChartConfig);
     this.roleChart = new Chart(this.roleChartRef.nativeElement, roleChartConfig);

@@ -107,6 +107,9 @@ export class DialogMariageComponent implements OnInit {
           this.mariageForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Mariage added successfully !');
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         },
         ()=>{
           this.notificationService.danger('Error when adding a Mariage.');

@@ -103,9 +103,6 @@ export class DialogNouveauteComponent implements OnInit {
           this.nouveauteForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('News added successfully !');
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
 
         },
         ()=>{

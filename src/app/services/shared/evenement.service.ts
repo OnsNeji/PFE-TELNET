@@ -55,9 +55,9 @@ export class EvenementService {
     return this.http.get<any[]>(`${this.baseUrl}Evenement/stats/DateEvent`);
   }
 
-  getCategoryEvent(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}Evenement/stats/categorie`);
-  }
+  // getCategoryEvent(): Observable<any[]> {
+  //   return this.http.get<any[]>(`${this.baseUrl}Evenement/stats/categorie`);
+  // }
 
   getStats(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}Evenement/statsCombine`);

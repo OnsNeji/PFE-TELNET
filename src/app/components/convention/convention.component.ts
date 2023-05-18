@@ -97,9 +97,6 @@ deleteConvention(id: number): void {
         {
           this.getConventions();
           this.notificationService.success('Agreement deleted successfully');
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
         },
         () => {
           this.notificationService.danger('Delete Agreement failed');

@@ -42,9 +42,20 @@
 
   </div>
 
-  <div class="graph-container">
+  <!--<div class="graph-container">
     <div class="graph merged-graph">
       <canvas #dataChart></canvas>
+    </div>
+    <div class="graph">
+      <h6>Evénements par catégorie</h6>
+      <h3><strong>{{totalEvenements}}</strong></h3>
+      <canvas #eventChart></canvas>
+    </div>
+  </div>-->
+
+  <div class="graph-container">
+    <div class="graph merged-graph">
+      <canvas #ENChart></canvas>
     </div>
     <div class="graph">
       <h6>Utilisateurs par département</h6>
@@ -52,28 +63,17 @@
     </div>
   </div>
 
-
-
   <div class="graph-container">
-    <div class="graph">
-      <canvas #chart></canvas>
-    </div>
+
     <div class="graph">
       <canvas #Hchart></canvas>
     </div>
-  </div>
-
-  <div class="graph-container">
     <div class="graph">
-      <h6>Evénements par catégorie</h6>
-      <h3><strong>{{totalEvenements}}</strong></h3>
-      <canvas #eventChart></canvas>
+      <canvas #chart></canvas>
     </div>
-    <div class="graph merged-graph">
-      <canvas #ENChart></canvas>
-    </div>
-
   </div>
+
+
 
   <div class="graph-container">
     <div class="graph merged-graph">

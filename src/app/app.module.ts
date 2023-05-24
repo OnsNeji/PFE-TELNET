@@ -102,6 +102,7 @@ import { CongeCardComponent } from './components/conge/conge-card/conge-card.com
 import { DialogCongeComponent } from './components/conge/dialog-conge/dialog-conge.component';
 import { ReopenDemandeComponent } from './components/demande/reopen-demande/reopen-demande.component';
 import { HistoriqueComponent } from './components/demande/historique/historique.component';
+import { SearchComponent } from './components/accueil/search/search.component';
 
 
 
@@ -167,6 +168,7 @@ export const CUSTOM_DT_FORMATS = {
         DialogCongeComponent,
         ReopenDemandeComponent,
         HistoriqueComponent,
+        SearchComponent,
 
         
     ],

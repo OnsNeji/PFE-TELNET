@@ -1,3 +1,4 @@
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 <body>
 
@@ -5,8 +6,6 @@
     <header id="header" class="fixed-top d-flex align-items-center header-transparent">
       <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
         <div class="logo me-auto">
-          <!--<h1><a href="index.html">Delicious</a></h1>>-->
-          <!-- Uncomment below if you prefer to use an image logo -->
           <a href="index.html">
             <img src="../../../assets/img/logo.png" alt="" class="img-fluid">
           </a>
@@ -16,21 +15,20 @@
             <li>
               <a class="nav-link scrollto active" routerLink="/accueil">Accueil</a>
             </li>
-            <li>
-              <a class="nav-link scrollto" href="#about">Ges. des RH</a>
-            </li>
-            <li>
-              <a class="nav-link scrollto" href="#menu">Ges. des Projets</a>
-            </li>
           </ul>-->
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
         <!-- .navbar -->
+        <form class="searchform group" style="margin-top: 1%;">
+          <button matSuffix mat-button (click)="searchAndOpenDialog()" style="float: right; margin-top: -1%;"><mat-icon>search</mat-icon></button>
+          
+          <input matInput type="search" id="search-box" placeholder="Search" [(ngModel)]="searchTerm">
+        </form>
         <ng-container *ngIf="!id">
-          <a routerLink="/login" class="book-a-table-btn scrollto" >S'identifier</a>
+          <a routerLink="/login" class="book-a-table-btn" >S'identifier</a>
       </ng-container>
       <ng-container *ngIf="id">
-        <a (click)='logout()' class="book-a-table-btn scrollto" >Logout</a>
+        <a (click)='logout()' class="book-a-table-btn" >Logout</a>
     </ng-container>
       </div>
     </header>
@@ -210,7 +208,7 @@
           </div>
           <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" *ngFor="let utilisateur of latestUtilisateurs" style="width: 40%; height:500px;">
+              <div class="swiper-slide" *ngFor="let utilisateur of latestUtilisateurs" style="width: 40%; height:365px;">
                 <div class="member">
                   <div class="pic">
                     <img [src]="utilisateur.image" alt="" style="width: 80%; height: 280px;">
@@ -225,6 +223,8 @@
             <br>
             <br>
             <div class="swiper-pagination"></div>
+                       
+            
           </div>
         </div>
       </section>
@@ -249,14 +249,14 @@
     <!-- End Menu Section -->
 
 
-<section id="chefs" class="chefs" style="margin-bottom: -3%;">
+<section id="chefs" class="chefs" style="margin-bottom: 5%;">
   <div class="container">
     <div class="section-title">
       <h2><span>Anniversaires</span></h2>
     </div>
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" *ngFor="let utilisateur of anniversaires" style="width: 40%; height:500px;">
+        <div class="swiper-slide" *ngFor="let utilisateur of anniversaires" style="width: 40%; height:365px;">
           <div class="member">
             <div class="pic">
               <img src="{{utilisateur.image}}" alt="" style="width: 80%; height: 280px;">
@@ -352,6 +352,7 @@
         </div>
       </div>
     </footer>
+    
     <!-- End Footer -->
     <!-- Vendor JS Files -->
     

@@ -14,6 +14,7 @@ export class ApiService {
   private baseUrl: string = "";
   currentUser: Utilisateur;
   public siteRequest = new Subject<any>();
+  public userRequest = new Subject<any>();
 
   constructor(private http: HttpClient) { }
 
@@ -120,6 +121,10 @@ export class ApiService {
 
   getData(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}Utilisateur/stats/data`);
+  }
+
+  SearchEmployees(searchTerm: string): Observable<Utilisateur[]> {
+    return this.http.get<Utilisateur[]>(`${this.baseUrl}Utilisateur/search/${searchTerm}`);
   }
 
 }

@@ -30,6 +30,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogInformationComponent } from '../dialog-information/dialog-information.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthenticationService } from 'app/services/shared';
+import * as myScript from '../../../assets/js/accueil.js';
+import { SearchComponent } from './search/search.component';
 
 
 @Component({
@@ -62,9 +64,12 @@ export class AccueilComponent implements OnInit {
   type: string
   private jwtHelper = new JwtHelperService();
   authenticationService: AuthenticationService;
+  searchTerm: string;
+  employees: Utilisateur[];
 
   constructor(private service: EvenementService, 
               private siteService: ApiService,
+              private userService: ApiService,
               private nouvService: NouveautéService,
               private employeMoisService: EmployeMoisService, 
               private projectSuccessService: ProjectSuccessService,
@@ -79,7 +84,7 @@ export class AccueilComponent implements OnInit {
               }
 
   ngOnInit(): void {
-
+    myScript.Accueil();
     this.getNouveautes();
     this.getEvenements();
     this.getEmployéMois();
@@ -98,221 +103,52 @@ export class AccueilComponent implements OnInit {
       this.id = decodedToken.nameid;  
       console.log(this.id);
     }
-  const select = (el, all = false) => {
-    el = el.trim()
-    if (all) {
-      return Array.from(document.querySelectorAll(el))
+  }
 
+  search(): void {
+    if (this.searchTerm) {
+      this.userService.SearchEmployees(this.searchTerm)
+        .subscribe(
+          (data) => {
+            this.employees = data;
+            console.log(this.employees);
+          },
+          (error) => {
+            console.log('An error occurred while searching employees.');
+          }
+        );
     } else {
-      return document.querySelector(el)
+      this.employees = [];
     }
   }
-  const on = (type, el, listener, all = false) => {
-    let selectEl = select(el, all)
-    if (selectEl) {
-      if (all) {
-        selectEl.forEach(e => e.addEventListener(type, listener))
-      } else {
-        selectEl.addEventListener(type, listener)
-      }
-    }
-  }
-  const onscroll = (el, listener) => {
-    el.addEventListener('scroll', listener)
-  }
-  let navbarlinks = select('#navbar .scrollto', true)
-  const navbarlinksActive = () => {
-    let position = window.scrollY + 200
-    navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return
-      let section = select(navbarlink.hash)
-      if (!section) return
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        navbarlink.classList.add('active')
-      } else {
-        navbarlink.classList.remove('active')
-      }
-    })
-  }
-  window.addEventListener('load', navbarlinksActive)
-  onscroll(document, navbarlinksActive)
-  const scrollto = (el) => {
-    let header = select('#header')
-    let offset = header.offsetHeight
 
-    let elementPos = select(el).offsetTop
-    window.scrollTo({
-      top: elementPos - offset,
-      behavior: 'smooth'
-    })
-  }
-  let selectHeader = select('#header')
-  let selectTopbar = select('#topbar')
-  if (selectHeader) {
-    const headerScrolled = () => {
-      if (window.scrollY > 100) {
-        selectHeader.classList.add('header-scrolled')
-        if (selectTopbar) {
-          selectTopbar.classList.add('topbar-scrolled')
-        }
-      } else {
-        selectHeader.classList.remove('header-scrolled')
-        if (selectTopbar) {
-          selectTopbar.classList.remove('topbar-scrolled')
-        }
-      }
-    }
-    window.addEventListener('load', headerScrolled)
-    onscroll(document, headerScrolled)
-  }
-  let backtotop = select('.back-to-top')
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active')
-      } else {
-        backtotop.classList.remove('active')
-      }
-    }
-    window.addEventListener('load', toggleBacktotop)
-    onscroll(document, toggleBacktotop)
-  }
-  on('click', '.mobile-nav-toggle', function(e) {
-    select('#navbar').classList.toggle('navbar-mobile')
-    this.classList.toggle('bi-list')
-    this.classList.toggle('bi-x')
-  })
-  on('click', '.navbar .dropdown > a', function(e) {
-    if (select('#navbar').classList.contains('navbar-mobile')) {
-      e.preventDefault()
-      this.nextElementSibling.classList.toggle('dropdown-active')
-    }
-  }, true)
-  on('click', '.scrollto', function(e) {
-    if (select(this.hash)) {
-      e.preventDefault()
-
-      let navbar = select('#navbar')
-      if (navbar.classList.contains('navbar-mobile')) {
-        navbar.classList.remove('navbar-mobile')
-        let navbarToggle = select('.mobile-nav-toggle')
-        navbarToggle.classList.toggle('bi-list')
-        navbarToggle.classList.toggle('bi-x')
-      }
-      scrollto(this.hash)
-    }
-  }, true)
-  window.addEventListener('load', () => {
-    if (window.location.hash) {
-      if (select(window.location.hash)) {
-        scrollto(window.location.hash)
-      }
-    }
-  });
-  let heroCarouselIndicators = select("#hero-carousel-indicators")
-  let heroCarouselItems = select('#heroCarousel .carousel-item', true)
-
-  heroCarouselItems.forEach((item, index) => {
-    (index === 0) ?
-    heroCarouselIndicators.innerHTML += "<li data-bs-target='#heroCarousel' data-bs-slide-to='" + index + "' class='active'></li>":
-      heroCarouselIndicators.innerHTML += "<li data-bs-target='#heroCarousel' data-bs-slide-to='" + index + "'></li>"
-  });
-  window.addEventListener('load', () => {
-    let menuContainer = select('.menu-container');
-    if (menuContainer) {
-      let menuIsotope = new Isotope(menuContainer, {
-        itemSelector: '.menu-item',
-        layoutMode: 'fitRows'
-      });
-
-      let menuFilters = select('#menu-flters li', true);
-
-      on('click', '#menu-flters li', function(e) {
-        e.preventDefault();
-        menuFilters.forEach(function(el) {
-          el.classList.remove('filter-active');
-        });
-        this.classList.add('filter-active');
-
-        menuIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-
-      }, true);
-    }
-
-  });
-  new Swiper('.events-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-  const mediaEventsSliders = document.querySelectorAll('.mediaEvents-slider');
-    mediaEventsSliders.forEach(mediaEventsSlider => {
-  const slider = new Swiper('.mediaEvents-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 1000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    }
-  });
-});
-new Swiper(".mySwiper", {
-  slidesPerView: 3,
-  spaceBetween: 30,
-  pagination: {
-    el: '.swiper-pagination',
-    type: 'bullets',
-    clickable: true
-  }
-});
-
-new Swiper(".swiperProject", {
-  slidesPerView: 1,
-  pagination: {
-    el: '.swiper-pagination',
-    type: 'bullets',
-    clickable: true
-  }
-});
-new Swiper(".mySwipeeer", {
-  effect: "cards",
-  grabCursor: true,
-});
-  const galleryLightbox = GLightbox({
-    selector: '.gallery-lightbox'
-  });
-  new Swiper('.testimonials-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
+  openSearchDialog(): void {
+    const dialogRef = this.dialog.open(SearchComponent, {
+      width: '800px',
+      data: this.employees
+    });
   }
 
+  searchAndOpenDialog(): void {
+    if (this.searchTerm) {
+      this.userService.SearchEmployees(this.searchTerm)
+        .subscribe(
+          (data) => {
+            this.employees = data;
+            console.log(this.employees);
+            this.openSearchDialog();
+          },
+          (error) => {
+            console.log('An error occurred while searching employees.');
+          }
+        );
+    } else {
+      this.employees = [];
+      this.openSearchDialog();
+    }
+  }
+
+  
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/auth/login']);

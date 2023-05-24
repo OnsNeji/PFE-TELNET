@@ -1,0 +1,46 @@
+
+<div class="modal_header">
+  <div class="modal_title">
+
+      <span>
+          <em class="material-icons modal-close" (click)="close()">close</em>
+      </span>
+  </div>
+</div>
+  <div class="example-container mat-elevation-z8">
+
+    <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
+    matSortDisableClear>
+  
+    <ng-container matColumnDef="image">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Image</mat-header-cell>
+      <mat-cell *matCellDef="let employee">
+        <img [src]="employee.image" style="width: 50px; height: 50px;">
+      </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="nom && prenom">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nom & Prénom</mat-header-cell>
+      <mat-cell *matCellDef="let employee">
+        {{employee.nom}} {{employee.prenom}}
+      </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="matricule">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Matricule</mat-header-cell>
+      <mat-cell *matCellDef="let employee">
+        {{employee.matricule}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="departementId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Site</mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{getNomSite(employee.departementId)}} </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="table-primary table-*"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  
+  </mat-table>
+  
+  </div>

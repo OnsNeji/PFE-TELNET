@@ -18,6 +18,8 @@ export class AgendaComponent implements OnInit {
   site: Site;
   utilisateurs!: Utilisateur[];
   departements!: Departement[];
+  searchTerm: string;
+  employees: Utilisateur[];
 
   constructor(private route: ActivatedRoute, private Service: ApiService, public dialog: MatDialog) { }
 
@@ -28,6 +30,23 @@ export class AgendaComponent implements OnInit {
       const id = params['id'];
       this.getSiteById(id);
     });
+    this.search();
+  }
+  search(): void {
+    if (this.searchTerm) {
+      this.Service.SearchEmployees(this.searchTerm)
+        .subscribe(
+          (data) => {
+            this.employees = data;
+            console.log(this.employees);
+          },
+          (error) => {
+            console.log('An error occurred while searching employees.');
+          }
+        );
+    } else {
+      this.employees = [];
+    }
   }
 
   getSiteById(id: number) {

@@ -74,6 +74,38 @@ h6 {
   max-height: 40px;
 }
 
+.searchform {
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  width: 50%;
+}
+label, input {
+  vertical-align: baseline;
+  color: #737373;
+}
+label {
+  margin: 0.125em 0.125em 0 0;
+  float: right;
+  
+}
+input[type="search"] {
+  border: 2px solid #737373;
+  border-width: 0 0 3px;
+  background-color: transparent;
+  font: 15px "Open Sans", sans-serif;
+  padding: 0.125em 0.225em;
+  width: 45%;
+  float: right;
+  
+}
+input[type="search"]:focus {
+  color: #1ba3dd;
+  border-color: #1ba3dd;
+  outline: none;
+
+}
+
 /*--------------------------------------------------------------
 # Book a table button Menu
 --------------------------------------------------------------*/
@@ -462,9 +494,7 @@ section {
 //   width: 0px;
 //   background-color: transparent;
 // }
-.menu{
-  margin-top: -10%;
-}
+
 div.row.menu-containerr{
   overflow-y: scroll;
   max-height: 250px;
@@ -537,11 +567,6 @@ div.row.menu-containerr::-webkit-scrollbar {
   width: 100%;
   margin-bottom: 10%;
 
-}
-
-
-input {
-  display: none;
 }
 
 .containerrr{

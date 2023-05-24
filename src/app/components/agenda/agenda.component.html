@@ -2,7 +2,18 @@
   <h4>Agenda Téléphonique du Groupe <br>{{ site.site }}
   </h4>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+
+  <form class="searchform group">
+    <button matSuffix mat-button (click)="search()"><mat-icon>search</mat-icon></button>
+    
+    <input matInput type="search" id="search-box" placeholder="Search" [(ngModel)]="searchTerm">
+  </form>
+  <ul>
+    <li *ngFor="let employee of employees"> {{ employee.prenom }} {{ employee.nom }}</li>
+  </ul>
   <div class="container">
+
     <div class="leftbox">
       <nav>
         <a id="rdc" class="active">Rez de chaussée</a>

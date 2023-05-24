@@ -16,6 +16,7 @@ namespace TelnetTeamBack.models
         public string Titre { get; set; }
         public DateTime Date { get; set; }
         public string MessageVoeux { get; set; }
+        public string Email { get; set; }
         public string UserAjout { get; set; }
         public int UtilisateurId { get; set; }
         [JsonIgnore]

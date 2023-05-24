@@ -44,13 +44,15 @@ namespace TelnetTeamBack.Controllers
         [HttpGet("latest")]
         public ActionResult<IEnumerable<Utilisateur>> GetLatestUtilisateurs()
         {
-            var latestUtilisateurs = _context.Utilisateurs.Where(u => u.Supprimé == false)
-                .OrderByDescending(u => u.DateAjout)
-                .Take(15)
+            var troisDerniersMois = DateTime.Now.AddMonths(-3);
+            var latestUtilisateurs = _context.Utilisateurs
+                .Where(u => u.Supprimé == false && u.DateEmbauche >= troisDerniersMois)
+                .OrderByDescending(u => u.DateEmbauche)
                 .ToList();
 
             return Ok(latestUtilisateurs);
         }
+
 
         [HttpGet("anniversaires")]
         public ActionResult<IEnumerable<Utilisateur>> GetAnniversaires()
@@ -128,6 +130,33 @@ namespace TelnetTeamBack.Controllers
         private bool UtilisateurExists(int id)
         {
             return _context.Utilisateurs.Any(e => e.id == id);
+        }
+
+        [HttpGet("search/{searchTerm}")]
+        public IActionResult SearchEmployees(string searchTerm)
+        {
+            // Perform input validation
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return BadRequest("Search term is required.");
+            }
+
+            try
+            {
+                // Perform the search query
+                var searchResults = _context.Utilisateurs
+                    .Where(u => !u.Supprimé &&
+                        (u.Prenom + " " + u.Nom).Replace(" ", "").Contains(searchTerm.Replace(" ", "")))
+                    .Include(e => e.Poste)
+                    .ToList();
+
+                return Ok(searchResults);
+            }
+            catch (Exception ex)
+            {
+                // Handle any potential exceptions
+                return StatusCode(500, "An error occurred while searching employees.");
+            }
         }
 
         // GET: api/Utilisateur/stats/role

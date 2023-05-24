@@ -97,7 +97,6 @@ namespace TelnetTeamBack.Controllers
         [HttpPost]
         public async Task<ActionResult<Nouveauté>> PostNouveaute(Nouveauté nouveaute)
         {
-            nouveaute.DatePublication = DateTime.Now;
             _context.Nouveautés.Add(nouveaute);
             // Add notification
             Notification notification = new Notification

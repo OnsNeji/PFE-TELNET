@@ -42,6 +42,17 @@ namespace TelnetTeamBack.Controllers
             return projectSuccess;
         }
 
+        [HttpGet("latest")]
+        public ActionResult<IEnumerable<Nouveauté>> GetLatestProjectSuccesses()
+        {
+            var latestProjets = _context.ProjectSuccesses
+                .OrderByDescending(p => p.id)
+                .Take(5)
+                .ToList();
+
+            return Ok(latestProjets);
+        }
+
         // PUT: api/ProjectSuccess/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProjectSuccess(int id, [FromBody] ProjectSuccess projectSuccess)

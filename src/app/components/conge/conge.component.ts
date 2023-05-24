@@ -178,9 +178,7 @@ export class CongeComponent implements OnInit {
             data => {
               if (data !== 0) {
                 this.notificationService.success('This time off is rejected');
-                setTimeout(() => {
-                  window.location.reload();
-                }, 500);
+             
               } else {
                 this.notificationService.danger('Reject time off failed');
               }

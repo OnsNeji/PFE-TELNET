@@ -6,6 +6,7 @@ export class Evenement {
     titre!: string;
     description!: string;
     userAjout!: string;
+    lien: string;
     dateEvent: Date = new Date();
     mediaEvents: MediaEvent[] = [];
     siteEvenements: SiteEvenements[] = [];

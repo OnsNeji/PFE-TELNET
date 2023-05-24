@@ -64,8 +64,8 @@
           </mat-form-field>
 
           
-          <mat-form-field class="col-sm-4" floatLabel="always">
-            <mat-label>Salaire</mat-label>
+          <mat-form-field class="col-sm-4">
+            <mat-label>Salaire Brute</mat-label>
             <input matInput formControlName="salaire" type="number" class="login-input-style">
           </mat-form-field>
 
@@ -107,6 +107,7 @@
           </mat-form-field>
 
           <div [ngClass]="{'col-sm-3': cache, 'col-sm-4': !cache}">
+            <mat-label>Image</mat-label><br>
             <input type="file" (change)="onFileSelected($event)" formControlName="image"
             name="image" accept="image/*" class="login-input-style" >
          </div>

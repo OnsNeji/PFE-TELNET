@@ -29,7 +29,7 @@ export class ProjectSuccessComponent implements OnInit {
 
   ProjectSuccesses!: ProjectSuccess[];
   projectSuccess: ProjectSuccess = new ProjectSuccess();
-  displayedColumns: string[] = ['titre', 'description', 'action'];
+  displayedColumns: string[] = ['pieceJointe', 'titre', 'description', 'action'];
   dataSource!: MatTableDataSource<ProjectSuccess>;
   lengthPS: number;
   isLoading: boolean;

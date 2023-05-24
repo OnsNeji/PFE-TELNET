@@ -48,7 +48,7 @@ export class DialogNouveauteComponent implements OnInit {
       siteId : ['', Validators.required],
       pieceJointe : [''],
       userAjout: [''],
-      datePublication: [''],
+      datePublication: ['', Validators.required],
       
     });
     this.getSites();
@@ -98,7 +98,8 @@ export class DialogNouveauteComponent implements OnInit {
       if(this.nouveauteForm.valid){
         this.nouveauteForm.value.userAjout = this.matricule;
         const userAjout = this.nouveauteForm.value.userAjout;
-        const datePublication = new Date();
+        const datePublication = new Date(this.nouveauteForm.value.datePublication);
+        datePublication.setDate(datePublication.getDate() + 1);
         this.nouvService.AddNouveauté({ ...this.nouveauteForm.value, userAjout, datePublication }).subscribe(()=>{
           this.nouveauteForm.reset();
           this.dialogRef.close('ajouter');
@@ -121,8 +122,16 @@ export class DialogNouveauteComponent implements OnInit {
       this.nouveauteForm.value.pieceJointe = this.imageUrl;
     }
 
+    const datePublication = new Date(this.nouveauteForm.value.datePublication);
+    if (this.nouveauteForm.value.datePublication == this.editData.datePublication) {
+      datePublication.setDate(datePublication.getDate());
+    }
+    if (this.nouveauteForm.value.datePublication != this.editData.datePublication) {
+      datePublication.setDate(datePublication.getDate() + 1);
+    }
+
     if (this.nouveauteForm.valid) {
-    this.nouvService.UpdateNouveauté(this.editData.id, { ...this.nouveauteForm.value }).subscribe(()=>{
+    this.nouvService.UpdateNouveauté(this.editData.id, { ...this.nouveauteForm.value,datePublication }).subscribe(()=>{
       this.nouveauteForm.reset();
       this.dialogRef.close('modifier');
       this.notificationService.success('News modified successfully !');

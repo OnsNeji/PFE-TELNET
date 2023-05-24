@@ -11,9 +11,6 @@
   <div class="modal_body">
     <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
       <form [formGroup]="mariageForm">
-        
-        
-
         <div class="row m-b-6">
           <mat-form-field class="col-sm-4">
             <mat-label>Employé</mat-label>
@@ -44,12 +41,16 @@
 
               <mat-form-field class="col-sm-12">
                 <mat-label>Message de Voeux</mat-label>
-                <mat-select formControlName="messageVoeux" class="login-input-style">
-                  <mat-option value="Nous vous adressons toutes nos félicitations pour ce merveilleux jour. Que ce grand jour marque le début d'une grande et belle aventure pour vous deux.">Nous vous adressons toutes nos félicitations pour ce merveilleux jour. Que ce grand jour marque le début d'une grande et belle aventure pour vous deux.</mat-option>
-                  <mat-option value="Toute l’équipe tient à souhaiter la bienvenue au petit et vous adresse ses voeux de bonheur les plus sincères !">Toute l’équipe tient à souhaiter la bienvenue au petit et vous adresse ses voeux de bonheur les plus sincères !</mat-option>
-                </mat-select>
+                <input matInput formControlName="messageVoeux" class="login-input-style">
               </mat-form-field>
-  
+
+              <mat-checkbox #emailCheckbox (change)="toggleEmailTextArea()">Personnaliser l'e-mail</mat-checkbox>
+
+              <mat-form-field class="col-sm-12" #customEmail [hidden]="!emailCheckbox.checked">
+                <mat-label>Email personnalisé</mat-label>
+                <textarea matInput formControlName="email" rows="6"></textarea>
+              </mat-form-field>
+
             <mat-form-field class="col-sm-6" hidden>
               <mat-label>UserAjout</mat-label>
               <input matInput formControlName="userAjout" class="login-input-style" disabled hidden>

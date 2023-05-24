@@ -282,11 +282,13 @@ getShortFormatWithDay(date: Date): string {
 exportToExcel() {
   if (this.demandes !== undefined && this.demandes.length !== 0) {
     const header: any[] = [
-      { header: 'Titre', key: 'titre', width: 10 },
-      { header: 'Date', key: 'date', width: 15 },
-      { header: 'Utilisateur', key: 'utilisateurId', width: 10 },
-      { header: 'Document', key: 'document', width: 15 },
-      { header: 'Status', key: 'status', width: 15 }
+      { header: 'Titre', key: 'titre', width: 25 },
+      { header: 'Date', key: 'date', width: 25 },
+      { header: 'Priorite', key: 'priorite', width: 25 },
+      { header: 'Utilisateur', key: 'utilisateurId', width: 25 },
+      { header: 'Pris par', key: 'adminId', width: 25 },
+      { header: 'Document', key: 'document', width: 25 },
+      { header: 'Status', key: 'status', width: 25 }
     ];
 
     const rows = [];
@@ -300,14 +302,16 @@ exportToExcel() {
       { cell: 'D1', font: { bold: true } },
       { cell: 'E1', font: { bold: true } },
       { cell: 'F1', font: { bold: true } },
+      { cell: 'G1', font: { bold: true } },
     );
 
     this.demandes.forEach(demande => {
       const row = [];
       row.push(demande.titre);
-      row.push(demande.description);
       row.push(this.getShortFormatWithDay(demande.date));
+      row.push(demande.priorite);
       row.push(this.getUserNom(demande.utilisateurId));
+      row.push(this.getUserNom(demande.adminId));
       if (demande.document !== null) 
       {
         row.push(demande.titre + '.pdf');

@@ -281,6 +281,15 @@ new Swiper(".mySwiper", {
     clickable: true
   }
 });
+
+new Swiper(".swiperProject", {
+  slidesPerView: 1,
+  pagination: {
+    el: '.swiper-pagination',
+    type: 'bullets',
+    clickable: true
+  }
+});
 new Swiper(".mySwipeeer", {
   effect: "cards",
   grabCursor: true,
@@ -348,17 +357,31 @@ new Swiper(".mySwipeeer", {
     );
   }
 
-  getProjectSuccesses(){
-    this.projectSuccessService.GetProjectSuccesses().subscribe(
-      (data: ProjectSuccess[]) => {
-        if (data.length > 0) {
-          this.projectSuccess = data[data.length - 1];
-          console.log(this.projectSuccess);
-        }
+  getProjectSuccesses() {
+    this.projectSuccessService.getLatestProjectSuccess().subscribe(
+      data => {
+        // Triez les données par ID dans l'ordre décroissant
+        const sortedData = data.sort((a, b) => b.id - a.id);
+        // Récupérez les 5 derniers projets succès
+        this.projectSuccesses = sortedData;
+        console.log(this.projectSuccesses);
       },
-      error => console.log(error)
+      error => {
+        console.error(error);
+      }
     );
   }
+  
+  getImageUrl(base64String: string): string {
+    if (base64String.startsWith('data:image/jpeg')) {
+      return base64String;
+    } else if (base64String.startsWith('data:image/png')) {
+      return base64String;
+    } else {
+      return 'data:image/jpeg;base64,' + base64String;
+    }
+  }
+  
 
   getProjets(){
     this.projetService.GetProjets().subscribe(projets => {

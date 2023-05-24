@@ -27,8 +27,7 @@ export class NouveautéService {
 
   AddNouveauté(nouveaute:Nouveauté): Observable<Nouveauté> {
     const url = `${this.baseUrl}Nouveauté`;
-    const datePublication = new Date(); 
-    const nouveauteData = { ...nouveaute, userAjout: nouveaute.userAjout, datePublication };
+    const nouveauteData = { ...nouveaute, userAjout: nouveaute.userAjout };
     return this.http.post<Nouveauté>(url, nouveauteData);
   }
   UpdateNouveauté(id: number, nouveaute: Nouveauté): Observable<any> {

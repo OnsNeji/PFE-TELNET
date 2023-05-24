@@ -130,6 +130,13 @@
   </mat-cell>
 </ng-container>
 
+<ng-container matColumnDef="lien">
+  <mat-header-cell *matHeaderCellDef mat-sort-header>Vidéo</mat-header-cell>
+  <mat-cell *matCellDef="let evenement">
+    <a href="{{evenement.lien}}" target="_blank">{{ extractDomain(evenement.lien) }}</a>
+  </mat-cell>
+</ng-container>
+
     <ng-container matColumnDef="action" *ngIf="role ==='Administrateur' || role ==='Gestionnaire'">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let row">

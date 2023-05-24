@@ -32,7 +32,7 @@ export class EvenementComponent implements OnInit {
   ListeEvents!: Evenement[];
   evenement: Evenement = new Evenement();
   mediaEvent : MediaEvent = new MediaEvent();
-  displayedColumns: string[] = ['titre', 'description', 'dateEvent', 'mediaEvents', 'action'];
+  displayedColumns: string[] = ['titre', 'description', 'dateEvent', 'mediaEvents', 'lien', 'action'];
   dataSource!: MatTableDataSource<Evenement>;
   lengthEvents: number;
   isLoading: boolean;
@@ -58,6 +58,20 @@ this.userStore.getRoleFromStore().subscribe(val => {
 });
   }
 
+
+  extractDomain(url: string): string {
+    let domain = '';
+    if (url) {
+      const regex = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+(?:\.[^:\/\n]+)?)\.(com|fr|tn)/i;
+      const match = url.match(regex);
+      if (match && match.length >= 3) {
+        domain = match[1] + '.' + match[2];
+      }
+    }
+    return domain;
+  }
+  
+  
   openDialog() {
     const dialogRef = this.dialog.open(DialogEventComponent, {
     });

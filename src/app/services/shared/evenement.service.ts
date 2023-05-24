@@ -32,6 +32,7 @@ export class EvenementService {
     }
     formData.append('titre', evenement.titre);
     formData.append('description', evenement.description);
+    formData.append('lien', evenement.lien);
     formData.append('dateEvent', evenement.dateEvent.toISOString());
     formData.append('userAjout', evenement.userAjout);
     return this.http.post<Evenement>(url, formData);

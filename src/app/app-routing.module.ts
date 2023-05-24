@@ -80,7 +80,7 @@ const routes: Routes = [
   { path: 'nouveauté', component: NouveauteComponent, canActivate: [AuthGuard] },
   { path: 'mariage-naissance', component: MariageComponent, canActivate: [AuthGuard] },
   { path: 'project-success', component: ProjectSuccessComponent, canActivate: [AuthGuard] },
-  { path: 'agenda/:id', component: AgendaComponent, canActivate: [AuthGuard] },
+  { path: 'agenda/:id', component: AgendaComponent },
   { path: 'chatHub', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'demandes', component: DemandeComponent, canActivate: [AuthGuard, DemandeGuard] },
   { path: 'demande/:id', component: DemandeComponent, canActivate: [AuthGuard] },

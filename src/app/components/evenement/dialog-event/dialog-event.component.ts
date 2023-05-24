@@ -36,17 +36,18 @@ export class DialogEventComponent implements OnInit {
       titre : ['', Validators.required],
       userAjout: [''],
       mediaEvents: [''],
+      lien: [],
     });
 
     if(this.editData){
       this.ActionBtn = "Modifier";
-      // this.departementForm.patchValue(this.editData);
       this.eventForm.setValue({
         dateEvent: this.editData.dateEvent,
         description: this.editData.description,
         titre: this.editData.titre,
         userAjout : this.editData.userAjout,
         mediaEvents : this.editData.mediaEvents,
+        lien : this.editData.lien,
       });
     }
 
@@ -85,9 +86,6 @@ export class DialogEventComponent implements OnInit {
           this.eventForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Event added successfully !');
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
           
         },
           () => {

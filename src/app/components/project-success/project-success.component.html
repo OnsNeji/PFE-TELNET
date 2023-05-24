@@ -94,12 +94,12 @@
   <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
     matSortDisableClear>
 
-    <!--<ng-container matColumnDef="pieceJointe">
+    <ng-container matColumnDef="pieceJointe">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Image</mat-header-cell>
       <mat-cell *matCellDef="let projectSuccess">
         <img [src]="projectSuccess.pieceJointe" style="width: 50px; height: 50px;">
       </mat-cell>
-    </ng-container>-->
+    </ng-container>
 
     <ng-container matColumnDef="titre" class=" table-hover table-striped table-styling">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Titre</mat-header-cell>

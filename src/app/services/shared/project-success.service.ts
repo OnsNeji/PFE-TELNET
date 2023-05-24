@@ -21,6 +21,10 @@ export class ProjectSuccessService {
     return this.http.get<ProjectSuccess>(`${this.baseUrl}ProjectSuccess/${id}`);
   }
 
+  getLatestProjectSuccess(): Observable<ProjectSuccess[]> {
+    return this.http.get<ProjectSuccess[]>(`${this.baseUrl}ProjectSuccess/latest`);
+  }
+
   AddProjectSuccess(projectSuccess:ProjectSuccess): Observable<ProjectSuccess> {
     const url = `${this.baseUrl}ProjectSuccess`;
     const projectSuccessData = { ...projectSuccess, userAjout: projectSuccess.userAjout };

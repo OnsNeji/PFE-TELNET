@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +20,9 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class DialogMariageComponent implements OnInit {
 
-  
+  @ViewChild('emailCheckbox') emailCheckbox: any;
+  @ViewChild('customEmail') customEmail: ElementRef | undefined;
+  customEmailChecked: boolean = false;
   MariageNaissances!: MariageNaissance[];
   MariageNaissance: MariageNaissance = new MariageNaissance();
   utilisateurs! : Utilisateur[];
@@ -49,6 +51,7 @@ export class DialogMariageComponent implements OnInit {
       messageVoeux : ['', Validators.required],
       userAjout: [''],
       date: [''],
+      email: [],
     });
 
     console.log(this.editData)
@@ -60,7 +63,8 @@ export class DialogMariageComponent implements OnInit {
         userAjout : this.editData.userAjout,
         date: this.editData.date,
         utilisateurId: this.editData.utilisateurId,   
-        messageVoeux: this.editData.messageVoeux,    
+        messageVoeux: this.editData.messageVoeux,  
+        email: this.editData.email,    
       });
     }
 
@@ -77,6 +81,23 @@ export class DialogMariageComponent implements OnInit {
       this.filterUsers();
     });
   }
+  
+  // toggleEmailTextArea() {
+  //   this.customEmailChecked = (this.emailCheckbox.value === 'custom');
+  //   this.customEmailChecked = true;
+  // }
+  
+  toggleEmailTextArea() {
+    const customEmailElement = this.customEmail.nativeElement;
+    if (this.emailCheckbox.checked) {
+      customEmailElement.style.display = 'block'; // Afficher le textarea
+      this.customEmailChecked = true;
+    } else {
+      customEmailElement.style.display = 'none'; // Masquer le textarea
+      this.customEmailChecked = false;
+    }
+  }
+
   
   filterUsers() {
     let search = this.userFilterCtrl.value;
@@ -102,14 +123,12 @@ export class DialogMariageComponent implements OnInit {
       if(this.mariageForm.valid){
         this.mariageForm.value.userAjout = this.matricule;
         const userAjout = this.mariageForm.value.userAjout;
-        const datePublication = new Date();
-        this.mariageService.AddMariageNaissance({ ...this.mariageForm.value, userAjout }).subscribe(()=>{
+        const date = new Date(this.mariageForm.value.date);
+        date.setDate(date.getDate() + 1);
+        this.mariageService.AddMariageNaissance({ ...this.mariageForm.value, userAjout, date }).subscribe(()=>{
           this.mariageForm.reset();
           this.dialogRef.close('ajouter');
           this.notificationService.success('Mariage added successfully !');
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
         },
         ()=>{
           this.notificationService.danger('Error when adding a Mariage.');

@@ -30,24 +30,8 @@ export class AgendaComponent implements OnInit {
       const id = params['id'];
       this.getSiteById(id);
     });
-    this.search();
   }
-  search(): void {
-    if (this.searchTerm) {
-      this.Service.SearchEmployees(this.searchTerm)
-        .subscribe(
-          (data) => {
-            this.employees = data;
-            console.log(this.employees);
-          },
-          (error) => {
-            console.log('An error occurred while searching employees.');
-          }
-        );
-    } else {
-      this.employees = [];
-    }
-  }
+
 
   getSiteById(id: number) {
     this.Service.GetSite(id).subscribe(data => {
@@ -76,9 +60,9 @@ export class AgendaComponent implements OnInit {
     return utilisateur ? (utilisateur.departementId) : null;
   }
 
-  getUtilisateurMatricule(id: number): string {
+  getUtilisateurRole(id: number): string {
     const utilisateur = this.utilisateurs.find(s => s.id === id);
-    return utilisateur ? (utilisateur.matricule) : null;
+    return utilisateur ? (utilisateur.role) : '';
   }
 
   getUtilisateur(id: number) {

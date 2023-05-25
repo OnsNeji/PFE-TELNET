@@ -45,7 +45,7 @@ ngOnInit() : void{
 this.userStore.getRoleFromStore().subscribe(val => {
 const roleFromToken = this.authenticationService.getRoleFromToken();
 this.role = val || roleFromToken;
-if (this.role !== 'RH' && this.role !== 'Gestionnaire') {
+if (this.role !== 'Administrateur' && this.role !== 'Gestionnaire') {
 const actionIndex = this.displayedColumns.indexOf('action');
 if (actionIndex !== -1) {
   this.displayedColumns.splice(actionIndex, 1);

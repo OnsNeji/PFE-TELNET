@@ -1,17 +1,8 @@
-<body>
+<!--<body>
   <h4>Agenda Téléphonique du Groupe <br>{{ site.site }}
   </h4>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 
-
-  <form class="searchform group">
-    <button matSuffix mat-button (click)="search()"><mat-icon>search</mat-icon></button>
-    
-    <input matInput type="search" id="search-box" placeholder="Search" [(ngModel)]="searchTerm">
-  </form>
-  <ul>
-    <li *ngFor="let employee of employees"> {{ employee.prenom }} {{ employee.nom }}</li>
-  </ul>
   <div class="container">
 
     <div class="leftbox">
@@ -209,4 +200,158 @@
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript"></script>
-</body>
+</body>-->
+
+<body>
+
+  <header id="header" class="fixed-top d-flex align-items-center header-transparent">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <div class="logo me-auto">
+        <a href="index.html">
+          <img src="../../../assets/img/logo.png" alt="" class="img-fluid">
+        </a>
+      </div>
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <!--<ul>
+          <li>
+            <a class="nav-link scrollto active" routerLink="/accueil">Accueil</a>
+          </li>
+        </ul>-->
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+      <!-- .navbar -->
+    </div>
+  </header>
+  <br>
+  <br>
+  <br>
+  <br>
+  <main id="main">
+    <!-- ======= Menu Section ======= -->
+    <section id="menu" class="menu">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Agenda Téléphonique du Groupe <br> <span>{{ site.site }}</span></h2>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="menu-flters">
+              <li data-filter=".rdc" class="filter-active">Rez de chaussée</li>
+              <li data-filter=".filter-étage1">1ér étage</li>
+              <li data-filter=".filter-étage2">2éme étage</li>
+              <li data-filter=".filter-étage3">3éme étage</li>
+              <li data-filter=".filter-étage4">4éme étage</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row menu-container">
+          <ng-container *ngFor="let poste of site.postes">
+            <div class="col-lg-12 menu-item rdc filter-active" *ngIf="poste.etage === 'Rez de Chaussée'">
+              <div class="thumb">
+                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+              </div>
+              <div class="menu-content">
+                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+              </div>
+              <div class="menu-ingredients">
+                {{getUtilisateurRole(poste.utilisateurId)}}
+              </div>
+            </div>
+          </ng-container>
+          
+          <ng-container *ngFor="let poste of site.postes">
+            <div class="col-lg-12 menu-item filter-étage1" *ngIf="poste.etage === '1ér étage'">
+              <div class="thumb">
+                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+              </div>
+              <div class="menu-content">
+                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+              </div>
+              <div class="menu-ingredients">
+                {{getUtilisateurRole(poste.utilisateurId)}}
+              </div>
+            </div>
+          </ng-container>
+          
+          <ng-container *ngFor="let poste of site.postes">
+            <div class="col-lg-12 menu-item filter-étage2" *ngIf="poste.etage === '2éme étage'">
+              <div class="thumb">
+                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+              </div>
+              <div class="menu-content">
+                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+              </div>
+              <div class="menu-ingredients">
+                {{getUtilisateurRole(poste.utilisateurId)}}
+              </div>
+            </div>
+          </ng-container>
+          
+          <ng-container *ngFor="let poste of site.postes">
+            <div class="col-lg-12 menu-item filter-étage3" *ngIf="poste.etage === '3éme étage'">
+              <div class="thumb">
+                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+              </div>
+              <div class="menu-content">
+                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+              </div>
+              <div class="menu-ingredients">
+                {{getUtilisateurRole(poste.utilisateurId)}}
+              </div>
+            </div>
+          </ng-container>
+          
+          <ng-container *ngFor="let poste of site.postes">
+            <div class="col-lg-12 menu-item filter-étage4" *ngIf="poste.etage === '4éme étage'">
+              <div class="thumb">
+                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+              </div>
+              <div class="menu-content">
+                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+              </div>
+              <div class="menu-ingredients">
+                {{getUtilisateurRole(poste.utilisateurId)}}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        
+
+      </div>
+    </section>
+    <!-- End Menu Section -->
+
+  </main>
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>TelnetTeam Intranet</h3>
+      <div class="social-links">
+        <a href="#" class="twitter">
+          <i class="bx bxl-twitter"></i>
+        </a>
+        <a href="#" class="facebook">
+          <i class="bx bxl-facebook"></i>
+        </a>
+        <a href="#" class="instagram">
+          <i class="bx bxl-instagram"></i>
+        </a>
+        <a href="#" class="google-plus">
+          <i class="bx bxl-skype"></i>
+        </a>
+        <a href="#" class="linkedin">
+          <i class="bx bxl-linkedin"></i>
+        </a>
+      </div>
+      <div class="copyright"> &copy; Telnet <strong>
+          <span>Usage Interne</span>
+        </strong>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- End Footer -->
+  </body>

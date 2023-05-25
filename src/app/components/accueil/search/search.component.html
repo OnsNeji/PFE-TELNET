@@ -25,6 +25,13 @@
       </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="role">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Role</mat-header-cell>
+      <mat-cell *matCellDef="let employee">
+        {{employee.role}}
+      </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="departementId">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Département</mat-header-cell>
       <mat-cell *matCellDef="let employee"> {{getDepNom(employee.departementId)}} </mat-cell>

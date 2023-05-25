@@ -26,7 +26,7 @@ export class SearchComponent implements OnInit {
     this.employees = data;
   }
 
-  displayedColumns: string[] = ['image', 'nom && prenom', 'matricule', 'departementId'];
+  displayedColumns: string[] = ['image', 'nom && prenom', 'matricule', 'role', 'departementId'];
   dataSource: MatTableDataSource<Utilisateur>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

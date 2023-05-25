@@ -52,7 +52,7 @@ namespace TelnetTeamBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Convention>> GetConvention(int id)
         {
-            var convention = await _context.Conventions.FindAsync(id);
+            var convention = await _context.Conventions.FirstOrDefaultAsync(m => m.id == id);
 
             if (convention == null)
             {
@@ -260,6 +260,67 @@ namespace TelnetTeamBack.Controllers
             }).ToList();
 
             return Ok(daysLeftByConvention);
+        }
+
+        [HttpGet("display/{zone}/")]
+        public IActionResult GetConventionsByZone(string zone)
+        {
+            try
+            {
+                var conventions = _context.Conventions
+                    .Include(c => c.Catégorie)
+                    .Where(c => c.Zone == zone)
+                    .ToList();
+
+                return Ok(conventions);
+            }
+            catch (Exception ex)
+            {
+                // Handle any potential exceptions
+                return StatusCode(500, "An error occurred while retrieving conventions by zone.");
+            }
+        }
+
+        [HttpGet("display/{categoryId}")]
+        public IActionResult GetConventionsByCategory(int categoryId)
+        {
+            try
+            {
+                var conventions = _context.Conventions
+                    .Include(c => c.Catégorie)
+                    .Where(c => c.Catégorie.id == categoryId)
+                    .ToList();
+
+                return Ok(conventions);
+            }
+            catch (Exception ex)
+            {
+                // Handle any potential exceptions
+                return StatusCode(500, "An error occurred while retrieving conventions by category.");
+            }
+        }
+
+
+        [HttpGet("{zone}/{categorieId}")]
+        public ActionResult<List<Convention>> GetFilteredConventions(string zone, string categorieId)
+        {
+            var filteredConventions = _context.Conventions.AsQueryable();
+
+            if (!string.IsNullOrEmpty(zone) && zone.ToLower() != "null")
+            {
+                filteredConventions = filteredConventions.Where(c => c.Zone == zone);
+            }
+
+            if (!string.IsNullOrEmpty(categorieId) && categorieId.ToLower() != "null")
+            {
+                if (int.TryParse(categorieId, out int categoryId))
+                {
+                    filteredConventions = filteredConventions.Where(c => c.CatégorieId == categoryId);
+                }
+            }
+
+            var result = filteredConventions.ToList();
+            return Ok(result);
         }
 
     }

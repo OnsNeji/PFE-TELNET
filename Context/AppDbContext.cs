@@ -30,6 +30,7 @@ namespace TelnetTeamBack.Context
         public DbSet<SiteEvenement> SiteEvenements { get; set; }
         public DbSet<Congé> Congés { get; set; }
         public DbSet<Historique> Historiques { get; set; }
+        public DbSet<Catégorie> Catégories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Utilisateur>()
@@ -134,7 +135,12 @@ namespace TelnetTeamBack.Context
                 .HasForeignKey(h => h.DemandeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-        }
+        modelBuilder.Entity<Catégorie>()
+                .HasMany(d => d.Conventions)
+                .WithOne(h => h.Catégorie)
+                .HasForeignKey(h => h.CatégorieId);
+
+    }
 
     }
 

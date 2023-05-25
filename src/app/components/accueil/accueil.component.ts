@@ -146,28 +146,6 @@ export class AccueilComponent implements OnInit {
     });
   }
 
-  handleKeyPressZone(event: any) {
-    if (event.key === 'Enter') {
-      this.searchZone();
-    }
-  }
-  searchZone(): void {
-    if (this.zone) {
-      this.convService.getConventionsByZone(this.zone)
-        .subscribe(
-          (data) => {
-            this.conventions = data;
-            console.log(this.conventions);
-          },
-          (error) => {
-            console.log('An error occurred while searching convention by zone.');
-          }
-        );
-    } else {
-      this.conventions = [];
-    }
-  }
-
   filterConventions(): Convention[] {
     let filteredConventions = this.conventions;
   
@@ -195,12 +173,6 @@ export class AccueilComponent implements OnInit {
     return filteredConventions;
   }
   
-
-  handleKeyPressFilter(event: any) {
-    if (event.key === 'Enter') {
-      this.searchFilter();
-    }
-  }
   searchFilter(): void {
     if (this.zone || this.categoryId || (this.zone && this.categoryId)) {
       console.log(this.zone, this.categoryId);

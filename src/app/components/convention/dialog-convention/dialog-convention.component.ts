@@ -3,8 +3,10 @@ import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Catégorie } from 'app/models/shared/catégorie.model';
 import { Convention } from 'app/models/shared/convention.model';
 import { NotificationService } from 'app/services/shared';
+import { CategorieService } from 'app/services/shared/categorie.service';
 import { ConventionService } from 'app/services/shared/convention.service';
 
 @Component({
@@ -25,17 +27,19 @@ export class DialogConventionComponent implements OnInit {
   userAjout!: string;
   imageUrl: string;
   pdfUrl: string; 
+  categories!: Catégorie[];
 
   constructor(private builder: FormBuilder, 
               private service: ConventionService, 
+              private categorieService: CategorieService, 
               private dialogRef: MatDialogRef<DialogConventionComponent>, 
               @Inject(MAT_DIALOG_DATA) public editData: Convention,
               private notificationService: NotificationService,
               private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.getCategories();
     this.conventionForm = this.builder.group({
-      // id: [''],
       titre: ['', Validators.required],
       dateDebut: ['', [Validators.required, this.validDate]],
       dateFin: ['', [Validators.required]],
@@ -44,6 +48,8 @@ export class DialogConventionComponent implements OnInit {
       logo: [''],
       userAjout: [''],
       status: [''],
+      zone: [''],
+      catégorieId: ['', Validators.required],
     });
 
     console.log(this.editData)
@@ -152,6 +158,12 @@ export class DialogConventionComponent implements OnInit {
       this.pdfUrl = reader.result as string;
     };
     reader.readAsDataURL(file);
+  }
+
+  getCategories(): void {
+    this.categorieService.GetCatégories().subscribe(categories => {
+      this.categories = categories;
+    });
   }
 
   close() {

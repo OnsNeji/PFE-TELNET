@@ -118,6 +118,13 @@
       <mat-cell *matCellDef="let convention"> {{convention.titre}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="catégorieId" class=" table-hover table-striped table-styling">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Catégorie</mat-header-cell>
+      <mat-cell *matCellDef="let convention">
+        {{convention['catégorieId']}}
+      </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="dateDebut" class=" table-hover table-striped table-styling">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Date Debut</mat-header-cell>
       <mat-cell *matCellDef="let convention">
@@ -128,6 +135,11 @@
     <ng-container matColumnDef="dateFin">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Date Fin</mat-header-cell>
       <mat-cell *matCellDef="let convention">  {{convention.dateFin | date}} </mat-cell>
+    </ng-container> 
+
+    <ng-container matColumnDef="zone">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Zone</mat-header-cell>
+      <mat-cell *matCellDef="let convention">  {{convention.zone }} </mat-cell>
     </ng-container> 
 
     <ng-container matColumnDef="status">

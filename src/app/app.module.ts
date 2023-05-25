@@ -93,7 +93,6 @@ import { DemandeComponent } from './components/demande/demande.component';
 import { DialogDemandeComponent } from './components/demande/dialog-demande/dialog-demande.component';
 import { DemandeGuard } from './guards/demande.guard';
 import { CongéGuard } from './guards/congé.guard';
-import { ChatComponent } from './components/chat/chat.component';
 import { DashComponent } from './components/dash/dash.component';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { DemandeCardComponent } from './components/demande/demande-card/demande-card.component';
@@ -103,6 +102,9 @@ import { DialogCongeComponent } from './components/conge/dialog-conge/dialog-con
 import { ReopenDemandeComponent } from './components/demande/reopen-demande/reopen-demande.component';
 import { HistoriqueComponent } from './components/demande/historique/historique.component';
 import { SearchComponent } from './components/accueil/search/search.component';
+import { CategorieComponent } from './components/categorie/categorie.component';
+import { CategorieDialogComponent } from './components/categorie/categorie-dialog/categorie-dialog.component';
+import { FilterPipe } from './pipes/shared/FilterPipe.pipe';
 
 
 
@@ -142,6 +144,7 @@ export const CUSTOM_DT_FORMATS = {
         MediaEventComponent,
         DialogMediaComponent,
         FilterMediaEventByEvenementIdPipe,
+        FilterPipe,
         AccueilComponent,
         ConventionComponent,
         DialogConventionComponent,
@@ -160,7 +163,6 @@ export const CUSTOM_DT_FORMATS = {
         DialogInformationComponent,
         DemandeComponent,
         DialogDemandeComponent,
-        ChatComponent,
         DashComponent,
         DemandeCardComponent,
         CongeComponent,
@@ -169,6 +171,8 @@ export const CUSTOM_DT_FORMATS = {
         ReopenDemandeComponent,
         HistoriqueComponent,
         SearchComponent,
+        CategorieComponent,
+        CategorieDialogComponent,
 
         
     ],

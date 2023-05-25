@@ -7,7 +7,7 @@
     padding: 20px 10px;
     margin-left: 17%;
     transition: all 0.3s;
-    width: auto;
+    width: 80%;
   }
   
   @media (max-width: 1000px) {
@@ -16,61 +16,40 @@
     }
   }
   
-  
-  .modal_header {
-    height: 20px;
-    background-color: #1ba3dd;
-    padding: 5px 15px;
-  
-    .modal_title {
-      color: #ffffff;
-      line-height: 1;
-    }
-  
-    .modal-close {
-      float: right;
-      cursor: pointer;
-  
-      &:hover {
-        color: red;
-      }
-    }
-  
-    .modal-close-disabled {
-      cursor: not-allowed;
-      color: gainsboro;
-  
-      &:hover {
-        color: gainsboro;
-      }
-    }
-}
+  .ajout {
+  position: absolute;
+  margin-top: 0.5%;
+  margin-left: 3%;
+  background-color: #3f629d;
+  color: white;
+  height: 13%;
+  }
   
   .mat-table {
   overflow: auto;
-  height: auto;
-  width: auto;
+  border-radius: 4px;
+  max-height: calc(100vh - 200px);
   }
   
-  .mat-row{
-    padding: 25px 0;
-  }
   .mat-cell,
   .mat-header-cell {
     display: flex;
     justify-content: center;
-
+  }
+    
+  .mat-row{
+    padding: 25px 0;
   }
   
   .mat-elevation-z8{
-  width: auto;
+  width: 98%;
+  margin-left: 1%;
   }
   
   .mat-header-cell {
   color: white;
   font-size: 15px;
   font-weight: 600;
-  background-color: #1ba3dd;
   }
   
   .material-icons {

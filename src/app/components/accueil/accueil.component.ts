@@ -32,6 +32,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthenticationService } from 'app/services/shared';
 import * as myScript from '../../../assets/js/accueil.js';
 import { SearchComponent } from './search/search.component';
+import { Catégorie } from 'app/models/shared/catégorie.model';
+import { CategorieService } from 'app/services/shared/categorie.service';
 
 
 @Component({
@@ -65,7 +67,11 @@ export class AccueilComponent implements OnInit {
   private jwtHelper = new JwtHelperService();
   authenticationService: AuthenticationService;
   searchTerm: string;
+  zone: string;
+  categoryId: string;
+  categorieId :number;
   employees: Utilisateur[];
+  categories!: Catégorie[];
 
   constructor(private service: EvenementService, 
               private siteService: ApiService,
@@ -79,6 +85,7 @@ export class AccueilComponent implements OnInit {
               private MNService: MariageNaissanceService,
               private router: Router,
               public dialog: MatDialog,
+              private categorieService: CategorieService, 
               injector: Injector, ) {
                 this.authenticationService = injector.get<AuthenticationService>(AuthenticationService);
               }
@@ -96,6 +103,8 @@ export class AccueilComponent implements OnInit {
     this.getAnniversaires();
     this.getMariageNaissances();
     this.getSites();
+    this.getCategories();
+    this.filterConventions();
 
     const token = localStorage.getItem('token');
     if (token) {
@@ -105,28 +114,10 @@ export class AccueilComponent implements OnInit {
     }
   }
 
-  search(): void {
-    if (this.searchTerm) {
-      this.userService.SearchEmployees(this.searchTerm)
-        .subscribe(
-          (data) => {
-            this.employees = data;
-            console.log(this.employees);
-          },
-          (error) => {
-            console.log('An error occurred while searching employees.');
-          }
-        );
-    } else {
-      this.employees = [];
+  handleKeyPress(event: any) {
+    if (event.key === 'Enter') {
+      this.searchAndOpenDialog();
     }
-  }
-
-  openSearchDialog(): void {
-    const dialogRef = this.dialog.open(SearchComponent, {
-      width: '800px',
-      data: this.employees
-    });
   }
 
   searchAndOpenDialog(): void {
@@ -148,6 +139,93 @@ export class AccueilComponent implements OnInit {
     }
   }
 
+  openSearchDialog(): void {
+    const dialogRef = this.dialog.open(SearchComponent, {
+      width: '800px',
+      data: this.employees
+    });
+  }
+
+  handleKeyPressZone(event: any) {
+    if (event.key === 'Enter') {
+      this.searchZone();
+    }
+  }
+  searchZone(): void {
+    if (this.zone) {
+      this.convService.getConventionsByZone(this.zone)
+        .subscribe(
+          (data) => {
+            this.conventions = data;
+            console.log(this.conventions);
+          },
+          (error) => {
+            console.log('An error occurred while searching convention by zone.');
+          }
+        );
+    } else {
+      this.conventions = [];
+    }
+  }
+
+  filterConventions(): Convention[] {
+    let filteredConventions = this.conventions;
+  
+    if (this.zone && this.zone.toLowerCase() !== 'null' && (!this.categoryId || typeof this.categoryId !== 'string' || this.categoryId.toLowerCase() === 'null')) {
+      // Filtrer par zone uniquement
+      filteredConventions = filteredConventions.filter(c => c.zone === this.zone);
+    }
+  
+    if ((!this.zone || this.zone.toLowerCase() === 'null') && this.categoryId && typeof this.categoryId === 'string' && this.categoryId.toLowerCase() !== 'null') {
+      // Filtrer par catégorie uniquement
+      const categoryIdInt = parseInt(this.categoryId, 10);
+      if (!isNaN(categoryIdInt)) {
+        filteredConventions = filteredConventions.filter(c => c.catégorieId === categoryIdInt);
+      }
+    }
+  
+    if (this.zone && this.zone.toLowerCase() !== 'null' && this.categoryId && typeof this.categoryId === 'string' && this.categoryId.toLowerCase() !== 'null') {
+      // Filtrer par zone et par catégorie
+      const categoryIdInt = parseInt(this.categoryId, 10);
+      if (!isNaN(categoryIdInt)) {
+        filteredConventions = filteredConventions.filter(c => c.zone === this.zone && c.catégorieId === categoryIdInt);
+      }
+    }
+  
+    return filteredConventions;
+  }
+  
+
+  handleKeyPressFilter(event: any) {
+    if (event.key === 'Enter') {
+      this.searchFilter();
+    }
+  }
+  searchFilter(): void {
+    if (this.zone || this.categoryId || (this.zone && this.categoryId)) {
+      console.log(this.zone, this.categoryId);
+      this.convService.GetFilteredConventions(this.zone || 'null', this.categoryId || 'null')
+        .subscribe(
+          (data) => {
+            this.conventions = data;
+            console.log('hello', this.conventions);
+            // Appeler la méthode filterConventions() pour filtrer les conventions
+            this.conventions = this.filterConventions();
+          },
+          (error) => {
+            console.log('Une erreur s\'est produite lors de la recherche des conventions par zone et catégorie.');
+          }
+        );
+    } else {
+      this.conventions = [];
+    }
+  }
+  
+  getCategories(): void {
+    this.categorieService.GetCatégories().subscribe(categories => {
+      this.categories = categories;
+    });
+  }
   
   logout() {
     this.authenticationService.logout();

@@ -32,7 +32,7 @@ export class ConventionComponent implements OnInit {
 
 ListeConventions!: Convention[];
 convention: Convention = new Convention();
-displayedColumns: string[] = ['logo', 'titre', 'dateDebut', 'dateFin', 'status', 'pieceJointe', 'action'];
+displayedColumns: string[] = ['logo', 'titre', 'dateDebut', 'dateFin', 'zone', 'status', 'pieceJointe', 'action'];
 dataSource!: MatTableDataSource<Convention>;
 lengthConventions: number;
 isLoading: boolean;
@@ -44,6 +44,7 @@ role!: string;
 
 ngOnInit(): void {
   this.getConventions();
+
   this.onResetAllFilters();
 
   this.userStore.getRoleFromStore().subscribe(val => {
@@ -72,6 +73,7 @@ openDialog() {
 getConventions(){
   this.service.GetConventions().subscribe({
     next:(res)=>{
+      console.log(res);
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

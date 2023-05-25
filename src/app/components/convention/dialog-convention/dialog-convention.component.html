@@ -13,12 +13,28 @@
       <form [formGroup]="conventionForm">
         
         <div class="row m-b-6">
-          <mat-form-field class="col-sm-6">
+
+          <mat-form-field class="col-sm-4">
+            <mat-label>Catégorie</mat-label>
+            <mat-select formControlName="catégorieId" class="login-input-style">
+              <mat-option *ngFor="let categorie of categories" [value]="categorie.id">{{ categorie.nom }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4">
               <mat-label>Titre</mat-label>
               <input formControlName="titre" matInput class="login-input-style">
             </mat-form-field>
+
+            <mat-form-field class="col-sm-4">
+              <mat-label>Zone</mat-label>
+              <mat-select formControlName="zone" class="login-input-style">
+                <mat-option value="Grand Tunis">Grand Tunis</mat-option>
+                <mat-option value="Sfax">Sfax</mat-option>
+              </mat-select>
+            </mat-form-field>
   
-            <mat-form-field class="col-sm-6">
+            <mat-form-field class="col-sm-12">
               <mat-label>Description</mat-label>
               <input formControlName="description" matInput class="login-input-style">
             </mat-form-field>

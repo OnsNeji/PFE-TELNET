@@ -1,12 +1,4 @@
 
-<div class="modal_header">
-  <div class="modal_title">
-
-      <span>
-          <em class="material-icons modal-close" (click)="close()">close</em>
-      </span>
-  </div>
-</div>
   <div class="example-container mat-elevation-z8">
 
     <mat-table #table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortDirection="asc"
@@ -34,8 +26,8 @@
     </ng-container>
 
     <ng-container matColumnDef="departementId">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Site</mat-header-cell>
-      <mat-cell *matCellDef="let employee"> {{getNomSite(employee.departementId)}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Département</mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{getDepNom(employee.departementId)}} </mat-cell>
     </ng-container>
   
     <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="table-primary table-*"></mat-header-row>

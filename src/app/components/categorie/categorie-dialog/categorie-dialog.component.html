@@ -1,0 +1,38 @@
+<div class="modal_header">
+    <div class="modal_title">
+        <span>
+            Département
+        </span>
+        <span>
+            <em class="material-icons modal-close" (click)="close()">close</em>
+        </span>
+    </div>
+  </div>
+  <div class="modal_body">
+    <div class="p-20 z-depth-top-0 waves-effect" placement="bottom">
+      <form [formGroup]="categorieForm">
+        
+        <div class="row m-b-6">
+          <mat-form-field class="col-sm-12">
+              <mat-label>Nom</mat-label>
+              <input formControlName="nom" matInput class="login-input-style">
+            </mat-form-field>
+        </div>
+        <div class="row m-t-20">
+          <div class="col-lg-12">
+              <div class="row f-right">
+                  <div class="col-lg-12">
+                      <button type="button" class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+                      &nbsp; &nbsp;
+                      <button type="submit" class="btn btn-primary ripple light btn-md" (click)="AjouterCategorie()">
+                          Save
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+        
+      </form>
+    </div>
+  </div>
+  

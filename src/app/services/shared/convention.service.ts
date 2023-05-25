@@ -58,4 +58,15 @@ export class ConventionService {
     return this.http.get<any[]>(`${this.baseUrl}Convention/stats/DaysLeft`);
   }
 
+  getConventionsByZone(zone: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/display/${zone}`);
+  }
+
+  getConventionsByCategory(categoryId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/display/${categoryId}`);
+  }
+  GetFilteredConventions(zone: string, categoryId: string): Observable<any> {
+    return this.http.get<any[]>(`${this.baseUrl}Convention/${zone}/${categoryId}`);
+  }
+
 }

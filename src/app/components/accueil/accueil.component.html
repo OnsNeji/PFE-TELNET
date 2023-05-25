@@ -20,9 +20,7 @@
         </nav>
         <!-- .navbar -->
         <form class="searchform group" style="margin-top: 1%;">
-          <button matSuffix mat-button (click)="searchAndOpenDialog()" style="float: right; margin-top: -1%;"><mat-icon>search</mat-icon></button>
-          
-          <input matInput type="search" id="search-box" placeholder="Search" [(ngModel)]="searchTerm">
+          <input matInput type="search" id="search-box" placeholder="Search" [(ngModel)]="searchTerm" (keypress)="handleKeyPress($event)">
         </form>
         <ng-container *ngIf="!id">
           <a routerLink="/login" class="book-a-table-btn" >S'identifier</a>
@@ -121,10 +119,10 @@
               </div>
               
             </div>
+            <div class="swiper-pagination"></div>
           </div>
         </div>
       </section>
-      
       <!-- End Events Section -->
 
       <!-- ======= Specials Section ======= -->
@@ -138,17 +136,35 @@
           </div>
           <div class="row">
             <div class="col-lg-3">
+
+              <mat-form-field class="col-sm-6">
+                <mat-label>Zone</mat-label>
+                <mat-select class="login-input-style" [(ngModel)]="zone" (ngModelChange)="searchFilter()">
+                  <mat-option value="Grand Tunis">Grand Tunis</mat-option>
+                  <mat-option value="Sfax">Sfax</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6">
+                <mat-label>Catégorie</mat-label>
+                <mat-select class="login-input-style" [(ngModel)]="categoryId" (ngModelChange)="searchFilter()">
+                  <mat-option *ngFor="let categorie of categories" [value]="categorie.id">{{ categorie.nom }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
               <ul class="nav nav-tabs flex-column">
-                <li class="nav-item" *ngFor="let convention of conventions; let i=index">
-                  
-                  <a class="nav-link" data-bs-toggle="tab" href="#tab-{{i}}" (click)="selectConvention(i)" > <img src="{{conventions[i]?.logo}}" alt="" width="20%"> {{convention.titre}}</a>
+                <li class="nav-item" *ngFor="let convention of filterConventions(); let i=index">
+                  <a class="nav-link" data-bs-toggle="tab" href="#tab-{{i}}" (click)="selectConvention(i)">
+                    <img src="{{ convention.logo }}" alt="" width="20%"> {{ convention.titre }}
+                  </a>
                 </li>
+                
               </ul>
             </div>
             <div class="col-lg-9 mt-4 mt-lg-0">
               <div class="tab-content">
 
-                <div *ngFor="let convention of conventions; let i=index" class="tab-pane" [class.active.show]="selectedConventionIndex === i" id="{{'tab-' + i}}">
+                <div *ngFor="let convention of filterConventions(); let i=index" class="tab-pane" [class.active.show]="selectedConventionIndex === i" id="{{'tab-' + i}}">
                   <div class="row">
                     <div class="col-lg-8 details order-2 order-lg-1">
                       <h4>{{'Convention ' + convention.titre}}</h4>
@@ -162,7 +178,7 @@
                       </p>
                     </div>
                     <div class="col-lg-4 text-center order-1 order-lg-2">
-                      <img src="{{conventions[selectedConventionIndex]?.logo}}" alt="" class="fixed-img" width="90%">
+                      <img src="{{convention.logo}}" alt="" class="fixed-img" width="90%">
                     </div>
                   </div>
                 </div>
@@ -195,6 +211,7 @@
               </div>
               <!-- End Projet item -->
             </div>
+            <div class="swiper-pagination"></div>
           </div>
         </div>
       </section>

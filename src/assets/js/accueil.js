@@ -35,13 +35,12 @@ export function Accueil() {
   });
 
   new Swiper('.events-slider', {
+    slidesPerView: 'auto',
     speed: 500,
-    loop: true,
     autoplay: {
       delay: 5000,
       disableOnInteraction: false
     },
-    slidesPerView: 'auto',
     pagination: {
       el: '.swiper-pagination',
       type: 'bullets',

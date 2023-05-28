@@ -23,8 +23,6 @@ namespace TelnetTeamBack.models
         public string Destinataire { get; set; }
         public DateTime? DateSortie { get; set; }
         public string Type { get; set; }
-        public DateTime? DateDebut { get; set; }
-        public DateTime? DateFin { get; set; }
         public int UtilisateurId { get; set; }
         [JsonIgnore]
         public Utilisateur Utilisateur { get; set; }
@@ -37,6 +35,7 @@ namespace TelnetTeamBack.models
         public string Fac { get; set; }
         public DateTime? DebutS { get; set; }
         public DateTime? FinS { get; set; }
+        public string Choix { get; set; }
         public ICollection<Historique> Historiques { get; set; }
     }
 }

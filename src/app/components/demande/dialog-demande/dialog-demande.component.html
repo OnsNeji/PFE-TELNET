@@ -14,23 +14,19 @@
         
         <div class="row m-b-6">
 
-            <mat-form-field class="col-sm-6">
+            <mat-form-field [ngClass]="{'col-sm-4': afficherTypeAttest || afficherMoisFiche || afficherSujet, 'col-sm-6': !afficherTypeAttest && !afficherMoisFiche && !afficherSujet}">
                 <mat-label>Titre</mat-label>
                 <mat-select formControlName="titre" class="login-input-style" [disabled]="editData" (selectionChange)="onTitreChange($event)">
                   <mat-option value="Attestation de travail">Attestation de travail</mat-option>
-                  <mat-option value="Attestation de stage">Attestation de stage</mat-option>
+                  <mat-option value="Attestation de stage" (click)="toggleCheckbox()">Attestation de stage</mat-option>
                   <mat-option value="Attestation de salaire">Attestation de salaire</mat-option>
                   <mat-option value="Fiche de paie">Fiche de paie</mat-option>
-                  <mat-option value="Certificat d'impôts">Certificat d'impôts</mat-option>
-                  <mat-option value="Assurance">Assurance</mat-option>
                   <mat-option value="Autorisation de sortie">Autorisation de sortie</mat-option>
                   <mat-option value="Lettre de recommandation">Lettre de recommandation</mat-option>
                 </mat-select>
               </mat-form-field>
-            
-              
 
-              <mat-form-field class="col-sm-6">
+              <mat-form-field [ngClass]="{'col-sm-4': afficherTypeAttest || afficherMoisFiche || afficherSujet, 'col-sm-6': !afficherTypeAttest && !afficherMoisFiche && !afficherSujet}">
                 <mat-label>Priorité</mat-label>
                 <mat-select formControlName="priorite" class="login-input-style" [disabled]="editData">
                   <mat-option value="Mineur">Mineur</mat-option>
@@ -39,84 +35,12 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field class="col-sm-12">
-                <mat-label>Description</mat-label>
-                <input formControlName="description" matInput class="login-input-style" [readonly]="editData">
+              <mat-form-field class="col-sm-4" *ngIf="afficherSujet">
+                <mat-label>Sujet</mat-label>
+                <input formControlName="sujet" matInput class="login-input-style" [readonly]="editData">
               </mat-form-field>
 
-              <mat-form-field class="date-field col-sm-6" *ngIf="afficherMoisFiche">
-                <input matInput [matDatepicker]="picker2200" formControlName="mois" class="login-input-style" placeholder="Mois"  [disabled]="editData">
-                <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
-                <mat-datepicker #picker2200></mat-datepicker>
-              </mat-form-field>
-
-              <mat-form-field class="date-field col-sm-4" *ngIf="afficherMoisCert">
-                <input matInput [matDatepicker]="picker2200" formControlName="mois" class="login-input-style" placeholder="Mois"  [disabled]="editData">
-                <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
-                <mat-datepicker #picker2200></mat-datepicker>
-              </mat-form-field>
-
-              <mat-form-field class="col-sm-6" *ngIf="afficherMotifFiche">
-                <mat-label>Motif</mat-label>
-                <mat-select formControlName="motif" class="login-input-style" [disabled]="editData">
-                  <mat-option value="Demande de crédit">Demande de crédit</mat-option>
-                  <mat-option value="Demande de visa">Demande de visa</mat-option>
-                  <mat-option value="Demande de carte de crédit">Demande de carte de crédit</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="col-sm-4" *ngIf="afficherMotifCert">
-                <mat-label>Motif</mat-label>
-                <mat-select formControlName="motif" class="login-input-style" [disabled]="editData">
-                  <mat-option value="Justification de situation fiscale">Justification de situation fiscale</mat-option>
-                  <mat-option value="Demande de crédit">Demande de crédit ou de prêt</mat-option>
-                  <mat-option value="Demande de visa">Demande de visa ou d'immigration</mat-option>
-                  <mat-option value="Raisons professionnelles">Raisons professionnelles</mat-option>
-                  <mat-option value="Raisons personnelles">Raisons personnelles</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="col-sm-6" *ngIf="afficherMotifAttest">
-                <mat-label>Motif</mat-label>
-                <mat-select formControlName="motif" class="login-input-style" [disabled]="editData">
-                  <mat-option value="Demande de crédit">Demande de prêt</mat-option>
-                  <mat-option value="Demande de visa">Demande de visa</mat-option>
-                  <mat-option value="Dossier de candidature">Dossier de candidature</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-
-              <mat-form-field class="col-sm-12" *ngIf="afficherDestinataire">
-                <mat-label>Destinataire</mat-label>
-                <input formControlName="destinataire" matInput class="login-input-style" [readonly]="editData">
-              </mat-form-field>
-
-              <mat-form-field class="date-field col-sm-12" *ngIf="afficherDateSortie">
-                <input matInput [matDatetimepicker]="picker2300" formControlName="dateSortie" class="login-input-style" placeholder="Date et heure de sortie" [disabled]="editData">
-                <mat-datepicker-toggle matSuffix [for]="picker2300"></mat-datepicker-toggle>
-                <mat-datetimepicker #picker2300></mat-datetimepicker>
-              </mat-form-field>
-
-              <mat-form-field class="col-sm-6" *ngIf="afficherTypeAss">
-                <mat-label>Type</mat-label>
-                <mat-select formControlName="type" class="login-input-style">
-                  <mat-option value="Demande de remboursement">Demande de remboursement</mat-option>
-                  <mat-option value="Demande de modification de contrat">Demande de modification de contrat</mat-option>
-                  <mat-option value="Demande d'informations">Demande d'informations</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="col-sm-4" *ngIf="afficherTypeCert">
-                <mat-label>Type</mat-label>
-                <mat-select formControlName="type" class="login-input-style">
-                  <mat-option value="Certificat de non-imposition ">Certificat de non-imposition </mat-option>
-                  <mat-option value="Certificat de retenue d'impôt">Certificat de retenue d'impôt</mat-option>
-                  <mat-option value="Certificat de situation fiscale">Certificat de situation fiscale</mat-option>
-                  <mat-option value="Certificat de conformité fiscale">Certificat de conformité fiscale</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="col-sm-6" *ngIf="afficherTypeAttest">
+              <mat-form-field class="col-sm-4" *ngIf="afficherTypeAttest">
                 <mat-label>Type</mat-label>
                 <mat-select formControlName="type" class="login-input-style">
                   <mat-option value="Legalisé">Legalisé</mat-option>
@@ -124,31 +48,71 @@
                 </mat-select>
               </mat-form-field>
 
+              
+              <mat-form-field class="date-field col-sm-4" *ngIf="afficherMoisFiche">
+                <input matInput [matMonthPicker]="picker2200" formControlName="mois" [max]="dateSysteme" class="login-input-style" placeholder="Mois"  [disabled]="editData">
+                <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
+                <mat-datepicker #picker2200></mat-datepicker>
+              </mat-form-field>
+
               <mat-form-field class="date-field col-sm-6" *ngIf="afficherDateDebut">
-                <input matInput [matDatepicker]="picker2400" formControlName="dateDebut" class="login-input-style" placeholder="Date début">
+                <input matInput [matDatepicker]="picker2400" formControlName="dateDebut" [max]="dateSysteme" class="login-input-style" placeholder="Date début">
                 <mat-datepicker-toggle matSuffix [for]="picker2400"></mat-datepicker-toggle>
                 <mat-datepicker #picker2400></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field class="date-field col-sm-6" *ngIf="afficherDateFin">
-                <input matInput [matDatepicker]="picker2500" formControlName="dateFin" class="login-input-style" placeholder="Date fin">
+                <input matInput [matDatepicker]="picker2500" formControlName="dateFin" [max]="dateSysteme" [min]="demandeForm.get('dateDebut').value" class="login-input-style" placeholder="Date fin">
                 <mat-datepicker-toggle matSuffix [for]="picker2500"></mat-datepicker-toggle>
                 <mat-datepicker #picker2500></mat-datepicker>
               </mat-form-field>
 
-              <mat-form-field class="col-sm-6" *ngIf="afficherPolice">
-                <mat-label>Num de police</mat-label>
-                <input formControlName="police" matInput class="login-input-style" [readonly]="editData">
+              <mat-form-field class="col-sm-12" *ngIf="afficherDestinataire">
+                <mat-label>Destinataire</mat-label>
+                <input formControlName="destinataire" matInput class="login-input-style" [readonly]="editData">
               </mat-form-field>
 
-              <div class="col-sm-12" *ngIf="afficherJustificatif">
-                <mat-label>Justificatif</mat-label><br>
-                <input type="file" (change)="onPDFJSelected($event)" formControlName="justificatif"
-                name="pdf" accept=".pdf" class="login-input-style" >
-             </div>
+              <mat-form-field [ngClass]="{'col-sm-6': etudiantCheckbox?.checked !== true, 'col-sm-4': etudiantCheckbox?.checked === true}" *ngIf="afficherFac">
+                <mat-label>Université</mat-label>
+                <input formControlName="fac" matInput class="login-input-style" [readonly]="editData">
+              </mat-form-field>
 
-            
-  
+              <mat-form-field [ngClass]="{'col-sm-6': etudiantCheckbox?.checked !== true, 'col-sm-4': etudiantCheckbox?.checked === true}" *ngIf="afficherEtud1">
+                <mat-label>Nom de l'étudiant(e)</mat-label>
+                <input formControlName="etudiant1" matInput class="login-input-style" [readonly]="editData">
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-4" #etudiant2 [hidden]="etudiantCheckbox?.checked !== true">
+                <mat-label>Nom de l'étudiant(e) 2</mat-label>
+                <input formControlName="etudiant2" matInput class="login-input-style" [readonly]="editData">
+              </mat-form-field>
+
+              <mat-form-field class="date-field col-sm-12" *ngIf="afficherDateSortie">
+                <input matInput [matDatetimepicker]="picker2300" formControlName="dateSortie" [max]="dateSysteme" class="login-input-style" placeholder="Date et heure de sortie" [disabled]="editData">
+                <mat-datepicker-toggle matSuffix [for]="picker2300"></mat-datepicker-toggle>
+                <mat-datetimepicker #picker2300></mat-datetimepicker>
+              </mat-form-field>
+
+
+              <mat-form-field class="date-field col-sm-6" *ngIf="afficherDebutS">
+                <input matInput [matDatepicker]="picker2600" formControlName="debutS" [max]="dateSysteme" class="login-input-style" placeholder="Date début">
+                <mat-datepicker-toggle matSuffix [for]="picker2600"></mat-datepicker-toggle>
+                <mat-datepicker #picker2600></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="date-field col-sm-6" *ngIf="afficherFinS">
+                <input matInput [matDatepicker]="picker2700" formControlName="finS" [max]="dateSysteme" [min]="demandeForm.get('debutS').value" class="login-input-style" placeholder="Date fin">
+                <mat-datepicker-toggle matSuffix [for]="picker2700"></mat-datepicker-toggle>
+                <mat-datepicker #picker2700></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-12">
+                <mat-label>Description</mat-label>
+                <input formControlName="description" matInput class="login-input-style" [readonly]="editData">
+              </mat-form-field>
+
+              <mat-checkbox #etudiantCheckbox *ngIf="afficherCheckbox" (change)="toggleEtudiant()">Ajouter un(e) étudiant(e)</mat-checkbox>
+
               <div class="col-sm-6" *ngIf="editData">
                 <mat-label>Document</mat-label><br>
                 <input type="file" (change)="onPDFDSelected($event)" formControlName="document"

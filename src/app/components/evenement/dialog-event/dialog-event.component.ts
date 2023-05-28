@@ -21,6 +21,7 @@ export class DialogEventComponent implements OnInit {
   public matricule: string = '';
   ActionBtn: string = "Ajouter";
   imageUrl: string;
+  dateSysteme: Date = new Date();
 
   constructor(private builder: FormBuilder, 
     private service: EvenementService, 

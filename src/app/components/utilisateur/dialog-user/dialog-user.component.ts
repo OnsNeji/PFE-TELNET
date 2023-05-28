@@ -39,6 +39,7 @@ export default class DialogUserComponent implements OnInit {
   userAjout!: string;
   imageUrl: string;
   cache = false;
+  dateSysteme: Date = new Date();
 
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
@@ -54,7 +55,7 @@ export default class DialogUserComponent implements OnInit {
       prenom: ['', Validators.required],
       sexe: ['', Validators.required],
       matricule: ['', Validators.required],
-      dateEmbauche: ['', [Validators.required, this.validDate]],
+      dateEmbauche: ['', Validators.required],
       email: ['', Validators.required],
       tel: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("^[0-9]*$")]],
       role: ['', Validators.required],
@@ -62,7 +63,7 @@ export default class DialogUserComponent implements OnInit {
       departementId: ['', Validators.required],
       motDePasse: ['', Validators.required],
       salaire: ['', Validators.required],
-      dateNaissance: ['', [Validators.required, this.validDate, this.validAge]],
+      dateNaissance: ['', [Validators.required, this.validAge]],
       userAjout: [''],
     });
     this.getPostes();
@@ -80,15 +81,6 @@ export default class DialogUserComponent implements OnInit {
       const decodedToken = this.jwtHelper.decodeToken(token);
       this.matricule = decodedToken.family_name;
     }
-  }
-  validDate(control) {
-    let minDate = new Date(1900, 0, 1);
-    let maxDate = new Date();
-    let value = new Date(control.value);
-    if (value < minDate || value > maxDate) {
-      return { invalidDate: true };
-    }
-    return null;
   }
 
   validAge(control) {

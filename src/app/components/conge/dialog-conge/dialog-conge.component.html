@@ -18,7 +18,6 @@
             <mat-label>Type de congé</mat-label>
             <mat-select formControlName="type" class="login-input-style" [disabled]="editData">
                 <ng-container *ngIf="sexe === 'Homme'">
-                    <mat-option value="Congé de paternité">Congé de paternité</mat-option>
                     <mat-option value="Congé de maladie">Congé de maladie</mat-option>
                     <mat-option value="Congé pour soins familiaux">Congé pour soins familiaux</mat-option>
                     <mat-option value="Congé de deuil">Congé de deuil</mat-option>
@@ -39,14 +38,14 @@
               </mat-form-field>
 
               <mat-form-field class="date-field col-sm-6">
-                <input matInput [matDatepicker]="picker2200" formControlName="dateDebut" class="login-input-style" placeholder="Date Début"  [disabled]="editData">
+                <input matInput [matDatepicker]="picker2200" formControlName="dateDebut" [max]="dateSysteme" class="login-input-style" placeholder="Date Début"  [disabled]="editData">
                 <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
                 <mat-datepicker #picker2200></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field class="col-sm-6">
                 <mat-label>Durée de congé</mat-label>
-                <input formControlName="duree" matInput class="login-input-style" [readonly]="editData">
+                <input formControlName="duree" matInput class="login-input-style">
               </mat-form-field>
 
               <div class="col-sm-6"  *ngIf="!editData">

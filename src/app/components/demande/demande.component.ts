@@ -163,9 +163,6 @@ deleteDemande(id: number): void {
           {
             this.getDemandes();
             this.notificationService.success('Request deleted successfully');
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
           },
           () => {
             this.notificationService.danger('Delete request failed');
@@ -248,6 +245,21 @@ CloturerDemande(id: number): void {
   });
 }
 
+ApprouverDemande(id: number) {
+      this.service.ApprouverDemande(id).subscribe(()=>{
+        this.notificationService.success('Request approuved successfully !');
+        setTimeout(() => {
+          window.location.reload();
+        },);
+      },
+      ()=>{
+        setTimeout(() => {
+          window.location.reload();
+        },);
+      });
+    
+}
+
 ReouvrirDemande(row: any) {
   this.dialog.open(ReopenDemandeComponent, {
     data: row,
@@ -328,15 +340,15 @@ exportToExcel() {
 }
 
 
-approuverDemande(row: any) {
-  this.dialog.open(DialogDemandeComponent, {
-    data: row,
-  }).afterClosed().subscribe(result=>{
-    if(result === "modifier"){
-      this.getDemandes();
-    }
-  })
-  }
+// approuverDemande(row: any) {
+//   this.dialog.open(DialogDemandeComponent, {
+//     data: row,
+//   }).afterClosed().subscribe(result=>{
+//     if(result === "modifier"){
+//       this.getDemandes();
+//     }
+//   })
+//   }
 
   getDemande(id: number) {
     this.service.GetDemande(id).subscribe(

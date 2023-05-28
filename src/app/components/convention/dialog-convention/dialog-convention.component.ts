@@ -28,6 +28,7 @@ export class DialogConventionComponent implements OnInit {
   imageUrl: string;
   pdfUrl: string; 
   categories!: Catégorie[];
+  dateSysteme: Date = new Date();
 
   constructor(private builder: FormBuilder, 
               private service: ConventionService, 

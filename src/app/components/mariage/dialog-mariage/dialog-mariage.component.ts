@@ -34,6 +34,7 @@ export class DialogMariageComponent implements OnInit {
   public userFilterCtrl: FormControl = new FormControl();
   private _onDestroy = new Subject<void>();
   filteredUsers: Utilisateur[];
+  dateSysteme: Date = new Date();
 
   constructor(private builder: FormBuilder, 
               private service: ApiService, 
@@ -81,11 +82,6 @@ export class DialogMariageComponent implements OnInit {
       this.filterUsers();
     });
   }
-  
-  // toggleEmailTextArea() {
-  //   this.customEmailChecked = (this.emailCheckbox.value === 'custom');
-  //   this.customEmailChecked = true;
-  // }
   
   toggleEmailTextArea() {
     const customEmailElement = this.customEmail.nativeElement;

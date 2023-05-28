@@ -31,6 +31,7 @@ export class DialogNouveauteComponent implements OnInit {
   public siteFilterCtrl: FormControl = new FormControl();
   private _onDestroy = new Subject<void>();
   filteredSites: Site[];
+  dateSysteme: Date = new Date();
 
   constructor(private builder: FormBuilder, 
               private service: ApiService, 

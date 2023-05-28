@@ -46,10 +46,13 @@ export class DemandeService {
     return this.http.post(`${this.baseUrl}Demande/pris/${id}/${adminId}`, null);
   }
 
-  ApprouverDemande(id: number, demande: Demande): Observable<any> {
-    const url = `${this.baseUrl}Demande/${id}`;
-    const demandeData = { ...demande, id: id,};
-    return this.http.put<any>(url, demandeData);
+  // ApprouverDemande(id: number): Observable<any> {
+  //   const url = `${this.baseUrl}Demande/${id}/approuver`;
+  //   return this.http.put(url, {});
+  // }
+
+  ApprouverDemande(id: number) {
+    return this.http.put(`${this.baseUrl}Demande/${id}/approuver`, {});
   }
 
   RejectDemande(id: number): Observable<any> {

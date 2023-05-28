@@ -29,6 +29,7 @@ export class DialogEmployeMoisComponent implements OnInit {
   public userFilterCtrl: FormControl = new FormControl();
   private _onDestroy = new Subject<void>();
   filteredUsers: Utilisateur[];
+  dateSysteme: Date = new Date();
 
   constructor(private builder: FormBuilder, 
     private service: EmployeMoisService, 

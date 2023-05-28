@@ -9,8 +9,7 @@ export class Demande {
     date: Date = new Date();
     status: string; 
     document: string;
-    mois: Date = new Date();
-    motif: string; 
+    mois: Date = new Date(); 
     destinataire: string;
     dateSortie: Date = new Date();
     utilisateurId: number;
@@ -20,7 +19,11 @@ export class Demande {
     type: string; 
     dateDebut: Date = new Date();
     dateFin: Date = new Date();
-    justificatif: string; 
-    police: string; 
+    etudiant1: string; 
+    etudiant2: string; 
+    sujet: string; 
+    fac: string; 
+    debutS: Date = new Date();
+    finS: Date = new Date();
     historiques: Demande[] = [];
 }

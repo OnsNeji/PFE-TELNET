@@ -26,7 +26,7 @@
             </mat-form-field>
 
             <mat-form-field class="date-field col-sm-4">
-              <input matInput [matDatepicker]="picker1100" formControlName="datePublication" placeholder="Date Publication">
+              <input matInput [matDatepicker]="picker1100" formControlName="datePublication" [max]="dateSysteme" placeholder="Date Publication">
               <mat-datepicker-toggle matSuffix [for]="picker1100"></mat-datepicker-toggle>
               <mat-datepicker #picker1100></mat-datepicker>
             </mat-form-field>

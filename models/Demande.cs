@@ -20,20 +20,23 @@ namespace TelnetTeamBack.models
         public string Status { get; set; }
         public string Document { get; set; }
         public DateTime? Mois { get; set; }
-        public string Motif { get; set; }
         public string Destinataire { get; set; }
         public DateTime? DateSortie { get; set; }
         public string Type { get; set; }
         public DateTime? DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
-        public string Justificatif { get; set; }
-        public string Police { get; set; }
         public int UtilisateurId { get; set; }
         [JsonIgnore]
         public Utilisateur Utilisateur { get; set; }
         public int? AdminId { get; set; }
         [JsonIgnore]
         public Utilisateur Admin { get; set; }
+        public string Sujet { get; set; }
+        public string Etudiant1 { get; set; }
+        public string Etudiant2 { get; set; }
+        public string Fac { get; set; }
+        public DateTime? DebutS { get; set; }
+        public DateTime? FinS { get; set; }
         public ICollection<Historique> Historiques { get; set; }
     }
 }

@@ -37,8 +37,6 @@ export class DialogDemandeComponent implements OnInit {
   afficherDestinataire: boolean;
   afficherDateSortie: boolean;
   afficherTypeAttest: boolean;
-  afficherDateDebut: boolean;
-  afficherDateFin: boolean;
   afficherEtud1 : boolean;
   afficherEtud2 : boolean;
   afficherFac : boolean;
@@ -47,6 +45,7 @@ export class DialogDemandeComponent implements OnInit {
   afficherFinS : boolean;
   afficherCheckbox: boolean = false;
   dateSysteme: Date = new Date();
+  afficherTypeSalaire : boolean;
 
   constructor(private builder: FormBuilder, 
     private service: ApiService, 
@@ -58,27 +57,25 @@ export class DialogDemandeComponent implements OnInit {
 
     ngOnInit(): void {
       this.demandeForm = this.builder.group({
-        // id : [''],
         titre : ['', Validators.required],
         description : [''],
         priorite : ['', Validators.required],
         utilisateurId : [''],
-        document : [],
+        document : [''],
         status: [''],
         date: [''],
-        mois: [],
+        mois: [''],
         destinataire: [''],
-        dateSortie:[],
-        adminId : [],
-        dateDebut:[],
-        dateFin:[],
+        dateSortie:[''],
+        adminId : [''],
         type:[''],   
         etudiant1: [''], 
         etudiant2: [''],  
         sujet: [''], 
         fac: [''], 
         debutS: [''], 
-        finS: [''],    
+        finS: [''], 
+        choix: [''],    
       });
       this.getUtilisateurs();
 
@@ -113,7 +110,7 @@ export class DialogDemandeComponent implements OnInit {
         
         this.demandeForm.value.document = this.pdfUrlJ;
         this.demandeForm.value.document = this.pdfUrlD;
-        console.log(this.demandeForm.valid)
+        console.log(this.demandeForm.value)
         if(this.demandeForm.valid){
           const mois = new Date(this.demandeForm.value.mois);
           mois.setDate(mois.getDate() + 1);
@@ -121,12 +118,6 @@ export class DialogDemandeComponent implements OnInit {
           const dateSortie = new Date(this.demandeForm.value.dateSortie);
           dateSortie.setHours(dateSortie.getHours() + 1);
           dateSortie.setDate(dateSortie.getDate() + 1);
-
-          const dateDebut = new Date(this.demandeForm.value.dateDebut);
-          dateDebut.setDate(dateDebut.getDate() + 1);
-
-          const dateFin = new Date(this.demandeForm.value.dateFin);
-          dateFin.setDate(dateFin.getDate() + 1);
 
           const debutS = new Date(this.demandeForm.value.debutS);
           debutS.setDate(debutS.getDate() + 1);
@@ -138,7 +129,7 @@ export class DialogDemandeComponent implements OnInit {
           const utilisateurId = parseInt(this.demandeForm.value.utilisateurId);
 
           const date= new Date();
-          this.demandeService.AddDemande({ ...this.demandeForm.value, utilisateurId, date, mois, dateDebut, dateFin, dateSortie, debutS, finS }).subscribe(()=>{
+          this.demandeService.AddDemande({ ...this.demandeForm.value, utilisateurId, date, mois, dateSortie, debutS, finS }).subscribe(()=>{
             this.demandeForm.reset();
             this.dialogRef.close('ajouter');
             this.notificationService.success('Request added successfully !');
@@ -187,8 +178,6 @@ export class DialogDemandeComponent implements OnInit {
       this.afficherMoisFiche = titre === 'Fiche de paie';
       this.afficherDestinataire = titre === 'Lettre de recommandation';
       this.afficherDateSortie = titre === 'Autorisation de sortie';
-      this.afficherDateDebut = titre === 'Attestation de salaire';
-      this.afficherDateFin = titre === 'Attestation de salaire';
       this.afficherTypeAttest = titre === "Attestation de travail";
       this.afficherEtud1 = titre === "Attestation de stage";
       this.afficherEtud2 = titre === "Attestation de stage";
@@ -196,6 +185,7 @@ export class DialogDemandeComponent implements OnInit {
       this.afficherSujet = titre === "Attestation de stage";
       this.afficherDebutS = titre === "Attestation de stage";
       this.afficherFinS = titre === "Attestation de stage";
+      this.afficherTypeSalaire = titre === "Attestation de salaire";
     }
     
   onPDFJSelected(event: any): void {

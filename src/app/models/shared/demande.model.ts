@@ -17,13 +17,12 @@ export class Demande {
     adminId: number;
     admins: Utilisateur[] = [];
     type: string; 
-    dateDebut: Date = new Date();
-    dateFin: Date = new Date();
     etudiant1: string; 
     etudiant2: string; 
     sujet: string; 
     fac: string; 
     debutS: Date = new Date();
     finS: Date = new Date();
+    choix: string; 
     historiques: Demande[] = [];
 }

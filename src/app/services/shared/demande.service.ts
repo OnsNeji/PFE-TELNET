@@ -52,7 +52,7 @@ export class DemandeService {
   // }
 
   ApprouverDemande(id: number) {
-    return this.http.put(`${this.baseUrl}Demande/${id}/approuver`, {});
+    return this.http.put(`${this.baseUrl}Demande/${id}/resoudre`, {});
   }
 
   RejectDemande(id: number): Observable<any> {

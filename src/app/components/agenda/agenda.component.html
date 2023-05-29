@@ -9,14 +9,16 @@
         </a>
       </div>
       <nav id="navbar" class="navbar order-last order-lg-0">
-        <!--<ul>
-          <li>
-            <a class="nav-link scrollto active" routerLink="/accueil">Accueil</a>
-          </li>
-        </ul>-->
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
       <!-- .navbar -->
+
+      <ng-container *ngIf="!id">
+        <a routerLink="/login" class="book-a-table-btn" >S'identifier</a>
+    </ng-container>
+    <ng-container *ngIf="id">
+      <a (click)='logout()' class="book-a-table-btn" >Logout</a>
+  </ng-container>
     </div>
   </header>
   <br>
@@ -24,104 +26,103 @@
   <br>
   <br>
   <main id="main">
-    <!-- ======= Menu Section ======= -->
     <section id="menu" class="menu">
       <div class="container">
-
         <div class="section-title">
           <h2>Agenda Téléphonique du Groupe <br> <span>{{ site.site }}</span></h2>
         </div>
-
-        <div class="row">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul id="menu-flters">
-              <li data-filter=".rdc" class="filter-active">Rez de chaussée</li>
-              <li data-filter=".filter-étage1">1ér étage</li>
-              <li data-filter=".filter-étage2">2éme étage</li>
-              <li data-filter=".filter-étage3">3éme étage</li>
-              <li data-filter=".filter-étage4">4éme étage</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row menu-container">
-          <ng-container *ngFor="let poste of site.postes">
-            <div class="col-lg-12 menu-item rdc filter-active" *ngIf="poste.etage === 'Rez de Chaussée'">
-              <div class="thumb">
-                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
-              </div>
-              <div class="menu-content">
-                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
-              </div>
-              <div class="menu-ingredients">
-                {{getUtilisateurRole(poste.utilisateurId)}}
-              </div>
+        <mat-tab-group fitInkBarToContent class="example-stretched-tabs">
+          <mat-tab label="Rez de chaussée">
+            <div class="mat-tab-body-content">
+              <ng-container *ngFor="let poste of site.postes">
+                <div class="col-lg-12 menu-item" *ngIf="poste.etage === 'Rez de Chaussée'">
+                  <div class="thumb">
+                    <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+                  </div>
+                  <div class="menu-content">
+                    <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+                  </div>
+                  <div class="menu-ingredients">
+                    {{getUtilisateurRole(poste.utilisateurId)}}
+                  </div>
+                </div>
+              </ng-container>
             </div>
-          </ng-container>
           
-          <ng-container *ngFor="let poste of site.postes">
-            <div class="col-lg-12 menu-item filter-étage1" *ngIf="poste.etage === '1ér étage'">
-              <div class="thumb">
-                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
-              </div>
-              <div class="menu-content">
-                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
-              </div>
-              <div class="menu-ingredients">
-                {{getUtilisateurRole(poste.utilisateurId)}}
-              </div>
+          </mat-tab>
+          <mat-tab label="1ér étage">
+            <div class="mat-tab-body-content">
+              <ng-container *ngFor="let poste of site.postes">
+                <div class="col-lg-12 menu-item" *ngIf="poste.etage === '1ér étage'">
+                  <div class="thumb">
+                    <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+                  </div>
+                  <div class="menu-content">
+                    <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+                  </div>
+                  <div class="menu-ingredients">
+                    {{getUtilisateurRole(poste.utilisateurId)}}
+                  </div>
+                </div>
+              </ng-container>
             </div>
-          </ng-container>
-          
-          <ng-container *ngFor="let poste of site.postes">
-            <div class="col-lg-12 menu-item filter-étage2" *ngIf="poste.etage === '2éme étage'">
-              <div class="thumb">
-                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
-              </div>
-              <div class="menu-content">
-                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
-              </div>
-              <div class="menu-ingredients">
-                {{getUtilisateurRole(poste.utilisateurId)}}
-              </div>
+          </mat-tab>
+          <mat-tab label="2éme étage">
+            <div class="mat-tab-body-content">
+              <ng-container *ngFor="let poste of site.postes">
+                <div class="col-lg-12 menu-item" *ngIf="poste.etage === '2éme étage'">
+                  <div class="thumb">
+                    <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+                  </div>
+                  <div class="menu-content">
+                    <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+                  </div>
+                  <div class="menu-ingredients">
+                    {{getUtilisateurRole(poste.utilisateurId)}}
+                  </div>
+                </div>
+              </ng-container>
             </div>
-          </ng-container>
-          
-          <ng-container *ngFor="let poste of site.postes">
-            <div class="col-lg-12 menu-item filter-étage3" *ngIf="poste.etage === '3éme étage'">
-              <div class="thumb">
-                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
-              </div>
-              <div class="menu-content">
-                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
-              </div>
-              <div class="menu-ingredients">
-                {{getUtilisateurRole(poste.utilisateurId)}}
-              </div>
+          </mat-tab>
+          <mat-tab label="3éme étage">
+            <div class="mat-tab-body-content">
+              <ng-container *ngFor="let poste of site.postes">
+                <div class="col-lg-12 menu-item" *ngIf="poste.etage === '3éme étage'">
+                  <div class="thumb">
+                    <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+                  </div>
+                  <div class="menu-content">
+                    <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+                  </div>
+                  <div class="menu-ingredients">
+                    {{getUtilisateurRole(poste.utilisateurId)}}
+                  </div>
+                </div>
+              </ng-container>
             </div>
-          </ng-container>
-          
-          <ng-container *ngFor="let poste of site.postes">
-            <div class="col-lg-12 menu-item filter-étage4" *ngIf="poste.etage === '4éme étage'">
-              <div class="thumb">
-                <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
-              </div>
-              <div class="menu-content">
-                <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
-              </div>
-              <div class="menu-ingredients">
-                {{getUtilisateurRole(poste.utilisateurId)}}
-              </div>
+          </mat-tab>
+          <mat-tab label="4éme étage">
+            <div class="mat-tab-body-content">
+              <ng-container *ngFor="let poste of site.postes">
+                <div class="col-lg-12 menu-item" *ngIf="poste.etage === '4éme étage'">
+                  <div class="thumb">
+                    <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
+                  </div>
+                  <div class="menu-content">
+                    <a href="#">{{getUtilisateurNom(poste.utilisateurId)}}</a><span>{{poste['numéro']}}</span>
+                  </div>
+                  <div class="menu-ingredients">
+                    {{getUtilisateurRole(poste.utilisateurId)}}
+                  </div>
+                </div>
+              </ng-container>
             </div>
-          </ng-container>
-        </div>
-        
-
+          </mat-tab>
+        </mat-tab-group>
       </div>
     </section>
-    <!-- End Menu Section -->
-
   </main>
+  
   <!-- ======= Footer ======= -->
   <footer id="footer">
     <div class="container">

@@ -48,6 +48,7 @@ namespace TelnetTeamBack.models
         public List<MariageNaissance> MariageNaissances { get; set; }
         public ICollection<Demande> Demandes { get; set; }
         public ICollection<Demande> AdminDemandes { get; set; }
+        public int JoursCongé { get; set; }
         public List<Congé> Congés { get; set; }
 
     }

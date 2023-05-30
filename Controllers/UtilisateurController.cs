@@ -106,6 +106,14 @@ namespace TelnetTeamBack.Controllers
         {
             utilisateur.DateAjout = DateTime.Now;
             utilisateur.MotDePasse = CryptoHelper.HashPassword(utilisateur.MotDePasse); // hash le mot de passe
+            if (DateTime.Now.Month == 5 && DateTime.Now.Day == 31)
+            {
+                utilisateur.JoursCongé = 26; // Reset the attribute to 26 on January 1st
+            }
+            else
+            {
+                utilisateur.JoursCongé = utilisateur.JoursCongé; // Use the existing value or set it to 26 if null
+            }
             _context.Utilisateurs.Add(utilisateur);
             await _context.SaveChangesAsync();
 

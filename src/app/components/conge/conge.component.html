@@ -163,14 +163,16 @@
           (click)="getConge(row.id)" matTooltip="Details">
             <em class="material-icons">visibility</em>
           </button>
+          <ng-container *ngIf="row.status === 'En attente'">
             <button class="btn btn-mini btn-primary m-r-5 ripple light" type="button"
-              (click)="updateConge(row)" matTooltip="Approuver">
+              (click)="updateConge(row.id)" matTooltip="Approuver">
               <em class="material-icons">done</em>
             </button>
             <button class="btn btn-mini btn-danger ripple light" type="button" matTooltip="Rejeter"
               (click)="rejectConge(row.id)">
               <em class="material-icons">cancel</em>
             </button>
+          </ng-container>
           </ng-container>
         </mat-cell>
       </ng-container>

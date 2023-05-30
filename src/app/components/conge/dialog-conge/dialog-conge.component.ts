@@ -45,9 +45,8 @@ export class DialogCongeComponent implements OnInit {
 
   ngOnInit(): void {
     this.congeForm = this.builder.group({
-      // id : [''],
       type : ['', Validators.required],
-      description : ['', Validators.required],
+      description : [''],
       utilisateurId : [''],
       document : [''],
       justificatif : [''],
@@ -74,61 +73,85 @@ export class DialogCongeComponent implements OnInit {
     
   }
 
-  AjouterConge(){
-    if(!this.editData){
-      
+  AjouterConge() {
+    if (!this.editData) {
       this.congeForm.value.document = this.pdfUrlD;
       this.congeForm.value.justificatif = this.pdfUrlJ;
-      console.log(this.congeForm.valid)
-      if(this.congeForm.valid){
+      console.log(this.congeForm.valid);
+  
+      if (this.congeForm.valid) {
         const dateDebut = new Date(this.congeForm.value.dateDebut);
         dateDebut.setDate(dateDebut.getDate() + 1);
         
         this.congeForm.value.utilisateurId = this.id;
-
         const utilisateurId = parseInt(this.congeForm.value.utilisateurId);
         const duree = parseInt(this.congeForm.value.duree);
-
-        const date= new Date();
-        this.congéService.AddCongé({ ...this.congeForm.value, utilisateurId, duree, date, dateDebut }).subscribe(()=>{
-          this.congeForm.reset();
-          this.dialogRef.close('ajouter');
-          this.notificationService.success('Time off added successfully !');
-
-        },
-        ()=>{
-          this.notificationService.danger('Error when adding a time off.');
-        })
+  
+        const date = new Date();
+  
+        // Effectuer la vérification de la durée de congé
+        if (this.congeForm.value.type === 'Congé de maternité') {
+          // Si c'est un congé de maternité, autoriser la demande sans vérification supplémentaire
+          this.congéService.AddCongé({ ...this.congeForm.value, utilisateurId, duree, date, dateDebut }).subscribe(() => {
+            this.congeForm.reset();
+            this.dialogRef.close('ajouter');
+            this.notificationService.success('Time off added successfully!');
+          },
+          () => {
+            this.notificationService.danger('Error when adding a time off.');
+          });
+        } else {
+          // Vérifier la durée de congé par rapport au nombre de jours disponibles
+          this.service.GetUtilisateur(utilisateurId).subscribe((utilisateur) => {
+            if (duree <= utilisateur.joursCongé) {
+              this.service.UpdateUtilisateur(utilisateurId, utilisateur).subscribe(() => {
+                // Enregistrer la demande de congé
+                this.congéService.AddCongé({ ...this.congeForm.value, utilisateurId, duree, date, dateDebut }).subscribe(() => {
+                  this.congeForm.reset();
+                  this.dialogRef.close('ajouter');
+                  this.notificationService.success('Time off added successfully!');
+                },
+                () => {
+                  this.notificationService.danger('Error when adding a time off.');
+                });
+              });
+            } else {
+              this.notificationService.danger('Insufficient number of leave days.');
+            }
+          });
+        }
       }
-    } else {
-      this.updateConge();
-    }
+    } 
+    // else {
+    //   this.updateConge();
+    // }
   }
+  
 
-  updateConge(){
-    if (!this.pdfUrlD) {
-      this.congeForm.value.document = this.editData.document;
-    } else {
-      this.congeForm.value.document = this.pdfUrlD;
-    }
+  // updateConge(){
+  //   if (!this.pdfUrlD) {
+  //     this.congeForm.value.document = this.editData.document;
+  //   } else {
+  //     this.congeForm.value.document = this.pdfUrlD;
+  //   }
 
-    if (!this.pdfUrlJ) {
-      this.congeForm.value.justificatif = this.editData.justificatif;
-    } else {
-      this.congeForm.value.justificatif = this.pdfUrlJ;
-    }
+  //   if (!this.pdfUrlJ) {
+  //     this.congeForm.value.justificatif = this.editData.justificatif;
+  //   } else {
+  //     this.congeForm.value.justificatif = this.pdfUrlJ;
+  //   }
 
-    if (this.congeForm.valid) {
-    this.congéService.UpdateCongé(this.editData.id, { ...this.congeForm.value }).subscribe(()=>{
-      this.congeForm.reset();
-      this.dialogRef.close('modifier');
-      this.notificationService.success('Time off approuved successfully !');
-    },
-    ()=>{
-      this.notificationService.danger('Error when approuving a time off.');
-    });
-  }
-  }
+  //   if (this.congeForm.valid) {
+  //   this.congéService.UpdateCongé(this.editData.id, { ...this.congeForm.value }).subscribe(()=>{
+  //     this.congeForm.reset();
+  //     this.dialogRef.close('modifier');
+  //     this.notificationService.success('Time off approuved successfully !');
+  //   },
+  //   ()=>{
+  //     this.notificationService.danger('Error when approuving a time off.');
+  //   });
+  // }
+  // }
 onPDFDSelected(event: any): void {
   const file = event.target.files[0];
   const reader = new FileReader();

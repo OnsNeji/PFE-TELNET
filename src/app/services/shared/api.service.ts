@@ -96,7 +96,7 @@ export class ApiService {
   }
   AddUtilisateur(utilisateur:Utilisateur): Observable<Utilisateur> {
     const url = `${this.baseUrl}Utilisateur`;
-    const userData = { ...utilisateur, userAjout: utilisateur.userAjout };
+    const userData = { ...utilisateur, userAjout: utilisateur.userAjout, joursCongé: 26 };
     return this.http.post<Utilisateur>(url, userData);
   }
   UpdateUtilisateur(id: number, utilisateur:Utilisateur): Observable<any> {

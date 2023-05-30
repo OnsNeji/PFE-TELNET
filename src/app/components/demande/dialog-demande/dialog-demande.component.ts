@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -11,11 +11,25 @@ import { NotificationService } from 'app/services/shared';
 import { ApiService } from 'app/services/shared/api.service';
 import { DemandeService } from 'app/services/shared/demande.service';
 import { Subject } from 'rxjs';
+import * as _moment from 'moment';
+import * as moment from 'moment';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_FORMATS } from 'app/shared/select-month/select-month.component';
 
 @Component({
   selector: 'app-dialog-demande',
   templateUrl: './dialog-demande.component.html',
-  styleUrls: ['./dialog-demande.component.scss']
+  styleUrls: ['./dialog-demande.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class DialogDemandeComponent implements OnInit {
 
@@ -46,6 +60,9 @@ export class DialogDemandeComponent implements OnInit {
   afficherCheckbox: boolean = false;
   dateSysteme: Date = new Date();
   afficherTypeSalaire : boolean;
+  startDate: Date = new Date();
+  @Output() daysChange = new EventEmitter<any[]>();
+  mois = new FormControl(moment());
 
   constructor(private builder: FormBuilder, 
     private service: ApiService, 
@@ -105,6 +122,19 @@ export class DialogDemandeComponent implements OnInit {
       this.afficherCheckbox = true;
     }
 
+    chosenYearHandler(normalizedYear: _moment.Moment) {
+        this.mois.setValue(normalizedYear);
+        this.daysChange.emit(this.mois.value);
+    
+    }
+    chosenMonthHandler(normalizedMonth: _moment.Moment, datepicker: MatDatepicker<_moment.Moment>) {
+        this.mois.setValue(normalizedMonth);
+        this.daysChange.emit(this.mois.value);
+      if (datepicker) {
+        datepicker.close();
+      }
+    }
+  
     AjouterDemande(){
       if(!this.editData){
         
@@ -112,8 +142,10 @@ export class DialogDemandeComponent implements OnInit {
         this.demandeForm.value.document = this.pdfUrlD;
         console.log(this.demandeForm.value)
         if(this.demandeForm.valid){
-          const mois = new Date(this.demandeForm.value.mois);
+          let mois = this.mois.value;
+          mois = mois.startOf('month').toDate();
           mois.setDate(mois.getDate() + 1);
+          console.log(mois)
 
           const dateSortie = new Date(this.demandeForm.value.dateSortie);
           dateSortie.setHours(dateSortie.getHours() + 1);
@@ -140,38 +172,7 @@ export class DialogDemandeComponent implements OnInit {
           })
         }
       } 
-      // else {
-      //   this.approuverDemande();
-      // }
     }
-  
-    // approuverDemande(){
-    //   if (!this.pdfUrlJ) {
-    //     this.demandeForm.value.justificatif = this.editData.justificatif;
-    //   } else {
-    //     this.demandeForm.value.justificatif = this.pdfUrlJ;
-    //   }
-
-    //   if (!this.pdfUrlD) {
-    //     this.demandeForm.value.document = this.editData.document;
-    //   } else {
-    //     this.demandeForm.value.document = this.pdfUrlD;
-    //   }
-  
-    //   if (this.demandeForm.valid) {
-    //   this.demandeService.ApprouverDemande(this.editData.id, {...this.demandeForm.value}).subscribe(()=>{
-    //     this.demandeForm.reset();
-    //     this.dialogRef.close('modifier');
-    //     this.notificationService.success('Request approuved successfully !');
-    //     setTimeout(() => {
-    //       window.location.reload();
-    //     },);
-    //   },
-    //   ()=>{
-    //     this.notificationService.danger('Error when approuving a request.');
-    //   });
-    // }
-    // }
 
     onTitreChange(event: any) {
       const titre = event.value;

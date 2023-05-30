@@ -28,5 +28,6 @@ export class Utilisateur {
     dateModif: Date = new Date();
     userModif!: string;
     userAjout!: string;
+    joursCongé: number = 0;
     demandes: Demande[] = [];
 }

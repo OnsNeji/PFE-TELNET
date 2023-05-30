@@ -33,10 +33,8 @@ export class CongéService {
     return this.http.post<Congé>(url, congéData);
   }
 
-  UpdateCongé(id: number, congé: Congé): Observable<any> {
-    const url = `${this.baseUrl}Congé/${id}`;
-    const congéData = { ...congé, id: id,}; // inclure l'ID dans le corps de la requête
-    return this.http.put<any>(url, congéData);
+  ApprouverCongé(id: number) {
+    return this.http.put(`${this.baseUrl}Congé/${id}`, {});
   }
 
   RejectCongé(id: number): Observable<any> {

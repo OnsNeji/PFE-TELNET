@@ -49,11 +49,19 @@
               </mat-form-field>
 
               
-              <mat-form-field class="date-field col-sm-4" *ngIf="afficherMoisFiche">
-                <input matInput [matMonthPicker]="picker2200" formControlName="mois" [max]="dateSysteme" class="login-input-style" placeholder="Mois"  [disabled]="editData">
+              <!--<mat-form-field class="date-field col-sm-4" *ngIf="afficherMoisFiche">
+                <input matInput [matDatepicker]="picker2200" formControlName="mois" [max]="dateSysteme" class="login-input-style" placeholder="Mois"  [disabled]="editData">
                 <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
                 <mat-datepicker #picker2200></mat-datepicker>
+              </mat-form-field>-->
+
+              <mat-form-field class="date-field col-sm-4" *ngIf="afficherMoisFiche">
+                <input matInput [matDatepicker]="picker" [formControl]="mois" [max]="dateSysteme" placeholder="Mois">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+                  (monthSelected)="chosenMonthHandler($event, picker)" panelClass="example-month-picker"></mat-datepicker>
               </mat-form-field>
+
 
               <mat-form-field class="col-sm-4" *ngIf="afficherTypeSalaire">
                 <mat-label>Type</mat-label>

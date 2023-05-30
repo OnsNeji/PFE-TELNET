@@ -38,14 +38,14 @@
               </mat-form-field>
 
               <mat-form-field class="date-field col-sm-6">
-                <input matInput [matDatepicker]="picker2200" formControlName="dateDebut" [max]="dateSysteme" class="login-input-style" placeholder="Date Début"  [disabled]="editData">
+                <input matInput [matDatepicker]="picker2200" formControlName="dateDebut" [min]="dateSysteme" class="login-input-style" placeholder="Date Début"  [disabled]="editData">
                 <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
                 <mat-datepicker #picker2200></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field class="col-sm-6">
-                <mat-label>Durée de congé</mat-label>
-                <input formControlName="duree" matInput class="login-input-style">
+                <mat-label>Durée de congé ( / jours )</mat-label>
+                <input formControlName="duree" matInput class="login-input-style" [readonly]="editData">
               </mat-form-field>
 
               <div class="col-sm-6"  *ngIf="!editData">

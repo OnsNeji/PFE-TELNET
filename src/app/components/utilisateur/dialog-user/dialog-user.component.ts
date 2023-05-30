@@ -62,6 +62,7 @@ export default class DialogUserComponent implements OnInit {
       image: [''],
       departementId: ['', Validators.required],
       motDePasse: ['', Validators.required],
+      joursCongé: [''],
       salaire: ['', Validators.required],
       dateNaissance: ['', [Validators.required, this.validAge]],
       userAjout: [''],
@@ -97,6 +98,7 @@ export default class DialogUserComponent implements OnInit {
       this.userForm.value.dateAjout = this.ajoutDate;
       this.userForm.value.image = this.imageUrl;
       console.log(this.userForm.value.image);
+      console.log(this.userForm.valid);
       if (this.userForm.valid) {
         this.userForm.value.userAjout = this.matricule;
         const userAjout = this.userForm.value.userAjout;
@@ -113,7 +115,7 @@ export default class DialogUserComponent implements OnInit {
           } else if (emails.includes(this.userForm.value.email)) {
             this.notificationService.danger('This email already exists!');
           } else {
-            this.service.AddUtilisateur({ ...this.userForm.value, dateEmbauche, dateNaissance, userAjout }).subscribe(() => {
+            this.service.AddUtilisateur({ ...this.userForm.value, dateEmbauche, dateNaissance, userAjout, joursCongé: 26 }).subscribe(() => {
               this.userForm.reset();
               this.dialogRef.close('ajouter');
               this.notificationService.success('User added successfully!');

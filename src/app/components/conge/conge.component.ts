@@ -150,9 +150,6 @@ export class CongeComponent implements OnInit {
             {
               this.getConges();
               this.notificationService.success('Time off deleted successfully');
-              setTimeout(() => {
-                window.location.reload();
-              }, 500);
             },
             () => {
               this.notificationService.danger('Delete time off failed');
@@ -211,14 +208,16 @@ export class CongeComponent implements OnInit {
     }
   }
 
-  updateConge(row: any) {
-    this.dialog.open(DialogCongeComponent, {
-      data: row,
-    }).afterClosed().subscribe(result=>{
-      if(result === "modifier"){
-        this.getConges();
-      }
-    })
+  updateConge(id: number) : void{
+
+          this.service.ApprouverCongé(id).subscribe(()=>{
+      this.notificationService.success('Time off approuved successfully !');
+    },
+    ()=>{
+      setTimeout(() => {
+        window.location.reload();
+      },);
+    });
     }
 
     getConge(id: number) {

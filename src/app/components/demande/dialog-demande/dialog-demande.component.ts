@@ -63,6 +63,7 @@ export class DialogDemandeComponent implements OnInit {
   startDate: Date = new Date();
   @Output() daysChange = new EventEmitter<any[]>();
   mois = new FormControl(moment());
+  debutS = new FormControl(moment());
 
   constructor(private builder: FormBuilder, 
     private service: ApiService, 
@@ -145,8 +146,7 @@ export class DialogDemandeComponent implements OnInit {
           let mois = this.mois.value;
           mois = mois.startOf('month').toDate();
           mois.setDate(mois.getDate() + 1);
-          console.log(mois)
-
+         
           const dateSortie = new Date(this.demandeForm.value.dateSortie);
           dateSortie.setHours(dateSortie.getHours() + 1);
           dateSortie.setDate(dateSortie.getDate() + 1);

@@ -43,15 +43,16 @@ namespace TelnetTeamBack.Controllers
         }
 
         [HttpGet("latest")]
-        public ActionResult<IEnumerable<Nouveauté>> GetLatestProjectSuccesses()
+        public async Task<ActionResult<IEnumerable<ProjectSuccess>>> GetLastProjectSuccesses()
         {
-            var latestProjets = _context.ProjectSuccesses
-                .OrderByDescending(p => p.id)
-                .Take(5)
-                .ToList();
+            var lastProjectSuccesses = await _context.Départements
+                .Where(d => d.ProjectSuccesses.Any()) // Exclure les départements sans ProjectSuccess
+                .Select(d => d.ProjectSuccesses.OrderByDescending(p => p.id).FirstOrDefault())
+                .ToListAsync();
 
-            return Ok(latestProjets);
+            return lastProjectSuccesses;
         }
+
 
         // PUT: api/ProjectSuccess/5
         [HttpPut("{id}")]

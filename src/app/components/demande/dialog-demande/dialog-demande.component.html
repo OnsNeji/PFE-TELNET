@@ -49,12 +49,11 @@
             </mat-form-field>
 
             <mat-form-field class="date-field col-sm-4" *ngIf="afficherMoisFiche">
-              <input matInput [matDatepicker]="picker" [formControl]="mois" [max]="dateSysteme" placeholder="Mois">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker startView="multi-year" (yearSelected)="chosenYearHandler($event)"
-                (monthSelected)="chosenMonthHandler($event, picker)"></mat-datepicker>
+              <input matInput [matDatepicker]="pickerMois" [formControl]="mois" [max]="dateSysteme" placeholder="Mois">
+              <mat-datepicker-toggle matSuffix [for]="pickerMois"></mat-datepicker-toggle>
+              <mat-datepicker #pickerMois startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+                (monthSelected)="chosenMonthHandler($event, pickerMois)"></mat-datepicker>              
             </mat-form-field>
-
 
             <mat-form-field class="col-sm-4" *ngIf="afficherTypeSalaire">
               <mat-label>Type</mat-label>
@@ -84,22 +83,31 @@
               <input formControlName="etudiant2" matInput class="login-input-style" [readonly]="editData">
             </mat-form-field>
 
-            <mat-form-field class="date-field col-sm-12" *ngIf="afficherDateSortie">
-              <input matInput [matDatetimepicker]="picker2300" formControlName="dateSortie" class="login-input-style" placeholder="Date et heure de sortie" [disabled]="editData">
-              <mat-datepicker-toggle matSuffix [for]="picker2300"></mat-datepicker-toggle>
-              <mat-datetimepicker #picker2300></mat-datetimepicker>
+            <mat-form-field class="date-field col-sm-6" *ngIf="afficherDateSortie">
+              <input matInput [matDatepicker]="pickerDateSortie" formControlName="dateSortie" class="login-input-style" placeholder="Date de sortie">
+              <mat-datepicker-toggle matSuffix [for]="pickerDateSortie"></mat-datepicker-toggle>
+              <mat-datepicker #pickerDateSortie></mat-datepicker>
             </mat-form-field>
+            
+            <mat-form-field class="col-sm-6" *ngIf="afficherHeureSortie">
+              <mat-label>Heure de sortie</mat-label>
+              <input formControlName="heureSortie" matInput class="login-input-style" [readonly]="editData">
+              <mat-error *ngIf="demandeForm.controls.heureSortie.hasError('pattern')">
+                Le format d'heure n'est pas valide. Utilisez le format HH:MM.
+              </mat-error>
+            </mat-form-field>
+            
 
             <mat-form-field class="date-field col-sm-6" *ngIf="afficherDebutS">
-              <input matInput [matDatepicker]="picker2600" formControlName="debutS" [max]="dateSysteme" class="login-input-style" placeholder="Date début">
-              <mat-datepicker-toggle matSuffix [for]="picker2600"></mat-datepicker-toggle>
-              <mat-datepicker #picker2600></mat-datepicker>
+              <input matInput [matDatepicker]="pickerDebutS" formControlName="debutS" [max]="dateSysteme" class="login-input-style" placeholder="Date début">
+              <mat-datepicker-toggle matSuffix [for]="pickerDebutS"></mat-datepicker-toggle>
+              <mat-datepicker #pickerDebutS></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field class="date-field col-sm-6" *ngIf="afficherFinS">
-              <input matInput [matDatepicker]="picker2700" formControlName="finS" [max]="dateSysteme" [min]="demandeForm.get('debutS').value" class="login-input-style" placeholder="Date fin">
-              <mat-datepicker-toggle matSuffix [for]="picker2700"></mat-datepicker-toggle>
-              <mat-datepicker #picker2700></mat-datepicker>
+              <input matInput [matDatepicker]="pickerFinS" formControlName="finS" [max]="dateSysteme" class="login-input-style" placeholder="Date fin">
+              <mat-datepicker-toggle matSuffix [for]="pickerFinS"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFinS></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field class="col-sm-12">

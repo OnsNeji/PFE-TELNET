@@ -31,7 +31,7 @@
                         <p class="mb-2" *ngIf="data.titre === 'Attestation de salaire'"><strong>Type: </strong>{{data.choix}}</p>
                         <p class="mb-2" *ngIf="data.titre === 'Fiche de paie'"><strong>Date: </strong>{{data.mois | date: 'MM/yyyy'}}</p>
                         <p class="mb-2" *ngIf="data.titre === 'Lettre de recommandation'"><strong>Destinataire: </strong>{{data.destinataire}}</p>
-                        <p class="mb-2" *ngIf="data.titre === 'Autorisation de sortie'"><strong>Date et Heure de sortie: </strong>{{data.dateSortie | date: 'dd/MM/yyyy HH:mm'}}</p>
+                        <p class="mb-2" *ngIf="data.titre === 'Autorisation de sortie'"><strong>Date et Heure de sortie: </strong>{{data.dateSortie | date: 'dd/MM/yyyy'}} {{data.heureSortie}}</p>
                     </div>
                 </div>
            

@@ -12,6 +12,7 @@ export class Demande {
     mois: Date = new Date(); 
     destinataire: string;
     dateSortie: Date = new Date();
+    heureSortie: string;
     utilisateurId: number;
     utilisateurs: Utilisateur[] = [];
     adminId: number;

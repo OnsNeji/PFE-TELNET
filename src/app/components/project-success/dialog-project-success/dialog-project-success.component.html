@@ -19,8 +19,14 @@
                 <input formControlName="titre" matInput class="login-input-style">
               </mat-form-field>
 
-
             <mat-form-field class="col-sm-6">
+              <mat-label>Département</mat-label>
+              <mat-select formControlName="departementId" class="login-input-style">
+                <mat-option *ngFor="let departement of departements" [value]="departement.id">{{ departement.nom }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field class="col-sm-12">
               <mat-label>Description</mat-label>
               <input formControlName="description" matInput class="login-input-style">
             </mat-form-field>
@@ -30,12 +36,7 @@
               name="image" accept="image/*" class="login-input-style" >
            </div>
 
-           <mat-form-field class="col-sm-6" hidden>
-            <mat-label>Projet</mat-label>
-            <mat-select formControlName="projetId" class="login-input-style">
-              <mat-option *ngFor="let projet of projets" [value]="projet.id">{{ projet.nom }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+
 
             <mat-form-field class="col-sm-6" hidden>
               <mat-label>UserAjout</mat-label>

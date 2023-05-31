@@ -10,6 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { NotificationService, DateTimeService, AuthenticationService } from 'app/services/shared';
 import { UserStoreService } from 'app/services/shared/user-store.service';
+import { ApiService } from 'app/services/shared/api.service';
+import { Departement } from 'app/models/shared/departement.model';
 
 @Component({
   selector: 'app-project-success',
@@ -22,14 +24,16 @@ export class ProjectSuccessComponent implements OnInit {
               private route: ActivatedRoute, 
               private router: Router, 
               public dialog: MatDialog, 
+              private depService: ApiService,
               private notificationService: NotificationService, 
               private dateTimeService: DateTimeService,
               private userStore: UserStoreService,
               private authenticationService: AuthenticationService){}
 
   ProjectSuccesses!: ProjectSuccess[];
+  departements: Departement[];
   projectSuccess: ProjectSuccess = new ProjectSuccess();
-  displayedColumns: string[] = ['pieceJointe', 'titre', 'description', 'action'];
+  displayedColumns: string[] = ['pieceJointe', 'titre', 'description', 'departementId', 'action'];
   dataSource!: MatTableDataSource<ProjectSuccess>;
   lengthPS: number;
   isLoading: boolean;
@@ -39,6 +43,7 @@ export class ProjectSuccessComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
+    this.getDepartements();
     this.userStore.getRoleFromStore().subscribe(val => {
       const roleFromToken = this.authenticationService.getRoleFromToken();
       this.role = val || roleFromToken;
@@ -52,6 +57,7 @@ export class ProjectSuccessComponent implements OnInit {
     });
     this.getProjectSuccesses();
     this.onResetAllFilters();
+    
     
   }
 
@@ -101,6 +107,17 @@ export class ProjectSuccessComponent implements OnInit {
           );
       }
     });
+  }
+
+  getDepartements(): void {
+    this.depService.GetDepartements().subscribe(departements => {
+      this.departements = departements;
+    });
+  }
+
+  getDepNom(id: number): string {
+    const departement = this.departements.find(s => s.id === id);
+    return departement ? departement.nom : '';
   }
 
   onSortData(sort) {

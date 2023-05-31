@@ -20,16 +20,8 @@ import { MY_FORMATS } from 'app/shared/select-month/select-month.component';
 @Component({
   selector: 'app-dialog-demande',
   templateUrl: './dialog-demande.component.html',
-  styleUrls: ['./dialog-demande.component.scss'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
+  styleUrls: ['./dialog-demande.component.scss'],  
+  
 })
 export class DialogDemandeComponent implements OnInit {
 
@@ -50,6 +42,7 @@ export class DialogDemandeComponent implements OnInit {
   afficherMoisFiche: boolean;
   afficherDestinataire: boolean;
   afficherDateSortie: boolean;
+  afficherHeureSortie: boolean;
   afficherTypeAttest: boolean;
   afficherEtud1 : boolean;
   afficherEtud2 : boolean;
@@ -63,7 +56,6 @@ export class DialogDemandeComponent implements OnInit {
   startDate: Date = new Date();
   @Output() daysChange = new EventEmitter<any[]>();
   mois = new FormControl(moment());
-  debutS = new FormControl(moment());
 
   constructor(private builder: FormBuilder, 
     private service: ApiService, 
@@ -85,6 +77,7 @@ export class DialogDemandeComponent implements OnInit {
         mois: [''],
         destinataire: [''],
         dateSortie:[''],
+        heureSortie:['', [Validators.pattern('^([01]?[0-9]|2[0-3]):[0-5][0-9]$')]],
         adminId : [''],
         type:[''],   
         etudiant1: [''], 
@@ -148,7 +141,6 @@ export class DialogDemandeComponent implements OnInit {
           mois.setDate(mois.getDate() + 1);
          
           const dateSortie = new Date(this.demandeForm.value.dateSortie);
-          dateSortie.setHours(dateSortie.getHours() + 1);
           dateSortie.setDate(dateSortie.getDate() + 1);
 
           const debutS = new Date(this.demandeForm.value.debutS);
@@ -179,6 +171,7 @@ export class DialogDemandeComponent implements OnInit {
       this.afficherMoisFiche = titre === 'Fiche de paie';
       this.afficherDestinataire = titre === 'Lettre de recommandation';
       this.afficherDateSortie = titre === 'Autorisation de sortie';
+      this.afficherHeureSortie = titre === 'Autorisation de sortie';
       this.afficherTypeAttest = titre === "Attestation de travail";
       this.afficherEtud1 = titre === "Attestation de stage";
       this.afficherEtud2 = titre === "Attestation de stage";

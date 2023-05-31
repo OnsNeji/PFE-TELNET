@@ -21,8 +21,6 @@ import { MariageNaissanceService } from 'app/services/shared/mariageNaissance.se
 import { MariageNaissance } from 'app/models/shared/mariageNaissance.model';
 import { ProjectSuccess } from 'app/models/shared/projectSuccess.model';
 import { ProjectSuccessService } from 'app/services/shared/project-success.service';
-import { Projet } from 'app/models/shared/projet.model';
-import { ProjetService } from 'app/services/shared/projet.service';
 import { Site } from 'app/models/shared/site.model';
 import { Router } from '@angular/router';
 import { UserCardComponent } from '../user-card/user-card.component';
@@ -55,7 +53,6 @@ export class AccueilComponent implements OnInit {
   MariageNaissance: MariageNaissance = new MariageNaissance();
   projectSuccesses: ProjectSuccess[] = [];
   projectSuccess: ProjectSuccess;
-  projets: Projet[];
   latestEmployee: EmployéMois;
   utilisateurs!: Utilisateur[];
   conventions!: Convention[];
@@ -79,7 +76,6 @@ export class AccueilComponent implements OnInit {
               private nouvService: NouveautéService,
               private employeMoisService: EmployeMoisService, 
               private projectSuccessService: ProjectSuccessService,
-              private projetService: ProjetService,
               private apiService: ApiService,
               private convService: ConventionService,
               private MNService: MariageNaissanceService,
@@ -96,7 +92,6 @@ export class AccueilComponent implements OnInit {
     this.getEvenements();
     this.getEmployéMois();
     this.getProjectSuccesses();
-    this.getProjets();
     this.getUtilisateurs();
     this.getConventions();
     this.getLatestUtilisateurs();
@@ -266,18 +261,6 @@ export class AccueilComponent implements OnInit {
     } else {
       return 'data:image/jpeg;base64,' + base64String;
     }
-  }
-  
-
-  getProjets(){
-    this.projetService.GetProjets().subscribe(projets => {
-      this.projets = projets;
-    });
-  }
-
-  getProjetNom(id: number): string {
-    const projet = this.projets.find(s => s.id === id);
-    return projet ? (projet.nom) : '';
   }
 
   getUtilisateurs(): void {

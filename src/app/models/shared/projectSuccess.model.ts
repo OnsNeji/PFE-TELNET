@@ -1,4 +1,4 @@
-import { Projet } from "./projet.model";
+import { Departement } from "./departement.model";
 
 export class ProjectSuccess {
     id: number =0;
@@ -6,6 +6,6 @@ export class ProjectSuccess {
     description!: string;
     pieceJointe!: string;
     userAjout!: string;
-    projetId!: number;
-    projets: Projet[] = [];
+    departementId!: number;
+    departements: Departement[] = [];
   }

@@ -18,7 +18,6 @@ namespace TelnetTeamBack.models
         public string Nom { get; set; }
         public int ChefD { get; set; }
         public ICollection<Utilisateur> Utilisateurs { get; set; }
-
         [ForeignKey("Site")]
         public int SiteId { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
@@ -31,5 +30,6 @@ namespace TelnetTeamBack.models
         public DateTime DateModif { get; set; }
         public string UserAjout { get; set; }
         public string UserModif { get; set; }
+        public ICollection<ProjectSuccess> ProjectSuccesses { get; set; }
     }
 }

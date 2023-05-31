@@ -22,7 +22,6 @@ namespace TelnetTeamBack.Context
         public DbSet<MédiaEvent> MediaEvents { get; set; }
         public DbSet<Convention> Conventions { get; set; }
         public DbSet<Nouveauté> Nouveautés { get; set; }
-        public DbSet<Projet> Projets { get; set; }
         public DbSet<ProjectSuccess> ProjectSuccesses { get; set; }
         public DbSet<MariageNaissance> MariageNaissances { get; set; }
         public DbSet<Notification> notifications { get; set; }
@@ -65,11 +64,6 @@ namespace TelnetTeamBack.Context
                  .WithMany(p => p.Nouveautés)
                  .HasForeignKey(p => p.SiteId);
 
-            modelBuilder.Entity<Projet>()
-                .HasMany(p => p.ProjectSuccesses)
-                .WithOne(ps => ps.Projet)
-                .HasForeignKey(ps => ps.ProjetId);
-
             modelBuilder.Entity<MariageNaissance>()
                 .HasOne(m => m.Utilisateur)
                 .WithMany(u => u.MariageNaissances)
@@ -99,6 +93,11 @@ namespace TelnetTeamBack.Context
                 .HasOne(p => p.Site)
                 .WithMany(s => s.Postes)
                 .HasForeignKey(p => p.SiteId);
+
+            modelBuilder.Entity<Département>()
+                .HasMany(d => d.ProjectSuccesses)
+                .WithOne(p => p.Département)
+                .HasForeignKey(p => p.DepartementId);
 
             modelBuilder.Entity<Demande>()
                 .HasOne(d => d.Utilisateur)

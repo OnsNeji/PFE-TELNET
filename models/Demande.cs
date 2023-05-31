@@ -22,6 +22,7 @@ namespace TelnetTeamBack.models
         public DateTime? Mois { get; set; }
         public string Destinataire { get; set; }
         public DateTime? DateSortie { get; set; }
+        public string HeureSortie { get; set; }
         public string Type { get; set; }
         public int UtilisateurId { get; set; }
         [JsonIgnore]

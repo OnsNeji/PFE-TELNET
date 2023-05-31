@@ -16,8 +16,9 @@ namespace TelnetTeamBack.models
         public string Description { get; set; }
         public string PieceJointe { get; set; }
         public string UserAjout { get; set; }
-        public int ProjetId { get; set; }
+        [ForeignKey("Département")]
+        public int DepartementId { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
-        public Projet Projet { get; set; }
+        public Département Département { get; set; }
     }
 }

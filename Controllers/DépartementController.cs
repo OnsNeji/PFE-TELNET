@@ -25,7 +25,7 @@ namespace TelnetTeamBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Département>>> GetDepartements()
         {
-            return await _context.Départements.Include(e => e.Utilisateurs).Include(e => e.Site).ToListAsync();
+            return await _context.Départements.Include(e => e.Utilisateurs).Include(e => e.Site).Include(e => e.ProjectSuccesses).ToListAsync();
         }
 
         // GET: api/Departement/5

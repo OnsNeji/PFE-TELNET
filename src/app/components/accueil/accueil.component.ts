@@ -32,6 +32,7 @@ import * as myScript from '../../../assets/js/accueil.js';
 import { SearchComponent } from './search/search.component';
 import { Catégorie } from 'app/models/shared/catégorie.model';
 import { CategorieService } from 'app/services/shared/categorie.service';
+import { Departement } from 'app/models/shared/departement.model';
 
 
 @Component({
@@ -69,10 +70,12 @@ export class AccueilComponent implements OnInit {
   categorieId :number;
   employees: Utilisateur[];
   categories!: Catégorie[];
+  departements: Departement[];
 
   constructor(private service: EvenementService, 
               private siteService: ApiService,
               private userService: ApiService,
+              private depService: ApiService,
               private nouvService: NouveautéService,
               private employeMoisService: EmployeMoisService, 
               private projectSuccessService: ProjectSuccessService,
@@ -100,7 +103,8 @@ export class AccueilComponent implements OnInit {
     this.getSites();
     this.getCategories();
     this.filterConventions();
-
+    this.getDepartements();
+    
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = this.jwtHelper.decodeToken(token);
@@ -238,19 +242,25 @@ export class AccueilComponent implements OnInit {
     );
   }
 
-  getProjectSuccesses() {
-    this.projectSuccessService.getLatestProjectSuccess().subscribe(
-      data => {
-        // Triez les données par ID dans l'ordre décroissant
-        const sortedData = data.sort((a, b) => b.id - a.id);
-        // Récupérez les 5 derniers projets succès
-        this.projectSuccesses = sortedData;
-        console.log(this.projectSuccesses);
-      },
-      error => {
-        console.error(error);
-      }
-    );
+
+
+  getProjectSuccesses(): void {
+    this.projectSuccessService.getLatestProjectSuccess()
+      .subscribe((data: ProjectSuccess[]) => {
+        this.projectSuccesses = data;
+      });
+  }
+
+
+  getDepartements(): void {
+    this.depService.GetDepartements().subscribe(departements => {
+      this.departements = departements;
+    });
+  }
+
+  getDepNom(id: number): string {
+    const departement = this.departements.find(s => s.id === id);
+    return departement ? departement.nom : '';
   }
   
   getImageUrl(base64String: string): string {

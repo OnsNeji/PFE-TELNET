@@ -129,7 +129,26 @@
             </div>
             <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="'550px'" [config]="config">
               <div *ngFor="let asideItems of menuItems.getAll()" class="d-color">
-                  <ul>
+
+                <ul>
+                  <ng-container  *ngFor="let asideItem of asideItems.main">
+                    <li>
+                      <a [routerLink]="['/', asideItem.state]" class="ripple" style="margin-left: 11%;">
+                        <span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">{{ asideItem.icon }}</em>{{ asideItem.name }}</span>
+                      </a>
+                
+                      
+                      <ul *ngIf="asideItem.children">
+                        <li *ngFor="let childItem of asideItem.children">
+                          <a [routerLink]="['/', asideItem.state, childItem.state]" class="ripple" style="margin-left: 11%;">
+                            <span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">{{ childItem.icon }}</em>{{ childItem.name }}</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ng-container>
+                </ul>
+                  <!--<ul>
                     <li>
                       <a routerLink="/utilisateur" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">people_outline</em>Employés</span></a>
                     </li>
@@ -174,13 +193,14 @@
                       <a routerLink="/project-success" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">verified_user</em>Project Success</span></a>
                     </li>
                     
-                  </ul>
+                  </ul>-->
+                  
                   
                 <!--<ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder"
                   [attr.item-border-style]="itemBorderStyle" [attr.subitem-border]="subItemBorder"
                   *ngFor="let asideItem of asideItems.main">
                   <li [routerLinkActive]="['active']"
-                    *ngIf="asideItem.type === 'link' && menuItems.isVisible(asideItem.function)">
+                    *ngIf="asideItem.type === 'link'">
                     
                     <a [routerLinkActive]="['active']" class="ripple"
                       [routerLink]="['/', asideItem.main_state, asideItem.state]" appAccordionToggle
@@ -226,7 +246,7 @@
                     <ul class="pcoded-submenu">
                       <ng-template ngFor let-asideChildren [ngForOf]="asideItem.children">
                         <li [routerLinkActive]="['active']"
-                          *ngIf="asideChildren.type !== 'sub' && menuItems.isVisible(asideChildren.function)">
+                          *ngIf="asideChildren.type !== 'sub'">
                           <a [routerLinkActive]="['active']" class="ripple"
                             [routerLink]="['/', asideItem.state, asideChildren.state]">
                             <span><em class="{{ asideChildren.icon }}"></em></span>
@@ -239,7 +259,7 @@
 
                         <li [routerLinkActive]="['active']" class="pcoded-hasmenu" [attr.dropdown-icon]="dropDownIcon"
                           [attr.subitem-icon]="subItemIcon"
-                          *ngIf="asideChildren.type === 'sub' && menuItems.isVisible(asideChildren.function)"
+                          *ngIf="asideChildren.type === 'sub'"
                           appAccordionLink group="sub-toggled">
                           <a [routerLinkActive]="['active']" href="javascript:;" appAccordionToggle>
                             <div class="ripple menu-ripple"></div>
@@ -251,10 +271,11 @@
                           </a>
                           <ul class="pcoded-submenu">
                             <ng-template ngFor let-asideChildrenSub [ngForOf]="asideChildren.children">
-                              <li [routerLinkActive]="['active']"
-                                *ngIf="menuItems.isVisible(asideChildrenSub.function)">
+                              <li [routerLinkActive]="['active']">
                                 <a [routerLinkActive]="['active']" class="ripple"
-                                  [routerLink]="['/', asideItem.state, asideChildren.state, asideChildrenSub.state]">
+                                  [routerLink]="['/', asideItem.state, asideChildren.state, asideChildrenSub.state]"
+                                  
+                                  a [routerLink]="['/', asideItem.state, childItem.state]">
                                   <span class="pcoded-micon"><em class="icon-angle-right"></em></span>
                                   <span class="pcoded-mtext">{{ asideChildrenSub.name }}</span>
                                   <span *ngFor="let asideChildrenSubBadge of asideChildrenSub.badge"

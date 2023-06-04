@@ -20,9 +20,8 @@
                         <p class="mb-2" *ngIf="data.description"><strong>Description: </strong>{{data.description}}</p>
                         <p class="mb-2" *ngIf="data.titre === 'Attestation de travail'"><strong>Type: </strong>{{data.type}}</p>
                         <p class="mb-2" *ngIf="data.titre === 'Attestation de stage'">
-                            <strong>Etudiant(s): </strong>
+                            <strong>Etudiant(e): </strong>
                             {{ data.etudiant1 }}
-                            <ng-container *ngIf="data.etudiant2"> &amp; {{data.etudiant2}}</ng-container>
                           </p>                          
                         <p class="mb-2" *ngIf="data.titre === 'Attestation de stage'"><strong>Université: </strong>{{data.fac}}</p>
                         <p class="mb-2" *ngIf="data.titre === 'Attestation de stage'"><strong>Sujet de stage: </strong>{{data.sujet}}</p>

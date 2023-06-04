@@ -119,10 +119,6 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}Utilisateur/statsCombine`);
   }
 
-  getData(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}Utilisateur/stats/data`);
-  }
-
   SearchEmployees(searchTerm: string): Observable<Utilisateur[]> {
     return this.http.get<Utilisateur[]>(`${this.baseUrl}Utilisateur/search/${searchTerm}`);
   }

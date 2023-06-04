@@ -12,7 +12,6 @@
                             <em class="material-icons modal-close" (click)="close()">close</em>
                         </span>
                     </div>
-      
 
                     <mat-stepper orientation="vertical">
                         <mat-step *ngFor="let historique of data.historiques">
@@ -23,6 +22,10 @@
                               <ng-container *ngIf="historique.etat !== 'Draft' && historique.etat !== 'Emis'">
                             - {{ getUserNom(data.adminId) }}
                               </ng-container>
+                              <br>
+                              <ng-container *ngIf="historique.etat === 'Réouvert'">
+                                Cause : {{data.description}}
+                              </ng-container>   
                               
                             </p>
                           </ng-template>

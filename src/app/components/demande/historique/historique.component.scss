@@ -53,3 +53,13 @@ body {
       color: gainsboro;
     }
   }
+
+  .mat-stepper{
+    overflow-y: scroll !important;
+    height: 500px;
+  }
+  
+  .mat-stepper::-webkit-scrollbar {
+    width: 0px;
+    background-color: transparent;
+    }

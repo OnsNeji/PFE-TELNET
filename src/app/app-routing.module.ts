@@ -23,6 +23,7 @@ import { DashComponent } from './components/dash/dash.component';
 import { CongeComponent } from './components/conge/conge.component';
 import { CongéGuard } from './guards/congé.guard';
 import { CategorieComponent } from './components/categorie/categorie.component';
+import { EmployéGuard } from './guards/employé.guard';
 
 
 const routes: Routes = [
@@ -68,25 +69,24 @@ const routes: Routes = [
     path: '**', redirectTo: 'pages/page-not-found'
   },
   { path: 'profil/:id', component: ProfileComponent },
-  { path: 'site', component: SiteComponent, canActivate: [AuthGuard] },
-  { path: 'departement', component: DepartementComponent, canActivate: [AuthGuard] },
-  { path: 'poste', component: PosteComponent, canActivate: [AuthGuard] },
-  { path: 'utilisateur', component: UtilisateurComponent, canActivate: [AuthGuard] },
-  { path: 'employeMois', component: EmployeMoisComponent, canActivate: [AuthGuard] },
-  { path: 'evenement', component: EvenementComponent, canActivate: [AuthGuard] },
-  { path: 'mediaEvent', component: MediaEventComponent, canActivate: [AuthGuard] },
+  { path: 'site', component: SiteComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'departement', component: DepartementComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'poste', component: PosteComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'utilisateur', component: UtilisateurComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'employeMois', component: EmployeMoisComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'evenement', component: EvenementComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'mediaEvent', component: MediaEventComponent, canActivate: [AuthGuard, EmployéGuard] },
   { path: 'accueil', component: AccueilComponent },
-  { path: 'convention', component: ConventionComponent, canActivate: [AuthGuard] },
-  { path: 'nouveauté', component: NouveauteComponent, canActivate: [AuthGuard] },
-  { path: 'mariage-naissance', component: MariageComponent, canActivate: [AuthGuard] },
-  { path: 'project-success', component: ProjectSuccessComponent, canActivate: [AuthGuard] },
-  { path: 'agenda/:id', component: AgendaComponent },
+  { path: 'convention', component: ConventionComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'nouveauté', component: NouveauteComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'mariage-naissance', component: MariageComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'project-success', component: ProjectSuccessComponent, canActivate: [AuthGuard, EmployéGuard] },
   { path: 'demandes', component: DemandeComponent, canActivate: [AuthGuard, DemandeGuard] },
   { path: 'demande/:id', component: DemandeComponent, canActivate: [AuthGuard] },
   { path: 'dash', component: DashComponent, canActivate: [AuthGuard] },
   { path: 'conges', component: CongeComponent, canActivate: [AuthGuard, CongéGuard] },
   { path: 'conge/:id', component: CongeComponent, canActivate: [AuthGuard] },
-  { path: 'categorie', component: CategorieComponent, canActivate: [AuthGuard] },
+  { path: 'categorie', component: CategorieComponent, canActivate: [AuthGuard, EmployéGuard] },
 
 
 ];

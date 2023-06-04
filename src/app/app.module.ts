@@ -105,6 +105,7 @@ import { SearchComponent } from './components/accueil/search/search.component';
 import { CategorieComponent } from './components/categorie/categorie.component';
 import { CategorieDialogComponent } from './components/categorie/categorie-dialog/categorie-dialog.component';
 import { FilterPipe } from './pipes/shared/FilterPipe.pipe';
+import { EmployéGuard } from './guards/employé.guard';
 
 
 
@@ -190,6 +191,7 @@ export const CUSTOM_DT_FORMATS = {
         AuthGuard,
         DemandeGuard,
         CongéGuard,
+        EmployéGuard,
         ShowErrorsService,
         EntityParameterService,
         GenericService,

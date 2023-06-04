@@ -60,7 +60,9 @@ ngOnInit(): void {
 }
 
 openDialog() {
-  const dialogRef = this.dialog.open(DialogConventionComponent, {});
+  const dialogRef = this.dialog.open(DialogConventionComponent, {
+    width: '1000px',
+  });
 
   dialogRef.afterClosed().subscribe(result => {
     if(result === "ajouter"){
@@ -113,7 +115,10 @@ onSortData(sort) {
 }
 
 updateConvention(row: any) {
-  this.dialog.open(DialogConventionComponent, {data: row}).afterClosed().subscribe(result=>{
+  this.dialog.open(DialogConventionComponent, {
+    data: row,
+    width: '1000px',
+  }).afterClosed().subscribe(result=>{
     if(result === "modifier"){
       this.getConventions();
     }

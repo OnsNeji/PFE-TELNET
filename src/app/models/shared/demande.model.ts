@@ -19,7 +19,6 @@ export class Demande {
     admins: Utilisateur[] = [];
     type: string; 
     etudiant1: string; 
-    etudiant2: string; 
     sujet: string; 
     fac: string; 
     debutS: Date = new Date();

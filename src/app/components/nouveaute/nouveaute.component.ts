@@ -66,6 +66,7 @@ export class NouveauteComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogNouveauteComponent, {
+      width: '1000px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -131,6 +132,7 @@ export class NouveauteComponent implements OnInit {
   updateNouveaute(row: any) {
     this.dialog.open(DialogNouveauteComponent, {
       data: row,
+      width: '1000px',
     }).afterClosed().subscribe(result=>{
       if(result === "modifier"){
         this.getNouveautés();

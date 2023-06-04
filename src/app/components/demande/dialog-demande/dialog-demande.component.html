@@ -78,11 +78,6 @@
               <input formControlName="etudiant1" matInput class="login-input-style" [readonly]="editData">
             </mat-form-field>
 
-            <mat-form-field class="col-sm-4" #etudiant2 [hidden]="etudiantCheckbox?.checked !== true">
-              <mat-label>Nom de l'étudiant(e) 2</mat-label>
-              <input formControlName="etudiant2" matInput class="login-input-style" [readonly]="editData">
-            </mat-form-field>
-
             <mat-form-field class="date-field col-sm-6" *ngIf="afficherDateSortie">
               <input matInput [matDatepicker]="pickerDateSortie" formControlName="dateSortie" class="login-input-style" placeholder="Date de sortie">
               <mat-datepicker-toggle matSuffix [for]="pickerDateSortie"></mat-datepicker-toggle>
@@ -97,7 +92,6 @@
               </mat-error>
             </mat-form-field>
             
-
             <mat-form-field class="date-field col-sm-6" *ngIf="afficherDebutS">
               <input matInput [matDatepicker]="pickerDebutS" formControlName="debutS" [max]="dateSysteme" class="login-input-style" placeholder="Date début">
               <mat-datepicker-toggle matSuffix [for]="pickerDebutS"></mat-datepicker-toggle>
@@ -114,8 +108,6 @@
               <mat-label>Description</mat-label>
               <input formControlName="description" matInput class="login-input-style" [readonly]="editData">
             </mat-form-field>
-
-            <mat-checkbox #etudiantCheckbox *ngIf="afficherCheckbox" (change)="toggleEtudiant()">Ajouter un(e) étudiant(e)</mat-checkbox>
 
             <div class="col-sm-6" *ngIf="editData">
               <mat-label>Document</mat-label><br>

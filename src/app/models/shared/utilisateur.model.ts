@@ -19,7 +19,6 @@ export class Utilisateur {
     resetPasswordToken!: string;
     resetPasswordExpiry: Date = new Date();
     image!: string;
-    salaire!: number;
     poste: Poste[] = [];
     departementId!: number;
     departement: Departement[] = [];

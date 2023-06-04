@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Site } from 'app/models/shared/site.model';
 import { ApiService } from 'app/services/shared/api.service';
-import * as myScript from '../../../assets/js/tabs.js';
 import { Utilisateur } from 'app/models/shared/utilisateur.model.js';
 import { Departement } from 'app/models/shared/departement.model.js';
 import { MatDialog } from '@angular/material/dialog';
 import { UserCardComponent } from '../user-card/user-card.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Poste } from 'app/models/shared/poste.model.js';
 
 @Component({
   selector: 'app-agenda',
@@ -25,10 +26,12 @@ export class AgendaComponent implements OnInit {
   id: number;
   private jwtHelper = new JwtHelperService();
 
-  constructor(private route: ActivatedRoute, private Service: ApiService, public dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, private Service: ApiService,
+    private dialogRef: MatDialogRef<AgendaComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+     public dialog: MatDialog) { }
 
   ngOnInit() {
-    myScript.Tabs();
     this.getUtilisateurs();
     this.route.params.subscribe(params => {
       const id = params['id'];
@@ -90,4 +93,10 @@ export class AgendaComponent implements OnInit {
       }
     );
   }
+
+  
+  close() {
+    this.dialogRef.close();
+  }
+
 }

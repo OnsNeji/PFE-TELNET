@@ -77,6 +77,7 @@ export class UtilisateurComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogUserComponent, {
+      width: '1000px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -166,6 +167,7 @@ export class UtilisateurComponent implements OnInit {
   updateUtilisateur(row: any) {
     this.dialog.open(DialogUserComponent, {
       data: row,
+      width: '1100px',
     }).afterClosed().subscribe(result=>{
       if(result === "modifier"){
         this.getUtilisateurs();

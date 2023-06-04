@@ -139,6 +139,7 @@ getDemandes() {
 
 openDialog() {
   const dialogRef = this.dialog.open(DialogDemandeComponent, {
+    width: '1000px',
   });
 
   dialogRef.afterClosed().subscribe(result => {

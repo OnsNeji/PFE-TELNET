@@ -63,7 +63,6 @@ export default class DialogUserComponent implements OnInit {
       departementId: ['', Validators.required],
       motDePasse: ['', Validators.required],
       joursCongé: [''],
-      salaire: ['', Validators.required],
       dateNaissance: ['', [Validators.required, this.validAge]],
       userAjout: [''],
     });

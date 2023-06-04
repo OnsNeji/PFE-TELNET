@@ -13,7 +13,6 @@ export class User {
     resetPasswordToken!: string;
     resetPasswordExpiry: Date = new Date();
     image!: string;
-    salaire!: number;
     posteId!: number;
     departementId!: number;
     supprimé: Boolean = false;

@@ -77,6 +77,7 @@
                     <i class="icon-user"></i> Profile
                   </a>
                 </li>
+                <ng-container *ngIf="role ==='Gestionnaire'">
                 <li *ngIf="!idd">
                   <a (click)="redirectToMyDemands()" target="_blank" class="pointer">
                     <i class="icon-file"></i> Mes demandes
@@ -87,6 +88,7 @@
                   <i class="icon-time"></i> Mes congés
                 </a>
             </li>
+          </ng-container>
                 <li>
                   <a (click)="changePassword()" target="_blank" class="pointer">
                     <em class="icon-key"></em> Change Password
@@ -130,7 +132,7 @@
             <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="'550px'" [config]="config">
               <div *ngFor="let asideItems of menuItems.getAll()" class="d-color">
 
-                <ul>
+                <!--<ul>
                   <ng-container  *ngFor="let asideItem of asideItems.main">
                     <li>
                       <a [routerLink]="['/', asideItem.state]" class="ripple" style="margin-left: 11%;">
@@ -147,8 +149,24 @@
                       </ul>
                     </li>
                   </ng-container>
-                </ul>
-                  <!--<ul>
+                </ul>-->
+                  <ul>
+                    <ng-container *ngIf="role ==='Employé'">
+
+                      <li *ngIf="!idd">
+                        <a (click)="redirectToMyDemands()" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">assignment</em>Mes demandes</span></a>
+                      </li>
+
+                      <li *ngIf="!idd">
+                        <a (click)="redirectToMyConges()" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">timer_off</em>Mes congés</span></a>
+                      </li>
+
+                      <li>
+                        <a (click)="editProfile()" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">person</em>Profile</span></a>
+                      </li>
+
+                    </ng-container>
+                    <ng-container *ngIf="role !=='Employé'">
                     <li>
                       <a routerLink="/utilisateur" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">people_outline</em>Employés</span></a>
                     </li>
@@ -163,7 +181,7 @@
                     </li>
                     <ng-container *ngIf="role ==='Gestionnaire'">
                     <li>
-                      <a routerLink="/demandes" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">assignment</em>Demandes</span></a>
+                      <a routerLink="/demandes" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">assignment</em>Tickets RH</span></a>
                     </li>
                     </ng-container>
                     <ng-container *ngIf="role ==='Gestionnaire'">
@@ -192,8 +210,8 @@
                     <li>
                       <a routerLink="/project-success" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">verified_user</em>Project Success</span></a>
                     </li>
-                    
-                  </ul>-->
+                  </ng-container>
+                  </ul>
                   
                   
                 <!--<ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder"

@@ -67,7 +67,7 @@
               <p style="line-height: 2em;">{{data.description}}</p>
 
               <br>
-              <p style="line-height: 2em;">Cliquez ici pour voir la vidéo de l'événement : <a href="{{data.lien}}" target="_blank">{{data.lien}}</a></p>
+              <p style="line-height: 2em;" *ngIf="data.lien">Cliquez ici pour voir la vidéo de l'événement : <a href="{{data.lien}}" target="_blank">{{data.lien}}</a></p>
             </div>
           </div>
         </div>

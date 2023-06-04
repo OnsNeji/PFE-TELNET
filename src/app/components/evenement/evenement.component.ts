@@ -74,6 +74,7 @@ this.userStore.getRoleFromStore().subscribe(val => {
   
   openDialog() {
     const dialogRef = this.dialog.open(DialogEventComponent, {
+      width: '1000px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -134,6 +135,7 @@ this.userStore.getRoleFromStore().subscribe(val => {
   updateEvenement(row: any) {
     this.dialog.open(DialogEventComponent, {
       data: row,
+      width: '1000px',
     }).afterClosed().subscribe(result=>{
       if(result === "modifier"){
         this.getEvenements();

@@ -32,6 +32,12 @@ h5,
 h6 {
   font-family: "Satisfy", sans-serif;
 }
+.cdk-overlay-container .mat-dialog-container {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
 
 /*--------------------------------------------------------------
 # Header

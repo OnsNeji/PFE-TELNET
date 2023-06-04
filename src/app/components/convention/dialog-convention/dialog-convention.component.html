@@ -46,7 +46,7 @@
             </mat-form-field>
   
             <mat-form-field class="date-field col-sm-6">
-                <input matInput [matDatepicker]="picker1100" formControlName="dateFin" [max]="dateSysteme" [min]="conventionForm.get('dateDebut').value" placeholder="Date fin">
+                <input matInput [matDatepicker]="picker1100" formControlName="dateFin" [min]="conventionForm.get('dateDebut').value" placeholder="Date fin">
                 <mat-datepicker-toggle matSuffix [for]="picker1100"></mat-datepicker-toggle>
                 <mat-datepicker #picker1100></mat-datepicker>
               </mat-form-field>

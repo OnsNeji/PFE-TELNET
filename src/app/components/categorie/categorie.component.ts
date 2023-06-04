@@ -56,6 +56,7 @@ if (actionIndex !== -1) {
 
 openDialog() {
 const dialogRef = this.dialog.open(CategorieDialogComponent, {
+  width: "500px"
 });
 
 dialogRef.afterClosed().subscribe(result => {
@@ -107,13 +108,14 @@ onSortData(sort) {
 this.categorieService.categorieRequest.next(sort);
 }
 updateCategorie(row: any) {
-this.dialog.open(CategorieDialogComponent, {
-data: row,
-}).afterClosed().subscribe(result=>{
-if(result === "modifier"){
-this.getCatégories();
-}
-})
+  this.dialog.open(CategorieDialogComponent, {
+    data: row,
+    width: "500px"
+  }).afterClosed().subscribe(result=>{
+    if(result === "modifier"){
+      this.getCatégories();
+    }
+  })
 }
 
 onClickingEnter(event) {

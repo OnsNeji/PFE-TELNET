@@ -24,10 +24,7 @@ import { MY_FORMATS } from 'app/shared/select-month/select-month.component';
   
 })
 export class DialogDemandeComponent implements OnInit {
-
-  @ViewChild('etudiantCheckbox') etudiantCheckbox: MatCheckbox;
-  @ViewChild('etudiant2') etudiant2: ElementRef | undefined;
-  etudiant2Checked: boolean = false;
+  
   demandeForm!: FormGroup;
   utilisateurs!: Utilisateur[];
   demandes!: Demande[];
@@ -81,7 +78,6 @@ export class DialogDemandeComponent implements OnInit {
         adminId : [''],
         type:[''],   
         etudiant1: [''], 
-        etudiant2: [''],  
         sujet: [''], 
         fac: [''], 
         debutS: [''], 
@@ -99,16 +95,6 @@ export class DialogDemandeComponent implements OnInit {
       if (token) {
         const decodedToken = this.jwtHelper.decodeToken(token);
         this.id = decodedToken.nameid;
-      }
-    }
-    toggleEtudiant() {
-      const etudiant2Element = this.etudiant2.nativeElement;
-      if (this.etudiantCheckbox.checked) {
-        etudiant2Element.style.display = 'block'; // Afficher le textarea
-        this.etudiant2Checked = true;
-      } else {
-        etudiant2Element.style.display = 'none'; // Masquer le textarea
-        this.etudiant2Checked = false;
       }
     }
   

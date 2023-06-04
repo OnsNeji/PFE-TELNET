@@ -13,17 +13,17 @@
     <form [formGroup]="userForm">
       
       <div class="row m-b-6">
-        <mat-form-field class="col-sm-2">
+        <mat-form-field class="col-sm-3">
             <mat-label>Nom</mat-label>
             <input formControlName="nom" matInput class="login-input-style">
           </mat-form-field>
 
-          <mat-form-field class="col-sm-2">
+          <mat-form-field class="col-sm-3">
             <mat-label>Prénom</mat-label>
             <input formControlName="prenom" matInput class="login-input-style">
           </mat-form-field>
 
-          <mat-form-field class="col-sm-2">
+          <mat-form-field class="col-sm-3">
             <mat-label>Sexe</mat-label>
             <mat-select formControlName="sexe" class="login-input-style">
               <mat-option value="Homme">Homme</mat-option>
@@ -31,7 +31,13 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="col-sm-3">
+          <mat-form-field class="date-field col-sm-3">
+            <input matInput [matDatepicker]="picker2200" formControlName="dateNaissance" [max]="dateSysteme" class="login-input-style" placeholder="Date de Naissance">
+            <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
+            <mat-datepicker #picker2200></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-4">
             <mat-label>Telephone</mat-label>
             <input type="tel" matInput formControlName="tel" class="login-input-style">
             <mat-error *ngIf="userForm.controls.tel.errors && (userForm.controls.tel.dirty || userForm.controls.tel.touched)">
@@ -40,12 +46,6 @@
               <span *ngIf="userForm.controls.tel.errors.maxlength">Le numéro de téléphone ne peut pas dépasser 8 chiffres.</span>
               <span *ngIf="userForm.controls.tel.errors.pattern">Le numéro de téléphone doit contenir uniquement des chiffres.</span>
             </mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="date-field col-sm-3">
-            <input matInput [matDatepicker]="picker2200" formControlName="dateNaissance" [max]="dateSysteme" class="login-input-style" placeholder="Date de Naissance">
-            <mat-datepicker-toggle matSuffix [for]="picker2200"></mat-datepicker-toggle>
-            <mat-datepicker #picker2200></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field class="col-sm-4">
@@ -61,12 +61,6 @@
               <mat-option value="Administrateur">Administrateur</mat-option>
               <mat-option value="Gestionnaire">Gestionnaire</mat-option>
             </mat-select>
-          </mat-form-field>
-
-          
-          <mat-form-field class="col-sm-4">
-            <mat-label>Salaire Brute</mat-label>
-            <input matInput formControlName="salaire" type="number" class="login-input-style">
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'col-sm-3': cache, 'col-sm-6': !cache}">

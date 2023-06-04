@@ -33,6 +33,7 @@ import { SearchComponent } from './search/search.component';
 import { Catégorie } from 'app/models/shared/catégorie.model';
 import { CategorieService } from 'app/services/shared/categorie.service';
 import { Departement } from 'app/models/shared/departement.model';
+import { AgendaComponent } from '../agenda/agenda.component';
 
 
 @Component({
@@ -329,10 +330,21 @@ export class AccueilComponent implements OnInit {
     })
   }
 
-  agenda(id: string) {
-    this.router.navigate(['/agenda', id]);
+  agenda(id: number) {
+    this.apiService.GetSite(id).subscribe(
+      (data) => {
+        const dialogRef = this.dialog.open(AgendaComponent, {
+          data: data,
+          width: '1000px',
+          // height: '700px',
+        });
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
-
 
   getUserDetails(id: number) {
     this.apiService.GetUtilisateur(id).subscribe(

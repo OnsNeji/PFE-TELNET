@@ -1,40 +1,19 @@
 
 <body>
+  <span>
+    <em class="material-icons modal-close" (click)="close()" style="float: right; margin-top: 1%; margin-right: 1%;">close</em>
+</span>
 
-  <header id="header" class="fixed-top d-flex align-items-center header-transparent">
-    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-      <div class="logo me-auto">
-        <a href="index.html">
-          <img src="../../../assets/img/logo.png" alt="" class="img-fluid">
-        </a>
-      </div>
-      <nav id="navbar" class="navbar order-last order-lg-0">
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav>
-      <!-- .navbar -->
-
-      <ng-container *ngIf="!id">
-        <a routerLink="/login" class="book-a-table-btn" >S'identifier</a>
-    </ng-container>
-    <ng-container *ngIf="id">
-      <a (click)='logout()' class="book-a-table-btn" >Logout</a>
-  </ng-container>
-    </div>
-  </header>
-  <br>
-  <br>
-  <br>
-  <br>
   <main id="main">
     <section id="menu" class="menu">
       <div class="container">
         <div class="section-title">
-          <h2>Agenda Téléphonique du Groupe <br> <span>{{ site.site }}</span></h2>
+          <h2>Agenda Téléphonique du Groupe <br> <span>{{ data.site }}</span></h2>
         </div>
         <mat-tab-group fitInkBarToContent class="example-stretched-tabs">
           <mat-tab label="Rez de chaussée">
             <div class="mat-tab-body-content">
-              <ng-container *ngFor="let poste of site.postes">
+              <ng-container *ngFor="let poste of data.postes">
                 <div class="col-lg-12 menu-item" *ngIf="poste.etage === 'Rez de Chaussée'">
                   <div class="thumb">
                     <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
@@ -52,7 +31,7 @@
           </mat-tab>
           <mat-tab label="1ér étage">
             <div class="mat-tab-body-content">
-              <ng-container *ngFor="let poste of site.postes">
+              <ng-container *ngFor="let poste of data.postes">
                 <div class="col-lg-12 menu-item" *ngIf="poste.etage === '1ér étage'">
                   <div class="thumb">
                     <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
@@ -69,7 +48,7 @@
           </mat-tab>
           <mat-tab label="2éme étage">
             <div class="mat-tab-body-content">
-              <ng-container *ngFor="let poste of site.postes">
+              <ng-container *ngFor="let poste of data.postes">
                 <div class="col-lg-12 menu-item" *ngIf="poste.etage === '2éme étage'">
                   <div class="thumb">
                     <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
@@ -86,7 +65,7 @@
           </mat-tab>
           <mat-tab label="3éme étage">
             <div class="mat-tab-body-content">
-              <ng-container *ngFor="let poste of site.postes">
+              <ng-container *ngFor="let poste of data.postes">
                 <div class="col-lg-12 menu-item" *ngIf="poste.etage === '3éme étage'">
                   <div class="thumb">
                     <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
@@ -103,7 +82,7 @@
           </mat-tab>
           <mat-tab label="4éme étage">
             <div class="mat-tab-body-content">
-              <ng-container *ngFor="let poste of site.postes">
+              <ng-container *ngFor="let poste of data.postes">
                 <div class="col-lg-12 menu-item" *ngIf="poste.etage === '4éme étage'">
                   <div class="thumb">
                     <img class="img-fluid" src="{{getUtilisateurImg(poste.utilisateurId)}}" alt="">
@@ -122,34 +101,5 @@
       </div>
     </section>
   </main>
-  
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      <h3>TelnetTeam Intranet</h3>
-      <div class="social-links">
-        <a href="#" class="twitter">
-          <i class="bx bxl-twitter"></i>
-        </a>
-        <a href="#" class="facebook">
-          <i class="bx bxl-facebook"></i>
-        </a>
-        <a href="#" class="instagram">
-          <i class="bx bxl-instagram"></i>
-        </a>
-        <a href="#" class="google-plus">
-          <i class="bx bxl-skype"></i>
-        </a>
-        <a href="#" class="linkedin">
-          <i class="bx bxl-linkedin"></i>
-        </a>
-      </div>
-      <div class="copyright"> &copy; Telnet <strong>
-          <span>Usage Interne</span>
-        </strong>
-      </div>
-    </div>
-  </footer>
-  
-  <!-- End Footer -->
+
   </body>

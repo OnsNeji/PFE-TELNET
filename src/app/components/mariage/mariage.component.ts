@@ -76,6 +76,7 @@ export class MariageComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogMariageComponent, {
+      width: '1000px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -159,6 +160,7 @@ export class MariageComponent implements OnInit {
   updateMariageNaissance(row: any) {
     this.dialog.open(DialogMariageComponent, {
       data: row,
+      width: '1000px',
     }).afterClosed().subscribe(result=>{
       if(result === "modifier"){
         this.getMariageNaissances();

@@ -40,6 +40,9 @@ namespace TelnetTeamBack.Controllers
                 if (convention.DateFin < currentDate)
                 {
                     convention.Status = "Expiré";
+                } else if (convention.DateFin >= currentDate)
+                {
+                    convention.Status = "Active";
                 }
             }
 
@@ -308,14 +311,14 @@ namespace TelnetTeamBack.Controllers
 
             if (!string.IsNullOrEmpty(zone) && zone.ToLower() != "null")
             {
-                filteredConventions = filteredConventions.Where(c => c.Zone == zone);
+                filteredConventions = filteredConventions.Where(c => c.Zone == zone && c.Status == "Active");
             }
 
             if (!string.IsNullOrEmpty(categorieId) && categorieId.ToLower() != "null")
             {
                 if (int.TryParse(categorieId, out int categoryId))
                 {
-                    filteredConventions = filteredConventions.Where(c => c.CatégorieId == categoryId);
+                    filteredConventions = filteredConventions.Where(c => c.CatégorieId == categoryId && c.Status == "Active");
                 }
             }
 

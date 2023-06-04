@@ -274,16 +274,5 @@ namespace TelnetTeamBack.Controllers
 
         }
 
-        [HttpGet("stats/data")]
-        public IActionResult GetUtilisateurData()
-        {
-            var usersData = _context.Utilisateurs.Select(u => new
-            {
-                u.Salaire,
-                Age = DateTime.Now.Year - u.DateNaissance.Year
-            }).ToList();
-
-            return Ok(usersData);
-        }
     }
 }

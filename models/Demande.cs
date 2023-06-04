@@ -32,7 +32,6 @@ namespace TelnetTeamBack.models
         public Utilisateur Admin { get; set; }
         public string Sujet { get; set; }
         public string Etudiant1 { get; set; }
-        public string Etudiant2 { get; set; }
         public string Fac { get; set; }
         public DateTime? DebutS { get; set; }
         public DateTime? FinS { get; set; }

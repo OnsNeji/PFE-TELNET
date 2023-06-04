@@ -21,7 +21,6 @@ namespace TelnetTeamBack.models
         public string Sexe { get; set; }
         public string Matricule { get; set; }
         public DateTime DateEmbauche { get; set; }
-        public float Salaire { get; set; }
         public string Email { get; set; }
         public string MotDePasse { get; set; }
         public string Tel { get; set; }

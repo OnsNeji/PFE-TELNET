@@ -165,6 +165,41 @@ namespace TelnetTeamBack.Controllers
                 DemandeId = demande.id
             };
 
+            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.UtilisateurId && u.Supprimé == false);
+            var admin = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.id == demande.AdminId && u.Supprimé == false);
+            if (utilisateur != null)
+            {
+                // Composer et envoyer le message
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("TELNET Team", "telnetteam.intranet@gmail.com"));
+                message.To.Add(new MailboxAddress($"{utilisateur.Prenom} {utilisateur.Nom}", utilisateur.Email));
+                message.Subject = "Demande prise en charge";
+                message.Body = new TextPart(TextFormat.Html)
+                {
+                    Text = $"<html><head></head><body width=\"100%\" style=\"margin:0; padding:0!important; mso-line-height-rule:exactly; background-color:#f5f6fa;\"><center style=\"width:100%; background-color:#f5f6fa;\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f5f6fa\"><tr><td style=\"padding:40px 0;\"><table style=\"width:100%; max-width:620px; margin:0 auto; background-color:#ffffff;\"><tbody><tr><td style=\"text-align:center; padding:30px 30px 15px 30px;\"><h2 style=\"font-size:18px; color:#1ba3dd; font-weight:600; margin:0;\">Demande prise en charge</h2></td></tr><tr><td style=\"text-align:center; padding:0 30px 20px\"><p style=\"margin-bottom:10px;\">Bonjour {utilisateur.Nom} {utilisateur.Prenom},</p><p>Nous sommes heureux de vous informer que votre demande de <strong>{demande.Titre}</strong> est prise en charge par {admin.Nom} {admin.Prenom}.</p><p style=\"margin-bottom:25px;\">Veuillez noter que votre document sera disponible sur site dés que votre demande sera résolue.</p><a href=\"http://localhost:4200/login\" style=\"background-color:#1ba3dd; border-radius:4px; color:#ffffff; display:inline-block; font-size:13px; font-weight:600; line-height:44px; text-align:center; text-decoration:none; text-transform:uppercase; padding:0 25px\">Accéder au site</a></td></tr><tr><td style=\"text-align:center; padding:20px 30px 40px\"><p style=\"margin:0; font-size:13px; line-height:22px; color:#9ea8bb;\">Ceci est un e-mail généré automatiquement, veuillez ne pas répondre à cet e-mail. Si vous rencontrez des problèmes, veuillez nous contacter à telnetteam.intranet@gmail.com.</p></td></tr></tbody></table><table style=\"width:100%; max-width:620px; margin:0 auto;\"><tbody><tr><td style=\"text-align:center; padding:25px 20px 0;\"><p style=\"padding-top:15px; font-size:12px;\">Cet e-mail vous a été envoyé en tant qu'employé de <a style=\"color:#1ba3dd; text-decoration:none;\" href=\"\">TELNET Team Intranet</a>, pour vous informer de toutes les actualités</p></td></tr></tbody></table></td></tr></table></center></body></html>"
+                };
+
+                using (var client = new SmtpClient())
+                {
+                    try
+                    {
+                        client.Connect(_config["EmailSettings:SmtpServer"], 465, true);
+                        client.Authenticate(_config["EmailSettings:From"], _config["EmailSettings:Password"]);
+                        client.Send(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        client.Disconnect(true);
+                        client.Dispose();
+                    }
+                }
+            }
+
+
             _context.Historiques.Add(historique);
             await _context.SaveChangesAsync();
 

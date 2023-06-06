@@ -220,7 +220,8 @@
           (click)="ApprouverDemande(row.id)" matTooltip="Résoudre">
           <em class="material-icons">done</em>
           </button>
-
+        </ng-container>
+          <ng-container *ngIf="row.status === 'Pris en charge'" >
           <button class="btn btn-mini btn-danger ripple light" type="button" matTooltip="Rejeter"
             (click)="rejectDemande(row.id)">
                             <em class="material-icons">cancel</em>

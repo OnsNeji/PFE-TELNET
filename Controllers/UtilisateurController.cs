@@ -25,13 +25,25 @@ namespace TelnetTeamBack.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Utilisateur>> GetUtilisateurs()
         {
-            return _context.Utilisateurs.Where(u => u.Supprimé == false).Include(e => e.Poste).Include(e => e.EmployéMois).Include(e => e.MariageNaissances).ToList();
+            MettreAJourJoursConges();
+
+            return _context.Utilisateurs.Where(u => u.Supprimé == false)
+                .Include(e => e.Poste)
+                .Include(e => e.EmployéMois)
+                .Include(e => e.MariageNaissances)
+                .ToList();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Utilisateur>> GetUtilisateur(int id)
         {
-            var utilisateur = await _context.Utilisateurs.Include(e => e.Poste).Include(e => e.EmployéMois).Include(e => e.MariageNaissances).FirstOrDefaultAsync(e => e.id == id);
+            MettreAJourJoursConges();
+
+            var utilisateur = await _context.Utilisateurs
+                .Include(e => e.Poste)
+                .Include(e => e.EmployéMois)
+                .Include(e => e.MariageNaissances)
+                .FirstOrDefaultAsync(e => e.id == id);
 
             if (utilisateur == null)
             {
@@ -40,6 +52,7 @@ namespace TelnetTeamBack.Controllers
 
             return utilisateur;
         }
+
 
         [HttpGet("latest")]
         public ActionResult<IEnumerable<Utilisateur>> GetLatestUtilisateurs()
@@ -106,14 +119,7 @@ namespace TelnetTeamBack.Controllers
         {
             utilisateur.DateAjout = DateTime.Now;
             utilisateur.MotDePasse = CryptoHelper.HashPassword(utilisateur.MotDePasse); // hash le mot de passe
-            if (DateTime.Now.Month == 5 && DateTime.Now.Day == 31)
-            {
-                utilisateur.JoursCongé = 26; // Reset the attribute to 26 on January 1st
-            }
-            else
-            {
-                utilisateur.JoursCongé = utilisateur.JoursCongé; // Use the existing value or set it to 26 if null
-            }
+                utilisateur.JoursCongé = 26; 
             _context.Utilisateurs.Add(utilisateur);
             await _context.SaveChangesAsync();
 
@@ -139,6 +145,24 @@ namespace TelnetTeamBack.Controllers
         {
             return _context.Utilisateurs.Any(e => e.id == id);
         }
+
+        private void MettreAJourJoursConges()
+        {
+            int anneeCourante = DateTime.Now.Year;
+            DateTime debutAnnee = new DateTime(anneeCourante, 1, 1);
+            var utilisateurs = _context.Utilisateurs.ToList();
+
+            foreach (var utilisateur in utilisateurs)
+            {
+                if (utilisateur.JoursCongé != 26 || utilisateur.DateEmbauche >= debutAnnee)
+                {
+                    utilisateur.JoursCongé = 26;
+                }
+            }
+
+            _context.SaveChanges();
+        }
+
 
         [HttpGet("search/{searchTerm}")]
         public IActionResult SearchEmployees(string searchTerm)

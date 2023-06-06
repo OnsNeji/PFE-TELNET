@@ -34,7 +34,7 @@ namespace TelnetTeamBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Congé>>> GetCongés()
         {
-            return await _context.Congés.Include(m => m.Utilisateur).Where(m => m.Utilisateur.Supprimé == false).OrderByDescending(m => m.Status == "En attente").ToListAsync();
+            return await _context.Congés.Include(m => m.Utilisateur).Where(m => m.Utilisateur.Supprimé == false).ToListAsync();
         }
 
         [HttpGet("{id}")]

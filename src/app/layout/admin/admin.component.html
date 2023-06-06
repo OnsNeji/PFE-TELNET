@@ -184,7 +184,7 @@
                       <a routerLink="/demandes" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">assignment</em>Tickets RH</span></a>
                     </li>
                     </ng-container>
-                    <ng-container *ngIf="role ==='Gestionnaire'">
+                    <ng-container *ngIf="role ==='Gestionnaire' || role ==='RH'">
                       <li>
                         <a routerLink="/conges" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">timer_off</em>Congés</span></a>
                       </li>

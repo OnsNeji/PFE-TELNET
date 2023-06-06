@@ -21,7 +21,7 @@ export class CongéGuard implements CanActivate {
         
       });
       console.log(this.role);
-      if (this.role === 'Gestionnaire') {
+      if (this.role === 'Gestionnaire' || this.role === 'RH') {
 
         return true; // l'utilisateur est autorisé à accéder à la page
       } else {

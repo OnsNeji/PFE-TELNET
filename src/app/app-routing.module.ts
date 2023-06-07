@@ -24,6 +24,7 @@ import { CongeComponent } from './components/conge/conge.component';
 import { CongéGuard } from './guards/congé.guard';
 import { CategorieComponent } from './components/categorie/categorie.component';
 import { EmployéGuard } from './guards/employé.guard';
+import { RhGuard } from './guards/rh.guard';
 
 
 const routes: Routes = [
@@ -72,8 +73,8 @@ const routes: Routes = [
   { path: 'site', component: SiteComponent, canActivate: [AuthGuard, EmployéGuard] },
   { path: 'departement', component: DepartementComponent, canActivate: [AuthGuard, EmployéGuard] },
   { path: 'poste', component: PosteComponent, canActivate: [AuthGuard, EmployéGuard] },
-  { path: 'utilisateur', component: UtilisateurComponent, canActivate: [AuthGuard, EmployéGuard] },
-  { path: 'employeMois', component: EmployeMoisComponent, canActivate: [AuthGuard, EmployéGuard] },
+  { path: 'utilisateur', component: UtilisateurComponent, canActivate: [AuthGuard, EmployéGuard, RhGuard] },
+  { path: 'employeMois', component: EmployeMoisComponent, canActivate: [AuthGuard, EmployéGuard, RhGuard] },
   { path: 'evenement', component: EvenementComponent, canActivate: [AuthGuard, EmployéGuard] },
   { path: 'mediaEvent', component: MediaEventComponent, canActivate: [AuthGuard, EmployéGuard] },
   { path: 'accueil', component: AccueilComponent },
@@ -84,7 +85,7 @@ const routes: Routes = [
   { path: 'demandes', component: DemandeComponent, canActivate: [AuthGuard, DemandeGuard] },
   { path: 'demande/:id', component: DemandeComponent, canActivate: [AuthGuard] },
   { path: 'dash', component: DashComponent, canActivate: [AuthGuard] },
-  { path: 'conges', component: CongeComponent, canActivate: [AuthGuard, CongéGuard] },
+  { path: 'conges', component: CongeComponent, canActivate: [AuthGuard, CongéGuard, RhGuard] },
   { path: 'conge/:id', component: CongeComponent, canActivate: [AuthGuard] },
   { path: 'categorie', component: CategorieComponent, canActivate: [AuthGuard, EmployéGuard] },
 

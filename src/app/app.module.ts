@@ -106,6 +106,7 @@ import { CategorieComponent } from './components/categorie/categorie.component';
 import { CategorieDialogComponent } from './components/categorie/categorie-dialog/categorie-dialog.component';
 import { FilterPipe } from './pipes/shared/FilterPipe.pipe';
 import { EmployéGuard } from './guards/employé.guard';
+import { RhGuard } from './guards/rh.guard';
 
 
 
@@ -192,6 +193,7 @@ export const CUSTOM_DT_FORMATS = {
         DemandeGuard,
         CongéGuard,
         EmployéGuard,
+        RhGuard,
         ShowErrorsService,
         EntityParameterService,
         GenericService,

@@ -46,7 +46,7 @@ export class DashComponent implements OnInit,AfterViewInit {
   HbarChartLabels: string[] = [];
 
   doughnutChartData = [{   data: [], 
-    backgroundColor:  ['#9E9E9E','#B3E5FC', '#FFF9C4', '#F44336', '#FFCC80', '#C8E6C9'],
+    backgroundColor:  ['#9E9E9E', '#F44336', '#B3E5FC', '#FFF9C4', '#FFCC80', '#C8E6C9'],
     label: 'Status',
   }];
   doughnutChartLabels: string[] = [];

@@ -77,7 +77,7 @@
                     <i class="icon-user"></i> Profile
                   </a>
                 </li>
-                <ng-container *ngIf="role ==='Gestionnaire'">
+                <ng-container *ngIf="role !=='Employé'">
                 <li *ngIf="!idd">
                   <a (click)="redirectToMyDemands()" target="_blank" class="pointer">
                     <i class="icon-file"></i> Mes demandes
@@ -160,13 +160,12 @@
                       <li *ngIf="!idd">
                         <a (click)="redirectToMyConges()" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">timer_off</em>Mes congés</span></a>
                       </li>
-
-                      <li>
-                        <a (click)="editProfile()" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">person</em>Profile</span></a>
-                      </li>
-
                     </ng-container>
+                  
+
+                   
                     <ng-container *ngIf="role !=='Employé'">
+                      <ng-container *ngIf="role ==='Gestionnaire' || role ==='RH'">
                     <li>
                       <a routerLink="/utilisateur" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">people_outline</em>Employés</span></a>
                     </li>
@@ -179,22 +178,29 @@
                     <li>
                       <a routerLink="/poste" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">desktop_mac</em>Postes</span></a>
                     </li>
-                    <ng-container *ngIf="role ==='Gestionnaire'">
-                    <li>
-                      <a routerLink="/demandes" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">assignment</em>Tickets RH</span></a>
-                    </li>
-                    </ng-container>
-                    <ng-container *ngIf="role ==='Gestionnaire' || role ==='RH'">
-                      <li>
-                        <a routerLink="/conges" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">timer_off</em>Congés</span></a>
-                      </li>
-                      </ng-container>
+                  </ng-container>
+  
+                   
+                      <ng-container *ngIf="role ==='Gestionnaire' || role ==='RH'">
                     <li>
                       <a routerLink="/employeMois" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">accessibility</em>Employé du Mois</span></a>
                     </li>
                     <li>
                       <a routerLink="/mariage-naissance" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">cake</em>Mariage & Naissance</span></a>
                     </li>
+
+                    <ng-container *ngIf="role ==='Gestionnaire'">
+                      <li>
+                        <a routerLink="/demandes" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">assignment</em>Tickets RH</span></a>
+                      </li>
+                      </ng-container>
+                    <ng-container *ngIf="role ==='Gestionnaire' || role ==='RH'">
+                      <li>
+                        <a routerLink="/conges" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">timer_off</em>Congés</span></a>
+                      </li>
+                      </ng-container>
+                  </ng-container>
+                    <ng-container *ngIf="role ==='Gestionnaire' || role ==='Administrateur'">
                     <li>
                       <a routerLink="/evenement" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">event</em>Evénements</span></a>
                     </li>
@@ -211,6 +217,11 @@
                       <a routerLink="/project-success" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">verified_user</em>Project Success</span></a>
                     </li>
                   </ng-container>
+                  </ng-container>
+
+                  <li>
+                    <a (click)="editProfile()" class="ripple" style="margin-left: 11%;"><span class="pcoded-micon"><em class="material-icons" style="margin-right:4%;">person</em>Profile</span></a>
+                  </li>
                   </ul>
                   
                   

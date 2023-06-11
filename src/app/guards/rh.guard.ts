@@ -21,7 +21,7 @@ export class RhGuard implements CanActivate {
         
       });
       console.log(this.role);
-      if (this.role === 'RH') {
+      if (this.role === 'RH' || this.role === 'Gestionnaire') {
         return true;
          // l'utilisateur est autorisé à accéder à la page
       } else {
